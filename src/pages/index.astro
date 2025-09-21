@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GenAition | AI Workshops & Automation</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+
+  <style>
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu,
+    .dropdown-menu:hover {
+      display: block;
+    }
+    .dropdown-menu {
+      display: none;
+    }
+    @keyframes breatheZoom {
+      0% { transform: scale(0.98); }
+      100% { transform: scale(1); }
+    }
+    .animate-breathe {
+      animation: breatheZoom 0.7s ease-out both;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans">
+  <div id="overlay"
+       class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+
+  <!-- Header -->
+  <header class="p-4 border-b border-gray-800 bg-black">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Left: Logo + Language -->
+      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
+        <a href="/index.html">
+          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+        </a>
+        <div class="relative dropdown ml-4">
+          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
+            <img src="/english.png" alt="EN" class="h-5 w-5 rounded-full"> EN
+            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
+            <a href="/index.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+              <img src="/english.png" class="h-4 w-4 mr-2" /> English
+            </a>
+            <a href="/index-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Nav + Mobile Toggle -->
+      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+        <button id="menu-toggle" class="md:hidden focus:outline-none">
+          <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <nav class="hidden md:flex">
+          <ul class="flex gap-6 items-center text-green-400 text-sm">
+            <li><a href="#" class="hover:text-green-200">Home</a></li>
+            <li><a href="/learn-more" class="hover:text-green-200">About us</a></li>
+            <li><a href="#workshops" class="hover:text-green-200">Events</a></li>
+            <li><a href="#services" class="hover:text-green-200">Services</a></li>
+            <li><a href="#contact" class="hover:text-green-200">Contact</a></li>
+            <li><span class="hidden md:inline text-black select-none">Adjustments</span></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden mt-4">
+      <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
+        <li><a href="#" class="block py-2 hover:text-green-200">Home</a></li>
+        <li><a href="/learn-more" class="block py-2 hover:text-green-200">About us</a></li>
+        <li><a href="#workshops" class="block py-2 hover:text-green-200">Events</a></li>
+        <li><a href="#services" class="block py-2 hover:text-green-200">Services</a></li>
+        <li><a href="#contact" class="block py-2 hover:text-green-200">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="max-w-7xl mx-auto px-6 py-20 scroll-animate">
+    <section class="grid md:grid-cols-2 gap-10 items-center py-16">
+      <div class="hidden md:flex justify-center order-1 md:order-2">
+        <img src="/android-chrome-512x512.png" alt="GenAition Hero Logo" class="h-48 sm:h-64 w-48 sm:w-64" />
+      </div>
+      <div class="order-2 md:order-1">
+        <h2 class="text-4xl sm:text-5xl font-bold mb-6">Who <span class="text-green-400">we are?</span></h2>
+        <p class="text-base sm:text-lg text-gray-300 mb-6">
+          GenAition is a Stockholm-based AI Evolution community, making AI practical and hands-on. We help professionals,
+          entrepreneurs, and students gain real AI skills to implement AI, automate tasks, and optimize workflows.
+        </p>
+        <a href="/learn-more" class="inline-block bg-green-500 hover:bg-green-600 text-black font-bold py-3 px-6 rounded shadow">
+          Learn more →
+        </a>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
+
+  <!-- Workshops -->
+<section id="workshops" class="bg-white text-black py-20 px-6">
+<!-- ✅ Highlighted Workshop Card Before Button -->
+<div class="max-w-4xl mx-auto mb-12">
+  <div class="bg-green-700 text-white p-6 rounded-lg shadow-md">
+    <img src="/javidbest.png" alt="AI Agent Workshop" class="w-full h-40 object-cover mb-4 rounded border-4 border-green-400" />
+    <h3 class="text-xl font-bold mb-2">Build your first AI Agent</h3>
+    <p class="text-sm mb-4 text-gray-200">Join our in-person, hands-on AI workshop in Stockholm.</p>
+    <a href="/event-1" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-gray-800 inline-block">
+      Learn more →
+    </a>
+  </div>
+</div>
+  <div class="text-center mb-12">
+    <a href="/event-1" class="inline-block text-black font-bold py-3 px-6 text-2xl sm:text-3xl hover:underline">
+      Our workshops
+    </a>
+    <p class="mt-4 max-w-2xl mx-auto text-gray-700 text-sm sm:text-base">
+      Our beginner-friendly workshops help you build real AI tools — from Slack chatbots to email automation — in just a few hours.
+    </p>
+  </div>
+
+  <div class="max-w-6xl mx-auto space-y-20">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div class="order-2 md:order-1">
+        <span class="text-sm font-bold bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">No-Code AI</span>
+        <h3 class="text-2xl font-semibold mt-4">AI Email Assistant</h3>
+        <p class="mt-2 text-gray-700 text-sm sm:text-base">
+          In this hands-on workshop, participants built their own AI-powered email assistant using Gmail, Google Sheets, and Generative AI. The assistant can read incoming emails, summarize the content, and even suggest or draft replies — helping users save time and stay organized.
+        </p>
+        <a href="/what-built-1.html" class="inline-block mt-4 bg-yellow-800 hover:bg-yellow-900 text-white font-bold py-2 px-4 rounded text-sm">
+          See What We Built →
+        </a>
+      </div>
+      <img src="/email-workshop.jpg" alt="Email Workshop" class="order-1 md:order-2 rounded-lg shadow-md object-cover w-full h-[200px]" />
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <img src="/chatbot-chatbot.jpg" alt="Chatbot Workshop" class="rounded-lg shadow-md object-cover w-full h-[200px]" />
+      <div>
+        <span class="text-sm font-bold bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Slack Bots</span>
+        <h3 class="text-2xl font-semibold mt-4">AI Chatbot Assistant</h3>
+        <p class="mt-2 text-gray-700 text-sm sm:text-base">
+          We created an AI-powered chatbot that works directly inside Slack. It was built using Zapier and Generative AI, and it can do more than just chat — it can answer questions, retrieve specific information from connected tools, and assist team members in real time, all within the Slack workspace.
+        </p>
+        <a href="/chatbot-video.html" class="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
+          See What We Built →
+        </a>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div class="order-2 md:order-1">
+        <span class="text-sm font-bold bg-green-100 text-green-800 px-3 py-1 rounded-full">Real-World AI</span>
+        <h3 class="text-2xl font-semibold mt-4">AI Customer Agent</h3>
+        <p class="mt-2 text-gray-700 text-sm sm:text-base">
+          In this session, we built a customer support assistant that runs on Telegram. Using n8n and Generative AI, the assistant can automatically respond to customer messages, provide helpful answers, and guide users — all in a conversational format within the Telegram app.
+        </p>
+        <a href="/n8nwork" class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm">
+          See What We Built →
+        </a>
+      </div>
+      <img src="/telegram-workshop.png" alt="Telegram Chatbot" class="order-1 md:order-2 rounded-lg shadow-md object-cover w-full h-[200px]" />
+    </div>
+  </div>
+</section>
+
+<!-- Our Services -->
+<section id="services" class="bg-white text-black py-20 px-6">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl sm:text-4xl font-bold">Our Services</h2>
+    <p class="mt-4 max-w-2xl mx-auto text-gray-700 text-sm sm:text-base">
+      Explore GenAition’s practical, no-code AI solutions built for solopreneurs, startups, and small teams. From workflow automation to hands-on training — we help you implement AI that actually works.
+    </p>
+  </div>
+
+  <div class="max-w-6xl mx-auto grid gap-8 grid-cols-1 md:grid-cols-3">
+    
+    <!-- Card 1: AI Team Training -->
+    <div class="bg-black text-white p-6 rounded-lg shadow-md">
+      <img src="/servicea.png" alt="Service 1" class="w-full h-40 object-cover mb-4 rounded border-4 border-green-400" />
+      <h3 class="text-xl font-bold mb-2">AI Team Training</h3>
+      <p class="text-sm mb-4 text-gray-300">Request a session for your team to learn how to apply AI — together.</p>
+      <a href="/service-1" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-gray-800 inline-block">Read more →</a>
+    </div>
+
+    <!-- Card 2: 1:1 AI Coaching -->
+    <div class="bg-green-700 text-white p-6 rounded-lg shadow-md">
+      <img src="/serviceb.png" alt="Service 2" class="w-full h-40 object-cover mb-4 rounded border-4 border-green-400" />
+      <h3 class="text-xl font-bold mb-2">1:1 AI Coaching</h3>
+      <p class="text-sm mb-4 text-gray-200">Personal guidance to build your AI skills and toolkit.</p>
+      <a href="/service-2" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-gray-800 inline-block">Read more →</a>
+    </div>
+
+    <!-- ✅ Card 3: AI Agents and Automation with correct link -->
+    <div class="bg-yellow-900 text-white p-6 rounded-lg shadow-md">
+      <img src="/servicec.png" alt="Service 3" class="w-full h-40 object-cover mb-4 rounded border-4 border-green-400" />
+      <h3 class="text-xl font-bold mb-2">AI Agents and Automation</h3>
+      <p class="text-sm mb-4 text-gray-200">Have AI Agents or Automations built for your business.</p>
+      <a href="/service-3" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-gray-700 inline-block">Read more →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="bg-black text-white py-20 px-6 scroll-animate">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold">Contact us!</h2>
+    <p class="mt-4 text-gray-400 max-w-xl mx-auto">
+      Want expert help with AI? Join our workshops or book our services — fill your details below and we’ll get in touch.
+    </p>
+  </div>
+  <form class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 px-4">
+    <div>
+      <label for="phone" class="block font-semibold text-white">Phone</label>
+      <input id="phone" type="text" placeholder="Phone" class="w-full mt-1 px-4 py-2 rounded bg-white text-black focus:outline-none" />
+    </div>
+    <div>
+      <label for="email" class="block font-semibold text-white">Email</label>
+      <input id="email" type="email" placeholder="Email" class="w-full mt-1 px-4 py-2 rounded bg-white text-black focus:outline-none" />
+    </div>
+    <div class="md:col-span-2">
+      <label for="message" class="block font-semibold text-white">Message</label>
+      <textarea id="message" rows="4" placeholder="Message" class="w-full mt-1 px-4 py-2 rounded bg-white text-black focus:outline-none"></textarea>
+    </div>
+    <div class="md:col-span-2">
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded shadow">
+        Submit
+      </button>
+    </div>
+  </form>
+</section>
+
+<!-- Footer -->
+<footer class="bg-black text-white pt-12 pb-6">
+  <!-- Wider container, manually aligned -->
+  <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
+    
+    <!-- Left: Navigation -->
+    <div class="flex flex-col space-y-2 text-left pl-2">
+      <a href="/index.html" class="hover:underline">Home</a>
+      <a href="/learn-more.html" class="hover:underline">About us</a>
+      <a href="/index.html#workshops" class="hover:underline">Events</a>
+      <a href="/index.html#services" class="hover:underline">Services</a>
+      <a href="/index.html#contact" class="hover:underline">Contact</a>
+    </div>
+
+    <!-- Right: Contact Info -->
+    <div class="flex flex-col text-right pr-2">
+      <p class="mb-1 font-semibold">GenAition</p>
+      <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sweden</p>
+      <p class="mt-2">info@genaition.org</p>
+      <p>+46 762 608 848</p>
+    </div>
+  </div>
+
+  <!-- Social + Logo -->
+  <div class="flex flex-col items-center mt-10 space-y-4">
+    <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
+    <div class="flex space-x-4">
+      <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
+        <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
+        <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+      </a>
+      <a href="https://www.instagram.com/genaition.io/" target="_blank">
+        <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. All rights reserved.</p>
+</footer>
+
+<!-- Scroll Animation Script -->
+<script>
+  const sections = document.querySelectorAll('.scroll-animate');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-breathe');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => {
+    section.classList.remove('animate-breathe');
+    observer.observe(section);
+  });
+</script>
+
+<!-- Mobile Menu Toggle Script -->
+<script>
+  const toggleButton = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  toggleButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+
+  <!-- Cookie Banner Popup -->
+  <div id="cookie-banner" style="display: none;"
+       class="fixed bottom-20 md:bottom-0 left-0 right-0 w-full bg-white text-black px-6 py-4 z-50 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+      <p class="text-center md:text-left leading-snug">
+        We use cookies to enhance site functionality and perform analytics.
+        By clicking "Accept all", you agree to our cookie policy: 
+        <a href="/privacy.html" class="underline text-green-600 hover:text-green-800" target="_blank">
+          genaition.io/privacy
+        </a>
+      </p>
+      <div class="flex gap-3 flex-wrap justify-center md:justify-end">
+        <button id="reject-cookies"
+                class="bg-gray-200 text-black px-5 py-1.5 rounded-md hover:bg-gray-300 text-sm font-medium">
+        Only necessary
+        </button>
+        <button id="accept-cookies"
+                class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-1.5 rounded-md text-sm">
+          Accept all
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const banner = document.getElementById("cookie-banner");
+      const overlay = document.getElementById("overlay");
+      const acceptBtn = document.getElementById("accept-cookies");
+      const rejectBtn = document.getElementById("reject-cookies");
+
+      function loadGA() {
+        const gaScript = document.createElement('script');
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-7G28B2HMYY';
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+
+        gaScript.onload = () => {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-7G28B2HMYY');
+        };
+      }
+
+      function hideBanner() {
+        banner.style.display = 'none';
+        overlay.style.display = 'none';
+      }
+
+      if (acceptBtn && rejectBtn) {
+        acceptBtn.addEventListener('click', () => {
+          localStorage.setItem('cookieConsent', 'accepted');
+          loadGA();
+          hideBanner();
+        });
+
+        rejectBtn.addEventListener('click', () => {
+          localStorage.setItem('cookieConsent', 'rejected');
+          hideBanner();
+        });
+      }
+
+      const consent = localStorage.getItem('cookieConsent');
+      if (consent === 'accepted') {
+        loadGA();
+      } else if (!consent) {
+        setTimeout(() => {
+          banner.style.display = 'block';
+          overlay.style.display = 'block';
+        }, 3000);
+      }
+    });
+  </script>
+
+</body>
+</html>

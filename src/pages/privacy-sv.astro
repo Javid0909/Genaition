@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>Integritets- och Cookiepolicy | GenAition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <style>
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu,
+    .dropdown-menu:hover {
+      display: block;
+    }
+    .dropdown-menu {
+      display: none;
+    }
+    @keyframes breatheZoom {
+      0% { transform: scale(0.98); }
+      100% { transform: scale(1); }
+    }
+    .animate-breathe {
+      animation: breatheZoom 0.7s ease-out both;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body class="text-white font-sans bg-white">
+
+<!-- Header -->
+<header class="p-4 border-b border-gray-800 bg-black">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <!-- Logo + Language Dropdown -->
+    <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
+      <a href="/index.html">
+        <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+      </a>
+      <div class="relative dropdown ml-4">
+        <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
+          <img src="/swedish.png" alt="SV" class="h-5 w-5 rounded-full"> SV
+          <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
+          <a href="/privacy.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+            <img src="/english.png" class="h-4 w-4 mr-2" /> English
+          </a>
+          <a href="/privacy-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+            <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+      <button id="menu-toggle" class="md:hidden focus:outline-none">
+        <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <nav class="hidden md:flex">
+        <ul class="flex gap-6 items-center text-green-400 text-sm">
+          <li><a href="/index.html" class="hover:text-green-200">Hem</a></li>
+          <li><a href="/learn-more" class="hover:text-green-200">Om oss</a></li>
+          <li><a href="/index.html#workshops" class="hover:text-green-200">Evenemang</a></li>
+          <li><a href="/index.html#services" class="hover:text-green-200">Tjänster</a></li>
+          <li><a href="/index.html#contact" class="hover:text-green-200">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-menu" class="md:hidden hidden mt-4">
+    <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
+      <li><a href="/index.html" class="block py-2 hover:text-green-200">Hem</a></li>
+      <li><a href="/learn-more" class="block py-2 hover:text-green-200">Om oss</a></li>
+      <li><a href="/index.html#workshops" class="block py-2 hover:text-green-200">Evenemang</a></li>
+      <li><a href="/index.html#services" class="block py-2 hover:text-green-200">Tjänster</a></li>
+      <li><a href="/index.html#contact" class="block py-2 hover:text-green-200">Kontakt</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- Main Section -->
+<main class="max-w-4xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
+  <h1 class="text-2xl sm:text-3xl font-bold text-center mb-12">Integritets- och Cookiepolicy</h1>
+
+  <section class="space-y-6 text-sm text-gray-800">
+    <p><strong>Senast uppdaterad:</strong> Juni 2025</p>
+
+    <p>Hos GenAition värnar vi om din integritet. Denna policy förklarar vad vi samlar in, varför vi gör det och hur du kan kontrollera din data.</p>
+
+    <h2 class="text-lg font-semibold text-green-600 mt-6">1. Vad vi samlar in utan samtycke</h2>
+    <p>Vi använder ett lättvikts- och integritetsvänligt system för att mäta webbplatsaktivitet utan att sätta cookies eller samla in personuppgifter.</p>
+    <p>Detta inkluderar:</p>
+    <ul class="list-disc list-inside ml-4">
+      <li>Antal sidvisningar</li>
+      <li>Klick på knappar (ex. ”Select tickets”)</li>
+      <li>Enhetstyp (mobil/dator)</li>
+      <li>Webbläsartyp</li>
+    </ul>
+    <p>✅ <strong>Vi samlar inte in IP-adresser, platsinformation eller använder cookies utan ditt samtycke.</strong></p>
+
+    <h2 class="text-lg font-semibold text-green-600 mt-6">2. Vad vi samlar in med samtycke (Google Analytics)</h2>
+    <p>Om du accepterar cookies i vårt popup-meddelande aktiverar vi Google Analytics för att samla in:</p>
+    <ul class="list-disc list-inside ml-4">
+      <li>IP-adress</li>
+      <li>Geografisk plats (region/stad)</li>
+      <li>Enhets- och webbläsardetaljer</li>
+      <li>Demografisk information och intressekategorier (om tillgängligt)</li>
+      <li>Beteendedata via cookies</li>
+    </ul>
+    <p>Dessa uppgifter används endast för att analysera besöksbeteenden och förbättra våra evenemang och erbjudanden.</p>
+    <p>➡️ Google kan lagra data på servrar utanför EU (t.ex. i USA), enligt deras villkor.</p>
+    <p><a href="https://policies.google.com/privacy" target="_blank" class="text-green-600 underline">Läs Googles integritetspolicy</a></p>
+
+    <h2 class="text-lg font-semibold text-green-600 mt-6">3. Dina rättigheter</h2>
+    <p>Du har rätt att:</p>
+    <ul class="list-disc list-inside ml-4">
+      <li>Få veta vilken data vi samlar in</li>
+      <li>Begära borttagning av data</li>
+      <li>Återkalla ditt samtycke när som helst</li>
+    </ul>
+    <p>För att göra det, kontakta oss på <strong>info@genaition.io</strong>.</p>
+
+    <h2 class="text-lg font-semibold text-green-600 mt-6">4. Kontakt</h2>
+    <p><strong>GenAition</strong><br>
+    Konstgjutarvägen 4<br>
+    121 44 Stockholm, Sverige<br>
+    📧 info@genaition.io</p>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-black text-white pt-12 pb-6 scroll-animate">
+  <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
+    <div class="flex flex-col space-y-2 text-left pl-2">
+      <a href="/index.html" class="hover:underline">Hem</a>
+      <a href="/learn-more.html" class="hover:underline">Om oss</a>
+      <a href="/index.html#workshops" class="hover:underline">Evenemang</a>
+      <a href="/index.html#services" class="hover:underline">Tjänster</a>
+      <a href="/index.html#contact" class="hover:underline">Kontakt</a>
+    </div>
+    <div class="flex flex-col text-right pr-2">
+      <p class="mb-1 font-semibold">GenAition</p>
+      <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
+      <p class="mt-2">info@genaition.org</p>
+      <p>+46 762 608 848</p>
+    </div>
+  </div>
+  <div class="flex flex-col items-center mt-10 space-y-4">
+    <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
+    <div class="flex space-x-4">
+      <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
+        <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
+        <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+      </a>
+      <a href="https://www.instagram.com/genaition.io/" target="_blank">
+        <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+      </a>
+    </div>
+  </div>
+  <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
+</footer>
+
+<!-- Script -->
+<script>
+  const toggleButton = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggleButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  const sections = document.querySelectorAll('.scroll-animate');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-breathe');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => {
+    section.classList.remove('animate-breathe');
+    observer.observe(section);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GenAition Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com" defer></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+
+  <!-- Top Navigation -->
+  <header class="bg-white shadow-md px-6 py-4 flex items-center justify-between">
+    <h1 class="text-xl font-bold text-gray-800">GenAition Panel</h1>
+    <nav aria-label="Main" class="space-x-6 hidden md:flex">
+      <a href="#" class="text-gray-600 hover:text-black font-medium">Dashboard</a>
+      <a href="#" class="text-gray-600 hover:text-black font-medium">Customers</a>
+      <a href="#" class="text-gray-600 hover:text-black font-medium">Leads</a>
+      <a href="#" class="text-gray-600 hover:text-black font-medium">Reports</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8">
+    <section class="max-w-5xl mx-auto text-center">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4">Select Customer Type</h2>
+      <p class="text-gray-500 mb-10">
+        Trigger customer‐specific workflows by selecting one of the categories below.
+      </p>
+
+      <!-- Buttons will be injected here -->
+      <div id="buttons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+      <!-- Live region for status messages -->
+      <div
+        id="status"
+        class="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-400 text-sm">
+    © 2025 GenAition. All rights reserved.
+  </footer>
+
+  <script defer>
+    (function() {
+      const workflows = [
+        { label: 'AJO',          key: 'AJO',           color: 'blue'   },
+        { label: 'New Customer', key: 'NewCustomer',  color: 'green'  },
+        { label: 'Existing Customer', key: 'ExistingCustomer', color: 'yellow' },
+        { label: 'Loyal Customer', key: 'LoyalCustomer', color: 'purple' },
+        { label: 'New Lead',     key: 'NewLead',       color: 'pink'   },
+      ];
+
+      const webhookBase = 'https://your-n8n-domain/webhook/';
+      const buttonsContainer = document.getElementById('buttons-container');
+      const statusEl = document.getElementById('status');
+
+      // Build buttons dynamically
+      workflows.forEach(wf => {
+        const btn = document.createElement('button');
+        btn.textContent = wf.label;
+        btn.className = `
+          bg-${wf.color}-600 hover:bg-${wf.color}-700 transition
+          text-white font-medium py-4 px-6 rounded-lg shadow
+        `;
+        btn.addEventListener('click', () => triggerWorkflow(wf));
+        buttonsContainer.appendChild(btn);
+      });
+
+      async function triggerWorkflow({ key, label }) {
+        // disable all buttons while loading
+        buttonsContainer.querySelectorAll('button').forEach(b => b.disabled = true);
+        statusEl.textContent = `Triggering “${label}” workflow…`;
+
+        try {
+          const res = await fetch(webhookBase + key, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: key }),
+          });
+
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          statusEl.textContent = `✅ “${label}” triggered successfully!`;
+        } catch (err) {
+          console.error(err);
+          statusEl.textContent = `❌ Failed to trigger “${label}.”`;
+        } finally {
+          // re-enable buttons
+          buttonsContainer.querySelectorAll('button').forEach(b => b.disabled = false);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

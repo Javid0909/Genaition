@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bygg din första AI-agent på 3 timmar!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+
+  <style>
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu,
+    .dropdown-menu:hover {
+      display: block;
+    }
+    .dropdown-menu {
+      display: none;
+    }
+    @keyframes breatheZoom {
+      0% { transform: scale(0.98); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-breathe {
+      animation: breatheZoom 0.7s ease-out both;
+      will-change: transform, opacity;
+    }
+  </style>
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+</head>
+
+<body class="text-black font-sans bg-white">
+<div id="overlay"
+     class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+
+  <header class="p-4 border-b border-gray-800 bg-black">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <!-- Logo on the left -->
+    <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
+      <a href="/" class="flex items-center">
+        <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-8 w-8 rounded-full" />
+      </a>
+      <div class="relative dropdown ml-4">
+        <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
+          <img src="/swedish.png" alt="EN" class="h-5 w-5 rounded-full"> SV
+          <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
+          <a href="/event-1" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+            <img src="/english.png" class="h-4 w-4 mr-2" /> English
+          </a>
+          <a href="/event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+            <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+      <button id="menu-toggle" class="md:hidden focus:outline-none">
+        <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden mt-4">
+    <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
+      <li><a href="/index.html" class="block py-2 hover:text-green-200">Hem</a></li>
+      <li><a href="/learn-more" class="block py-2 hover:text-green-200">Om oss</a></li>
+      <li><a href="/index.html#workshops" class="block py-2 hover:text-green-200">Evenemang</a></li>
+      <li><a href="/index.html#services" class="block py-2 hover:text-green-200">Tjänster</a></li>
+      <li><a href="/index.html#contact" class="block py-2 hover:text-green-200">Kontakt</a></li>
+    </ul>
+  </div>
+</header>
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-black grid grid-cols-1 md:grid-cols-3 gap-10">
+    <!-- Left Content -->
+    <div class="md:col-span-2">
+      <h1 class="text-3xl font-bold mb-4">
+  Bygg din första AI-Agent på 3 timmar!
+</h1>
+      <p class="text-sm text-gray-600 mb-2">Lördag 06 december · 13:30–16:30 CEST</p>
+      <p class="mb-4 text-sm">Plats: Östra Järnvägsgatan 35, Stockholm</p>
+
+      <h2 class="text-xl font-semibold mt-8 mb-4">Om evenemanget</h2>
+      <img src="/javidbest.png" alt="AI Chatbot-workshopevenemang"
+           class="w-full rounded-lg shadow mb-6 max-h-[400px] object-cover border-4 border-green-400" />
+      <div class="space-y-4 text-base">
+
+        <h3 class="font-bold mt-6 text-lg">⚙️ Praktisk workshop i Stockholm</h3>
+        <p>Är du student, företagare eller frilansare som vill börja använda AI-agenter men inte vet var du ska börja?</p>
+        <p class="italic">
+          💡<strong>Föreställ dig</strong> en AI-assistent som automatiskt hittar potentiella kunder, mejlar dem och uppdaterar status åt dig – det är precis det du kommer att bygga!
+        </p>
+
+        <h3 class="font-bold mt-6 text-lg">☕ Vad du kan förvänta dig</h3>
+        <p>I denna workshop lär du dig att bygga verkliga AI-flöden – steg för steg. Du får inte bara AI-flöden redo att använda i din vardag, utan också självförtroendet och klarheten att automatisera tidskrävande uppgifter – något du inte får från YouTube-videor eller AI-hype. Kanske blir det till och med en inkomstkälla?</p>
+
+        <h3 class="font-bold mt-6 text-lg">Vad du får</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>🚀 Praktiska färdigheter – Öva på det kraftfulla <strong>ReAct</strong>-ramverket så att din AI-agent kan tänka och agera självständigt</li>
+          <li>🧠 AI-tekniker enkelt förklarade – Bekanta dig med <strong>agentisk AI</strong> med GPT-4o för att hantera flerstegsuppgifter utan kod</li>
+          <li>⏱️<strong>Spara tid & pengar</strong> – Automatisera tråkiga uppgifter och lär dig arbetsflöden som kan minska kostnader eller till och med generera nya inkomster</li>
+          <li>📄 Certifikat & självförtroende – Få ett <strong>deltagarcertifikat</strong> och lämna workshopen med mod att automatisera egna uppgifter direkt</li>
+        </ul>
+
+        <h3 class="font-bold mt-6 text-lg">Vad du kommer att bygga</h3>
+        <p>Du kommer att bygga en AI-e-postassistent (vi kallar hen "Ove") som arbetar i bakgrunden för att hantera repetitiva kontaktuppgifter – så att du slipper. <strong>Så här instruerar vi vår agent:</strong></p>
+        <ul class="list-disc list-inside space-y-2">
+          <li><strong>Identifiera kontakter</strong> – Agenten läser ditt dokument för att välja vem som ska kontaktas</li>
+          <li><strong>Skriv smarta mejl</strong> – Använder GPT-4 för att skapa personliga mejl enligt dina instruktioner</li>
+          <li><strong>Skicka automatiskt</strong> – Skickar mejlen åt dig via ett enkelt verktyg utan kod</li>
+          <li><strong>Följ upp resultat</strong> – Uppdaterar ditt dokument med status för varje mejl (skickat, besvarat etc.)</li>
+          <li><strong>Upprepa – allt detta sker steg för steg, automatiskt.</strong></li>
+        </ul>
+
+        <h3 class="font-bold mt-6 text-lg">För vem?</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>💼 Entreprenörer – Spara timmar, skala smartare</li>
+          <li>🎨 Frilansare – <strong>Lägg till efterfrågade färdigheter i din portfölj</strong></li>
+          <li>🎓 Studenter – Lär dig vad arbetsgivare förväntar sig idag</li>
+          <li>💡 Nyfikna – <strong>Ingen teknisk bakgrund behövs</strong> – ta bara med en laptop</li>
+        </ul>
+
+        <h3 class="font-bold mt-6 text-lg">Ta med</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>🖥 Din laptop (vi bygger live)</li>
+          <li>🌐 Ett Google-konto (för Gmail)</li>
+        </ul>
+
+        <h3 class="font-bold mt-6 text-lg">Pris & bokning</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Rabatterat-pris till 10 September: <strong>595 SEK (38 % rabatt från ordinarie 895 SEK)</strong></li>
+          <li>Betalning med kort</li>
+          <li>Behöver faktura? Mejla info@genaition.org</li>
+        </ul>
+
+        <h3 class="font-bold mt-6 text-lg">📍 Evenemangsdetaljer</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Datum: 06 december, 13:30</li>
+          <li>Plats: Clarion Hotel, Östra Järnvägsgatan 35, Stockholm</li>
+          <li>Kaffepaus ingår</li>
+          <li>Språk: Engelska</li>
+          <li><strong>Begränsat antal platser</strong>: 20 deltagare</li>
+        </ul>
+
+        <h3 class="font-bold mt-6 text-lg">📞 Frågor?</h3>
+        <p>📧 info@genaition.org<br>📱 +46 76 260 88 48 (vardagar 10:00–15:00)</p>
+
+        <!-- Agenda Image -->
+        <img src="/agenda.png" alt="Workshop Agenda"
+             class="w-full rounded-lg shadow mb-6 max-h-[500px] object-cover border-4 border-green-400" />
+
+      </div>
+    </div>
+
+    <!-- Desktop Sticky Sidebar -->
+    <div class="md:col-span-1 hidden md:block">
+      <div class="sticky top-20 bg-gray-100 p-6 rounded-lg shadow-md text-center">
+        <div class="flex flex-col items-center justify-center">
+          <div class="text-2xl font-bold text-black">595 SEK</div>
+          <div class="flex items-center gap-2 mt-2">
+            <div class="line-through text-gray-400 text-sm">895 SEK</div>
+            <div class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded">-38%</div>
+          </div>
+        </div>
+        <a href="/before-checkout-sv.html"
+           class="mt-4 block w-full bg-green-500 hover:bg-green-600 text-black font-bold py-2 rounded">
+          Välj biljetter
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Instructor Section -->
+  <div class="bg-black text-white py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto px-4">
+      <div class="flex justify-center">
+        <img src="/javidimage.jpg" alt="Javid Valiyev"
+             class="rounded-lg shadow w-full max-w-sm max-h-[350px] object-cover" />
+      </div>
+      <div>
+        <h3 class="font-bold text-lg mb-2 text-green-400">Om instruktören:</h3>
+        <p class="mb-2">Javid har över 5 års erfarenhet av att bygga AI-lösningar för företag och har utbildat fler än 100 yrkesverksamma genom workshops och community-event.</p>
+        <p class="mb-4">Om du är nyfiken på AI men inte vet var du ska börja – är denna praktiska workshop perfekt för dig!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Previous Workshops Gallery -->
+  <div class="bg-white py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="text-2xl font-bold text-center text-black mb-2">Bilder från våra tidigare workshops</h3>
+      <p class="text-center text-gray-600 max-w-2xl mx-auto mb-4">
+        Under de senaste månaderna har vi hållit inspirerande workshops och fått fantastiska omdömen från deltagarna.
+        <strong>Besök gärna vår startsida för att se allt vi byggt hittills.</strong>
+      </p>
+      <div class="text-center mb-10">
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <img src="/chatbot-chatbot.jpg" alt="Chatbot-workshop" class="rounded-lg shadow-md object-cover w-full h-64">
+        <img src="/email-workshop.jpg" alt="E-postagent-workshop" class="rounded-lg shadow-md object-cover w-full h-64">
+        <img src="/awevent.jpg" alt="Telegram-agent-workshop" class="rounded-lg shadow-md object-cover w-full h-64">
+      </div>
+    </div>
+  </div>
+
+<!-- Feedback Section (Light Gray Background) -->
+<div class="bg-gray-50 py-16 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h3 class="text-2xl font-bold text-center text-black mb-6">Feedback från våra deltagare</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <blockquote class="bg-white p-6 rounded-lg shadow-md">
+        <p class="italic">“The deep dive into the AI agent workflow—from data input to automated sends—was invaluable. I also loved the organization of the event, clear structure and well timed breaks!”</p>
+        <footer class="mt-4 text-sm text-gray-600">— Sabrina B., AI Engineer & Freelancer</footer>
+      </blockquote>
+      <blockquote class="bg-white p-6 rounded-lg shadow-md">
+        <p class="italic">“I’ve not attended many workshops, but loved this one, despite I am not technical person, I loved how doable it is. Keep going!”</p>
+        <footer class="mt-4 text-sm text-gray-600">— Illaida S., Data Analyst</footer>
+      </blockquote>
+      <blockquote class="bg-white p-6 rounded-lg shadow-md">
+        <p class="italic">“Javid’s step-by-step guidance took all the mystery out of AI agents. Fantastic value for the price.”</p>
+        <footer class="mt-4 text-sm text-gray-600">— Nicolas R., Entrepreneur, E-Commerce Startup</footer>
+      </blockquote>
+    </div>
+  </div>
+</div>
+
+  <!-- FAQ Section -->
+  <div class="bg-black text-white py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-10">Vanliga frågor</h2>
+      <div class="space-y-4">
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Jag har ingen erfarenhet av AI eller kodning. Är workshopen för mig?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            Absolut! Denna workshop är utformad för nybörjare. Du behöver ingen förkunskap i kodning, AI eller teknik. Vi guidar dig steg för steg, och i slutet har du byggt ett eget AI-flöde – klart att använda.
+          </div>
+        </div>
+
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Vad kommer jag att lära mig?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            Du kommer att lära dig hur du designar, bygger och driftsätter en fullt fungerande, kodfri AI-agent – med GPT-4 för flerstegsresonemang – som automatiserar uppgifter som personlig e-postutskick och spårar resultat, allt i en praktisk 3-timmars session.
+          </div>
+        </div>
+
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Varför ska jag lära mig detta nu?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            AI-kompetenser är eftertraktade som aldrig förr – genom att lära dig nu lämnar du den här workshopen med en fungerande, kodfri AI-agent som du kan använda direkt, vilket ger dig ett försprång och snabb avkastning på investeringen.
+          </div>
+        </div>
+
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Vad behöver jag ta med?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            Endast din laptop och ett Google-konto. Allt annat—inklusive fika och en tydlig guide—står vi för.
+          </div>
+        </div>
+
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Är det verkligen praktiskt? Kommer jag att få något färdigt?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            100 % ja! Detta är INGEN tråkig föreläsning – vi bygger en verklig AI-automation tillsammans, steg för steg. Du lämnar med en fungerande lösning som du kan visa, använda och återanvända.
+          </div>
+        </div>
+
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Hur många deltagare blir vi?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            Vi håller det småskaligt – bara 25 personer, så du får personlig hjälp under hela sessionen.
+          </div>
+        </div>
+
+        <div class="border border-gray-700 rounded">
+          <button class="w-full text-left px-4 py-3 font-medium focus:outline-none flex justify-between items-center faq-toggle">
+            Vad händer om jag inte är säker på betalningsmetoden?
+            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-4 pb-4 hidden text-sm text-gray-300">
+            Vi erbjuder onlinebetalning med kort. Om det inte passar kan du mejla oss så ordnar vi Swish, faktura eller annan metod som fungerar för dig. Kontakt: <a href="mailto:info@genaition.org" class="underline text-green-400">info@genaition.org</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.faq-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector('svg');
+        content.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+      });
+    });
+  </script>
+
+  <!-- Organized by GenAition Section -->
+  <div class="bg-black py-12 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-lg text-white font-semibold mb-4">Arrangerat av</p>
+      <img src="/android-chrome-512x512.png" alt="GenAition-logotyp" class="mx-auto h-28 w-28 md:h-32 md:w-32 rounded-full shadow-lg">
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white pt-12 pb-6">
+    <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
+      <div class="flex flex-col space-y-2 text-left pl-2">
+        <a href="/index.html" class="hover:underline">Hem</a>
+        <a href="/learn-more.html" class="hover:underline">Om oss</a>
+        <a href="/index.html#workshops" class="hover:underline">Evenemang</a>
+        <a href="/index.html#services" class="hover:underline">Tjänster</a>
+        <a href="/index.html#contact" class="hover:underline">Kontakt</a>
+      </div>
+      <div class="flex flex-col text-right pr-2">
+        <p class="mb-1 font-semibold">GenAition</p>
+        <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
+        <p class="mt-2">info@genaition.org</p>
+        <p>+46 762 608 848</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center mt-10 space-y-4">
+      <img src="/android-chrome-512x512.png" alt="GenAition-logotyp" class="h-14 w-14" />
+      <div class="flex space-x-4">
+        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank"><img src="/linkedin.png" class="h-6 w-6 hover:opacity-80" /></a>
+        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank"><img src="/facebook.png" class="h-6 w-6 hover:opacity-80" /></a>
+        <a href="https://www.instagram.com/genaition.io/" target="_blank"><img src="/instagram.png" class="h-6 w-6 hover:opacity-80" /></a>
+      </div>
+    </div>
+    <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
+  </footer>
+
+  <!-- Mobile Sticky Buy Ticket Panel -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-md md:hidden">
+    <div class="max-w-md mx-auto px-2 py-2">
+      <div class="bg-gray-100 p-2 rounded-lg shadow text-center">
+        <div class="flex flex-col items-center justify-center space-y-1">
+          <div class="text-xl font-bold text-black">595 SEK</div>
+          <div class="flex items-center gap-1 text-sm">
+            <div class="line-through text-gray-400">895 SEK</div>
+            <div class="bg-red-100 text-red-600 text-xs font-semibold px-1 py-0.5 rounded">-38%</div>
+          </div>
+        </div>
+        <a href="/before-checkout-sv.html"
+           class="mt-2 block w-11/12 mx-auto bg-green-500 hover:bg-green-600 text-black font-semibold py-2 rounded text-sm">
+          Välj biljetter
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Banner Popup -->
+  <div id="cookie-banner" style="display: none;"
+       class="fixed bottom-20 md:bottom-0 left-0 right-0 w-full bg-white text-black px-6 py-4 z-50 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+      <p class="text-center md:text-left leading-snug">
+        Vår webbplats använder cookies för att anpassa och förbättra din upplevelse samt för att genomföra analyser.
+        Genom att klicka på ”Acceptera" godkänner du vår cookiepolicy: 
+        <a href="/privacy.html" class="underline text-green-600 hover:text-green-800" target="_blank">
+          genaition.io/privacy
+        </a>
+      </p>
+      <div class="flex gap-3 flex-wrap justify-center md:justify-end">
+        <button id="reject-cookies"
+                class="bg-gray-200 text-black px-5 py-1.5 rounded-md hover:bg-gray-300 text-sm font-medium">
+          Förneka
+        </button>
+        <button id="accept-cookies"
+                class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-1.5 rounded-md text-sm">
+          Acceptera
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const banner = document.getElementById("cookie-banner");
+      const overlay = document.getElementById("overlay");
+      const acceptBtn = document.getElementById("accept-cookies");
+      const rejectBtn = document.getElementById("reject-cookies");
+
+      function loadGA() {
+        const gaScript = document.createElement('script');
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-7G28B2HMYY';
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+
+        gaScript.onload = () => {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-7G28B2HMYY');
+        };
+      }
+
+      function hideBanner() {
+        banner.style.display = 'none';
+        overlay.style.display = 'none';
+      }
+
+      if (acceptBtn && rejectBtn) {
+        acceptBtn.addEventListener('click', () => {
+          localStorage.setItem('cookieConsent', 'accepted');
+          loadGA();
+          hideBanner();
+        });
+
+        rejectBtn.addEventListener('click', () => {
+          localStorage.setItem('cookieConsent', 'rejected');
+          hideBanner();
+        });
+      }
+
+      const consent = localStorage.getItem('cookieConsent');
+      if (consent === 'accepted') {
+        loadGA();
+      } else if (!consent) {
+        setTimeout(() => {
+          banner.style.display = 'block';
+          overlay.style.display = 'block';
+        }, 3000);
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+</body>
+</html>

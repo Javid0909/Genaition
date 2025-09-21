@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI-agenter & Automatisering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <style>
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu,
+    .dropdown-menu:hover {
+      display: block;
+    }
+    .dropdown-menu {
+      display: none;
+    }
+    @keyframes breatheZoom {
+      0% { transform: scale(0.98); }
+      100% { transform: scale(1); }
+    }
+    .animate-breathe {
+      animation: breatheZoom 0.7s ease-out both;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body class="text-black font-sans bg-white">
+
+  <!-- Header -->
+  <header class="p-4 border-b border-gray-800 bg-black">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
+        <a href="/index.html">
+          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+        </a>
+        <div class="relative dropdown ml-4">
+          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
+            <img src="/swedish.png" alt="SV" class="h-5 w-5 rounded-full"> SV
+            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
+            <a href="/service-3.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+              <img src="/english.png" class="h-4 w-4 mr-2" /> English
+            </a>
+            <a href="/service-3-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
+              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+        <button id="menu-toggle" class="md:hidden focus:outline-none">
+          <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <nav class="hidden md:flex">
+          <ul class="flex gap-6 items-center text-green-400 text-sm">
+            <li><a href="/index.html" class="hover:text-green-200">Hem</a></li>
+            <li><a href="/learn-more" class="hover:text-green-200">Om oss</a></li>
+            <li><a href="/index.html#workshops" class="hover:text-green-200">Evenemang</a></li>
+            <li><a href="/index.html#services" class="hover:text-green-200">Tjänster</a></li>
+            <li><a href="/index.html#contact" class="hover:text-green-200">Kontakt</a></li>
+            <li><span class="hidden md:inline text-black select-none">Justeringar</span></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden mt-4">
+      <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
+        <li><a href="/index.html" class="block py-2 hover:text-green-200">Hem</a></li>
+        <li><a href="/learn-more" class="block py-2 hover:text-green-200">Om oss</a></li>
+        <li><a href="/index.html#workshops" class="block py-2 hover:text-green-200">Evenemang</a></li>
+        <li><a href="/index.html#services" class="block py-2 hover:text-green-200">Tjänster</a></li>
+        <li><a href="/index.html#contact" class="block py-2 hover:text-green-200">Kontakt</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
+    <h1 class="text-2xl sm:text-3xl font-bold text-center mb-12">AI-agenter & Automatisering</h1>
+
+    <section class="grid md:grid-cols-2 gap-10 items-center bg-white p-6 rounded-lg shadow-md">
+      <img src="/servicec.png" alt="Automatiseringstjänster" class="rounded border-4 border-green-400 w-full h-auto max-h-[400px] object-cover" />
+
+      <div>
+        <p class="text-lg mb-4">
+          <strong>Trött på att slösa tid på manuella uppgifter?</strong><br>
+          Moderna team förlorar värdefulla timmar varje vecka på repetitiva processer och osynkade verktyg.
+          Hos GenAition eliminerar vi den friktionen genom att bygga skräddarsydda AI-drivna automatiseringar —
+          så att du kan fokusera på tillväxt, inte på arbetet som dränerar tid och energi.
+        </p>
+
+        <div class="bg-gray-50 p-6 rounded-lg">
+          <h2 class="text-xl font-bold text-green-600 mb-4">Vad AI-agenter kan ta bort:</h2>
+          <ul class="list-disc list-inside space-y-2 text-base">
+            <li>Manuella svar på e-post</li>
+            <li>Copy-paste mellan Outlook, CRM, kalkylblad</li>
+            <li>Glömda uppföljningar och missade kalenderinbjudningar</li>
+            <li>Manuell uppdatering av rapporter och kunddokument</li>
+            <li>Ständiga verktygsbyten för rutinuppgifter</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Målgrupp -->
+    <section class="text-center mt-12 space-y-6">
+      <h2 class="text-xl font-bold text-black">För vem?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Småföretagare</div>
+        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Byråer</div>
+        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Startups</div>
+      </div>
+    </section>
+
+    <!-- Ingår i paketet -->
+    <section class="mt-12 bg-gray-50 p-6 rounded-lg shadow max-w-4xl mx-auto">
+      <h2 class="text-xl font-bold text-green-600 mb-4 text-center">Vad ingår i paketet</h2>
+      <ul class="list-disc list-inside space-y-2 text-base max-w-xl mx-auto">
+        <li><strong>1:1 Strategimöte</strong> – identifiera dina största tidsödande uppgifter</li>
+        <li><strong>Leverans av 1–2 AI-agenter eller automatiseringar</strong> – anpassade för din verksamhet</li>
+        <li><strong>Fullständig installation</strong> – assistenter, bots eller smarta aviseringar</li>
+        <li><strong>Integration av verktyg</strong> – Outlook, CRM, Notion, kalendrar m.m.</li>
+        <li><strong>Dokumentation + videogenomgång</strong> – för att du ska förstå allt</li>
+        <li><strong>Frivillig support</strong> – vid behov av justeringar eller underhåll</li>
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <section class="text-center mt-10 space-y-4">
+      <p class="text-base text-gray-700">
+        Boka din gratis 30-minuters session nu
+      </p>
+      <a href="/book-now-sv.html" class="bg-green-500 hover:bg-green-600 text-black font-bold px-6 py-3 rounded inline-block">
+        Kom igång
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white pt-12 pb-6">
+    <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
+      <div class="flex flex-col space-y-2 text-left pl-2">
+        <a href="/index.html" class="hover:underline">Hem</a>
+        <a href="/learn-more.html" class="hover:underline">Om oss</a>
+        <a href="/index.html#workshops" class="hover:underline">Evenemang</a>
+        <a href="/index.html#services" class="hover:underline">Tjänster</a>
+        <a href="/index.html#contact" class="hover:underline">Kontakt</a>
+      </div>
+      <div class="flex flex-col text-right pr-2">
+        <p class="mb-1 font-semibold">GenAition</p>
+        <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
+        <p class="mt-2">info@genaition.org</p>
+        <p>+46 762 608 848</p>
+      </div>
+    </div>
+    <div class="flex flex-col items-center mt-10 space-y-4">
+      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
+      <div class="flex space-x-4">
+        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
+          <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
+          <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+        </a>
+        <a href="https://www.instagram.com/genaition.io/" target="_blank">
+          <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+        </a>
+      </div>
+    </div>
+    <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
+  </footer>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    const toggleButton = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    toggleButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    const sections = document.querySelectorAll('.scroll-animate');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-breathe');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => {
+      section.classList.remove('animate-breathe');
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>

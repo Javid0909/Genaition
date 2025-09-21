@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #222;
+      text-align: center;
+    }
+
+    img {
+      width: 100%;
+      max-width: 1000px; /* Adjust this for maximum size */
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .fallback-text {
+      font-size: 18px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <img 
+    src="/workshop.jpg" 
+    alt="GenAition Logo" 
+    onerror="this.style.display='none'; document.querySelector('.fallback-text').style.display='block';"
+  />
+  <div class="fallback-text">
+    GenAition Logo
+  </div>
+</body>
+</html>
