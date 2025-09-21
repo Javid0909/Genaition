@@ -6,22 +6,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+
   <style>
+    :root {
+      --dg-900:#0b1f19;
+      --dg-800:#0f2a22;
+      --dg-700:#14362b;
+      --dg-600:#184233;
+      --dg-500:#1c4e3c; /* primary */
+      --dg-400:#1f5b45;
+      --dg-300:#2a7a5a;
+      --dg-200:#9ed1b7;
+      --dg-100:#e6f3ed;
+    }
+
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover {
-      display: block;
-    }
-    .dropdown-menu {
-      display: none;
-    }
+    .dropdown-menu:hover { display: block; }
+    .dropdown-menu { display: none; }
+
+    /* Animate */
     @keyframes breatheZoom {
-      0% { transform: scale(0.98); }
-      100% { transform: scale(1); }
+      0% { transform: scale(0.98); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     .animate-breathe {
       animation: breatheZoom 0.7s ease-out both;
-      will-change: transform;
+      will-change: transform, opacity;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--dg-300);
+      color:#fff;
+      font-weight:700;
+      border-radius:.5rem;
+      padding:.75rem 1.25rem;
+      display:inline-block;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+    }
+    .btn-primary:hover {
+      background: var(--dg-400);
+      filter:brightness(1.02);
+      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -43,8 +70,8 @@
           </button>
           <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
             <a href="/before-checkout" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-  <img src="/english.png" class="h-4 w-4 mr-2" /> English
-</a>
+              <img src="/english.png" class="h-4 w-4 mr-2" /> English
+            </a>
           </div>
         </div>
       </div>
@@ -80,8 +107,8 @@
   </header>
 
   <!-- Bokningsformulär -->
-  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
-    <h1 class="text-2xl sm:text-3xl font-bold text-center mb-10">Faktureringsinformation:</h1>
+  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-16 text-black animate-breathe">
+    <h1 class="text-3xl font-extrabold text-center mb-10" style="color:var(--dg-700);">Faktureringsinformation</h1>
 
     <form id="booking-form" class="space-y-6 bg-gray-100 p-6 sm:p-8 rounded-lg shadow-md">
       <div>
@@ -123,18 +150,14 @@
           <button type="button" id="increase" class="bg-gray-200 px-3 py-1 rounded text-xl font-bold">+</button>
         </div>
         <div id="ticketTotal" class="mt-4 flex items-center gap-3 text-sm">
-  <span class="text-black">Totalt:</span>
-  <span id="discountedPrice" class="text-black font-bold">SEK 595</span>
-  <span id="originalPrice" class="text-xs text-gray-400 line-through">SEK 895</span>
-  <span id="discountBadge" class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded">
-    -38%
-  </span>
-</div>
+          <span class="text-black">Totalt:</span>
+          <span id="discountedPrice" class="text-black font-bold">SEK 595</span>
+          <span id="originalPrice" class="text-xs text-gray-400 line-through">SEK 895</span>
+          <span id="discountBadge" class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded">-38%</span>
+        </div>
       </div>
 
-      <button type="button" id="submitBtn" class="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded">
-        Gå vidare till betalning →
-      </button>
+      <button type="button" id="submitBtn" class="btn-primary w-full text-center">Gå vidare till betalning →</button>
     </form>
   </main>
 
@@ -142,17 +165,17 @@
   <footer class="bg-black text-white pt-12 pb-6">
     <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
       <div class="flex flex-col space-y-2 text-left pl-2">
-        <a href="/index-sv.html" class="hover:underline">Hem</a>
-        <a href="/learn-more-sv.html" class="hover:underline">Om oss</a>
-        <a href="/index-sv.html#workshops" class="hover:underline">Event</a>
-        <a href="/index-sv.html#services" class="hover:underline">Tjänster</a>
-        <a href="/index-sv.html#contact" class="hover:underline">Kontakt</a>
+        <a href="/index-sv.html" class="hover:text-green-400">Hem</a>
+        <a href="/learn-more-sv.html" class="hover:text-green-400">Om oss</a>
+        <a href="/index-sv.html#workshops" class="hover:text-green-400">Event</a>
+        <a href="/index-sv.html#services" class="hover:text-green-400">Tjänster</a>
+        <a href="/index-sv.html#contact" class="hover:text-green-400">Kontakt</a>
       </div>
       <div class="flex flex-col text-right pr-2">
         <p class="mb-1 font-semibold">GenAition</p>
         <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
-        <p class="mt-2">info@genaition.org</p>
-        <p>+46 762 608 848</p>
+        <p class="mt-2"><a href="mailto:info@genaition.org" class="hover:text-green-400">info@genaition.org</a></p>
+        <p><a href="tel:+46762608848" class="hover:text-green-400">+46 762 608 848</a></p>
       </div>
     </div>
 
@@ -183,67 +206,53 @@
     const decreaseBtn = document.getElementById('decrease');
     const increaseBtn = document.getElementById('increase');
     const ticketCount = document.getElementById('ticketCount');
-    const ticketTotal = document.getElementById('ticketTotal');
     const pricePerTicket = 595;
-const originalPerTicket = 895;
+    const originalPerTicket = 895;
 
-function updateTotal() {
-  const count = parseInt(ticketCount.value);
-  const discountedTotal = count * pricePerTicket;
-  const originalTotal = count * originalPerTicket;
-  const discountPercentage = Math.round(((originalTotal - discountedTotal) / originalTotal) * 100);
+    function updateTotal() {
+      const count = parseInt(ticketCount.value);
+      const discountedTotal = count * pricePerTicket;
+      const originalTotal = count * originalPerTicket;
+      const discountPercentage = Math.round(((originalTotal - discountedTotal) / originalTotal) * 100);
 
-  document.getElementById('discountedPrice').textContent = `SEK ${discountedTotal}`;
-  document.getElementById('originalPrice').textContent = `SEK ${originalTotal}`;
-  document.getElementById('discountBadge').textContent = `-${discountPercentage}%`;
-}
+      document.getElementById('discountedPrice').textContent = `SEK ${discountedTotal}`;
+      document.getElementById('originalPrice').textContent = `SEK ${originalTotal}`;
+      document.getElementById('discountBadge').textContent = `-${discountPercentage}%`;
+    }
 
     decreaseBtn.addEventListener('click', () => {
       let value = parseInt(ticketCount.value);
-      if (value > 1) {
-        ticketCount.value = value - 1;
-        updateTotal();
-      }
+      if (value > 1) { ticketCount.value = value - 1; updateTotal(); }
     });
 
     increaseBtn.addEventListener('click', () => {
       let value = parseInt(ticketCount.value);
-      if (value < 6) {
-        ticketCount.value = value + 1;
-        updateTotal();
-      }
+      if (value < 6) { ticketCount.value = value + 1; updateTotal(); }
     });
 
     updateTotal();
 
     document.getElementById("submitBtn").addEventListener("click", async function () {
       const form = document.getElementById("booking-form");
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
+      if (!form.checkValidity()) { form.reportValidity(); return; }
 
       const formData = new FormData(form);
       const tickets = parseInt(ticketCount.value);
 
       try {
         await fetch("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", {
-          method: "POST",
-          body: formData
+          method: "POST", body: formData
         });
 
         const stripeLinks = {
-            1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
-            2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
-            3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
-            4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
-            5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
-            6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
+          1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
+          2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
+          3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
+          4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
+          5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
+          6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
         };
-
-        const stripeUrl = stripeLinks[tickets] || stripeLinks[1];
-        window.location.href = stripeUrl;
-
+        window.location.href = stripeLinks[tickets] || stripeLinks[1];
       } catch (err) {
         alert("Misslyckades att skicka. Försök igen.");
         console.error(err);
