@@ -25,7 +25,6 @@
     .dropdown-menu:hover { display: block; }
     .dropdown-menu { display: none; }
 
-    /* Animate sections on scroll */
     @keyframes breatheZoom {
       0% { transform: scale(0.98); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
@@ -35,7 +34,6 @@
       will-change: transform, opacity;
     }
 
-    /* Buttons */
     .btn-primary {
       background: var(--dg-300);
       color:#fff;
@@ -52,12 +50,12 @@
     }
   </style>
 
-  <!-- Umami (keep running regardless of consent) -->
+  <!-- Umami analytics -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 </head>
 <body class="bg-white text-black font-sans">
 
-  <!-- Dim overlay for cookie banner -->
+  <!-- Overlay -->
   <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
 
   <!-- Header -->
@@ -149,7 +147,6 @@
         </select>
       </div>
 
-      <!-- Number of Tickets -->
       <div>
         <label class="block font-medium mb-1">Number of Tickets</label>
         <div class="flex items-center space-x-4 mb-2">
@@ -226,52 +223,63 @@
   </div>
 
   <!-- Scripts -->
-<script>
-  // Mobile menu
-  document.getElementById('menu-toggle')?.addEventListener('click', () => {
-    document.getElementById('mobile-menu')?.classList.toggle('hidden');
-  });
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
 
-  // Ticket counter + totals
-  const decreaseBtn = document.getElementById('decrease');
-  const increaseBtn = document.getElementById('increase');
-  const ticketCount = document.getElementById('ticketCount');
-  const pricePerTicket = 595;
-  const originalPerTicket = 895;
+    // Ticket counter + totals
+    const decreaseBtn = document.getElementById('decrease');
+    const increaseBtn = document.getElementById('increase');
+    const ticketCount = document.getElementById('ticketCount');
+    const pricePerTicket = 595;
+    const originalPerTicket = 895;
 
-  function updateTotal() {
-    const count = parseInt(ticketCount.value);
-    const discountedTotal = count * pricePerTicket;
-    const originalTotal = count * originalPerTicket;
-    const discountPercentage = Math.round(((originalTotal - discountedTotal) / originalTotal) * 100);
-    document.getElementById('discountedPrice').textContent = `SEK ${discountedTotal}`;
-    document.getElementById('originalPrice').textContent = `SEK ${originalTotal}`;
-    document.getElementById('discountBadge').textContent = `-${discountPercentage}%`;
-  }
-  decreaseBtn.addEventListener('click', () => {
-    let value = parseInt(ticketCount.value);
-    if (value > 1) { ticketCount.value = value - 1; updateTotal(); }
-  });
-  increaseBtn.addEventListener('click', () => {
-    let value = parseInt(ticketCount.value);
-    if (value < 6) { ticketCount.value = value + 1; updateTotal(); }
-  });
-  updateTotal();
+    function updateTotal() {
+      const count = parseInt(ticketCount.value);
+      const discountedTotal = count * pricePerTicket;
+      const originalTotal = count * originalPerTicket;
+      const discountPercentage = Math.round(((originalTotal - discountedTotal) / originalTotal) * 100);
+      document.getElementById('discountedPrice').textContent = `SEK ${discountedTotal}`;
+      document.getElementById('originalPrice').textContent = `SEK ${originalTotal}`;
+      document.getElementById('discountBadge').textContent = `-${discountPercentage}%`;
+    }
+    decreaseBtn.addEventListener('click', () => {
+      let value = parseInt(ticketCount.value);
+      if (value > 1) { ticketCount.value = value - 1; updateTotal(); }
+    });
+    increaseBtn.addEventListener('click', () => {
+      let value = parseInt(ticketCount.value);
+      if (value < 6) { ticketCount.value = value + 1; updateTotal(); }
+    });
+    updateTotal();
 
-  // Stripe redirect + webhook submit
-  document.getElementById("submitBtn").addEventListener("click", async function () {
-    const form = document.getElementById("booking-form");
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+    // Stripe redirect + webhook submit (non-blocking, FormData-compatible)
+    document.getElementById("submitBtn").addEventListener("click", function () {
+      const form = document.getElementById("booking-form");
+      if (!form.checkValidity()) { form.reportValidity(); return; }
 
-    const formData = new FormData(form);
-    const tickets = parseInt(ticketCount.value);
+      const formData = new FormData(form);
+      const tickets = parseInt(ticketCount.value);
 
-    try {
-      // Send booking data to n8n webhook
-      await fetch("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", {
-        method: "POST",
-        body: formData
-      });
+      try {
+        if (navigator.sendBeacon) {
+          // Encode as application/x-www-form-urlencoded for n8n compatibility
+          const params = new URLSearchParams();
+          formData.forEach((v, k) => params.append(k, v));
+          const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
+          navigator.sendBeacon("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", blob);
+        } else {
+          fetch("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", {
+            method: "POST",
+            body: formData,
+            keepalive: true
+          });
+        }
+      } catch (err) {
+        console.warn("Webhook fire failed:", err);
+      }
 
       // Stripe links by ticket count
       const stripeLinks = {
@@ -285,12 +293,7 @@
 
       const stripeUrl = stripeLinks[tickets] || stripeLinks[1];
       window.location.href = stripeUrl;
-
-    } catch (err) {
-      alert("Submission failed. Please try again.");
-      console.error(err);
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 </html>

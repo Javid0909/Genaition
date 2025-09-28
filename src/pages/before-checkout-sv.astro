@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
@@ -25,7 +25,6 @@
     .dropdown-menu:hover { display: block; }
     .dropdown-menu { display: none; }
 
-    /* Animate */
     @keyframes breatheZoom {
       0% { transform: scale(0.98); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
@@ -35,7 +34,6 @@
       will-change: transform, opacity;
     }
 
-    /* Buttons */
     .btn-primary {
       background: var(--dg-300);
       color:#fff;
@@ -140,7 +138,6 @@
         </select>
       </div>
 
-      <!-- Antal biljetter -->
       <div>
         <label class="block font-medium mb-1">Antal biljetter</label>
         <div class="flex items-center space-x-4 mb-2">
@@ -232,7 +229,8 @@
 
     updateTotal();
 
-    document.getElementById("submitBtn").addEventListener("click", async function () {
+    // Non-blocking webhook + instant Stripe redirect
+    document.getElementById("submitBtn").addEventListener("click", function () {
       const form = document.getElementById("booking-form");
       if (!form.checkValidity()) { form.reportValidity(); return; }
 
@@ -240,23 +238,32 @@
       const tickets = parseInt(ticketCount.value);
 
       try {
-        await fetch("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", {
-          method: "POST", body: formData
-        });
-
-        const stripeLinks = {
-          1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
-          2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
-          3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
-          4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
-          5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
-          6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
-        };
-        window.location.href = stripeLinks[tickets] || stripeLinks[1];
+        if (navigator.sendBeacon) {
+          const params = new URLSearchParams();
+          formData.forEach((v, k) => params.append(k, v));
+          const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
+          navigator.sendBeacon("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", blob);
+        } else {
+          fetch("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", {
+            method: "POST",
+            body: formData,
+            keepalive: true
+          });
+        }
       } catch (err) {
-        alert("Misslyckades att skicka. Försök igen.");
-        console.error(err);
+        console.warn("Webhook fire failed:", err);
       }
+
+      const stripeLinks = {
+        1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
+        2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
+        3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
+        4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
+        5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
+        6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
+      };
+
+      window.location.href = stripeLinks[tickets] || stripeLinks[1];
     });
   </script>
 </body>
