@@ -2,159 +2,223 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <title>AI-teamträning</title>
+  <title>AI-teamträning | GenAition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
   <style>
+    :root {
+      --dg-900:#0b1f19;
+      --dg-800:#0f2a22;
+      --dg-700:#14362b;
+      --dg-600:#184233;
+      --dg-500:#1c4e3c;
+      --dg-400:#1f5b45;
+      --dg-300:#2a7a5a;
+      --dg-200:#9ed1b7;
+      --dg-100:#e6f3ed;
+    }
+
+    /* NAV dropdown */
+    .dropdown-menu { display: none; }
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover {
-      display: block;
+    .dropdown-menu:hover { display: block; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      background: url('/servicea.jpg') no-repeat center center/cover;
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+      height: 80vh;
     }
-    .dropdown-menu {
-      display: none;
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 34, 27, 0.78);
     }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+
+    .btn-primary {
+      background: var(--dg-300);
+      color: #fff;
+      font-weight: 700;
+      border-radius: .5rem;
+      padding: .75rem 1.5rem;
+      display: inline-block;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+    }
+    .btn-primary:hover {
+      background: var(--dg-400);
+      filter: brightness(1.05);
+      transform: translateY(-2px);
+    }
+
+    .tick-item::before {
+      content: "✔";
+      margin-right: .5rem;
+      font-weight: 700;
+      color: var(--dg-200);
+    }
+
+    .slant-top {
+      position: relative;
+    }
+    .slant-top::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -80px;
+      height: 80px;
+      background: var(--dg-900);
+      clip-path: polygon(0 100%,100% 0,100% 100%);
+    }
+
     @keyframes breatheZoom {
-      0% { transform: scale(0.98); opacity: 0; }
+      0% { transform: scale(0.97); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
     .animate-breathe {
-      animation: breatheZoom 0.7s ease-out both;
-      will-change: transform, opacity;
+      animation: breatheZoom 0.8s ease-out both;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        background: url('/servicea.jpg') no-repeat center center/cover;
+        height: 70vh;
+      }
     }
   </style>
+
+  <!-- Umami Analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 </head>
-<body class="text-black font-sans bg-white">
 
-  <!-- Header -->
-  <header class="p-4 border-b border-gray-800 bg-black">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
-        <a href="/index-sv.html">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+<body class="bg-white text-black font-sans">
+
+  <!-- NAVBAR -->
+  <header class="absolute top-0 left-0 w-full flex items-center justify-between px-6 py-4 z-20">
+    <a href="/index-sv.html" class="flex items-center">
+      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
+    </a>
+    <div class="relative dropdown">
+      <button class="flex items-center space-x-2 focus:outline-none text-white">
+        <img src="/swedish.png" alt="Swedish" class="h-5 w-5">
+        <span>SV</span>
+        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="dropdown-menu absolute right-0 mt-2 w-36 bg-white text-black rounded-lg shadow-lg z-30">
+        <a href="/service-1" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
         </a>
-        <div class="relative dropdown ml-4">
-          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
-            <img src="/swedish.png" alt="SV" class="h-5 w-5 rounded-full"> SV
-            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
-            <a href="/service-1" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/english.png" class="h-4 w-4 mr-2" /> English
-            </a>
-            <a href="/service-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
-            </a>
-          </div>
-        </div>
+        <a href="/service-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
+        </a>
       </div>
-
-      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-        <button id="menu-toggle" class="md:hidden focus:outline-none">
-          <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <nav class="hidden md:flex">
-          <ul class="flex gap-6 items-center text-green-400 text-sm">
-            <li><a href="/index-sv.html" class="hover:text-green-200">Hem</a></li>
-            <li><a href="/learn-more-sv" class="hover:text-green-200">Om oss</a></li>
-            <li><a href="/index-sv.html#workshops" class="hover:text-green-200">Evenemang</a></li>
-            <li><a href="/index-sv.html#services" class="hover:text-green-200">Tjänster</a></li>
-            <li><a href="/index-sv.html#contact" class="hover:text-green-200">Kontakt</a></li>
-            <li><span class="hidden md:inline text-black select-none">Justeringar</span></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div id="mobile-menu" class="md:hidden hidden mt-4">
-      <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
-        <li><a href="/index-sv.html" class="block py-2 hover:text-green-200">Hem</a></li>
-        <li><a href="/learn-more-sv" class="block py-2 hover:text-green-200">Om oss</a></li>
-        <li><a href="/index-sv.html#workshops" class="block py-2 hover:text-green-200">Evenemang</a></li>
-        <li><a href="/index-sv.html#services" class="block py-2 hover:text-green-200">Tjänster</a></li>
-        <li><a href="/index-sv.html#contact" class="block py-2 hover:text-green-200">Kontakt</a></li>
-      </ul>
     </div>
   </header>
 
-<!-- Main -->
-<main class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
-  <h1 class="text-2xl sm:text-3xl font-bold text-center mb-12">AI-teamträning</h1>
-
-  <!-- Hero Section -->
-  <section class="grid md:grid-cols-2 gap-10 items-center bg-white p-6 rounded-lg shadow-md">
-    <img src="/servicea.png" alt="Teamträning" class="rounded border-4 border-green-400 w-full h-auto max-h-[400px] object-cover" />
-    <div class="space-y-6">
-      <p class="text-lg mb-4">
-        <strong>Visste du att de flesta team idag kan automatisera över 60 % av sina rutinuppgifter med AI?</strong><br><br>
-        I dessa praktiska sessioner (halvdag eller heldag) får ert team lära sig att använda verkliga AI-verktyg för att förenkla det dagliga arbetet, koppla ihop appar och automatisera repetitiva uppgifter — med plattformar som Zapier, Make.com, n8n, eller det som passar er bäst.<br><br>
-        Ingen teknisk bakgrund krävs. Utformat för både tekniska och icke-tekniska team – särskilt inom drift, administration, marknadsföring, analys, ledning och byråer.
+  <!-- HERO -->
+  <section class="hero flex items-center justify-center text-center text-white">
+    <div class="hero-content max-w-3xl mx-auto px-6">
+      <p class="uppercase tracking-widest text-sm mb-2" style="color:#FFC107;">Företagsträning • Praktisk</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">AI-teamträning</h1>
+      <p class="text-lg md:text-xl mb-4 text-green-200">
+        Stärk ert team med verkliga AI-automatiseringskunskaper
       </p>
+      <a href="/book-now-sv" class="btn-primary shadow-lg">Boka kostnadsfri demo</a>
+    </div>
+  </section>
 
-      <!-- What Your Team Will Learn -->
-      <div class="bg-gray-50 p-6 rounded-lg shadow">
-        <h2 class="text-xl font-bold text-green-600 mb-4">Vad Ditt Team Kommer Att Lära Sig</h2>
-        <ul class="list-disc list-inside space-y-2 text-base">
-          <li>Gör rutinuppgifter till ett knapptryck</li>
-          <li>Få era verktyg att samarbeta – automatiskt</li>
-          <li>Se hur AI faktiskt löser vardagliga problem</li>
-          <li>Lär er skriva smarta prompts och bygga enkel logik</li>
-          <li>Frigör tid till det som verkligen räknas</li>
+  <!-- INTRO -->
+  <section class="slant-top" style="background:var(--dg-900); color:#e9f2ee;">
+    <div class="max-w-5xl mx-auto px-6 py-16 text-center">
+      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Varför AI-teamträning?</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Bygg smartare team – inte bara verktyg</h2>
+      <p class="max-w-3xl mx-auto text-green-100">
+        De flesta team kan idag automatisera över 60 % av sina rutinuppgifter. Under dessa sessioner får ni lära er
+        praktiska AI-verktyg för att förenkla arbetsflöden, koppla system och spara tid – utan kodning.
+      </p>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/servicea.jpg" alt="Teamträning" class="w-full h-80 object-cover">
+      </div>
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Praktisk laginlärning</h3>
+        <p class="text-gray-700 mb-4">
+          Interaktiva halv- eller heldagssessioner där ert team lär sig att automatisera verkliga arbetsflöden
+          med plattformar som Zapier, Make.com eller n8n. Perfekt för drift, marknadsföring, analys och support.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Förvandla repetitiva uppgifter till ett klick</li>
+          <li class="tick-item">Låt verktygen samarbeta automatiskt</li>
+          <li class="tick-item">Skriv smarta prompts och logik</li>
+          <li class="tick-item">Frigör tid till det som betyder mest</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Who Is It For -->
-  <section class="text-center mt-12 space-y-6">
-    <h2 class="text-xl font-bold text-black">För vem?</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-      <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Marknadsteam</div>
-      <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Operations-/driftteam</div>
-      <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Supportteam</div>
+  <!-- WHO IS IT FOR -->
+  <section class="py-16" style="background:var(--dg-900); color:#eef7f3;">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6">För vem?</h2>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Marknadsteam</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Driftteam</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Supportteam</div>
+      </div>
     </div>
   </section>
 
-  <!-- What’s Included -->
-  <section class="mt-12 bg-gray-50 p-6 rounded-lg shadow max-w-4xl mx-auto">
-    <h2 class="text-xl font-bold text-green-600 mb-4 text-center">Vad som ingår</h2>
-    <ul class="list-disc list-inside space-y-2 text-base max-w-xl mx-auto">
-      <li><strong>Upptäckssamtal</strong> – Vi kartlägger var AI-automatisering kan ge störst effekt</li>
-      <li><strong>Livesession</strong> – Steg-för-steg träning, interaktiv och på plats eller online</li>
-      <li><strong>Bygg AI-arbetsflöden</strong> – Praktiska algoritmer vi skapar tillsammans</li>
-      <li><strong>Inspelning & certifikat</strong> – För varje deltagare</li>
-      <li><strong>Valfri uppföljning</strong> – Q&A eller individuell support efteråt</li>
-    </ul>
+  <!-- PACKAGE -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6" style="color:var(--dg-700);">Vad som ingår</h2>
+      <div class="bg-white rounded-xl p-8 shadow-lg text-left">
+        <ul class="text-gray-700 space-y-3">
+          <li class="tick-item"><strong>Upptäckssamtal</strong> – Vi identifierar var AI ger mest nytta</li>
+          <li class="tick-item"><strong>Live-träning</strong> – Interaktiv, på plats eller online</li>
+          <li class="tick-item"><strong>Bygg AI-arbetsflöden</strong> – Praktiska automationer tillsammans</li>
+          <li class="tick-item"><strong>Inspelning & certifikat</strong> – För varje deltagare</li>
+          <li class="tick-item"><strong>Valfri uppföljning</strong> – Q&A eller individuell support</li>
+        </ul>
+      </div>
+    </div>
   </section>
-</main>
 
-    <!-- Call To Action -->
-    <section class="text-center mt-20 mb-20 space-y-4">
-      <p class="text-base text-gray-700">
-        Boka din kostnadsfria 30-minuters demosession nu
-      </p>
-      <a href="/book-now-sv" class="bg-green-500 hover:bg-green-600 text-black font-bold px-6 py-3 rounded inline-block">
-        Boka nu
-      </a>
-    </section>
-  </main>
+  <!-- CTA -->
+  <section class="py-20 text-center" style="background:var(--dg-800); color:white;">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-lg mb-4">Boka din kostnadsfria 30-minuters demosession nu</p>
+      <a href="/book-now-sv" class="btn-primary shadow-lg">Boka nu</a>
+    </div>
+  </section>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="bg-black text-white pt-12 pb-6">
     <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
-      <div class="flex flex-col space-y-2 text-left pl-2">
-        <a href="/index-sv.html" class="hover:underline">Hem</a>
-        <a href="/learn-more-sv.html" class="hover:underline">Om oss</a>
-        <a href="/index-sv.html#workshops" class="hover:underline">Evenemang</a>
-        <a href="/index-sv.html#services" class="hover:underline">Tjänster</a>
-        <a href="/index-sv.html#contact" class="hover:underline">Kontakt</a>
+      <div class="flex flex-col space-y-2 text-left">
+        <a href="/index-sv.html" class="hover:text-green-400">Hem</a>
+        <a href="/learn-more-sv.html" class="hover:text-green-400">Om oss</a>
+        <a href="/index-sv.html#workshops" class="hover:text-green-400">Evenemang</a>
+        <a href="/index-sv.html#services" class="hover:text-green-400">Tjänster</a>
+        <a href="/index-sv.html#contact" class="hover:text-green-400">Kontakt</a>
       </div>
-      <div class="flex flex-col text-right pr-2">
+      <div class="flex flex-col text-right">
         <p class="mb-1 font-semibold">GenAition</p>
         <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
         <p class="mt-2">info@genaition.org</p>
@@ -165,42 +229,18 @@
     <div class="flex flex-col items-center mt-10 space-y-4">
       <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
       <div class="flex space-x-4">
-        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
-          <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank">
+          <img src="/linkedin.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
-          <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+          <img src="/facebook.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.instagram.com/genaition.io/" target="_blank">
-          <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+          <img src="/instagram.png" class="h-6 w-6 hover:opacity-80" />
         </a>
       </div>
     </div>
     <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
   </footer>
-
-  <!-- Scroll animation -->
-  <script>
-    const toggleButton = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    toggleButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    const sections = document.querySelectorAll('.scroll-animate');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-breathe');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      section.classList.remove('animate-breathe');
-      observer.observe(section);
-    });
-  </script>
 </body>
 </html>

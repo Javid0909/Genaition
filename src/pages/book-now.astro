@@ -2,148 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Submission | GenAition</title>
+  <title>Book a Session | GenAition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
   <style>
+    :root {
+      --dg-900:#0b1f19;
+      --dg-800:#0f2a22;
+      --dg-700:#14362b;
+      --dg-600:#184233;
+      --dg-500:#1c4e3c;
+      --dg-400:#1f5b45;
+      --dg-300:#2a7a5a;
+      --dg-200:#9ed1b7;
+      --dg-100:#e6f3ed;
+    }
+
+    body {
+      background: white;
+      color: black;
+      font-family: "Inter", sans-serif;
+    }
+
+    .dropdown-menu { display: none; }
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover {
-      display: block;
-    }
-    .dropdown-menu {
-      display: none;
-    }
+    .dropdown-menu:hover { display: block; }
+
     @keyframes breatheZoom {
-      0% { transform: scale(0.98); }
-      100% { transform: scale(1); }
+      0% { transform: scale(0.97); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     .animate-breathe {
-      animation: breatheZoom 0.7s ease-out both;
-      will-change: transform;
+      animation: breatheZoom 0.8s ease-out both;
+    }
+
+    .btn-primary {
+      background: var(--dg-300);
+      color: #fff;
+      font-weight: 700;
+      border-radius: .5rem;
+      padding: .75rem 1.5rem;
+      display: inline-block;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+    }
+    .btn-primary:hover {
+      background: var(--dg-400);
+      filter: brightness(1.05);
+      transform: translateY(-2px);
     }
   </style>
+
+  <!-- Umami analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 </head>
-<body class="bg-white text-black font-sans">
 
-  <!-- Header -->
-  <header class="p-4 border-b border-gray-800 bg-black">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
-        <a href="/index.html">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+<body class="font-sans bg-white text-black">
+
+  <!-- HEADER with green background -->
+  <header class="w-full flex items-center justify-between px-6 py-4" style="background:var(--dg-900);">
+    <!-- Logo -->
+    <a href="/index.html" class="flex items-center">
+      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
+    </a>
+
+    <!-- Language Dropdown -->
+    <div class="relative dropdown">
+      <button class="flex items-center space-x-2 focus:outline-none text-white">
+        <img src="/english.png" alt="English" class="h-5 w-5">
+        <span>EN</span>
+        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="dropdown-menu absolute right-0 mt-2 w-36 bg-white text-black rounded-lg shadow-lg z-30">
+        <a href="/book-now.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
         </a>
-        <div class="relative dropdown ml-4">
-          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
-            <img src="/english.png" alt="EN" class="h-5 w-5 rounded-full"> EN
-            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
-            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/english.png" class="h-4 w-4 mr-2" /> English
-            </a>
-            <a href="/book-now-sv" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
-            </a>
-          </div>
-        </div>
+        <a href="/book-now-sv" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
+        </a>
       </div>
-
-      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-        <button id="menu-toggle" class="md:hidden focus:outline-none">
-          <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <nav class="hidden md:flex">
-          <ul class="flex gap-6 items-center text-green-400 text-sm">
-            <li><a href="/index.html" class="hover:text-green-200">Home</a></li>
-            <li><a href="/learn-more" class="hover:text-green-200">About us</a></li>
-            <li><a href="/index.html#workshops" class="hover:text-green-200">Events</a></li>
-            <li><a href="/index.html#services" class="hover:text-green-200">Services</a></li>
-            <li><a href="/index.html#contact" class="hover:text-green-200">Contact</a></li>
-            <li><span class="hidden md:inline text-black select-none">Adjustments</span></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div id="mobile-menu" class="md:hidden hidden mt-4">
-      <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
-        <li><a href="/index.html" class="block py-2 hover:text-green-200">Home</a></li>
-        <li><a href="/learn-more" class="block py-2 hover:text-green-200">About us</a></li>
-        <li><a href="/index.html#workshops" class="block py-2 hover:text-green-200">Events</a></li>
-        <li><a href="/index.html#services" class="block py-2 hover:text-green-200">Services</a></li>
-        <li><a href="/index.html#contact" class="block py-2 hover:text-green-200">Contact</a></li>
-      </ul>
     </div>
   </header>
 
-  <!-- Booking Form -->
-  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
-    <h1 class="text-2xl sm:text-3xl font-bold text-center mb-10">Please provide the details below</h1>
+  <!-- MAIN / CALENDLY -->
+  <section class="py-20" style="background:var(--dg-900); color:#e9f2ee;">
+    <div class="max-w-4xl mx-auto px-6 text-center animate-breathe">
+      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Start your journey</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-8">Please choose your time</h2>
 
-    <form id="booking-form" class="space-y-6 bg-gray-100 p-6 sm:p-8 rounded-lg shadow-md">
-      <div>
-        <label class="block font-medium mb-1">Topic</label>
-        <input type="text" name="topic" class="w-full border border-gray-300 rounded p-2" placeholder="e.g. AI Automation" required />
+      <!-- Calendly Inline Embed -->
+      <div class="bg-white rounded-xl shadow-lg p-2">
+        <div class="calendly-inline-widget"
+             data-url="https://calendly.com/javid-valiyev-genaition/30min?month=2025-10"
+             style="min-width:320px;height:820px;"></div>
       </div>
 
-      <div>
-        <label class="block font-medium mb-1">Phone</label>
-        <input type="tel" name="phone" class="w-full border border-gray-300 rounded p-2" placeholder="+46..." required />
-      </div>
+      <p class="text-green-100 mt-6">
+        Prefer email? Reach us at <a class="underline text-green-300 hover:text-green-200" href="mailto:info@genaition.org">info@genaition.org</a>
+      </p>
+    </div>
+  </section>
 
-      <div>
-        <label class="block font-medium mb-1">Email</label>
-        <input type="email" name="email" class="w-full border border-gray-300 rounded p-2" placeholder="your@email.com" required />
-      </div>
-
-      <div>
-        <label class="block font-medium mb-1">Company</label>
-        <input type="text" name="company" class="w-full border border-gray-300 rounded p-2" placeholder="Company name" />
-      </div>
-
-      <div>
-        <label class="block font-medium mb-1">Team / Area</label>
-        <select name="area" class="w-full border border-gray-300 rounded p-2" required>
-          <option value="" disabled selected>Select your team or department</option>
-          <option>Marketing</option>
-          <option>Operations</option>
-          <option>Product</option>
-          <option>Support / Customer Service</option>
-          <option>Innovation / R&D</option>
-          <option>HR / People</option>
-          <option>Finance</option>
-          <option>IT / Tech</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-      <button type="button" id="submitBtn" class="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded">
-        Submit
-      </button>
-    </form>
-
-    <p class="text-center text-base text-gray-700 mt-6">
-      we’ll get back to you soon to schedule your session
-    </p>
-  </main>
-
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="bg-black text-white pt-12 pb-6">
     <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
-      <div class="flex flex-col space-y-2 text-left pl-2">
-        <a href="/index.html" class="hover:underline">Home</a>
-        <a href="/learn-more.html" class="hover:underline">About us</a>
-        <a href="/index.html#workshops" class="hover:underline">Events</a>
-        <a href="/index.html#services" class="hover:underline">Services</a>
-        <a href="/index.html#contact" class="hover:underline">Contact</a>
+      <div class="flex flex-col space-y-2 text-left">
+        <a href="/index.html" class="hover:text-green-400">Home</a>
+        <a href="/learn-more.html" class="hover:text-green-400">About us</a>
+        <a href="/index.html#workshops" class="hover:text-green-400">Events</a>
+        <a href="/index.html#services" class="hover:text-green-400">Services</a>
+        <a href="/index.html#contact" class="hover:text-green-400">Contact</a>
       </div>
-      <div class="flex flex-col text-right pr-2">
+      <div class="flex flex-col text-right">
         <p class="mb-1 font-semibold">GenAition</p>
         <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sweden</p>
         <p class="mt-2">info@genaition.org</p>
@@ -154,14 +128,14 @@
     <div class="flex flex-col items-center mt-10 space-y-4">
       <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
       <div class="flex space-x-4">
-        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
-          <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank">
+          <img src="/linkedin.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
-          <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+          <img src="/facebook.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.instagram.com/genaition.io/" target="_blank">
-          <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+          <img src="/instagram.png" class="h-6 w-6 hover:opacity-80" />
         </a>
       </div>
     </div>
@@ -169,44 +143,19 @@
     <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. All rights reserved.</p>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Calendly Script -->
+  <link rel="preconnect" href="https://assets.calendly.com">
+  <script async type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
+
+  <!-- Booking event tracking (optional) -->
   <script>
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
-    });
-
-    // Scroll animation
-    const sections = document.querySelectorAll('.scroll-animate');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-breathe');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      section.classList.remove('animate-breathe');
-      observer.observe(section);
-    });
-
-    // Submit handler with redirect
-    document.getElementById("submitBtn").addEventListener("click", async function () {
-      const form = document.getElementById("booking-form");
-      const formData = new FormData(form);
-
-      try {
-        await fetch("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6", {
-          method: "POST",
-          body: formData
-        });
-        window.location.href = "/thank-you.html";
-      } catch (err) {
-        alert("Submission failed. Please try again.");
-        console.error(err);
+    window.addEventListener('message', function(e) {
+      if (e.data?.event === 'calendly.event_scheduled') {
+        if (window.umami) umami('calendly-booked');
+        // window.location.href = '/thank-you.html'; // Uncomment if you want auto redirect after booking
       }
     });
   </script>
+
 </body>
 </html>
