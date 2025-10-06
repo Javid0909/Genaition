@@ -2,128 +2,248 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <title>1:1 AI Coaching</title>
+  <title>1:1 AI Coaching | GenAition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
   <style>
+    :root {
+      --dg-900:#0b1f19;
+      --dg-800:#0f2a22;
+      --dg-700:#14362b;
+      --dg-600:#184233;
+      --dg-500:#1c4e3c;
+      --dg-400:#1f5b45;
+      --dg-300:#2a7a5a;
+      --dg-200:#9ed1b7;
+      --dg-100:#e6f3ed;
+    }
+
+    .dropdown-menu { display: none; }
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover {
-      display: block;
+    .dropdown-menu:hover { display: block; }
+
+    .hero {
+      position: relative;
+      background: url('/serviceb.png') no-repeat center center/cover;
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+      height: 80vh;
     }
-    .dropdown-menu {
-      display: none;
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 34, 27, 0.78);
     }
-    @keyframes breatheZoom {
-      0% { transform: scale(0.98); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    .hero-content { position: relative; z-index: 10; }
+
+    .btn-primary {
+      background: var(--dg-300);
+      color: #fff;
+      font-weight: 700;
+      border-radius: .5rem;
+      padding: .75rem 1.5rem;
+      display: inline-block;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
     }
-    .animate-breathe {
-      animation: breatheZoom 0.7s ease-out both;
-      will-change: transform, opacity;
+    .btn-primary:hover {
+      background: var(--dg-400);
+      filter: brightness(1.05);
+      transform: translateY(-2px);
+    }
+
+    .tick-item::before {
+      content: "✔";
+      margin-right: .5rem;
+      font-weight: 700;
+      color: var(--dg-200);
+    }
+
+    .slant-top { position: relative; }
+    .slant-top::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -80px;
+      height: 80px;
+      background: var(--dg-900);
+      clip-path: polygon(0 100%,100% 0,100% 100%);
+    }
+
+    @media (max-width:768px) {
+      .hero { height: 70vh; }
     }
   </style>
-</head>
-<body class="text-black font-sans bg-white">
 
-  <!-- Header -->
-  <header class="p-4 border-b border-gray-800 bg-black">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
-        <a href="/index.html">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+  <!-- Umami -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+</head>
+
+<body class="bg-white text-black font-sans">
+
+  <!-- Navbar -->
+  <header class="absolute top-0 left-0 w-full flex items-center justify-between px-6 py-4 z-20">
+    <a href="/index-sv.html" class="flex items-center">
+      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
+    </a>
+    <div class="relative dropdown">
+      <button class="flex items-center space-x-2 focus:outline-none text-white">
+        <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
+        <span>SV</span>
+        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="dropdown-menu absolute right-0 mt-2 w-36 bg-white text-black rounded-lg shadow-lg z-30">
+        <a href="/service-2.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/english.png" class="h-4 w-4 mr-2" alt="Engelsk flagga"> English
         </a>
-        <div class="relative dropdown ml-4">
-          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
-            <img src="/swedish.png" alt="SV" class="h-5 w-5 rounded-full"> SV
-            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
-            <a href="/service-2" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/english.png" class="h-4 w-4 mr-2" /> English
-            </a>
-            <a href="/service-2-sv" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-        <nav class="hidden md:flex">
-          <ul class="flex gap-6 items-center text-green-400 text-sm">
-            <li><a href="/index.html" class="hover:text-green-200">Hem</a></li>
-            <li><a href="/learn-more" class="hover:text-green-200">Om oss</a></li>
-            <li><a href="/index.html#workshops" class="hover:text-green-200">Evenemang</a></li>
-            <li><a href="/index.html#services" class="hover:text-green-200">Tjänster</a></li>
-            <li><a href="/index.html#contact" class="hover:text-green-200">Kontakt</a></li>
-            <li><span class="hidden md:inline text-black select-none">Justeringar</span></li>
-          </ul>
-        </nav>
+        <a href="/service-2-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Svensk flagga"> Svenska
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Coaching Section -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
-    <h1 class="text-2xl sm:text-3xl font-bold text-center mb-12">1:1 AI Coaching</h1>
+  <!-- Hero -->
+  <section class="hero flex items-center justify-center text-center text-white">
+    <div class="hero-content max-w-3xl mx-auto px-6">
+      <p class="uppercase tracking-widest text-sm mb-2" style="color:#FFC107;">Personlig • Praktisk</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">1:1 AI Coaching</h1>
+      <p class="text-lg md:text-xl mb-4 text-green-200">
+        Utveckla dina AI-färdigheter steg för steg – med vägledning hela vägen
+      </p>
+      <a href="/book-now-sv" class="btn-primary shadow-lg">Boka kostnadsfritt samtal</a>
+    </div>
+  </section>
 
-    <section class="grid md:grid-cols-2 gap-10 items-center bg-white p-6 rounded-lg shadow-md">
-      <img src="/serviceb.png" alt="1:1 Coaching" class="rounded border-4 border-green-400 w-full h-auto max-h-[400px] object-cover" />
+  <!-- Intro -->
+  <section class="slant-top" style="background:var(--dg-900); color:#e9f2ee;">
+    <div class="max-w-5xl mx-auto px-6 py-16 text-center">
+      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Varför 1:1 Coaching</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Styr din karriär mot Agentisk AI</h2>
+      <p class="max-w-3xl mx-auto text-green-100">
+        Oavsett om du är frilansare, karriärbytare eller yrkesverksam – AI kan bli din konkurrensfördel.
+        GenAition’s personliga coaching hjälper dig att bygga AI-flöden, automationslogik och promptkunskaper – steg för steg.
+      </p>
+    </div>
+  </section>
+
+  <!-- Details -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/serviceb.png" alt="1:1 Coaching" class="w-full h-80 object-cover">
+      </div>
       <div>
-        <p class="text-lg mb-4">
-          <strong>Vill du styra din karriär mot Agentisk AI och Automatisering?</strong><br><br>
-          Oavsett om du är frilansare, karriärbytare eller nyfiken yrkesperson kan det vara avgörande att lära sig använda AI-verktyg effektivt — men att lista ut det på egen hand kan vara frustrerande och långsamt.<br><br>
-          Med GenAition’s 1:1 AI Coaching får du praktisk vägledning, steg för steg, för att bygga verkliga AI-kunskaper — från att skapa agentflöden och designa automationslogik till att ta steget in i Agentisk AI med självförtroende. Allt sker steg för steg.
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Praktiskt, steg-för-steg lärande</h3>
+        <p class="text-gray-700 mb-4">
+          Lär dig AI och automation på ett verklighetsnära sätt med personlig vägledning.
+          Varje session hjälper dig att tillämpa kunskaperna direkt i dina egna projekt och mål.
         </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">3× 60–75 min sessioner i din egen takt</li>
+          <li class="tick-item">Personlig plan baserad på dina mål</li>
+          <li class="tick-item">Projekt från verkliga livet</li>
+          <li class="tick-item">Mallarna, promptar & Q&A-stöd</li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Who Is It For -->
-    <section class="text-center mt-12 space-y-6">
-      <h2 class="text-xl font-bold text-black">Vem är det för</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Frilansare</div>
-        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Karriärbytare</div>
-        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Soloprofessionella</div>
+  <!-- Who is it for -->
+  <section class="py-16" style="background:var(--dg-900); color:#eef7f3;">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6">Vem är det för</h2>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Frilansare</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Karriärbytare</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Soloprofessionella</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- What’s Included Section -->
-    <section class="mt-12 bg-gray-50 p-6 rounded-lg shadow max-w-4xl mx-auto">
-      <h2 class="text-xl font-bold text-green-600 mb-4 text-center">Vad som ingår i paketet</h2>
-      <ul class="list-disc list-inside space-y-2 text-base max-w-xl mx-auto">
-        <li><strong>3 × 60–75 min 1:1 coachingsessioner</strong> – planerade i din egen takt</li>
-        <li><strong>Personlig vägkarta</strong> – anpassad efter din bakgrund och dina mål</li>
-        <li><strong>Projekt från verkliga livet</strong> – praktisk hjälp med AI-verktyg och automation</li>
-        <li><strong>Mallar, prompts & recept</strong> – färdiga resurser för snabbare lärande</li>
-        <li><strong>Q&A mellan sessioner</strong> – få snabb hjälp när du kör fast</li>
-        <li><strong>Valfri enstaka session</strong> – om du bara behöver en djupdykning</li>
-      </ul>
-    </section>
+  <!-- Image Section 1 -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Inuti coachingupplevelsen</h3>
+        <p class="text-gray-700 mb-4">
+          Varje coachingsession känns som en miniworkshop – fokuserad, praktisk och i ditt eget tempo.
+          Du får utforska samma ramar som används i GenAitions AI-evenemang och får direkt feedback när du bygger din första AI-agent.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Guidad praktik i realtid</li>
+          <li class="tick-item">Lär dig från verkliga exempel</li>
+          <li class="tick-item">Stödjande miljö med feedback</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/awevent.jpg" alt="AI Workshop Miljö" class="w-full h-80 object-cover">
+      </div>
+    </div>
+  </section>
 
-    <!-- Call To Action -->
-    <section class="text-center mt-10 space-y-4">
-      <p class="text-base text-gray-700">Boka ett kostnadsfritt 15-minuters samtal</p>
-      <a href="/book-now-sv" class="bg-green-500 hover:bg-green-600 text-black font-bold px-6 py-3 rounded inline-block">
-        Boka nu
-      </a>
-    </section>
-  </main>
+  <!-- Image Section 2 -->
+  <section class="py-16" style="background:var(--dg-100);">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/chatbot-chatbot.jpg" alt="AI Chatbot Exempel" class="w-full h-80 object-cover">
+      </div>
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Vad du bygger tillsammans</h3>
+        <p class="text-gray-700 mb-4">
+          Du bygger din egen fungerande AI-agent – en lösning som kan sammanfatta e-post, skapa innehåll eller automatisera vardagliga uppgifter.
+          Varje steg stärker din trygghet med moderna AI-verktyg och automationsdesign.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Bygg din egen AI-agent</li>
+          <li class="tick-item">Design och testning av flöden</li>
+          <li class="tick-item">Personlig förbättringsplan</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vad som ingår -->
+  <section class="bg-gray-50 py-16">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6" style="color:var(--dg-700);">Vad som ingår</h2>
+      <div class="bg-white rounded-xl p-8 shadow-lg text-left">
+        <ul class="text-gray-700 space-y-3">
+          <li class="tick-item"><strong>Personligt upptäckssamtal</strong> – Definiera dina mål och fokusområden</li>
+          <li class="tick-item"><strong>Individuell läroplan</strong> – Skräddarsydd plan utifrån din bakgrund</li>
+          <li class="tick-item"><strong>Live-coachingsessioner</strong> – 3× 60–75 min interaktiva sessioner</li>
+          <li class="tick-item"><strong>AI-mallar och promptar</strong> – Återanvändbara resurser för egna projekt</li>
+          <li class="tick-item"><strong>Inspelningar & anteckningar</strong> – Tillgång till allt material efter sessionerna</li>
+          <li class="tick-item"><strong>Digitalt certifikat</strong> – Bevis på genomförd coaching</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 text-center" style="background:var(--dg-800); color:white;">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-lg mb-4">Boka ditt kostnadsfria 15-minuters samtal redan idag</p>
+      <a href="/book-now-sv" class="btn-primary shadow-lg">Boka nu</a>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-black text-white pt-12 pb-6">
     <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
-      <div class="flex flex-col space-y-2 text-left pl-2">
-        <a href="/index.html" class="hover:underline">Hem</a>
-        <a href="/learn-more.html" class="hover:underline">Om oss</a>
-        <a href="/index.html#workshops" class="hover:underline">Evenemang</a>
-        <a href="/index.html#services" class="hover:underline">Tjänster</a>
-        <a href="/index.html#contact" class="hover:underline">Kontakt</a>
+      <div class="flex flex-col space-y-2 text-left">
+        <a href="/index-sv.html" class="hover:text-green-400">Hem</a>
+        <a href="/learn-more-sv.html" class="hover:text-green-400">Om oss</a>
+        <a href="/index-sv.html#workshops" class="hover:text-green-400">Evenemang</a>
+        <a href="/index-sv.html#services" class="hover:text-green-400">Tjänster</a>
+        <a href="/index-sv.html#contact" class="hover:text-green-400">Kontakt</a>
       </div>
-      <div class="flex flex-col text-right pr-2">
+      <div class="flex flex-col text-right">
         <p class="mb-1 font-semibold">GenAition</p>
         <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
         <p class="mt-2">info@genaition.org</p>
@@ -134,36 +254,19 @@
     <div class="flex flex-col items-center mt-10 space-y-4">
       <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
       <div class="flex space-x-4">
-        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
-          <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank">
+          <img src="/linkedin.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
-          <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+          <img src="/facebook.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.instagram.com/genaition.io/" target="_blank">
-          <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+          <img src="/instagram.png" class="h-6 w-6 hover:opacity-80" />
         </a>
       </div>
     </div>
     <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
   </footer>
 
-  <!-- Scroll Animation Script -->
-  <script>
-    const sections = document.querySelectorAll('.scroll-animate');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-breathe');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      section.classList.remove('animate-breathe');
-      observer.observe(section);
-    });
-  </script>
 </body>
 </html>

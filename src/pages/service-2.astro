@@ -2,147 +2,246 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>1:1 AI Coaching</title>
+  <title>1:1 AI Coaching | GenAition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
   <style>
+    :root {
+      --dg-900:#0b1f19;
+      --dg-800:#0f2a22;
+      --dg-700:#14362b;
+      --dg-600:#184233;
+      --dg-500:#1c4e3c;
+      --dg-400:#1f5b45;
+      --dg-300:#2a7a5a;
+      --dg-200:#9ed1b7;
+      --dg-100:#e6f3ed;
+    }
+
+    .dropdown-menu { display: none; }
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover {
-      display: block;
+    .dropdown-menu:hover { display: block; }
+
+    .hero {
+      position: relative;
+      background: url('/serviceb.png') no-repeat center center/cover;
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+      height: 80vh;
     }
-    .dropdown-menu {
-      display: none;
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 34, 27, 0.78);
     }
-    @keyframes breatheZoom {
-      0% { transform: scale(0.98); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    .hero-content { position: relative; z-index: 10; }
+
+    .btn-primary {
+      background: var(--dg-300);
+      color: #fff;
+      font-weight: 700;
+      border-radius: .5rem;
+      padding: .75rem 1.5rem;
+      display: inline-block;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
     }
-    .animate-breathe {
-      animation: breatheZoom 0.7s ease-out both;
-      will-change: transform, opacity;
+    .btn-primary:hover {
+      background: var(--dg-400);
+      filter: brightness(1.05);
+      transform: translateY(-2px);
+    }
+
+    .tick-item::before {
+      content: "✔";
+      margin-right: .5rem;
+      font-weight: 700;
+      color: var(--dg-200);
+    }
+
+    .slant-top { position: relative; }
+    .slant-top::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -80px;
+      height: 80px;
+      background: var(--dg-900);
+      clip-path: polygon(0 100%,100% 0,100% 100%);
+    }
+
+    @media (max-width:768px) {
+      .hero { height: 70vh; }
     }
   </style>
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 </head>
-<body class="text-black font-sans bg-white">
 
-  <!-- Header -->
-  <header class="p-4 border-b border-gray-800 bg-black">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
-        <a href="/index.html">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
+<body class="bg-white text-black font-sans">
+
+  <!-- Navbar -->
+  <header class="absolute top-0 left-0 w-full flex items-center justify-between px-6 py-4 z-20">
+    <a href="/index.html" class="flex items-center">
+      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
+    </a>
+    <div class="relative dropdown">
+      <button class="flex items-center space-x-2 focus:outline-none text-white">
+        <img src="/english.png" alt="English" class="h-5 w-5">
+        <span>EN</span>
+        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div class="dropdown-menu absolute right-0 mt-2 w-36 bg-white text-black rounded-lg shadow-lg z-30">
+        <a href="/service-2.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
         </a>
-        <div class="relative dropdown ml-4">
-          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
-            <img src="/english.png" alt="EN" class="h-5 w-5 rounded-full"> EN
-            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
-            <a href="/service-2" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/english.png" class="h-4 w-4 mr-2" /> English
-            </a>
-            <a href="/service-2-sv" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
-            </a>
-          </div>
-        </div>
+        <a href="/service-2-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
+          <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
+        </a>
       </div>
-
-      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-        <button id="menu-toggle" class="md:hidden focus:outline-none">
-          <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <nav class="hidden md:flex">
-          <ul class="flex gap-6 items-center text-green-400 text-sm">
-            <li><a href="/index.html" class="hover:text-green-200">Home</a></li>
-            <li><a href="/learn-more" class="hover:text-green-200">About us</a></li>
-            <li><a href="/index.html#workshops" class="hover:text-green-200">Events</a></li>
-            <li><a href="/index.html#services" class="hover:text-green-200">Services</a></li>
-            <li><a href="/index.html#contact" class="hover:text-green-200">Contact</a></li>
-            <li><span class="hidden md:inline text-black select-none">Adjustments</span></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div id="mobile-menu" class="md:hidden hidden mt-4">
-      <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
-        <li><a href="/index.html" class="block py-2 hover:text-green-200">Home</a></li>
-        <li><a href="/learn-more" class="block py-2 hover:text-green-200">About us</a></li>
-        <li><a href="/index.html#workshops" class="block py-2 hover:text-green-200">Events</a></li>
-        <li><a href="/index.html#services" class="block py-2 hover:text-green-200">Services</a></li>
-        <li><a href="/index.html#contact" class="block py-2 hover:text-green-200">Contact</a></li>
-      </ul>
     </div>
   </header>
 
-  <!-- Main Coaching Section -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-black scroll-animate">
-    <h1 class="text-2xl sm:text-3xl font-bold text-center mb-12">1:1 AI Coaching</h1>
-
-    <section class="grid md:grid-cols-2 gap-10 items-center bg-white p-6 rounded-lg shadow-md">
-      <img src="/serviceb.png" alt="1:1 Coaching" class="rounded border-4 border-green-400 w-full h-auto max-h-[400px] object-cover" />
-      <div>
-<p class="text-lg mb-4">
-  <strong>Want to Shift Your Career into Agentic AI and Automation?</strong><br><br>
-  Whether you're a freelancer, career changer, or curious professional, learning how to use AI tools effectively can be a game-changer — but figuring it out alone can be frustrating and slow.<br><br>
-  With GenAition’s 1:1 AI Coaching, you’ll get step-by-step, practical guidance to build real-world AI skills — from creating agent workflows and designing automation logic to stepping confidently into the world of Agentic AI. All is step by step
-</p>
-
-      </div>
-    </section>
-
-    <!-- Who Is It For -->
-    <section class="text-center mt-12 space-y-6">
-      <h2 class="text-xl font-bold text-black">Who is it for</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Freelancers</div>
-        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Career Changers</div>
-        <div class="bg-gray-100 p-4 rounded shadow text-base font-semibold">Soloprofessionals</div>
-      </div>
-    </section>
-
-    <!-- Final What’s Included Section -->
-    <section class="mt-12 bg-gray-50 p-6 rounded-lg shadow max-w-4xl mx-auto">
-      <h2 class="text-xl font-bold text-green-600 mb-4 text-center">What’s Included in the Package</h2>
-      <ul class="list-disc list-inside space-y-2 text-base max-w-xl mx-auto">
-        <li><strong>3 × 60–75 min Coaching Sessions</strong> – scheduled at your pace</li>
-        <li><strong>Personalized Roadmap</strong> – tailored to your background and goals</li>
-        <li><strong>Real life projects</strong> – hands-on help with AI tools and automation</li>
-        <li><strong>Templates, Prompts & Recipes</strong> – ready-to-use assets to speed up learning</li>
-        <li><strong>Q&A Access Between Sessions</strong> – quick help when you're stuck</li>
-        <li><strong>Optional One-Off Session</strong> – if you just need a single deep-dive</li>
-      </ul>
-    </section>
-
-    <!-- Call To Action -->
-    <section class="text-center mt-10 space-y-4">
-      <p class="text-base text-gray-700">
-        Book your free 15 mins discovery session now
+  <!-- Hero -->
+  <section class="hero flex items-center justify-center text-center text-white">
+    <div class="hero-content max-w-3xl mx-auto px-6">
+      <p class="uppercase tracking-widest text-sm mb-2" style="color:#FFC107;">Personal • Hands-On</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">1:1 AI Coaching</h1>
+      <p class="text-lg md:text-xl mb-4 text-green-200">
+        Transform your skills and confidence with guided, step-by-step learning
       </p>
-      <a href="/book-now" class="bg-green-500 hover:bg-green-600 text-black font-bold px-6 py-3 rounded inline-block">
-        Get started
-      </a>
-    </section>
-  </main>
+      <a href="/book-now" class="btn-primary shadow-lg">Book Free Discovery Call</a>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="slant-top" style="background:var(--dg-900); color:#e9f2ee;">
+    <div class="max-w-5xl mx-auto px-6 py-16 text-center">
+      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Why 1:1 Coaching</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Shift Your Career into Agentic AI</h2>
+      <p class="max-w-3xl mx-auto text-green-100">
+        Whether you’re a freelancer, career changer, or professional — AI can be your competitive edge.  
+        GenAition’s personal coaching helps you build AI workflows, automation logic, and prompt-writing skills — guided step by step.
+      </p>
+    </div>
+  </section>
+
+  <!-- Details -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/serviceb.png" alt="1:1 Coaching" class="w-full h-80 object-cover">
+      </div>
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Practical, Step-by-Step Learning</h3>
+        <p class="text-gray-700 mb-4">
+          Learn real-world AI tools and automation in a guided, tailored way.  
+          Every session helps you apply concepts directly to your projects and professional goals.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">3× 60–75 min sessions at your own pace</li>
+          <li class="tick-item">Personalized roadmap for your goals</li>
+          <li class="tick-item">Real-life projects and guidance</li>
+          <li class="tick-item">Templates, prompts, and Q&A access</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who is it for -->
+  <section class="py-16" style="background:var(--dg-900); color:#eef7f3;">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6">Who Is It For</h2>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Freelancers</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Career Changers</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Soloprofessionals</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Section 1 -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Inside the Coaching Experience</h3>
+        <p class="text-gray-700 mb-4">
+          Every coaching session feels like a live mini-workshop — focused, hands-on, and built around your pace.  
+          You’ll explore the same frameworks used in GenAition’s AI events and get live feedback as you build your first AI agent.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Guided real-time practice</li>
+          <li class="tick-item">Learn directly from examples used in events</li>
+          <li class="tick-item">Supportive environment with feedback</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/awevent.jpg" alt="AI Workshop Environment" class="w-full h-80 object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Section 2 -->
+  <section class="py-16" style="background:var(--dg-100);">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/chatbot-chatbot.jpg" alt="AI Chatbot Example" class="w-full h-80 object-cover">
+      </div>
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">What You’ll Build Together</h3>
+        <p class="text-gray-700 mb-4">
+          You’ll create your own working AI agent — a solution that can summarize emails, generate content, or automate daily workflows.  
+          Each part of your build strengthens your confidence in modern AI tools and automation design.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Hands-on AI Agent creation</li>
+          <li class="tick-item">Workflow design and testing</li>
+          <li class="tick-item">Personalized improvement roadmap</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's Included -->
+  <section class="bg-gray-50 py-16">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6" style="color:var(--dg-700);">What’s Included</h2>
+      <div class="bg-white rounded-xl p-8 shadow-lg text-left">
+        <ul class="text-gray-700 space-y-3">
+          <li class="tick-item"><strong>3× Coaching Sessions</strong> – Live, personalized training</li>
+          <li class="tick-item"><strong>Step-by-Step Guidance</strong> – Build your own AI agent</li>
+          <li class="tick-item"><strong>Templates & Prompts</strong> – Ready-to-use resources</li>
+          <li class="tick-item"><strong>Feedback & Q&A</strong> – Practical, real-world insights</li>
+          <li class="tick-item"><strong>Digital Certificate</strong> – Proof of completion</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 text-center" style="background:var(--dg-800); color:white;">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-lg mb-4">Book your free 15-minute discovery session now</p>
+      <a href="/book-now" class="btn-primary shadow-lg">Get Started</a>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-black text-white pt-12 pb-6">
     <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
-      <div class="flex flex-col space-y-2 text-left pl-2">
-        <a href="/index.html" class="hover:underline">Home</a>
-        <a href="/learn-more.html" class="hover:underline">About us</a>
-        <a href="/index.html#workshops" class="hover:underline">Events</a>
-        <a href="/index.html#services" class="hover:underline">Services</a>
-        <a href="/index.html#contact" class="hover:underline">Contact</a>
+      <div class="flex flex-col space-y-2 text-left">
+        <a href="/index.html" class="hover:text-green-400">Home</a>
+        <a href="/learn-more.html" class="hover:text-green-400">About us</a>
+        <a href="/index.html#workshops" class="hover:text-green-400">Events</a>
+        <a href="/index.html#services" class="hover:text-green-400">Services</a>
+        <a href="/index.html#contact" class="hover:text-green-400">Contact</a>
       </div>
-      <div class="flex flex-col text-right pr-2">
+      <div class="flex flex-col text-right">
         <p class="mb-1 font-semibold">GenAition</p>
         <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sweden</p>
         <p class="mt-2">info@genaition.org</p>
@@ -153,42 +252,18 @@
     <div class="flex flex-col items-center mt-10 space-y-4">
       <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
       <div class="flex space-x-4">
-        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
-          <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
+        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank">
+          <img src="/linkedin.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
-          <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
+          <img src="/facebook.png" class="h-6 w-6 hover:opacity-80" />
         </a>
         <a href="https://www.instagram.com/genaition.io/" target="_blank">
-          <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
+          <img src="/instagram.png" class="h-6 w-6 hover:opacity-80" />
         </a>
       </div>
     </div>
     <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. All rights reserved.</p>
   </footer>
-
-  <!-- Scroll animation script -->
-  <script>
-    const toggleButton = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    toggleButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    const sections = document.querySelectorAll('.scroll-animate');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-breathe');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      section.classList.remove('animate-breathe');
-      observer.observe(section);
-    });
-  </script>
 </body>
 </html>

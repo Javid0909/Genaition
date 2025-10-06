@@ -20,13 +20,11 @@
       --dg-100:#e6f3ed;
     }
 
-    /* NAV dropdown */
     .dropdown-menu { display: none; }
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu,
     .dropdown-menu:hover { display: block; }
 
-    /* Hero */
     .hero {
       position: relative;
       background: url('/servicea.jpg') no-repeat center center/cover;
@@ -39,10 +37,7 @@
       inset: 0;
       background: rgba(12, 34, 27, 0.78);
     }
-    .hero-content {
-      position: relative;
-      z-index: 10;
-    }
+    .hero-content { position: relative; z-index: 10; }
 
     .btn-primary {
       background: var(--dg-300);
@@ -60,9 +55,9 @@
     }
 
     .tick-item::before {
-      content: "✔";
-      margin-right: .5rem;
-      font-weight: 700;
+      content:"✔";
+      margin-right:.5rem;
+      font-weight:700;
       color: var(--dg-200);
     }
 
@@ -80,19 +75,8 @@
       clip-path: polygon(0 100%,100% 0,100% 100%);
     }
 
-    @keyframes breatheZoom {
-      0% { transform: scale(0.97); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-breathe {
-      animation: breatheZoom 0.8s ease-out both;
-    }
-
     @media (max-width: 768px) {
-      .hero {
-        background: url('/servicea.jpg') no-repeat center center/cover;
-        height: 70vh;
-      }
+      .hero { height: 70vh; }
     }
   </style>
 
@@ -109,17 +93,17 @@
     </a>
     <div class="relative dropdown">
       <button class="flex items-center space-x-2 focus:outline-none text-white">
-        <img src="/swedish.png" alt="Swedish" class="h-5 w-5">
+        <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
         <span>SV</span>
         <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
       </button>
       <div class="dropdown-menu absolute right-0 mt-2 w-36 bg-white text-black rounded-lg shadow-lg z-30">
-        <a href="/service-1" class="flex items-center px-3 py-2 hover:bg-gray-100">
+        <a href="/service-1.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
           <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
         </a>
-        <a href="/service-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-100">
+        <a href="/service-1-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100">
           <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
         </a>
       </div>
@@ -141,11 +125,11 @@
   <!-- INTRO -->
   <section class="slant-top" style="background:var(--dg-900); color:#e9f2ee;">
     <div class="max-w-5xl mx-auto px-6 py-16 text-center">
-      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Varför AI-teamträning?</p>
+      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Varför AI-teamträning</p>
       <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Bygg smartare team – inte bara verktyg</h2>
       <p class="max-w-3xl mx-auto text-green-100">
-        De flesta team kan idag automatisera över 60 % av sina rutinuppgifter. Under dessa sessioner får ni lära er
-        praktiska AI-verktyg för att förenkla arbetsflöden, koppla system och spara tid – utan kodning.
+        De flesta team kan idag automatisera över 60 % av sina rutinuppgifter.  
+        Under dessa sessioner lär ni er praktiskt använda AI – för att koppla samman system, automatisera flöden och förenkla vardagen.
       </p>
     </div>
   </section>
@@ -159,14 +143,13 @@
       <div>
         <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Praktisk laginlärning</h3>
         <p class="text-gray-700 mb-4">
-          Interaktiva halv- eller heldagssessioner där ert team lär sig att automatisera verkliga arbetsflöden
-          med plattformar som Zapier, Make.com eller n8n. Perfekt för drift, marknadsföring, analys och support.
+          Interaktiva halv- eller heldagssessioner där ert team lär sig att bygga automationer med plattformar som Zapier, Make.com eller n8n – utan att koda.
         </p>
         <ul class="space-y-2 text-gray-800">
           <li class="tick-item">Förvandla repetitiva uppgifter till ett klick</li>
           <li class="tick-item">Låt verktygen samarbeta automatiskt</li>
           <li class="tick-item">Skriv smarta prompts och logik</li>
-          <li class="tick-item">Frigör tid till det som betyder mest</li>
+          <li class="tick-item">Spara timmar varje vecka med automation</li>
         </ul>
       </div>
     </div>
@@ -178,23 +161,64 @@
       <h2 class="text-3xl md:text-4xl font-extrabold mb-6">För vem?</h2>
       <div class="grid sm:grid-cols-3 gap-6">
         <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Marknadsteam</div>
-        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Driftteam</div>
+        <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Drift- & datateam</div>
         <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 shadow">Supportteam</div>
       </div>
     </div>
   </section>
 
-  <!-- PACKAGE -->
+  <!-- IMAGE SECTION 1 -->
   <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Inuti träningen</h3>
+        <p class="text-gray-700 mb-4">
+          Varje session anpassas till ert företags kontext – med balans mellan teori och praktik.  
+          Teamet samarbetar i realtid och ser direkta resultat av sina automationer.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Samarbetsinriktat lärande</li>
+          <li class="tick-item">Praktiska gruppövningar</li>
+          <li class="tick-item">Experthandledning och feedback</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/awevent.jpg" alt="Samarbetande team" class="w-full h-80 object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- IMAGE SECTION 2 -->
+  <section class="py-16" style="background:var(--dg-100);">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="rounded-2xl overflow-hidden shadow">
+        <img src="/telegram-workshop.png" alt="AI-träningssession" class="w-full h-80 object-cover">
+      </div>
+      <div>
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:var(--dg-700);">Vad ni uppnår</h3>
+        <p class="text-gray-700 mb-4">
+          Efter träningen kommer ert team att kunna bygga smarta automationer, generera idéer med AI och optimera sina arbetsflöden – och skapa en innovationskultur.
+        </p>
+        <ul class="space-y-2 text-gray-800">
+          <li class="tick-item">Ökad effektivitet med AI</li>
+          <li class="tick-item">Högre produktivitet och samarbete</li>
+          <li class="tick-item">Självsäkerhet i användning av AI-verktyg</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGE -->
+  <section class="bg-gray-50 py-16">
     <div class="max-w-4xl mx-auto px-6 text-center">
       <h2 class="text-3xl md:text-4xl font-extrabold mb-6" style="color:var(--dg-700);">Vad som ingår</h2>
       <div class="bg-white rounded-xl p-8 shadow-lg text-left">
         <ul class="text-gray-700 space-y-3">
-          <li class="tick-item"><strong>Upptäckssamtal</strong> – Vi identifierar var AI ger mest nytta</li>
-          <li class="tick-item"><strong>Live-träning</strong> – Interaktiv, på plats eller online</li>
-          <li class="tick-item"><strong>Bygg AI-arbetsflöden</strong> – Praktiska automationer tillsammans</li>
-          <li class="tick-item"><strong>Inspelning & certifikat</strong> – För varje deltagare</li>
-          <li class="tick-item"><strong>Valfri uppföljning</strong> – Q&A eller individuell support</li>
+          <li class="tick-item"><strong>Upptäckssamtal</strong> – Identifiera era automatiseringsmöjligheter</li>
+          <li class="tick-item"><strong>Anpassad agenda</strong> – Utifrån teamets behov</li>
+          <li class="tick-item"><strong>Live-träning</strong> – Interaktivt på plats eller online</li>
+          <li class="tick-item"><strong>Inspelning</strong> – Tillgång för alla deltagare</li>
+          <li class="tick-item"><strong>Digitala certifikat</strong> – För alla deltagare</li>
         </ul>
       </div>
     </div>
@@ -203,7 +227,7 @@
   <!-- CTA -->
   <section class="py-20 text-center" style="background:var(--dg-800); color:white;">
     <div class="max-w-3xl mx-auto">
-      <p class="text-lg mb-4">Boka din kostnadsfria 30-minuters demosession nu</p>
+      <p class="text-lg mb-4">Boka en kostnadsfri 30-minuters demo och se hur AI kan förändra ert team</p>
       <a href="/book-now-sv" class="btn-primary shadow-lg">Boka nu</a>
     </div>
   </section>
@@ -242,5 +266,6 @@
     </div>
     <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
   </footer>
+
 </body>
 </html>
