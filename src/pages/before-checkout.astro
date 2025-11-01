@@ -5,7 +5,6 @@
   <title>Submission | GenAition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Complete your GenAition workshop submission and proceed securely to checkout." />
-  <meta name="keywords" content="AI workshop, GenAition, checkout, tickets, AI agent, automation" />
   <link rel="icon" href="/favicon.ico" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
@@ -28,26 +27,13 @@
       font-family: "Inter", sans-serif;
     }
 
-    .dropdown-menu { display: none; }
-    .dropdown:hover .dropdown-menu,
-    .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover { display: block; }
-
-    @keyframes breatheZoom {
-      0% { transform: scale(0.97); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-breathe {
-      animation: breatheZoom 0.8s ease-out both;
-    }
-
+    /* === Button === */
     .btn-primary {
       background: var(--dg-300);
       color: #fff;
       font-weight: 700;
       border-radius: .5rem;
       padding: .75rem 1.5rem;
-      display: inline-block;
       transition: transform .15s ease, filter .15s ease, background .15s ease;
     }
     .btn-primary:hover {
@@ -55,6 +41,11 @@
       filter: brightness(1.05);
       transform: translateY(-2px);
     }
+
+    .dropdown-menu { display: none; }
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu,
+    .dropdown-menu:hover { display: block; }
   </style>
 
   <!-- Umami analytics -->
@@ -65,12 +56,10 @@
 
   <!-- HEADER -->
   <header class="w-full flex items-center justify-between px-6 py-4" style="background:var(--dg-900);">
-    <!-- Logo -->
     <a href="/index.html" class="flex items-center">
       <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
     </a>
 
-    <!-- Language Dropdown -->
     <div class="relative dropdown">
       <button class="flex items-center space-x-2 focus:outline-none text-white">
         <img src="/english.png" alt="English" class="h-5 w-5">
@@ -90,36 +79,36 @@
     </div>
   </header>
 
-  <!-- HERO / INTRO -->
+  <!-- HERO -->
   <section class="py-20" style="background:var(--dg-900); color:#e9f2ee;">
-    <div class="max-w-4xl mx-auto px-6 text-center animate-breathe">
+    <div class="max-w-4xl mx-auto px-6 text-center">
       <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">Step 1 of 2</p>
       <h2 class="text-3xl md:text-4xl font-extrabold mb-6">Workshop Registration</h2>
       <p class="text-green-100 mb-10">Fill out the form below to continue securely to checkout.</p>
     </div>
   </section>
 
-  <!-- MAIN FORM -->
-  <main class="max-w-2xl mx-auto px-6 py-16 -mt-20 relative z-10 animate-breathe">
+  <!-- FORM -->
+  <main class="max-w-2xl mx-auto px-6 py-16 -mt-20 relative z-10">
     <form id="booking-form" class="space-y-6 bg-white border border-gray-200 p-8 rounded-xl shadow-lg">
       <div>
         <label class="block font-medium mb-1 text-gray-800">First Name</label>
-        <input type="text" name="name" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Your first name" required />
+        <input type="text" name="name" class="w-full border border-gray-300 rounded-lg p-2" required />
       </div>
 
       <div>
         <label class="block font-medium mb-1 text-gray-800">Last Name</label>
-        <input type="text" name="surname" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Your surname" required />
+        <input type="text" name="surname" class="w-full border border-gray-300 rounded-lg p-2" required />
       </div>
 
       <div>
         <label class="block font-medium mb-1 text-gray-800">Phone Number</label>
-        <input type="tel" name="phone" class="w-full border border-gray-300 rounded-lg p-2" placeholder="+46..." required />
+        <input type="tel" name="phone" class="w-full border border-gray-300 rounded-lg p-2" required />
       </div>
 
       <div>
         <label class="block font-medium mb-1 text-gray-800">Email</label>
-        <input type="email" name="email" class="w-full border border-gray-300 rounded-lg p-2" placeholder="your@email.com" required />
+        <input type="email" name="email" class="w-full border border-gray-300 rounded-lg p-2" required />
       </div>
 
       <div>
@@ -131,24 +120,36 @@
         </select>
       </div>
 
+      <!-- PROMO CODE -->
+      <div>
+        <label class="block font-medium mb-1 text-gray-800">Promo Code (optional)</label>
+        <input type="text" id="promoCode" name="promoCode"
+          placeholder="Enter promo code"
+          class="w-full border border-gray-300 rounded-lg p-2" />
+        <p id="promoMessage" class="text-green-600 text-sm mt-1 hidden">
+          ✅ Hyper Island discount applied! Price updated to SEK 795 per ticket.
+        </p>
+      </div>
+
+      <!-- Ticket count -->
       <div>
         <label class="block font-medium mb-1 text-gray-800">Number of Tickets</label>
         <div class="flex items-center space-x-4 mb-2">
           <button type="button" id="decrease" class="bg-gray-200 px-3 py-1 rounded text-xl font-bold">-</button>
-          <input type="number" id="ticketCount" name="tickets" value="1" min="1" max="6"
+          <input type="number" id="ticketCount" value="1" min="1" max="6"
                  class="w-16 text-center border border-gray-300 rounded p-2" readonly />
           <button type="button" id="increase" class="bg-gray-200 px-3 py-1 rounded text-xl font-bold">+</button>
         </div>
 
         <div id="ticketTotal" class="mt-4 flex items-center gap-3 text-sm">
-          <span class="text-black">Total:</span>
-          <span id="discountedPrice" class="text-black font-bold">SEK 595</span>
-          <span id="originalPrice" class="text-xs text-gray-400 line-through">SEK 895</span>
-          <span id="discountBadge" class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded">-38%</span>
+          <span>Total:</span>
+          <span id="discountedPrice" class="font-bold text-black">SEK 995</span>
+          <span id="originalPrice" class="text-xs text-gray-400 line-through">SEK 1295</span>
+          <span id="discountBadge" class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded">-27%</span>
         </div>
       </div>
 
-      <button type="button" id="submitBtn" class="btn-primary w-full text-center shadow-md">Continue to Checkout →</button>
+      <button type="button" id="submitBtn" class="btn-primary w-full shadow-md">Continue to Checkout →</button>
     </form>
   </main>
 
@@ -188,70 +189,86 @@
     <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. All rights reserved.</p>
   </footer>
 
-  <!-- COOKIE BANNER -->
-  <div id="cookie-banner" style="display:none"
-       class="fixed bottom-0 left-0 right-0 w-full bg-white text-black px-6 py-4 z-50 shadow-xl">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-      <p class="text-center md:text-left leading-snug">
-        We use cookies for analytics and functionality. By clicking "Accept", you agree to our policy:
-        <a href="/privacy.html" class="underline text-green-600 hover:text-green-800" target="_blank">Privacy Policy</a>
-      </p>
-      <div class="flex gap-3 flex-wrap justify-center md:justify-end">
-        <button id="reject-cookies"
-                class="bg-gray-200 text-black px-5 py-1.5 rounded-md hover:bg-gray-300 text-sm font-medium">Deny</button>
-        <button id="accept-cookies" class="btn-primary text-sm">Accept</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
+  <!-- PRICE LOGIC SCRIPT -->
   <script>
-    // Ticket counter logic
     const dec = document.getElementById('decrease');
     const inc = document.getElementById('increase');
     const count = document.getElementById('ticketCount');
     const discounted = document.getElementById('discountedPrice');
     const original = document.getElementById('originalPrice');
     const badge = document.getElementById('discountBadge');
-    const pricePer = 595, originalPer = 895;
+    const promo = document.getElementById('promoCode');
+    const promoMsg = document.getElementById('promoMessage');
+    let promoActive = false;
+
+    const normalPrice = 995, originalPrice = 1295, hyperPrice = 795;
 
     function updateTotal() {
       const val = parseInt(count.value);
-      const newDisc = val * pricePer;
-      const newOrig = val * originalPer;
-      const discount = Math.round(((newOrig - newDisc) / newOrig) * 100);
-      discounted.textContent = `SEK ${newDisc}`;
-      original.textContent = `SEK ${newOrig}`;
-      badge.textContent = `-${discount}%`;
+      const pricePer = promoActive ? hyperPrice : normalPrice;
+      const totalDisc = val * pricePer;
+      const totalOrig = val * originalPrice;
+      const discount = Math.round(((totalOrig - totalDisc) / totalOrig) * 100);
+
+      discounted.textContent = `SEK ${totalDisc}`;
+      original.textContent = `SEK ${totalOrig}`;
+      badge.textContent = promoActive ? "-46% (Hyper Island)" : `-${discount}%`;
     }
+
     dec.addEventListener('click', () => { if (count.value > 1) { count.value--; updateTotal(); }});
     inc.addEventListener('click', () => { if (count.value < 6) { count.value++; updateTotal(); }});
+
+    promo.addEventListener('input', () => {
+      if (promo.value.trim().toLowerCase() === "hyperisland") {
+        promoActive = true;
+        promoMsg.classList.remove("hidden");
+      } else {
+        promoActive = false;
+        promoMsg.classList.add("hidden");
+      }
+      updateTotal();
+    });
+
     updateTotal();
 
-    // Form submit
     document.getElementById("submitBtn").addEventListener("click", function () {
       const form = document.getElementById("booking-form");
       if (!form.checkValidity()) { form.reportValidity(); return; }
 
-      const formData = new FormData(form);
       const tickets = parseInt(count.value);
+      const code = promo.value.trim().toLowerCase();
 
       try {
-        const params = new URLSearchParams();
-        formData.forEach((v, k) => params.append(k, v));
-        navigator.sendBeacon("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",
-          new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' }));
+        const params = new URLSearchParams(new FormData(form));
+        navigator.sendBeacon(
+          "https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",
+          new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' })
+        );
       } catch (err) { console.warn("Webhook failed:", err); }
 
-      const stripeLinks = {
-        1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
-        2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
-        3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
-        4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
-        5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
-        6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
+      const normalLinks = {
+        1: "https://buy.stripe.com/fZucN570f6LXe3G3Vf8AE0o",
+        2: "https://buy.stripe.com/9B6bJ1esH6LX6Be63n8AE0p",
+        3: "https://buy.stripe.com/6oUeVd4S7dalgbO9fz8AE0q",
+        4: "https://buy.stripe.com/bJe00jacr7Q1bVy77r8AE0r",
+        5: "https://buy.stripe.com/8x29AT2JZc6h6BedvP8AE0s",
+        6: "https://buy.stripe.com/8x2aEX84j0nz7FiajD8AE0t"
       };
-      window.location.href = stripeLinks[tickets] || stripeLinks[1];
+
+      const hyperLinks = {
+        1: "https://buy.stripe.com/9B6bJ15Wb1rD5xafDX8AE0h",
+        2: "https://buy.stripe.com/eVq7sL5Wb0nz2kY77r8AE0i",
+        3: "https://buy.stripe.com/cNicN5doD5HT7FiajD8AE0j",
+        4: "https://buy.stripe.com/28EeVd3O36LXf7K2Rb8AE0k",
+        5: "https://buy.stripe.com/4gM14nesH0nz0cQdvP8AE0l",
+        6: "https://buy.stripe.com/9B6bJ170fdalf7K3Vf8AE0m"
+      };
+
+      const chosenLink = (code === "hyperisland")
+        ? (hyperLinks[tickets] || hyperLinks[1])
+        : (normalLinks[tickets] || normalLinks[1]);
+
+      window.location.href = chosenLink;
     });
   </script>
 </body>
