@@ -127,7 +127,7 @@
           placeholder="Enter promo code"
           class="w-full border border-gray-300 rounded-lg p-2" />
         <p id="promoMessage" class="text-green-600 text-sm mt-1 hidden">
-          ✅ Hyper Island discount applied! Price updated to SEK 795 per ticket.
+          ✅ Hyper Island discount applied! Price updated to SEK 595 per ticket.
         </p>
       </div>
 
@@ -143,7 +143,7 @@
 
         <div id="ticketTotal" class="mt-4 flex items-center gap-3 text-sm">
           <span>Total:</span>
-          <span id="discountedPrice" class="font-bold text-black">SEK 995</span>
+          <span id="discountedPrice" class="font-bold text-black">SEK 795</span>
           <span id="originalPrice" class="text-xs text-gray-400 line-through">SEK 1295</span>
           <span id="discountBadge" class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded">-27%</span>
         </div>
@@ -201,7 +201,7 @@
     const promoMsg = document.getElementById('promoMessage');
     let promoActive = false;
 
-    const normalPrice = 995, originalPrice = 1295, hyperPrice = 795;
+    const normalPrice = 795, originalPrice = 1295, hyperPrice = 595;
 
     function updateTotal() {
       const val = parseInt(count.value);
@@ -247,21 +247,21 @@
       } catch (err) { console.warn("Webhook failed:", err); }
 
       const normalLinks = {
-        1: "https://buy.stripe.com/fZucN570f6LXe3G3Vf8AE0o",
-        2: "https://buy.stripe.com/9B6bJ1esH6LX6Be63n8AE0p",
-        3: "https://buy.stripe.com/6oUeVd4S7dalgbO9fz8AE0q",
-        4: "https://buy.stripe.com/bJe00jacr7Q1bVy77r8AE0r",
-        5: "https://buy.stripe.com/8x29AT2JZc6h6BedvP8AE0s",
-        6: "https://buy.stripe.com/8x2aEX84j0nz7FiajD8AE0t"
-      };
-
-      const hyperLinks = {
         1: "https://buy.stripe.com/9B6bJ15Wb1rD5xafDX8AE0h",
         2: "https://buy.stripe.com/eVq7sL5Wb0nz2kY77r8AE0i",
         3: "https://buy.stripe.com/cNicN5doD5HT7FiajD8AE0j",
         4: "https://buy.stripe.com/28EeVd3O36LXf7K2Rb8AE0k",
         5: "https://buy.stripe.com/4gM14nesH0nz0cQdvP8AE0l",
         6: "https://buy.stripe.com/9B6bJ170fdalf7K3Vf8AE0m"
+      };
+
+      const hyperLinks = {
+        1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
+        2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
+        3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
+        4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
+        5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
+        6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
       };
 
       const chosenLink = (code === "hyperisland")
