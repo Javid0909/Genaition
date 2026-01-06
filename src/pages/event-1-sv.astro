@@ -2,504 +2,919 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <title>AI Agent Workshop - Stockholm</title>
+  <title>Human-Like AI Reply Agent Workshop - Stockholm</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind (v2) -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<style>
-  :root {
-    --dg-900:#0b1f19;
-    --dg-800:#0f2a22;
-    --dg-700:#14362b;
-    --dg-600:#184233;
-    --dg-500:#1c4e3c; /* primary */
-    --dg-400:#1f5b45;
-    --dg-300:#2a7a5a;
-    --dg-200:#9ed1b7;
-    --dg-100:#e6f3ed;
-  }
+  <!-- ✅ Umami Analytics (always active) -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 
-  /* NAV: dropdown */
-  .dropdown-menu { display: none; }
-  .dropdown:hover .dropdown-menu,
-  .dropdown:focus-within .dropdown-menu,
-  .dropdown-menu:hover { display: block; }
+  <!-- ✅ Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return; n=f.fbq=function(){ n.callMethod ?
+        n.callMethod.apply(n,arguments) : n.queue.push(arguments) };
+      if(!f._fbq)f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+      n.queue=[]; t=b.createElement(e); t.async=!0; t.src=v;
+      s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)
+    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-  /* HERO (triangular) */
-  .hero {
-    position: relative;
-    background: url('/javidbest.png') no-repeat center center/cover;
-    clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
-    height: 90vh;
-  }
-  .hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(12, 34, 27, 0.78); /* dark green overlay */
-  }
-  .hero-content { position: relative; z-index: 10; }
+    fbq('init', '1507001663644263');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
+  </noscript>
 
-  /* Section separators (slanted like reference) */
-  .slant-top { position: relative; }
-  .slant-top::before {
-    content:"";
-    position:absolute;
-    left:0; right:0; top:-80px; height:80px;
-    background: var(--dg-900);
-    clip-path: polygon(0 100%,100% 0,100% 100%);
-  }
-
-  /* Green tint overlay for photos (kept for parity) */
-  .green-tint { position: relative; }
-  .green-tint::after {
-    content:"";
-    position:absolute; inset:0;
-    background: rgba(31, 91, 69, 0.55);
-    border-radius: inherit;
-  }
-
-  /* Buttons */
-  .btn-primary {
-    background: var(--dg-300);
-    color:#fff; font-weight:700;
-    border-radius:.5rem;
-    padding:.75rem 1.25rem;
-    display:inline-block;
-    transition: transform .15s ease, filter .15s ease, background .15s ease;
-  }
-  .btn-primary:hover {
-    background: var(--dg-400);
-    filter:brightness(1.02);
-    transform: translateY(-1px);
-  }
-
-  .tick-item::before {
-    content:"✔";
-    margin-right:.5rem;
-    font-weight:700;
-    color: var(--dg-200);
-  }
-
-  /* Mobile overrides for hero */
-  @media (max-width: 768px) {
-    .hero {
-      background: url('/javidbest-mobile.png') no-repeat center center/cover;
-      height: 80vh;
+  <style>
+    :root{
+      --ink:#07110e;
+      --forest:#0b1f19;
+      --forest2:#0f2a22;
+      --accent:#2a7a5a;
+      --accent2:#9ed1b7;
+      --gold:#FFC107;
+      --paper:#f6f7f7;
+      --card:#ffffff;
+      --ring: rgba(42,122,90,.35);
+      --shadow: 0 20px 40px rgba(0,0,0,.10);
+      --shadow2: 0 10px 24px rgba(0,0,0,.10);
+      --radius: 20px;
     }
-  }
-</style>
 
-<!-- ✅ Umami Analytics (always active) -->
-<script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+    html { scroll-behavior:smooth; }
+    body { background: var(--paper); }
+
+    :focus { outline: none; }
+    .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
+
+    .bg-acoustic{
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.28), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.18), transparent 60%),
+        linear-gradient(180deg, #ffffff, #f3f5f5);
+    }
+
+    .glass{
+      background: rgba(7,17,14,.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .hero{
+      position: relative;
+      min-height: 92vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
+        radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
+        linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
+        url('/javidbest.png') center/cover no-repeat;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 500px at 50% 10%, rgba(42,122,90,.22), transparent 60%);
+      pointer-events:none;
+    }
+
+    .blob{
+      position:absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.40), rgba(42,122,90,.08) 55%, transparent 70%);
+      opacity: .85;
+      transform: translate3d(0,0,0);
+      animation: drift 10s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes drift{
+      0%,100%{ transform: translate(-18%, -10%) scale(1); }
+      50%{ transform: translate(-10%, -4%) scale(1.05); }
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.6rem;
+      padding:.9rem 1.15rem;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+      will-change: transform;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+
+    .btn-primary{
+      background: linear-gradient(135deg, var(--accent), #2f8b66);
+      color:#fff;
+      box-shadow: 0 12px 26px rgba(42,122,90,.30);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .btn-primary:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(42,122,90,.34);
+    }
+
+    .btn-outline{
+      background: rgba(255,255,255,.10);
+      color:#fff;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .btn-outline:hover{
+      background: rgba(255,255,255,.14);
+      transform: translateY(-1px);
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:.5rem;
+      align-items:center;
+      padding:.35rem .65rem;
+      border-radius: 9999px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      color: #0a1a15;
+      background: rgba(255,193,7,.92);
+      border: 1px solid rgba(255,255,255,.35);
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      border: 1px solid rgba(7,17,14,.06);
+    }
+    .card-dark{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 12px 30px rgba(0,0,0,.22);
+      border-radius: var(--radius);
+    }
+
+    .soft-divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
+    }
+
+    .title-underline{
+      position: relative;
+      display:inline-block;
+      padding-bottom:.35rem;
+    }
+    .title-underline::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width: 72%;
+      height: 4px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, rgba(42,122,90,.95), rgba(158,209,183,.90));
+    }
+
+    .faq-chevron{ transition: transform .2s ease; }
+    .faq-open .faq-chevron{ transform: rotate(180deg); }
+
+    /* Price styling */
+    .price-wrap{ display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
+    .price-old{
+      text-decoration: line-through;
+      opacity:.65;
+      font-weight:800;
+    }
+    .price-new{
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .pill-earlybird{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.25rem .55rem;
+      border-radius: 9999px;
+      font-size: .72rem;
+      font-weight: 900;
+      background: rgba(255,193,7,.18);
+      border: 1px solid rgba(255,193,7,.35);
+      color: #5a4300;
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        min-height: 88vh;
+        background:
+          radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
+          radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
+          linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
+          url('/javidbest-mobile.png') center/cover no-repeat;
+      }
+      .blob{ width: 420px; height: 420px; }
+    }
+  </style>
 </head>
 
-<body class="bg-white font-sans text-black">
+<body class="text-gray-900">
 
-  <!-- ================= NAVBAR ================= -->
-<header class="absolute top-0 left-0 w-full flex items-center justify-between px-6 py-4 z-20">
-  <!-- Left: Logo -->
-  <a href="/index-sv" class="flex items-center">
-    <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
-  </a>
+  <!-- ================= NAV ================= -->
+  <!-- ✅ Updated to match your first (SV) page style:
+       - Logo links to /index-sv
+       - Language icon shows SV and links to /event-1 (EN) + /event-1-sv (SV)
+       - Keep all other destinations the same -->
+  <header class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+      <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
+        <a href="/index-sv" class="flex items-center gap-3">
+          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
+          <div class="hidden sm:block leading-tight">
+            <p class="text-white font-extrabold tracking-tight">GenAition</p>
+            <p class="text-xs text-green-100 opacity-90">Workshops • AI Agents</p>
+          </div>
+        </a>
 
-  <!-- Right: Language Dropdown -->
-  <div class="relative dropdown">
-    <button class="flex items-center space-x-2 focus:outline-none text-white">
-      <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
-      <span>SV</span>
-      <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-      </svg>
-    </button>
-    <div class="dropdown-menu absolute right-0 mt-2 w-36 bg-white text-black rounded-lg shadow-lg z-30">
-      <a href="event-1" class="flex items-center px-3 py-2 hover:bg-gray-100">
-        <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
-      </a>
-      <a href="event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-100">
-        <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
-      </a>
+        <nav class="hidden md:flex items-center gap-7 text-sm">
+          <a href="#about" class="text-green-100 hover:text-white">Översikt</a>
+          <a href="#build" class="text-green-100 hover:text-white">Vad du bygger</a>
+          <a href="#agenda" class="text-green-100 hover:text-white">Agenda</a>
+          <a href="#faq" class="text-green-100 hover:text-white">Vanliga frågor</a>
+          <a href="#tickets" class="btn btn-primary px-4 py-2">Köp biljetter</a>
+
+          <div class="relative">
+            <button id="langBtn" class="focus-ring btn btn-outline px-3 py-2" aria-haspopup="true" aria-expanded="false">
+              <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
+              <span class="text-sm font-extrabold">SV</span>
+              <svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div id="langMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+              <!-- ✅ Keep same destinations as first page -->
+              <a href="/event-1" class="flex items-center px-3 py-2 hover:bg-gray-50">
+                <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
+              </a>
+              <a href="/event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-50">
+                <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="md:hidden flex items-center gap-2">
+          <button id="langBtnMobile" class="focus-ring btn btn-outline px-3 py-2" aria-label="Språkval">
+            <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
+            <span class="text-sm font-extrabold">SV</span>
+          </button>
+          <button id="mobileMenuBtn" class="focus-ring btn btn-outline px-3 py-2" aria-label="Öppna meny">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="hidden fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black opacity-60"></div>
+    <div class="absolute top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl p-6">
+      <div class="flex items-center justify-between mb-5">
+        <p class="font-extrabold text-gray-900">Meny</p>
+        <button id="mobileMenuClose" class="focus-ring btn btn-outline text-gray-900 border-gray-200 bg-white px-3 py-2" aria-label="Stäng meny">✕</button>
+      </div>
+
+      <div class="flex flex-col space-y-4 text-gray-900">
+        <a href="#about" class="hover:text-green-700">Översikt</a>
+        <a href="#build" class="hover:text-green-700">Vad du bygger</a>
+        <a href="#agenda" class="hover:text-green-700">Agenda</a>
+        <a href="#faq" class="hover:text-green-700">Vanliga frågor</a>
+        <a href="#tickets" class="hover:text-green-700 font-extrabold">Biljetter</a>
+        <div class="soft-divider my-2"></div>
+        <!-- ✅ Match first page: home is index-sv -->
+        <a href="/index-sv" class="hover:text-green-700">Hem</a>
+
+        <div class="mt-4 card p-4">
+          <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Språk</p>
+          <div class="mt-3 space-y-2">
+            <!-- ✅ Keep same destinations as first page -->
+            <a href="/event-1" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
+              <img src="/english.png" class="h-5 w-5" alt="English flag"> English
+            </a>
+            <a href="/event-1-sv" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
+              <img src="/swedish.png" class="h-5 w-5" alt="Swedish flag"> Svenska
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</header>
 
   <!-- ================= HERO ================= -->
-<section class="hero flex items-center justify-center text-center text-white">
-  <div class="hero-content max-w-4xl mx-auto px-6">
-    <p class="uppercase tracking-widest text-sm mb-2" style="color:#FFC107;">Live • På plats</p>
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Bygg din första AI-agent</h1>
-    <p class="text-lg md:text-xl mb-2 text-green-200">
-      Stockholm, Clarion Hotel – Östra Järnvägsgatan 35
-    </p>
-    <p class="text-2xl md:text-3xl font-extrabold text-green-300 mb-6">6 dec 2025 · 13:30–16:30</p>
-    <a href="#tickets" class="btn-primary shadow-lg">Registrera dig</a>
-  </div>
-</section>
+  <section class="hero text-white pt-28">
+    <div class="blob"></div>
 
+    <div class="relative z-10 w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+        <div class="grid lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-7">
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+              <span class="badge">Live • På plats</span>
+              <span class="text-sm text-green-100 opacity-90">Human-in-the-loop • Nybörjarvänligt • Praktiskt</span>
+            </div>
 
-  <!-- ================= INTRO / WHAT YOU'LL LEARN ================= -->
-  <section class="slant-top" style="background:var(--dg-900); color:#e9f2ee;">
-    <div class="max-w-5xl mx-auto px-6 py-16 text-center">
-      <p class="text-xs uppercase tracking-widest mb-2" style="color:#FFC107;">DET DU LÄR DIG</p>
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Agentic AI i praktiken</h2>
-      <p class="max-w-3xl mx-auto text-green-100">
-        Praktisk workshop där du bygger och lanserar din egen
-        <span class="font-semibold">AI-email-agent</span> på bara 3 timmar. Ingen kodning krävs — ta bara med en laptop.
-        Du går hem med en fungerande automation och en tydlig modell du kan återanvända i arbetet.
-      </p>
-    </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+              Human-Like <span style="color:var(--accent2);">AI Reply Agent</span>
+            </h1>
 
-    <!-- four feature blocks -->
-    <div class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="bg-gray-800 rounded-lg p-6 shadow border border-gray-700">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-3"
-             style="background:rgba(158,209,183,.12); border:1px solid #2e5d49;">★</div>
-        <h3 class="font-extrabold mb-2">Bygg riktiga AI-flöden</h3>
-        <p class="text-sm text-green-100">Förstå ReAct, verktygsanvändning och när man automatiserar vs. frågar.</p>
-      </div>
-      <div class="bg-gray-800 rounded-lg p-6 shadow border border-gray-700">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-3"
-             style="background:rgba(158,209,183,.12); border:1px solid #2e5d49;">★</div>
-        <h3 class="font-extrabold mb-2">Automatisera det tråkiga</h3>
-        <p class="text-sm text-green-100">Låt AI hantera personliga mejl från strukturerad data (Sheets) med spårning.</p>
-      </div>
-      <div class="bg-gray-800 rounded-lg p-6 shadow border border-gray-700">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-3"
-             style="background:rgba(158,209,183,.12); border:1px solid #2e5d49;">★</div>
-        <h3 class="font-extrabold mb-2">Förstå Agentic AI</h3>
-        <p class="text-sm text-green-100">Beprövade prompts + mallar redo för A/B-tester för snabb iteration.</p>
-      </div>
-      <div class="bg-gray-800 rounded-lg p-6 shadow border border-gray-700">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center mb-3"
-             style="background:rgba(158,209,183,.12); border:1px solid #2e5d49;">★</div>
-        <h3 class="font-extrabold mb-2">VIP-support</h3>
-        <p class="text-sm text-green-100">Max 25 platser — få personlig hjälp och gå hem med en färdig build.</p>
-      </div>
-    </div>
-  </section>
+            <p class="mt-5 text-lg sm:text-xl text-green-100 max-w-2xl">
+              Bygg en agent som läser inkommande meddelanden, förstår intention, skriver högkvalitativa svar —
+              och vet när den ska eskalera till en människa.
+              Ingen massautomation. Bara förtroende, omdöme och kontroll.
+            </p>
 
-  <!-- ================= EXPERIENCE ================= -->
-  <section class="bg-gray-100 py-16">
-    <div class="max-w-6xl mx-auto px-6 space-y-16">
+            <div class="mt-7 flex flex-col sm:flex-row gap-3">
+              <a href="#tickets" class="btn btn-primary focus-ring">
+                <span>Köp biljetter</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"/>
+                </svg>
+              </a>
+              <a href="#build" class="btn btn-outline focus-ring">
+                <span>Se vad du bygger</span>
+              </a>
+            </div>
 
-      <!-- Block 1 -->
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div class="rounded-2xl overflow-hidden shadow">
-          <img src="/awevent.jpg" class="w-full h-80 object-cover" alt="Praktisk AI">
-        </div>
-        <div>
-          <p class="text-xs uppercase tracking-widest mb-1" style="color:var(--dg-500);">Vad du kan förvänta dig</p>
-          <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:#0f2a22;">Praktisk AI</h3>
-          <p class="text-gray-700 mb-4">
-            Vi hoppar över hypen. Du bygger en mejl-agent (“Ove”) som hämtar kontakter från ett ark, skriver personliga
-            mejl, skickar via Gmail och skriver tillbaka resultat — helt automatiserat.
-          </p>
-          <ul class="space-y-2 text-gray-800">
-            <li class="tick-item">Strukturerade prompts som anpassas per kontakt</li>
-            <li class="tick-item">Retry-logik + loggning för tillförlitlighet</li>
-            <li class="tick-item">Ett-klicks-kloning för återanvändning</li>
-          </ul>
-        </div>
-      </div>
+            <div class="mt-8 card-dark p-5 sm:p-6">
+              <div class="grid sm:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <p class="text-green-100 opacity-80">Plats</p>
+                  <p class="font-extrabold">Stockholm • Clarion Hotel</p>
+                  <p class="text-green-100 opacity-90">Östra Järnvägsgatan 35</p>
+                </div>
+                <div>
+                  <p class="text-green-100 opacity-80">Tid</p>
+                  <p class="font-extrabold">DATUM TBA</p>
+                  <p class="text-green-100 opacity-90">13:30–16:30</p>
+                </div>
+                <div>
+                  <p class="text-green-100 opacity-80">Early bird</p>
+                  <div class="price-wrap">
+                    <span class="price-old">895 SEK</span>
+                    <span class="price-new text-2xl" style="color:var(--accent2);">595 SEK</span>
+                    <span class="pill-earlybird">Rabatt</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <!-- Block 2 -->
-      <div class="grid md:grid-cols-2 gap-10 items-center md:flex-row-reverse">
-        <div class="rounded-2xl overflow-hidden shadow order-1 md:order-2">
-          <img src="/chatbot-chatbot.jpg" class="w-full h-80 object-cover" alt="Inspiration">
-        </div>
-        <div class="order-2 md:order-1">
-          <p class="text-xs uppercase tracking-widest mb-1" style="color:var(--dg-500);">Inspiration</p>
-          <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:#0f2a22;">Verkligt scenario</h3>
-          <p class="text-gray-700 mb-4">
-            Se hur grundare och team använder liknande agenter för att värma leads, följa upp och spara timmar varje vecka.
-            Du går hem med en plan att använda direkt.
-          </p>
-          <ul class="space-y-2 text-gray-800">
-            <li class="tick-item">Outreach som faktiskt får svar</li>
-            <li class="tick-item">Noll ”copy/paste”-slit</li>
-            <li class="tick-item">Mallar för sälj, rekrytering och drift</li>
-          </ul>
-        </div>
-      </div>
+            <p class="mt-5 text-xs text-green-100 opacity-85">
+              Arrangeras av GenAition • Om kortbetalning är svårt, mejla
+              <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a> för Swish/faktura.
+            </p>
+          </div>
 
-      <!-- Block 3 -->
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div class="rounded-2xl overflow-hidden shadow">
-          <img src="/telegram-workshop.png" class="w-full h-80 object-cover" alt="Nätverk & kul">
-        </div>
-        <div>
-          <p class="text-xs uppercase tracking-widest mb-1" style="color:var(--dg-500);">Nätverk &amp; kul</p>
-          <h3 class="text-2xl md:text-3xl font-extrabold mb-3" style="color:#0f2a22;">Litet, vänligt rum</h3>
-          <p class="text-gray-700 mb-4">
-            Möt entreprenörer, frilansare och studenter som bygger praktisk AI. Kaffe ingår — bra stämning obligatorisk.
-          </p>
-          <ul class="space-y-2 text-gray-800">
-            <li class="tick-item">Ta med laptop — vi bygger live</li>
-            <li class="tick-item">Gå hem med certifikat</li>
-            <li class="tick-item">Stödjande Q&amp;A hela vägen</li>
-          </ul>
-        </div>
-      </div>
+          <div class="lg:col-span-5">
+            <div class="card-dark p-6 sm:p-7">
+              <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Resultat</p>
+              <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Du går hem med ett fungerande svarssystem.</h2>
 
-    </div>
-  </section>
+              <ul class="mt-5 space-y-3 text-green-100">
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
+                  <span><span class="font-extrabold text-white">Intent-klassificering</span> (intresse, förvirring, invändning, neutral)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
+                  <span><span class="font-extrabold text-white">Ton-lägen</span> + stilregler som känns mänskliga</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
+                  <span><span class="font-extrabold text-white">Eskalering</span> för osäkra eller känsliga fall</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
+                  <span><span class="font-extrabold text-white">Mallar & prompts</span> som du kan återanvända efteråt</span>
+                </li>
+              </ul>
 
-<!-- ================= REGISTER / PRICING ================= -->
-<section id="tickets" class="py-16 text-white" style="background:var(--dg-800);">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Registrera dig idag & spara</h2>
-    <p class="mb-10 flex flex-col md:flex-row items-center justify-center gap-2" style="color:#FFC107;">
-      <span>Begränsat till 25 platser</span>
-      <span class="hidden md:inline">•</span>
-      <span>Rabatten gäller till 20 Nov</span>
-    </p>
+              <div class="soft-divider my-6"></div>
 
-      <div class="flex justify-center">
-        <!-- Early Bird -->
-        <div class="bg-white text-black rounded-xl shadow-lg p-10 max-w-md w-full md:w-2/3 lg:w-1/2">
-          <h3 class="text-sm uppercase tracking-widest mb-2" style="color:var(--dg-500);">Standardpris</h3>
-          <div class="text-5xl font-extrabold mb-1" style="color:var(--dg-700);">795 SEK</div>
-          <div class="text-gray-500 line-through mb-4">1295 SEK</div>
-          <ul class="text-sm text-gray-700 text-left space-y-2 mb-6">
-            <li class="tick-item">Full workshop-åtkomst</li>
-            <li class="tick-item">Mallar &amp; prompts</li>
-            <li class="tick-item">Certifikat</li>
-          </ul>
-          <a href="/before-checkout-sv.html" class="btn-primary w-full text-center">Välj biljetter</a>
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <p class="text-xs uppercase tracking-widest text-green-100 opacity-80">Early bird-pris</p>
+                  <div class="price-wrap">
+                    <span class="price-old text-green-100">895 SEK</span>
+                    <span class="price-new text-3xl" style="color:var(--accent2);">595 SEK</span>
+                  </div>
+                </div>
+                <!-- ✅ Keep destination unchanged -->
+                <a href="/before-checkout" class="btn btn-primary focus-ring px-4 py-3">Köp biljetter</a>
+              </div>
+
+              <p class="mt-3 text-xs text-green-100 opacity-80">
+                Standardpris är 895 SEK. Early bird är 595 SEK (begränsad tid).
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= SPEAKERS ================= -->
-  <section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-2" style="color:#0f2a22;">Din instruktör</h2>
-      <p class="text-gray-600 mb-10">Praktisk handledning av Javid + berättelser från senaste deltagare.</p>
-      <div class="flex flex-col items-center">
-        <img src="/javidimage.jpg" alt="Javid Valiyev" class="h-40 w-40 rounded-full object-cover mx-auto shadow">
-        <h3 class="font-bold mt-4">Javid Valiyev</h3>
-        <p class="max-w-2xl text-gray-700 text-lg leading-relaxed mt-4">
-          Javid har 5+ års erfarenhet av att bygga AI-lösningar för företag och har lärt ut AI och automation till
-          över 100 yrkesverksamma via workshops och community-event.
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="bg-acoustic py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Workshop – sammanfattning</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
+          <span class="title-underline">Agentiska svar</span>, inte generiska chatbots
+        </h2>
+        <p class="mt-5 text-gray-700 text-lg">
+          Du bygger en <span class="font-extrabold">Human-Like AI Reply Agent</span> som skapar smarta svar medan du behåller kontrollen.
+          Designad för verklig kommunikation: kundfrågor, rekryteringsmeddelanden, founder-inbox och professionella svar.
         </p>
-        <p class="mt-4 text-lg font-medium text-green-800">
-          Om du är nyfiken på AI men inte vet var du ska börja — den här praktiska workshopen är för dig!
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="card p-6">
+          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
+            <span class="font-extrabold" style="color:var(--accent);">01</span>
+          </div>
+          <h3 class="font-extrabold text-lg">Förstå intention</h3>
+          <p class="mt-2 text-sm text-gray-700">Klassificera meddelanden och generera svar baserat på vad avsändaren faktiskt menar.</p>
+        </div>
+
+        <div class="card p-6">
+          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
+            <span class="font-extrabold" style="color:var(--accent);">02</span>
+          </div>
+          <h3 class="font-extrabold text-lg">Ton-kontroll</h3>
+          <p class="mt-2 text-sm text-gray-700">Varmt, rakt, professionellt, vänligt — byt ton utan att tappa kvalitet.</p>
+        </div>
+
+        <div class="card p-6">
+          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
+            <span class="font-extrabold" style="color:var(--accent);">03</span>
+          </div>
+          <h3 class="font-extrabold text-lg">Human-in-the-loop</h3>
+          <p class="mt-2 text-sm text-gray-700">AI föreslår. Du godkänner. Tydliga skyddsräcken som gör flödet pålitligt.</p>
+        </div>
+
+        <div class="card p-6">
+          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
+            <span class="font-extrabold" style="color:var(--accent);">04</span>
+          </div>
+          <h3 class="font-extrabold text-lg">Eskalering</h3>
+          <p class="mt-2 text-sm text-gray-700">Upptäck osäkerhet, känsliga ämnen eller edge cases och routa till människa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WHAT YOU'LL BUILD ================= -->
+  <section id="build" class="py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Vad du bygger</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
+          Ett riktigt flöde du kan återanvända redan nästa dag
+        </h2>
+        <p class="mt-4 text-gray-700 text-lg">
+          Det här är hands-on. Vi bygger hela pipelinen: meddelande → intention → utkast → kvalitetskontroller → (valfritt) eskalering.
         </p>
+      </div>
+
+      <div class="mt-12 space-y-10">
+        <div class="grid lg:grid-cols-12 gap-7 items-center">
+          <div class="lg:col-span-6">
+            <div class="card overflow-hidden">
+              <img src="/workshop4.jpg" class="w-full h-80 object-cover" alt="Hands-on workshop">
+            </div>
+          </div>
+          <div class="lg:col-span-6">
+            <div class="card p-7">
+              <h3 class="text-2xl font-extrabold text-gray-900">1) Svar-agentens kärna</h3>
+              <p class="mt-3 text-gray-700">
+                Bygg en agent som läser meddelanden, identifierar intention och skapar högkvalitativa svar för verkliga situationer.
+              </p>
+              <ul class="mt-4 space-y-2 text-gray-800">
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Meddelande → intention → föreslaget svar</li>
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Ton-lägen + stilregler</li>
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Tydliga villkor för “eskalera till människa”</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-7 items-center">
+          <div class="lg:col-span-6 lg:order-2">
+            <div class="card overflow-hidden">
+              <img src="/chatbot-chatbot.jpg" class="w-full h-80 object-cover" alt="Professional replies">
+            </div>
+          </div>
+          <div class="lg:col-span-6 lg:order-1">
+            <div class="card p-7">
+              <h3 class="text-2xl font-extrabold text-gray-900">2) Mänsklig ton (inte robot)</h3>
+              <p class="mt-3 text-gray-700">
+                Få svaren att kännas naturliga och pålitliga — samtidigt professionella. Du lär dig prompt-ramverket och guardrails.
+              </p>
+              <ul class="mt-4 space-y-2 text-gray-800">
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Smart hantering av invändningar</li>
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Tydlighet när folk är förvirrade</li>
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Arbetsnivå-ton för professionell kommunikation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-7 items-center">
+          <div class="lg:col-span-6">
+            <div class="card overflow-hidden">
+              <img src="/telegram-workshop.png" class="w-full h-80 object-cover" alt="Support">
+            </div>
+          </div>
+          <div class="lg:col-span-6">
+            <div class="card p-7">
+              <h3 class="text-2xl font-extrabold text-gray-900">3) Live-hjälp & kvalitetskontroller</h3>
+              <p class="mt-3 text-gray-700">
+                Ingen föreläsning. Du bygger live med stöd så att du faktiskt blir klar. Vi går även igenom testning och kvalitet.
+              </p>
+              <ul class="mt-4 space-y-2 text-gray-800">
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Ta med laptop — vi bygger tillsammans</li>
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Certifikat</li>
+                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Q&amp;A under hela passet</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10">
+        <a href="#tickets" class="btn btn-primary focus-ring px-6">Säkra din plats</a>
       </div>
     </div>
   </section>
 
   <!-- ================= AGENDA ================= -->
-  <section class="py-16" style="background:var(--dg-900); color:#eef7f3;">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Agenda (översikt)</h2>
-      <p class="text-green-200 mb-8">Lördag, 6 dec • 13:30–16:30</p>
-      <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 mx-auto max-w-3xl">
-        <img src="/agenda.png" alt="Agenda" class="rounded-lg mx-auto">
-        <div class="grid md:grid-cols-2 gap-8 justify-center mt-6 text-green-100">
-          <div class="pl-8">
-            <p class="font-bold mb-1">13:30</p><p>Intro &amp; setup</p>
-            <p class="font-bold mt-3 mb-1">13:45</p><p>Datamodell + prompts</p>
-            <p class="font-bold mt-3 mb-1">14:15</p><p>Skriv &amp; skicka mejl</p>
+  <section id="agenda" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest2), var(--forest)); color:#eef7f3;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Agenda</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Agenda (översikt)</h2>
+        <p class="mt-3 text-green-100">DATUM TBA • 13:30–16:30</p>
+      </div>
+
+      <div class="mt-10 grid lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-5">
+          <div class="card-dark p-6">
+            <p class="text-sm text-green-100 opacity-90">
+              Vi kör snabbt — men nybörjarvänligt. Du kopierar beprövade mallar, förstår logiken och anpassar till ditt egna use case.
+            </p>
+            <div class="soft-divider my-5"></div>
+            <div class="space-y-3 text-sm text-green-100">
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold text-white">13:30</p><p class="text-right">Intro &amp; setup (verktyg + ramverk)</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold text-white">13:50</p><p class="text-right">Intent-klassificering (vad meddelandet betyder)</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold text-white">14:30</p><p class="text-right">Utkast till svar (ton + stilkontroll)</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold text-white">15:15</p><p class="text-right">Human-in-the-loop + regler för eskalering</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold text-white">15:45</p><p class="text-right">Testning &amp; kvalitetskontroller</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold text-white">16:15</p><p class="text-right">Q&amp;A • Nästa steg • Certifikat</p>
+              </div>
+            </div>
           </div>
-          <div class="pl-8">
-            <p class="font-bold mb-1">15:00</p><p>Spårning &amp; loggning</p>
-            <p class="font-bold mt-3 mb-1">15:30</p><p>Polera, testa, skeppa</p>
-            <p class="font-bold mt-3 mb-1">16:10</p><p>Q&amp;A • Certifikat</p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="card-dark p-6">
+            <p class="text-sm text-green-100 opacity-90 mb-4">Visuell översikt</p>
+            <img src="/agenda.png" alt="Agenda" class="rounded-2xl w-full shadow-2xl">
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= IT’S LIKE 8 EVENTS IN 1 ================= -->
-  <section class="bg-gray-100 py-16">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-10" style="color:#0f2a22;">Det är som 8 evenemang i 1</h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h4 class="font-bold mb-2" style="color:var(--dg-600);">Tillämpad AI</h4>
-          <p class="text-gray-700 text-sm">Agenter, prompts, verktygsanvändning och säker automation.</p>
+  <!-- ================= TICKETS ================= -->
+  <section id="tickets" class="bg-acoustic py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Biljetter</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">Registrera dig & bygg den med mig</h2>
+        <p class="mt-4 text-gray-700 text-lg">
+          Begränsat antal platser. Human-in-the-loop. Praktiska workflows du kan återanvända på jobbet och i ditt företag.
+        </p>
+      </div>
+
+      <div class="mt-10 grid lg:grid-cols-12 gap-6 items-stretch">
+        <div class="lg:col-span-7">
+          <div class="card p-7 sm:p-8 h-full">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Workshop-biljett</p>
+
+                <div class="mt-2 price-wrap">
+                  <span class="price-new text-5xl" style="color:var(--forest2);">595 SEK</span>
+                  <span class="price-old text-xl text-gray-700">895 SEK</span>
+                  <span class="pill-earlybird">Early bird</span>
+                </div>
+
+                <p class="mt-2 text-gray-600">Inkluderar mallar &amp; prompt-ramverk</p>
+              </div>
+              <div class="sm:text-right">
+                <p class="text-sm text-gray-700"><span class="font-extrabold">Plats:</span> Clarion Hotel (Stockholm)</p>
+                <p class="text-sm text-gray-700"><span class="font-extrabold">Tid:</span> DATUM TBA • 13:30–16:30</p>
+              </div>
+            </div>
+
+            <div class="soft-divider my-6"></div>
+
+            <div class="grid sm:grid-cols-2 gap-4 text-sm">
+              <div class="flex gap-3">
+                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
+                <div>
+                  <p class="font-extrabold">Full åtkomst</p>
+                  <p class="text-gray-600">Bygg steg-för-steg med live handledning.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
+                <div>
+                  <p class="font-extrabold">Mallar & prompts</p>
+                  <p class="text-gray-600">Svarsmönster för riktiga use cases.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
+                <div>
+                  <p class="font-extrabold">Kvalitetskontroller</p>
+                  <p class="text-gray-600">Eskalering + säkra svar.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
+                <div>
+                  <p class="font-extrabold">Certifikat</p>
+                  <p class="text-gray-600">Bevis på att du genomfört workshopen.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-7 flex flex-col sm:flex-row gap-3">
+              <!-- ✅ Keep destination unchanged -->
+              <a href="/before-checkout" class="btn btn-primary focus-ring w-full sm:w-auto px-6">Köp biljetter</a>
+              <a href="mailto:info@genaition.org" class="btn btn-outline focus-ring w-full sm:w-auto px-6 text-gray-900 border-gray-200 bg-white">
+                Fråga om Swish/faktura
+              </a>
+            </div>
+
+            <p class="mt-4 text-xs text-gray-500">
+              Early bird är begränsad. Standardpris är 895 SEK.
+            </p>
+          </div>
         </div>
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h4 class="font-bold mb-2" style="color:var(--dg-600);">Content &amp; SEO</h4>
-          <p class="text-gray-700 text-sm">Personlig outreach som väcker svar.</p>
-        </div>
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h4 class="font-bold mb-2" style="color:var(--dg-600);">Funnels</h4>
-          <p class="text-gray-700 text-sm">Från data till mejl till uppföljning — end-to-end.</p>
-        </div>
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h4 class="font-bold mb-2" style="color:var(--dg-600);">Ops</h4>
-          <p class="text-gray-700 text-sm">Loggning, retries och checklistor för driftsäkerhet.</p>
+
+        <div class="lg:col-span-5">
+          <div class="card p-7 sm:p-8 h-full">
+            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Din instruktör</p>
+            <div class="mt-4 flex items-center gap-4">
+              <img src="/javidimage.jpg" alt="Javid Valiyev" class="h-16 w-16 rounded-2xl object-cover shadow">
+              <div>
+                <p class="font-extrabold text-lg">Javid Valiyev</p>
+                <p class="text-sm text-gray-600">Grundare • GenAition</p>
+              </div>
+            </div>
+
+            <p class="mt-5 text-gray-700">
+              Jag lär ut praktiska AI-system som människor faktiskt kan använda — med fokus på workflows, guardrails och verkliga resultat (inte teori).
+            </p>
+
+            <div class="soft-divider my-6"></div>
+
+            <div class="space-y-3 text-sm text-gray-700">
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold">Format</p>
+                <p class="text-right">Live • På plats</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold">Nivå</p>
+                <p class="text-right">Nybörjarvänligt</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold">Fokus</p>
+                <p class="text-right">Pålitliga svar</p>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-extrabold">Du styr</p>
+                <p class="text-right">Human-in-the-loop</p>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <a href="#faq" class="btn btn-outline focus-ring w-full text-gray-900 border-gray-200 bg-white">
+                Läs FAQ
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="mt-10">
-        <a href="#tickets" class="btn-primary">Säkra din plats</a>
-      </div>
+
     </div>
   </section>
 
   <!-- ================= FAQ ================= -->
-  <section class="py-16 slant-top" style="background:var(--dg-900); color:#eef7f3;">
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-10">Vanliga frågor</h2>
-      <div class="space-y-4">
+  <section id="faq" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest), var(--forest2)); color:#eef7f3;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-center">
+        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Vanliga frågor</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Frågor</h2>
+        <p class="mt-3 text-green-100">Om du undrar något, mejla <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a>.</p>
+      </div>
 
-        <!-- 1 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
-            Jag har ingen erfarenhet av AI eller kod. Är denna workshop för mig?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="mt-10 space-y-4">
+        <div class="card-dark">
+          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
+            Jag har ingen erfarenhet av AI eller kod. Är den här workshopen för mig?
+            <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            Absolut! Workshopen är utformad för total nybörjarnivå. Du behöver inte kunna kodning eller AI.
-            Vi guidar dig steg för steg och du går hem med en fungerande AI-lösning.
+          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
+            Ja. Workshopen är designad för nybörjare. Du bygger steg för steg och går hem med en fungerande AI Reply Agent.
           </div>
         </div>
 
-        <!-- 2 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
-            Vad exakt kommer jag att lära mig?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="card-dark">
+          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
+            Vad exakt kommer jag att bygga?
+            <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            Du lär dig att designa, bygga och driftsätta en fungerande no-code AI-agent (e-post-utskick + spårning)
-            med ett modernt LLM — allt på 3 timmar, praktiskt.
+          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
+            En Human-Like AI Reply Agent som läser meddelanden, upptäcker intention, skriver svar med rätt ton och eskalerar till människa vid behov.
           </div>
         </div>
 
-        <!-- 3 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
-            Varför ska jag lära mig detta nu?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="card-dark">
+          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
+            Handlar detta om massautomation / spam?
+            <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            Efterfrågan på AI-färdigheter exploderar. Du går hem med en färdig, no-code AI-agent du kan använda direkt —
-            ger dig ett verkligt försprång och snabb ROI.
+          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
+            Nej. Fokus är kvalitet och förtroende. Det är ett human-in-the-loop-flöde där AI hjälper — och du styr.
           </div>
         </div>
 
-        <!-- 4 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
+        <div class="card-dark">
+          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
             Vad behöver jag ta med?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            Din laptop och ett Google-konto. Vi ordnar resten (lokal, kaffe, steg-för-steg-guide).
+          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
+            Ta med din laptop och (helst) ett Google-konto. Allt annat ordnar vi.
           </div>
         </div>
 
-        <!-- 5 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
-            Är det verkligen hands-on? Går jag hem med något riktigt?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="card-dark">
+          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
+            Kan jag använda detta i mitt arbete efteråt?
+            <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            100% ja. Det här är ingen föreläsning — vi bygger tillsammans, steg för steg.
-            Du avslutar med din egen fungerande automation.
+          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
+            Ja. Du får ett återanvändbart ramverk + mallar som kan anpassas till kundsupport, rekrytering, sälj eller din personliga inbox.
           </div>
         </div>
-
-        <!-- 6 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
-            Hur många deltagare kommer det vara?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
-          </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            Vi håller det litet och fokuserat — max 25 platser — så att du får personlig hjälp under hela passet.
-          </div>
-        </div>
-
-        <!-- 7 -->
-        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow">
-          <button class="w-full flex justify-between items-center px-4 py-3 font-medium text-left focus:outline-none faq-toggle">
-            Om jag är osäker på betalningsmetod?
-            <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
-          </button>
-          <div class="faq-content hidden px-4 pb-4 text-sm text-green-100">
-            Kortbetalning online finns. Om det inte passar, mejla
-            <a href="mailto:info@genaition.org" class="underline text-green-300 hover:text-green-200">info@genaition.org</a>
-            så kan vi ordna Swish eller faktura.
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ================= ORGANIZED BY + FOOTER ================= -->
-  <section class="bg-black py-12 px-4">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-lg text-white font-semibold mb-4">Arrangeras av</p>
-      <img src="/android-chrome-512x512.png" alt="GenAition Logo"
-           class="mx-auto h-28 w-28 md:h-32 md:w-32 rounded-full shadow-lg">
-    </div>
-  </section>
-
-  <footer class="bg-black text-white pt-12 pb-6">
-    <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
-      <div class="flex flex-col space-y-2 text-left">
-        <a href="/index-sv" class="hover:text-green-400">Hem</a>
-        <a href="/learn-more-sv" class="hover:text-green-400">Om oss</a>
-        <a href="/index-sv#workshops" class="hover:text-green-400">Evenemang</a>
-        <a href="/index-sv#services" class="hover:text-green-400">Tjänster</a>
-        <a href="/index-sv#contact" class="hover:text-green-400">Kontakt</a>
+  <!-- ================= FOOTER ================= -->
+  <!-- ✅ Updated internal links to match first page (SV pages),
+       external socials kept, and buttons/destinations preserved. -->
+  <footer class="pt-12 pb-8" style="background:#050c0a; color:#e9f2ee;">
+    <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-10 text-sm">
+      <div class="space-y-2">
+        <p class="font-extrabold text-white text-base mb-3">Länkar</p>
+        <a href="/index-sv" class="block hover:text-green-200">Hem</a>
+        <a href="/learn-more-sv" class="block hover:text-green-200">Om oss</a>
+        <a href="/index-sv#workshops" class="block hover:text-green-200">Evenemang</a>
+        <a href="/index-sv#services" class="block hover:text-green-200">Tjänster</a>
+        <a href="/index-sv#contact" class="block hover:text-green-200">Kontakt</a>
       </div>
-      <div class="flex flex-col text-right">
-        <p class="mb-1 font-semibold">GenAition</p>
+
+      <div class="sm:text-right space-y-1">
+        <p class="font-extrabold text-white text-base mb-3">GenAition</p>
         <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
-        <p class="mt-2">info@genaition.org</p>
+        <p class="mt-3">info@genaition.org</p>
         <p>+46 762 608 848</p>
       </div>
     </div>
 
-    <div class="flex flex-col items-center mt-10 space-y-4">
-      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
-      <div class="flex space-x-4">
-        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank">
-          <img src="/linkedin.png" class="h-6 w-6 hover:opacity-80" />
+    <div class="max-w-6xl mx-auto px-4 mt-10 flex flex-col items-center gap-4">
+      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14 rounded-2xl" />
+      <div class="flex items-center gap-4">
+        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank" rel="noopener noreferrer" class="hover:opacity-80">
+          <img src="/linkedin.png" class="h-6 w-6" alt="LinkedIn" />
         </a>
-        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
-          <img src="/facebook.png" class="h-6 w-6 hover:opacity-80" />
+        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank" rel="noopener noreferrer" class="hover:opacity-80">
+          <img src="/facebook.png" class="h-6 w-6" alt="Facebook" />
         </a>
-        <a href="https://www.instagram.com/genaition.io/" target="_blank">
-          <img src="/instagram.png" class="h-6 w-6 hover:opacity-80" />
+        <a href="https://www.instagram.com/genaition.io/" target="_blank" rel="noopener noreferrer" class="hover:opacity-80">
+          <img src="/instagram.png" class="h-6 w-6" alt="Instagram" />
         </a>
       </div>
-    </div>
 
-    <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
+      <p class="text-xs text-gray-400 mt-2">&copy; 2026 GenAition. Alla rättigheter förbehållna.</p>
+    </div>
   </footer>
 
-   <!-- JS for FAQ toggle -->
   <script>
+    // Desktop language dropdown
+    const langBtn = document.getElementById('langBtn');
+    const langMenu = document.getElementById('langMenu');
+
+    function toggleLangMenu(force) {
+      if (!langMenu) return;
+      const isHidden = langMenu.classList.contains('hidden');
+      const nextHidden = typeof force === 'boolean' ? !force : !isHidden;
+      langMenu.classList.toggle('hidden', nextHidden);
+      if (langBtn) langBtn.setAttribute('aria-expanded', (!nextHidden).toString());
+    }
+
+    if (langBtn && langMenu) {
+      langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleLangMenu();
+      });
+      document.addEventListener('click', () => toggleLangMenu(false));
+    }
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+    function openMenu() { mobileMenu && mobileMenu.classList.remove('hidden'); }
+    function closeMenu() { mobileMenu && mobileMenu.classList.add('hidden'); }
+
+    mobileMenuBtn && mobileMenuBtn.addEventListener('click', openMenu);
+    mobileMenuClose && mobileMenuClose.addEventListener('click', closeMenu);
+
+    mobileMenu && mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) closeMenu();
+    });
+    mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // Mobile language button: open menu and scroll to language block
+    const langBtnMobile = document.getElementById('langBtnMobile');
+    langBtnMobile && langBtnMobile.addEventListener('click', () => {
+      openMenu();
+      setTimeout(() => {
+        const el = mobileMenu ? mobileMenu.querySelector('.card') : null;
+        el && el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    });
+
+    // FAQ accordion
     document.querySelectorAll('.faq-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
-        const content = btn.nextElementSibling;
-        const icon = btn.querySelector('svg');
+        const content = btn.parentElement.querySelector('.faq-content');
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', (!expanded).toString());
+        btn.parentElement.classList.toggle('faq-open', !expanded);
         content.classList.toggle('hidden');
-        icon.classList.toggle('rotate-180');
       });
     });
   </script>
