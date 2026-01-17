@@ -75,7 +75,7 @@
         radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
         radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
         linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-        url('/javidbest.png') center/cover no-repeat;
+        url('/humanai.png') center/cover no-repeat;
     }
 
     .hero::after{
@@ -248,6 +248,7 @@
           <a href="#faq" class="text-green-100 hover:text-white">FAQ</a>
           <a href="#tickets" class="btn btn-primary px-4 py-2">Buy tickets</a>
 
+          <!-- ✅ Language dropdown: FIXED (absolute paths) -->
           <div class="relative">
             <button id="langBtn" class="focus-ring btn btn-outline px-3 py-2" aria-haspopup="true" aria-expanded="false">
               <img src="/english.png" alt="English" class="h-5 w-5">
@@ -257,10 +258,10 @@
               </svg>
             </button>
             <div id="langMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-              <a href="event-1.html" class="flex items-center px-3 py-2 hover:bg-gray-50">
+              <a href="/event-1" class="flex items-center px-3 py-2 hover:bg-gray-50">
                 <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
               </a>
-              <a href="event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-50">
+              <a href="/event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-50">
                 <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
               </a>
             </div>
@@ -303,10 +304,10 @@
         <div class="mt-4 card p-4">
           <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Language</p>
           <div class="mt-3 space-y-2">
-            <a href="event-1.html" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
+            <a href="/event-1" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
               <img src="/english.png" class="h-5 w-5" alt="English flag"> English
             </a>
-            <a href="event-1-sv" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
+            <a href="/event-1-sv" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
               <img src="/swedish.png" class="h-5 w-5" alt="Swedish flag"> Svenska
             </a>
           </div>
@@ -333,7 +334,7 @@
             </h1>
 
             <p class="mt-5 text-lg sm:text-xl text-green-100 max-w-2xl">
-              Build an agent that reads incoming messages, understands intent, drafts high-quality replies — and knows when to escalate to a human.
+              Build an agent that reads incoming emails, understands intent, drafts high-quality replies — and knows when to escalate to a human.
               No mass automation. Just trust, judgment, and control.
             </p>
 
@@ -353,12 +354,12 @@
               <div class="grid sm:grid-cols-3 gap-4 text-sm">
                 <div>
                   <p class="text-green-100 opacity-80">Location</p>
-                  <p class="font-extrabold">Stockholm • Clarion Hotel</p>
-                  <p class="text-green-100 opacity-90">Östra Järnvägsgatan 35</p>
+                  <p class="font-extrabold">Stockholm • Best Western Plus Park City</p>
+                  <p class="text-green-100 opacity-90"> Midskeppsgatan 6, 120 66</p>
                 </div>
                 <div>
                   <p class="text-green-100 opacity-80">Time</p>
-                  <p class="font-extrabold">DATE TBD</p>
+                  <p class="font-extrabold">21 March</p>
                   <p class="text-green-100 opacity-90">13:30–16:30</p>
                 </div>
                 <div>
@@ -366,7 +367,7 @@
                   <div class="price-wrap">
                     <span class="price-old">895 SEK</span>
                     <span class="price-new text-2xl" style="color:var(--accent2);">595 SEK</span>
-                    <span class="pill-earlybird">Discounted</span>
+                    <span class="pill-earlybird" style="color:#fff;">Discounted</span>
                   </div>
                 </div>
               </div>
@@ -565,7 +566,7 @@
       <div class="text-center max-w-3xl mx-auto">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Agenda</p>
         <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Agenda (at a glance)</h2>
-        <p class="mt-3 text-green-100">DATE TBD • 13:30–16:30</p>
+        <p class="mt-3 text-green-100">21 March • 13:30–16:30</p>
       </div>
 
       <div class="mt-10 grid lg:grid-cols-12 gap-6 items-start">
@@ -626,7 +627,6 @@
               <div>
                 <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Workshop ticket</p>
 
-                <!-- ✅ Early bird + crossed-out standard -->
                 <div class="mt-2 price-wrap">
                   <span class="price-new text-5xl" style="color:var(--forest2);">595 SEK</span>
                   <span class="price-old text-xl text-gray-700">895 SEK</span>
@@ -636,8 +636,8 @@
                 <p class="mt-2 text-gray-600">Includes templates &amp; prompt framework</p>
               </div>
               <div class="sm:text-right">
-                <p class="text-sm text-gray-700"><span class="font-extrabold">Location:</span> Clarion Hotel (Stockholm)</p>
-                <p class="text-sm text-gray-700"><span class="font-extrabold">Time:</span> DATE TBD • 13:30–16:30</p>
+                <p class="text-sm text-gray-700"><span class="font-extrabold">Location:</span> Best Western Plus Park City (Stockholm)</p>
+                <p class="text-sm text-gray-700"><span class="font-extrabold">Time:</span> 21 March • 13:30–16:30</p>
               </div>
             </div>
 
@@ -678,7 +678,6 @@
             </div>
 
             <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <!-- ✅ Goes to BEFORE-CHECKOUT section -->
               <a href="/before-checkout" class="btn btn-primary focus-ring w-full sm:w-auto px-6">Buy tickets</a>
               <a href="mailto:info@genaition.org" class="btn btn-outline focus-ring w-full sm:w-auto px-6 text-gray-900 border-gray-200 bg-white">
                 Ask for Swish/invoice
