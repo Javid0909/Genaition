@@ -29,202 +29,242 @@
       src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
   </noscript>
 
-  <style>
-    :root{
-      --ink:#07110e;
-      --forest:#0b1f19;
-      --forest2:#0f2a22;
-      --accent:#2a7a5a;
-      --accent2:#9ed1b7;
-      --gold:#FFC107;
-      --paper:#f6f7f7;
-      --card:#ffffff;
-      --ring: rgba(42,122,90,.35);
-      --shadow: 0 20px 40px rgba(0,0,0,.10);
-      --shadow2: 0 10px 24px rgba(0,0,0,.10);
-      --radius: 20px;
-    }
+<style>
+  :root{
+    --ink:#07110e;
+    --forest:#0b1f19;
+    --forest2:#0f2a22;
+    --accent:#2a7a5a;
+    --accent2:#9ed1b7;
+    --gold:#FFC107;
+    --paper:#f6f7f7;
+    --card:#ffffff;
+    --ring: rgba(42,122,90,.35);
+    --shadow: 0 20px 40px rgba(0,0,0,.10);
+    --shadow2: 0 10px 24px rgba(0,0,0,.10);
+    --radius: 20px;
+  }
 
-    html { scroll-behavior:smooth; }
-    body { background: var(--paper); }
+  html { scroll-behavior:smooth; }
+  body { background: var(--paper); }
 
-    :focus { outline: none; }
-    .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
+  :focus { outline: none; }
+  .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
 
-    .bg-acoustic{
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.28), transparent 60%),
-        radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.18), transparent 60%),
-        linear-gradient(180deg, #ffffff, #f3f5f5);
-    }
+  .bg-acoustic{
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.28), transparent 60%),
+      radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.18), transparent 60%),
+      linear-gradient(180deg, #ffffff, #f3f5f5);
+  }
 
-    .glass{
-      background: rgba(7,17,14,.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.10);
-    }
+  .glass{
+    background: rgba(7,17,14,.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.10);
+  }
 
+  .hero{
+    position: relative;
+    min-height: 92vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
+      radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
+      linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
+      url('/humanb.png') center/cover no-repeat;
+  }
+
+  .hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(900px 500px at 50% 10%, rgba(42,122,90,.22), transparent 60%);
+    pointer-events:none;
+  }
+
+  .blob{
+    position:absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.40), rgba(42,122,90,.08) 55%, transparent 70%);
+    opacity: .85;
+    transform: translate3d(0,0,0);
+    animation: drift 10s ease-in-out infinite;
+    pointer-events:none;
+  }
+
+  @keyframes drift{
+    0%,100%{ transform: translate(-18%, -10%) scale(1); }
+    50%{ transform: translate(-10%, -4%) scale(1.05); }
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.6rem;
+    padding:.9rem 1.15rem;
+    border-radius: 14px;
+    font-weight: 800;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+    will-change: transform;
+    user-select:none;
+  }
+
+  .btn:active{ transform: translateY(1px) scale(.99); }
+
+  .btn-primary{
+    background: linear-gradient(135deg, var(--accent), #2f8b66);
+    color:#fff;
+    box-shadow: 0 12px 26px rgba(42,122,90,.30);
+    border: 1px solid rgba(255,255,255,.14);
+  }
+
+  .btn-primary:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px rgba(42,122,90,.34);
+  }
+
+  .btn-outline{
+    background: rgba(255,255,255,.10);
+    color:#fff;
+    border: 1px solid rgba(255,255,255,.18);
+  }
+
+  .btn-outline:hover{
+    background: rgba(255,255,255,.14);
+    transform: translateY(-1px);
+  }
+
+  .badge{
+    display:inline-flex;
+    gap:.5rem;
+    align-items:center;
+    padding:.35rem .65rem;
+    border-radius: 9999px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: .72rem;
+    color: #0a1a15;
+    background: rgba(255,193,7,.92);
+    border: 1px solid rgba(255,255,255,.35);
+  }
+
+  .card{
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow2);
+    border: 1px solid rgba(7,17,14,.06);
+  }
+
+  .card-dark{
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 12px 30px rgba(0,0,0,.22);
+    border-radius: var(--radius);
+  }
+
+  .soft-divider{
+    height:1px;
+    background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
+  }
+
+  .title-underline{
+    position: relative;
+    display:inline-block;
+    padding-bottom:.35rem;
+  }
+
+  .title-underline::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width: 72%;
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, rgba(42,122,90,.95), rgba(158,209,183,.90));
+  }
+
+  .faq-chevron{ transition: transform .2s ease; }
+  .faq-open .faq-chevron{ transform: rotate(180deg); }
+
+  /* Price styling */
+  .price-wrap{ display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
+  .price-old{ text-decoration: line-through; opacity:.65; font-weight:800; }
+  .price-new{ font-weight: 900; letter-spacing: -0.02em; }
+
+  /* EXISTING early bird pill (used elsewhere) */
+  .pill-earlybird{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    padding:.25rem .55rem;
+    border-radius: 9999px;
+    font-size: .72rem;
+    font-weight: 900;
+    background: rgba(255,193,7,.18);
+    border: 1px solid rgba(255,193,7,.35);
+    color: #5a4300;
+  }
+
+  /* ✅ NEW: Early bird pill for ticket card (this fixes your issue) */
+  .early-bird-pill{
+    display:inline-flex;
+    align-items:center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    background: #fff3cd;
+    color: #7a5a00;
+    border: 1px solid #ffe08a;
+  }
+
+  /* ✅ HIDE the right "Workshop outcome" card ONLY on mobile */
+  @media (max-width: 768px){
     .hero{
-      position: relative;
-      min-height: 92vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
+      min-height: 88vh;
       background:
-        radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
-        radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
-        linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-        url('/humanai.png') center/cover no-repeat;
+        radial-gradient(1200px 700px at 15% -10%, rgba(158,209,183,.22), transparent 62%),
+        radial-gradient(900px 520px at 90% 8%, rgba(255,193,7,.14), transparent 60%),
+        linear-gradient(180deg, rgba(7,17,14,.78), rgba(7,17,14,.96)),
+        url('/javidbest-mobile.png') center/contain no-repeat;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(
+        90deg,
+        rgba(7,17,14,.88) 0%,
+        rgba(7,17,14,.62) 55%,
+        rgba(7,17,14,.42) 100%
+      );
+      pointer-events:none;
     }
 
     .hero::after{
       content:"";
       position:absolute;
       inset:0;
-      background: radial-gradient(900px 500px at 50% 10%, rgba(42,122,90,.22), transparent 60%);
+      background: radial-gradient(900px 520px at 50% 10%, rgba(42,122,90,.18), transparent 62%);
       pointer-events:none;
     }
 
-    .blob{
-      position:absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 9999px;
-      background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.40), rgba(42,122,90,.08) 55%, transparent 70%);
-      opacity: .85;
-      transform: translate3d(0,0,0);
-      animation: drift 10s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes drift{
-      0%,100%{ transform: translate(-18%, -10%) scale(1); }
-      50%{ transform: translate(-10%, -4%) scale(1.05); }
-    }
+    .blob{ width: 420px; height: 420px; }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.6rem;
-      padding:.9rem 1.15rem;
-      border-radius: 14px;
-      font-weight: 800;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
-      will-change: transform;
-      user-select:none;
-    }
-    .btn:active{ transform: translateY(1px) scale(.99); }
-
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), #2f8b66);
-      color:#fff;
-      box-shadow: 0 12px 26px rgba(42,122,90,.30);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .btn-primary:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 34px rgba(42,122,90,.34);
-    }
-
-    .btn-outline{
-      background: rgba(255,255,255,.10);
-      color:#fff;
-      border: 1px solid rgba(255,255,255,.18);
-    }
-    .btn-outline:hover{
-      background: rgba(255,255,255,.14);
-      transform: translateY(-1px);
-    }
-
-    .badge{
-      display:inline-flex;
-      gap:.5rem;
-      align-items:center;
-      padding:.35rem .65rem;
-      border-radius: 9999px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: .72rem;
-      color: #0a1a15;
-      background: rgba(255,193,7,.92);
-      border: 1px solid rgba(255,255,255,.35);
-    }
-
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      border: 1px solid rgba(7,17,14,.06);
-    }
-    .card-dark{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 30px rgba(0,0,0,.22);
-      border-radius: var(--radius);
-    }
-
-    .soft-divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
-    }
-
-    .title-underline{
-      position: relative;
-      display:inline-block;
-      padding-bottom:.35rem;
-    }
-    .title-underline::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width: 72%;
-      height: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, rgba(42,122,90,.95), rgba(158,209,183,.90));
-    }
-
-    .faq-chevron{ transition: transform .2s ease; }
-    .faq-open .faq-chevron{ transform: rotate(180deg); }
-
-    /* Price styling */
-    .price-wrap{ display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
-    .price-old{
-      text-decoration: line-through;
-      opacity:.65;
-      font-weight:800;
-    }
-    .price-new{
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-    .pill-earlybird{
-      display:inline-flex;
-      align-items:center;
-      gap:.4rem;
-      padding:.25rem .55rem;
-      border-radius: 9999px;
-      font-size: .72rem;
-      font-weight: 900;
-      background: rgba(255,193,7,.18);
-      border: 1px solid rgba(255,193,7,.35);
-      color: #5a4300;
-    }
-
-    @media (max-width: 768px){
-      .hero{
-        min-height: 88vh;
-        background:
-          radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
-          radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
-          linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-          url('/javidbest-mobile.png') center/cover no-repeat;
-      }
-      .blob{ width: 420px; height: 420px; }
-    }
-  </style>
+    /* ✅ This removes the red-marked section ONLY on mobile */
+    .hero-outcome{ display:none !important; }
+  }
+</style>
 </head>
 
 <body class="text-gray-900">
@@ -316,115 +356,69 @@
     </div>
   </div>
 
-  <!-- ================= HERO ================= -->
-  <section class="hero text-white pt-28">
-    <div class="blob"></div>
+<!-- ================= HERO ================= -->
+<section class="hero text-white pt-28">
+  <div class="blob"></div>
 
-    <div class="relative z-10 w-full">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        <div class="grid lg:grid-cols-12 gap-10 items-center">
-          <div class="lg:col-span-7">
-            <div class="flex flex-wrap items-center gap-3 mb-6">
-              <span class="badge">Live • In-Person</span>
-              <span class="text-sm text-green-100 opacity-90">Human-in-the-loop • Beginner-friendly • Practical</span>
-            </div>
+  <div class="relative z-10 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Human-Like <span style="color:var(--accent2);">AI Reply Agent</span>
-            </h1>
+      <!-- ✅ Center everything -->
+      <div class="flex justify-center">
+        <div class="w-full max-w-3xl text-center">
 
-            <p class="mt-5 text-lg sm:text-xl text-green-100 max-w-2xl">
-              Build an agent that reads incoming emails, understands intent, drafts high-quality replies — and knows when to escalate to a human.
-              No mass automation. Just trust, judgment, and control.
-            </p>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <a href="#tickets" class="btn btn-primary focus-ring">
-                <span>Buy tickets</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"/>
-                </svg>
-              </a>
-              <a href="#build" class="btn btn-outline focus-ring">
-                <span>See what you’ll build</span>
-              </a>
-            </div>
-
-            <div class="mt-8 card-dark p-5 sm:p-6">
-              <div class="grid sm:grid-cols-3 gap-4 text-sm">
-                <div>
-                  <p class="text-green-100 opacity-80">Location</p>
-                  <p class="font-extrabold">Stockholm • Best Western Plus Park City</p>
-                  <p class="text-green-100 opacity-90"> Midskeppsgatan 6, 120 66</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-80">Time</p>
-                  <p class="font-extrabold">21 March</p>
-                  <p class="text-green-100 opacity-90">13:30–16:30</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-80">Early bird</p>
-                  <div class="price-wrap">
-                    <span class="price-old">895 SEK</span>
-                    <span class="price-new text-2xl" style="color:var(--accent2);">595 SEK</span>
-                    <span class="pill-earlybird" style="color:#fff;">Discounted</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="mt-5 text-xs text-green-100 opacity-85">
-              Organized by GenAition • If card payment is inconvenient, email <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a> for Swish/invoice options.
-            </p>
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
+            <span class="badge">Live • In-Person</span>
+            <span class="text-sm text-green-100 opacity-90">Hands-on • Beginner-friendly • Practical</span>
           </div>
 
-          <div class="lg:col-span-5">
-            <div class="card-dark p-6 sm:p-7">
-              <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Workshop outcome</p>
-              <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">You leave with a working reply system.</h2>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+            Build your working AI Agent <span style="color:var(--accent2);">from Zero</span>
+          </h1>
 
-              <ul class="mt-5 space-y-3 text-green-100">
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Intent classification</span> (interest, confusion, objection, neutral)</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Tone presets</span> + style rules that feel human</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Escalation logic</span> for uncertain or sensitive cases</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Templates & prompts</span> you can reuse after</span>
-                </li>
-              </ul>
+          <div class="mt-7 flex justify-center">
+            <a href="#tickets" class="btn btn-primary focus-ring">
+              Register now
+            </a>
+          </div>
 
-              <div class="soft-divider my-6"></div>
-
-              <div class="flex items-center justify-between gap-4">
-                <div>
-                  <p class="text-xs uppercase tracking-widest text-green-100 opacity-80">Early bird price</p>
-                  <div class="price-wrap">
-                    <span class="price-old text-green-100">895 SEK</span>
-                    <span class="price-new text-3xl" style="color:var(--accent2);">595 SEK</span>
-                  </div>
-                </div>
-                <!-- Leads to the BEFORE-CHECKOUT section -->
-                <a href="/before-checkout" class="btn btn-primary focus-ring px-4 py-3">Buy tickets</a>
+          <!-- ✅ Keep card centered, but content readable -->
+          <div class="mt-8 card-dark p-5 sm:p-6 text-left">
+            <div class="grid sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <p class="text-green-100 opacity-80">Location</p>
+                <p class="font-extrabold">Plus Park City, Stockholm</p>
+                <p class="text-green-100 opacity-90">Midskeppsgatan 6, 120 66</p>
               </div>
 
-              <p class="mt-3 text-xs text-green-100 opacity-80">
-                Standard price is 895 SEK. Early bird is 595 SEK (limited time).
-              </p>
+              <div>
+                <p class="text-green-100 opacity-80">Time</p>
+                <p class="font-extrabold">21 March 2026</p>
+                <p class="text-green-100 opacity-90">13:30–16:30</p>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-3 mt-2 flex-wrap">
+                  <span class="pill-earlybird" style="color:#fff;">Early bird</span>
+
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold"
+                    style="background: rgba(255,193,7,.18); border:1px solid rgba(255,193,7,.35); color:#fff;"
+                  >
+                    Max 20 seats
+                  </span>
+                </div>
+              </div>
+
             </div>
           </div>
+
         </div>
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ================= ABOUT ================= -->
   <section id="about" class="bg-acoustic py-16 sm:py-20">
@@ -432,11 +426,11 @@
       <div class="text-center max-w-3xl mx-auto">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Workshop Summary</p>
         <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          <span class="title-underline">Agentic replies</span>, not generic chatbots
+          <span class="title-underline">Agentic AI</span>, Made Practical
         </h2>
         <p class="mt-5 text-gray-700 text-lg">
-          You’ll build a <span class="font-extrabold">Human-Like AI Reply Agent</span> that drafts smart responses while you stay in control.
-          Designed for real communication: customer inquiries, recruiting messages, founder inbox, and professional replies.
+          Build a <span class="font-extrabold"> AI Reply Agent</span> that handles email replies — safely.
+          Designed for real communication: customer support, recruiting, founder inboxes, and professional email workflows where trust matters.
         </p>
       </div>
 
@@ -445,32 +439,32 @@
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">01</span>
           </div>
-          <h3 class="font-extrabold text-lg">Intent understanding</h3>
-          <p class="mt-2 text-sm text-gray-700">Classify messages and generate responses based on what the sender actually means.</p>
+          <h3 class="font-extrabold text-lg">Build Real AI Workflows</h3>
+          <p class="mt-2 text-sm text-gray-700">Understand ReAct, tool use, and when to automate — and when to stop.</p>
         </div>
 
         <div class="card p-6">
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">02</span>
           </div>
-          <h3 class="font-extrabold text-lg">Tone control</h3>
-          <p class="mt-2 text-sm text-gray-700">Warm, direct, professional, friendly — switch tone without losing quality.</p>
+          <h3 class="font-extrabold text-lg">Automate Boring Work</h3>
+          <p class="mt-2 text-sm text-gray-700">Let AI draft personalized replies using your website and data.</p>
         </div>
 
         <div class="card p-6">
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">03</span>
           </div>
-          <h3 class="font-extrabold text-lg">Human-in-the-loop</h3>
-          <p class="mt-2 text-sm text-gray-700">AI drafts. You approve. Clear safeguards that keep the workflow trustworthy.</p>
+          <h3 class="font-extrabold text-lg">Build Agentic AI</h3>
+          <p class="mt-2 text-sm text-gray-700">Real-world cases, proven prompts, and test-and-apply quickly.</p>
         </div>
 
         <div class="card p-6">
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">04</span>
           </div>
-          <h3 class="font-extrabold text-lg">Escalation logic</h3>
-          <p class="mt-2 text-sm text-gray-700">Detect uncertainty, sensitive topics, or edge cases and route to a human.</p>
+          <h3 class="font-extrabold text-lg">VIP Support</h3>
+          <p class="mt-2 text-sm text-gray-700">Max 25 seats — get personal help and leave with a working AI agent.</p>
         </div>
       </div>
     </div>
@@ -479,33 +473,44 @@
   <!-- ================= WHAT YOU'LL BUILD ================= -->
   <section id="build" class="py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+      <!-- KEEP ONLY THE GREEN LABEL -->
       <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">What You’ll Build</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          A real workflow you can reuse the next day
-        </h2>
-        <p class="mt-4 text-gray-700 text-lg">
-          This is hands-on. We build the full pipeline: message → intent → draft reply → quality checks → optional escalation.
+        <p class="text-xs font-extrabold uppercase tracking-widest"
+           style="color:var(--accent);">
+          What to Expect
         </p>
       </div>
 
       <div class="mt-12 space-y-10">
+
         <div class="grid lg:grid-cols-12 gap-7 items-center">
           <div class="lg:col-span-6">
             <div class="card overflow-hidden">
-              <img src="/workshop4.jpg" class="w-full h-80 object-cover" alt="Hands-on workshop">
+              <img src="/image1.png" class="w-full h-80 object-cover" alt="Hands-on workshop">
             </div>
           </div>
           <div class="lg:col-span-6">
             <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">1) The Reply Agent core</h3>
+              <h3 class="text-2xl font-extrabold text-gray-900">
+                1) Hands-on AI
+              </h3>
               <p class="mt-3 text-gray-700">
-                Build an agent that reads messages, identifies intent, and drafts high-quality replies for real situations.
+                We skip hype. You’ll build a AI reply agent that reads incoming emails, understands intent, and escalates to you when human judgment is needed — all automated.
               </p>
               <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Message → intent → suggested reply pipeline</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Tone presets + style rules</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Clear “escalate to human” conditions</li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Message → intent → suggested reply pipeline
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Tone control + style logics
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Clear “escalate to human” conditions
+                </li>
               </ul>
             </div>
           </div>
@@ -519,14 +524,25 @@
           </div>
           <div class="lg:col-span-6 lg:order-1">
             <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">2) Human tone (not robotic)</h3>
+              <h3 class="text-2xl font-extrabold text-gray-900">
+                2) Real-life case
+              </h3>
               <p class="mt-3 text-gray-700">
-                Make replies feel natural and reliable — while staying professional. You’ll learn the prompt framework and guardrails.
+                See how founders and teams use similar AI agents to handle emails replies, and save hours every week.
               </p>
               <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Smart objection handling</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Polite clarity when people are confused</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Work-grade tone for professional communication</li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Smart objection handling
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Zero “copy/paste” manual drudgery
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Templates for sales, recruiting, and ops
+                </li>
               </ul>
             </div>
           </div>
@@ -540,23 +556,38 @@
           </div>
           <div class="lg:col-span-6">
             <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">3) Live help & quality checks</h3>
+              <h3 class="text-2xl font-extrabold text-gray-900">
+                3) Live help & AI problem solving
+              </h3>
               <p class="mt-3 text-gray-700">
-                Not a lecture. You build live with support so you actually finish. We also cover testing and quality controls.
+                Not a lecture. You build live with support so you actually finish.
               </p>
               <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Bring your laptop — we build together</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Certificate of completion</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Q&amp;A throughout</li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Bring your laptop — we build together
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Certificate of completion
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Q&amp;A throughout
+                </li>
               </ul>
             </div>
           </div>
         </div>
+
       </div>
 
       <div class="text-center mt-10">
-        <a href="#tickets" class="btn btn-primary focus-ring px-6">Save your seat</a>
+        <a href="#tickets" class="btn btn-primary focus-ring px-6">
+          Save your seat
+        </a>
       </div>
+
     </div>
   </section>
 
@@ -612,89 +643,85 @@
   <!-- ================= TICKETS ================= -->
   <section id="tickets" class="bg-acoustic py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
       <div class="text-center max-w-3xl mx-auto">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Tickets</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">Register &amp; build it with me</h2>
-        <p class="mt-4 text-gray-700 text-lg">
-          Limited seats. Human-in-the-loop. Practical workflows you can reuse at work and in your business.
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
+          Max 20 seats
+        </h2>
+        <p class="mt-4">
+          <span class="early-bird-pill">
+            Valid until 31st Jan
+          </span>
         </p>
       </div>
 
       <div class="mt-10 grid lg:grid-cols-12 gap-6 items-stretch">
+
+        <!-- LEFT: Ticket card -->
         <div class="lg:col-span-7">
-          <div class="card p-7 sm:p-8 h-full">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Workshop ticket</p>
+          <div class="card p-8 sm:p-10 h-full flex flex-col justify-between">
 
-                <div class="mt-2 price-wrap">
-                  <span class="price-new text-5xl" style="color:var(--forest2);">595 SEK</span>
-                  <span class="price-old text-xl text-gray-700">895 SEK</span>
-                  <span class="pill-earlybird">Early bird</span>
+            <!-- EARLY BIRD BADGE -->
+            <div>
+              <p class="text-center mb-3">
+                <span class="early-bird-pill">Early bird</span>
+              </p>
+
+              <div class="text-center">
+                <div class="text-5xl sm:text-6xl font-extrabold" style="color:var(--forest2);">
+                  595 SEK
                 </div>
-
-                <p class="mt-2 text-gray-600">Includes templates &amp; prompt framework</p>
+                <div class="mt-2 text-lg font-extrabold text-gray-500 line-through">
+                  895 SEK
+                </div>
               </div>
-              <div class="sm:text-right">
-                <p class="text-sm text-gray-700"><span class="font-extrabold">Location:</span> Best Western Plus Park City (Stockholm)</p>
-                <p class="text-sm text-gray-700"><span class="font-extrabold">Time:</span> 21 March • 13:30–16:30</p>
+
+              <!-- FEATURES -->
+              <div class="mt-8 max-w-md mx-auto">
+                <ul class="space-y-4 text-gray-800 text-base">
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 font-extrabold" style="color:#6d4ad6;">✓</span>
+                    <span>Full workshop access</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 font-extrabold" style="color:#6d4ad6;">✓</span>
+                    <span>Templates &amp; prompts</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 font-extrabold" style="color:#6d4ad6;">✓</span>
+                    <span>Certificate of completion</span>
+                  </li>
+                </ul>
               </div>
             </div>
 
-            <div class="soft-divider my-6"></div>
-
-            <div class="grid sm:grid-cols-2 gap-4 text-sm">
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Full access</p>
-                  <p class="text-gray-600">Build step-by-step with live guidance.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Templates & prompts</p>
-                  <p class="text-gray-600">Reply patterns for real use-cases.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Quality controls</p>
-                  <p class="text-gray-600">Escalation rules & safe replies.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Certificate</p>
-                  <p class="text-gray-600">Proof you completed the build.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <a href="/before-checkout" class="btn btn-primary focus-ring w-full sm:w-auto px-6">Buy tickets</a>
-              <a href="mailto:info@genaition.org" class="btn btn-outline focus-ring w-full sm:w-auto px-6 text-gray-900 border-gray-200 bg-white">
-                Ask for Swish/invoice
+            <!-- CTA -->
+            <div class="mt-10">
+              <a href="/before-checkout"
+                 class="w-full inline-flex items-center justify-center py-4 sm:py-5 rounded-2xl font-extrabold text-white text-lg focus-ring"
+                 style="background: linear-gradient(135deg, var(--accent), #2f8b66);">
+                Select Tickets
               </a>
+
+              <p class="mt-4 text-center text-xs text-gray-500">
+                Standard price is 895 SEK.
+              </p>
             </div>
 
-            <p class="mt-4 text-xs text-gray-500">
-              Early bird is limited. Standard price is 895 SEK.
-            </p>
           </div>
         </div>
 
+        <!-- RIGHT: Instructor -->
         <div class="lg:col-span-5">
           <div class="card p-7 sm:p-8 h-full">
-            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Your Instructor</p>
+            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">
+              Workshop Instructor
+            </p>
+
             <div class="mt-4 flex items-center gap-4">
-              <img src="/javidimage.jpg" alt="Javid Valiyev" class="h-16 w-16 rounded-2xl object-cover shadow">
+              <img src="/javidimage.jpg" alt="Javid Valiyev"
+                   class="h-16 w-16 rounded-2xl object-cover shadow">
               <div>
                 <p class="font-extrabold text-lg">Javid Valiyev</p>
                 <p class="text-sm text-gray-600">Founder • GenAition</p>
@@ -702,7 +729,7 @@
             </div>
 
             <p class="mt-5 text-gray-700">
-              I teach practical AI systems that people can actually use — focusing on workflows, guardrails, and real outcomes (not theory).
+              Javid has 5+ years of experience building AI solutions for businesses and has taught AI and automation to over 200 professionals through workshops and community events.
             </p>
 
             <div class="soft-divider my-6"></div>
@@ -727,14 +754,15 @@
             </div>
 
             <div class="mt-7">
-              <a href="#faq" class="btn btn-outline focus-ring w-full text-gray-900 border-gray-200 bg-white">
+              <a href="#faq"
+                 class="btn btn-outline focus-ring w-full text-gray-900 border-gray-200 bg-white">
                 Read FAQ
               </a>
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </section>
 

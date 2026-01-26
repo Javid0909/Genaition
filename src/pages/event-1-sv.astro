@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <title>Human-Like AI Reply Agent Workshop - Stockholm</title>
+  <title>Workshop: Human-Like AI Reply Agent – Stockholm</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Tailwind (v2) -->
@@ -75,7 +75,7 @@
         radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
         radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
         linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-        url('/humanai.png') center/cover no-repeat;
+        url('/humanb.png') center/cover no-repeat;
     }
 
     .hero::after{
@@ -213,27 +213,48 @@
       color: #5a4300;
     }
 
-    @media (max-width: 768px){
-      .hero{
-        min-height: 88vh;
-        background:
-          radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
-          radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
-          linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-          url('/javidbest-mobile.png') center/cover no-repeat;
-      }
-      .blob{ width: 420px; height: 420px; }
-    }
+@media (max-width: 768px){
+  .hero{
+    min-height: 88vh;
+
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(158,209,183,.22), transparent 62%),
+      radial-gradient(900px 520px at 90% 8%, rgba(255,193,7,.14), transparent 60%),
+      linear-gradient(180deg, rgba(7,17,14,.78), rgba(7,17,14,.96)),
+      url('/javidbest-mobile.png') center/contain no-repeat;
+  }
+
+  /* index-style readability sweep (mobile only) */
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(
+      90deg,
+      rgba(7,17,14,.88) 0%,
+      rgba(7,17,14,.62) 55%,
+      rgba(7,17,14,.42) 100%
+    );
+    pointer-events:none;
+  }
+
+  /* keep the green glow tuned for mobile */
+  .hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(900px 520px at 50% 10%, rgba(42,122,90,.18), transparent 62%);
+    pointer-events:none;
+  }
+
+  .blob{ width: 420px; height: 420px; }
+}
   </style>
 </head>
 
 <body class="text-gray-900">
 
   <!-- ================= NAV ================= -->
-  <!-- ✅ Updated to match your first (SV) page style:
-       - Logo links to /index-sv
-       - Language icon shows SV and links to /event-1 (EN) + /event-1-sv (SV)
-       - Keep all other destinations the same -->
   <header class="fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
       <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
@@ -261,7 +282,6 @@
               </svg>
             </button>
             <div id="langMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-              <!-- ✅ Keep same destinations as first page -->
               <a href="/event-1" class="flex items-center px-3 py-2 hover:bg-gray-50">
                 <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
               </a>
@@ -303,13 +323,11 @@
         <a href="#faq" class="hover:text-green-700">Vanliga frågor</a>
         <a href="#tickets" class="hover:text-green-700 font-extrabold">Biljetter</a>
         <div class="soft-divider my-2"></div>
-        <!-- ✅ Match first page: home is index-sv -->
         <a href="/index-sv" class="hover:text-green-700">Hem</a>
 
         <div class="mt-4 card p-4">
           <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Språk</p>
           <div class="mt-3 space-y-2">
-            <!-- ✅ Keep same destinations as first page -->
             <a href="/event-1" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
               <img src="/english.png" class="h-5 w-5" alt="English flag"> English
             </a>
@@ -322,117 +340,69 @@
     </div>
   </div>
 
-  <!-- ================= HERO ================= -->
-  <section class="hero text-white pt-28">
-    <div class="blob"></div>
+<!-- ================= HERO ================= -->
+<section class="hero text-white pt-28">
+  <div class="blob"></div>
 
-    <div class="relative z-10 w-full">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        <div class="grid lg:grid-cols-12 gap-10 items-center">
-          <div class="lg:col-span-7">
-            <div class="flex flex-wrap items-center gap-3 mb-6">
-              <span class="badge">Live • På plats</span>
-              <span class="text-sm text-green-100 opacity-90">Human-in-the-loop • Nybörjarvänligt • Praktiskt</span>
-            </div>
+  <div class="relative z-10 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Human-Like <span style="color:var(--accent2);">AI Reply Agent</span>
-            </h1>
+      <!-- ✅ Center everything -->
+      <div class="flex justify-center">
+        <div class="w-full max-w-3xl text-center">
 
-            <p class="mt-5 text-lg sm:text-xl text-green-100 max-w-2xl">
-              Bygg en agent som läser inkommande email, förstår intention, skriver högkvalitativa svar —
-              och vet när den ska eskalera till en människa.
-              Ingen massautomation. Bara förtroende, omdöme och kontroll.
-            </p>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <a href="#tickets" class="btn btn-primary focus-ring">
-                <span>Köp biljetter</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"/>
-                </svg>
-              </a>
-              <a href="#build" class="btn btn-outline focus-ring">
-                <span>Se vad du bygger</span>
-              </a>
-            </div>
-
-            <div class="mt-8 card-dark p-5 sm:p-6">
-              <div class="grid sm:grid-cols-3 gap-4 text-sm">
-                <div>
-                  <p class="text-green-100 opacity-80">Plats</p>
-                  <p class="font-extrabold">Stockholm • Best Western Plus Park City</p>
-                  <p class="text-green-100 opacity-90">Midskeppsgatan 6, 120 66</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-80">Tid</p>
-                  <p class="font-extrabold">21 Mars</p>
-                  <p class="text-green-100 opacity-90">13:30–16:30</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-80">Early bird</p>
-                  <div class="price-wrap">
-                    <span class="price-old">895 SEK</span>
-                    <span class="price-new text-2xl" style="color:var(--accent2);">595 SEK</span>
-                    <span class="pill-earlybird" style="color:#fff;">Rabatt</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="mt-5 text-xs text-green-100 opacity-85">
-              Arrangeras av GenAition • Om kortbetalning är svårt, mejla
-              <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a> för Swish/faktura.
-            </p>
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
+            <span class="badge">Live • På plats</span>
+            <span class="text-sm text-green-100 opacity-90">Praktiskt • Nybörjarvänligt • Hands-on</span>
           </div>
 
-          <div class="lg:col-span-5">
-            <div class="card-dark p-6 sm:p-7">
-              <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Resultat</p>
-              <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Du går hem med ett fungerande svarssystem.</h2>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+            Bygg en fungerande <span style="color:var(--accent2);">AI-agent från grunden</span>
+          </h1>
 
-              <ul class="mt-5 space-y-3 text-green-100">
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Intent-klassificering</span> (intresse, förvirring, invändning, neutral)</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Ton-lägen</span> + stilregler som känns mänskliga</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Eskalering</span> för osäkra eller känsliga fall</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background:rgba(158,209,183,.14); border:1px solid rgba(158,209,183,.30);">✓</span>
-                  <span><span class="font-extrabold text-white">Mallar & prompts</span> som du kan återanvända efteråt</span>
-                </li>
-              </ul>
+          <div class="mt-7 flex justify-center">
+            <a href="#tickets" class="btn btn-primary focus-ring">
+              Anmäl dig nu
+            </a>
+          </div>
 
-              <div class="soft-divider my-6"></div>
-
-              <div class="flex items-center justify-between gap-4">
-                <div>
-                  <p class="text-xs uppercase tracking-widest text-green-100 opacity-80">Early bird-pris</p>
-                  <div class="price-wrap">
-                    <span class="price-old text-green-100">895 SEK</span>
-                    <span class="price-new text-3xl" style="color:var(--accent2);">595 SEK</span>
-                  </div>
-                </div>
-                <!-- ✅ Keep destination unchanged -->
-                <a href="/before-checkout" class="btn btn-primary focus-ring px-4 py-3">Köp biljetter</a>
+          <!-- ✅ Keep card centered, but content readable -->
+          <div class="mt-8 card-dark p-5 sm:p-6 text-left">
+            <div class="grid sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <p class="text-green-100 opacity-80">Plats</p>
+                <p class="font-extrabold">Plus Park City, Stockholm</p>
+                <p class="text-green-100 opacity-90">Midskeppsgatan 6, 120 66</p>
               </div>
 
-              <p class="mt-3 text-xs text-green-100 opacity-80">
-                Standardpris är 895 SEK. Early bird är 595 SEK (begränsad tid).
-              </p>
+              <div>
+                <p class="text-green-100 opacity-80">Tid</p>
+                <p class="font-extrabold">21 mars 2026</p>
+                <p class="text-green-100 opacity-90">13:30–16:30</p>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-3 mt-2 flex-wrap">
+                  <span class="pill-earlybird" style="color:#fff;">Early bird</span>
+
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold"
+                    style="background: rgba(255,193,7,.18); border:1px solid rgba(255,193,7,.35); color:#fff;"
+                  >
+                    Max 20 platser
+                  </span>
+                </div>
+              </div>
+
             </div>
           </div>
+
         </div>
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ================= ABOUT ================= -->
   <section id="about" class="bg-acoustic py-16 sm:py-20">
@@ -440,11 +410,11 @@
       <div class="text-center max-w-3xl mx-auto">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Workshop – sammanfattning</p>
         <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          <span class="title-underline">Agentiska svar</span>, inte generiska chatbots
+          <span class="title-underline">Agentisk AI</span>, gjort praktiskt
         </h2>
         <p class="mt-5 text-gray-700 text-lg">
-          Du bygger en <span class="font-extrabold">Human-Like AI Reply Agent</span> som skapar smarta svar medan du behåller kontrollen.
-          Designad för verklig kommunikation: kundfrågor, rekryteringsmeddelanden, founder-inbox och professionella svar.
+          Bygg en <span class="font-extrabold">AI Reply Agent</span> som hanterar e-postsvar — på ett säkert sätt.
+          Utformad för verklig kommunikation: kundsupport, rekrytering, founder-inbox och professionella e-postflöden där förtroende är avgörande.
         </p>
       </div>
 
@@ -453,32 +423,32 @@
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">01</span>
           </div>
-          <h3 class="font-extrabold text-lg">Förstå intention</h3>
-          <p class="mt-2 text-sm text-gray-700">Klassificera meddelanden och generera svar baserat på vad avsändaren faktiskt menar.</p>
+          <h3 class="font-extrabold text-lg">Bygg riktiga AI-flöden</h3>
+          <p class="mt-2 text-sm text-gray-700">Förstå ReAct, verktygsanvändning och när du ska automatisera — och när du ska stoppa.</p>
         </div>
 
         <div class="card p-6">
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">02</span>
           </div>
-          <h3 class="font-extrabold text-lg">Ton-kontroll</h3>
-          <p class="mt-2 text-sm text-gray-700">Varmt, rakt, professionellt, vänligt — byt ton utan att tappa kvalitet.</p>
+          <h3 class="font-extrabold text-lg">Automatisera tråkigt jobb</h3>
+          <p class="mt-2 text-sm text-gray-700">Låt AI utforma personliga svar med hjälp av din webbplats och din data.</p>
         </div>
 
         <div class="card p-6">
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">03</span>
           </div>
-          <h3 class="font-extrabold text-lg">Human-in-the-loop</h3>
-          <p class="mt-2 text-sm text-gray-700">AI föreslår. Du godkänner. Tydliga skyddsräcken som gör flödet pålitligt.</p>
+          <h3 class="font-extrabold text-lg">Bygg agentisk AI</h3>
+          <p class="mt-2 text-sm text-gray-700">Verkliga case, beprövade prompts och snabb test–tillämpning.</p>
         </div>
 
         <div class="card p-6">
           <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
             <span class="font-extrabold" style="color:var(--accent);">04</span>
           </div>
-          <h3 class="font-extrabold text-lg">Eskalering</h3>
-          <p class="mt-2 text-sm text-gray-700">Upptäck osäkerhet, känsliga ämnen eller edge cases och routa till människa.</p>
+          <h3 class="font-extrabold text-lg">VIP-support</h3>
+          <p class="mt-2 text-sm text-gray-700">Max 25 platser — få personlig hjälp och gå hem med en fungerande AI-agent.</p>
         </div>
       </div>
     </div>
@@ -487,33 +457,43 @@
   <!-- ================= WHAT YOU'LL BUILD ================= -->
   <section id="build" class="py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
       <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Vad du bygger</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          Ett riktigt flöde du kan återanvända redan nästa dag
-        </h2>
-        <p class="mt-4 text-gray-700 text-lg">
-          Det här är hands-on. Vi bygger hela pipelinen: meddelande → intention → utkast → kvalitetskontroller → (valfritt) eskalering.
+        <p class="text-xs font-extrabold uppercase tracking-widest"
+           style="color:var(--accent);">
+          Vad du kan förvänta dig
         </p>
       </div>
 
       <div class="mt-12 space-y-10">
+
         <div class="grid lg:grid-cols-12 gap-7 items-center">
           <div class="lg:col-span-6">
             <div class="card overflow-hidden">
-              <img src="/workshop4.jpg" class="w-full h-80 object-cover" alt="Hands-on workshop">
+              <img src="/image1.png" class="w-full h-80 object-cover" alt="Hands-on workshop">
             </div>
           </div>
           <div class="lg:col-span-6">
             <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">1) Svar-agentens kärna</h3>
+              <h3 class="text-2xl font-extrabold text-gray-900">
+                1) Hands-on AI
+              </h3>
               <p class="mt-3 text-gray-700">
-                Bygg en agent som läser meddelanden, identifierar intention och skapar högkvalitativa svar för verkliga situationer.
+                Vi skippar hype. Du bygger en AI-agent för svar som läser inkommande e-post, förstår intention och eskalerar till dig när mänskligt omdöme behövs — automatiserat.
               </p>
               <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Meddelande → intention → föreslaget svar</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Ton-lägen + stilregler</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Tydliga villkor för “eskalera till människa”</li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Meddelande → intention → förslag på svar
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Tonkontroll + stilregler
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Tydliga villkor för “eskalera till människa”
+                </li>
               </ul>
             </div>
           </div>
@@ -527,14 +507,25 @@
           </div>
           <div class="lg:col-span-6 lg:order-1">
             <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">2) Mänsklig ton (inte robot)</h3>
+              <h3 class="text-2xl font-extrabold text-gray-900">
+                2) Verkligt case
+              </h3>
               <p class="mt-3 text-gray-700">
-                Få svaren att kännas naturliga och pålitliga — samtidigt professionella. Du lär dig prompt-ramverket och guardrails.
+                Se hur grundare och team använder liknande AI-agenter för att hantera e-postsvar och spara timmar varje vecka.
               </p>
               <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Smart hantering av invändningar</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Tydlighet när folk är förvirrade</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Arbetsnivå-ton för professionell kommunikation</li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Smart hantering av invändningar
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Inget manuellt “copy/paste”-slit
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Mallar för sälj, rekrytering och drift
+                </li>
               </ul>
             </div>
           </div>
@@ -548,23 +539,38 @@
           </div>
           <div class="lg:col-span-6">
             <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">3) Live-hjälp & kvalitetskontroller</h3>
+              <h3 class="text-2xl font-extrabold text-gray-900">
+                3) Live-hjälp & problemlösning
+              </h3>
               <p class="mt-3 text-gray-700">
-                Ingen föreläsning. Du bygger live med stöd så att du faktiskt blir klar. Vi går även igenom testning och kvalitet.
+                Ingen föreläsning. Du bygger live med support så att du faktiskt blir klar.
               </p>
               <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Ta med laptop — vi bygger tillsammans</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Certifikat</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Q&amp;A under hela passet</li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Ta med din laptop — vi bygger tillsammans
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Intyg om genomförande
+                </li>
+                <li class="flex gap-2">
+                  <span class="font-extrabold" style="color:var(--accent);">✓</span>
+                  Q&amp;A under hela passet
+                </li>
               </ul>
             </div>
           </div>
         </div>
+
       </div>
 
       <div class="text-center mt-10">
-        <a href="#tickets" class="btn btn-primary focus-ring px-6">Säkra din plats</a>
+        <a href="#tickets" class="btn btn-primary focus-ring px-6">
+          Säkra din plats
+        </a>
       </div>
+
     </div>
   </section>
 
@@ -573,15 +579,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <div class="text-center max-w-3xl mx-auto">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Agenda</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Agenda (översikt)</h2>
-        <p class="mt-3 text-green-100">21 Mars • 13:30–16:30</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Agenda (i korthet)</h2>
+        <p class="mt-3 text-green-100">21 mars • 13:30–16:30</p>
       </div>
 
       <div class="mt-10 grid lg:grid-cols-12 gap-6 items-start">
         <div class="lg:col-span-5">
           <div class="card-dark p-6">
             <p class="text-sm text-green-100 opacity-90">
-              Vi kör snabbt — men nybörjarvänligt. Du kopierar beprövade mallar, förstår logiken och anpassar till ditt egna use case.
+              Vi rör oss snabbt — men det är nybörjarvänligt. Du kopierar beprövade mallar, förstår logiken och anpassar till ditt eget use case.
             </p>
             <div class="soft-divider my-5"></div>
             <div class="space-y-3 text-sm text-green-100">
@@ -601,7 +607,7 @@
                 <p class="font-extrabold text-white">15:45</p><p class="text-right">Testning &amp; kvalitetskontroller</p>
               </div>
               <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white">16:15</p><p class="text-right">Q&amp;A • Nästa steg • Certifikat</p>
+                <p class="font-extrabold text-white">16:15</p><p class="text-right">Q&amp;A • Nästa steg • Intyg</p>
               </div>
             </div>
           </div>
@@ -620,90 +626,82 @@
   <!-- ================= TICKETS ================= -->
   <section id="tickets" class="bg-acoustic py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
       <div class="text-center max-w-3xl mx-auto">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Biljetter</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">Registrera dig & bygg den med mig</h2>
-        <p class="mt-4 text-gray-700 text-lg">
-          Begränsat antal platser. Human-in-the-loop. Praktiska workflows du kan återanvända på jobbet och i ditt företag.
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
+          Endast 20 platser
+        </h2>
+        <p class="mt-4">
+          <span class="pill-earlybird">
+            Gäller till 31 jan
+          </span>
         </p>
       </div>
 
       <div class="mt-10 grid lg:grid-cols-12 gap-6 items-stretch">
+
+        <!-- LEFT: Ticket card -->
         <div class="lg:col-span-7">
-          <div class="card p-7 sm:p-8 h-full">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Workshop-biljett</p>
+          <div class="card p-8 sm:p-10 h-full flex flex-col justify-between">
 
-                <div class="mt-2 price-wrap">
-                  <span class="price-new text-5xl" style="color:var(--forest2);">595 SEK</span>
-                  <span class="price-old text-xl text-gray-700">895 SEK</span>
-                  <span class="pill-earlybird">Early bird</span>
+            <div>
+              <p class="text-center mb-3">
+                <span class="pill-earlybird">Early bird</span>
+              </p>
+
+              <div class="text-center">
+                <div class="text-5xl sm:text-6xl font-extrabold" style="color:var(--forest2);">
+                  595 SEK
                 </div>
-
-                <p class="mt-2 text-gray-600">Inkluderar mallar &amp; prompt-ramverk</p>
+                <div class="mt-2 text-lg font-extrabold text-gray-500 line-through">
+                  895 SEK
+                </div>
               </div>
-              <div class="sm:text-right">
-                <p class="text-sm text-gray-700"><span class="font-extrabold">Plats:</span> Best Western Plus Park City (Stockholm)</p>
-                <p class="text-sm text-gray-700"><span class="font-extrabold">Tid:</span> 21 Mars • 13:30–16:30</p>
+
+              <div class="mt-8 max-w-md mx-auto">
+                <ul class="space-y-4 text-gray-800 text-base">
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 font-extrabold" style="color:#6d4ad6;">✓</span>
+                    <span>Full tillgång till workshopen</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 font-extrabold" style="color:#6d4ad6;">✓</span>
+                    <span>Mallar &amp; prompts</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 font-extrabold" style="color:#6d4ad6;">✓</span>
+                    <span>Intyg om genomförande</span>
+                  </li>
+                </ul>
               </div>
             </div>
 
-            <div class="soft-divider my-6"></div>
-
-            <div class="grid sm:grid-cols-2 gap-4 text-sm">
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Full åtkomst</p>
-                  <p class="text-gray-600">Bygg steg-för-steg med live handledning.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Mallar & prompts</p>
-                  <p class="text-gray-600">Svarsmönster för riktiga use cases.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Kvalitetskontroller</p>
-                  <p class="text-gray-600">Eskalering + säkra svar.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full" style="background: rgba(42,122,90,.10);">✓</span>
-                <div>
-                  <p class="font-extrabold">Certifikat</p>
-                  <p class="text-gray-600">Bevis på att du genomfört workshopen.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <!-- ✅ Keep destination unchanged -->
-              <a href="/before-checkout" class="btn btn-primary focus-ring w-full sm:w-auto px-6">Köp biljetter</a>
-              <a href="mailto:info@genaition.org" class="btn btn-outline focus-ring w-full sm:w-auto px-6 text-gray-900 border-gray-200 bg-white">
-                Fråga om Swish/faktura
+            <div class="mt-10">
+              <a href="/before-checkout"
+                 class="w-full inline-flex items-center justify-center py-4 sm:py-5 rounded-2xl font-extrabold text-white text-lg focus-ring"
+                 style="background: linear-gradient(135deg, var(--accent), #2f8b66);">
+                Välj biljetter
               </a>
+
+              <p class="mt-4 text-center text-xs text-gray-500">
+                Standardpris är 895 SEK.
+              </p>
             </div>
 
-            <p class="mt-4 text-xs text-gray-500">
-              Early bird är begränsad. Standardpris är 895 SEK.
-            </p>
           </div>
         </div>
 
+        <!-- RIGHT: Instructor -->
         <div class="lg:col-span-5">
           <div class="card p-7 sm:p-8 h-full">
-            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Din instruktör</p>
+            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">
+              Instruktör
+            </p>
+
             <div class="mt-4 flex items-center gap-4">
-              <img src="/javidimage.jpg" alt="Javid Valiyev" class="h-16 w-16 rounded-2xl object-cover shadow">
+              <img src="/javidimage.jpg" alt="Javid Valiyev"
+                   class="h-16 w-16 rounded-2xl object-cover shadow">
               <div>
                 <p class="font-extrabold text-lg">Javid Valiyev</p>
                 <p class="text-sm text-gray-600">Grundare • GenAition</p>
@@ -711,7 +709,7 @@
             </div>
 
             <p class="mt-5 text-gray-700">
-              Jag lär ut praktiska AI-system som människor faktiskt kan använda — med fokus på workflows, guardrails och verkliga resultat (inte teori).
+              Javid har över 5 års erfarenhet av att bygga AI-lösningar för företag och har lärt ut AI och automation till över 200 yrkesverksamma genom workshops och community-event.
             </p>
 
             <div class="soft-divider my-6"></div>
@@ -736,14 +734,15 @@
             </div>
 
             <div class="mt-7">
-              <a href="#faq" class="btn btn-outline focus-ring w-full text-gray-900 border-gray-200 bg-white">
+              <a href="#faq"
+                 class="btn btn-outline focus-ring w-full text-gray-900 border-gray-200 bg-white">
                 Läs FAQ
               </a>
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </section>
 
@@ -753,19 +752,19 @@
       <div class="text-center">
         <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Vanliga frågor</p>
         <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Frågor</h2>
-        <p class="mt-3 text-green-100">Om du undrar något, mejla <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a>.</p>
+        <p class="mt-3 text-green-100">Om du fortfarande undrar något, mejla <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a>.</p>
       </div>
 
       <div class="mt-10 space-y-4">
         <div class="card-dark">
           <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Jag har ingen erfarenhet av AI eller kod. Är den här workshopen för mig?
+            Jag har ingen erfarenhet av AI eller programmering. Är workshopen för mig?
             <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
           <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Ja. Workshopen är designad för nybörjare. Du bygger steg för steg och går hem med en fungerande AI Reply Agent.
+            Ja. Den här workshopen är designad för nybörjare. Du bygger steg för steg och går hem med en fungerande AI Reply Agent.
           </div>
         </div>
 
@@ -777,25 +776,25 @@
             </svg>
           </button>
           <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            En Human-Like AI Reply Agent som läser meddelanden, upptäcker intention, skriver svar med rätt ton och eskalerar till människa vid behov.
+            En Human-Like AI Reply Agent som läser meddelanden, tolkar intention, skriver svar med rätt ton och eskalerar till en människa när det behövs.
           </div>
         </div>
 
         <div class="card-dark">
           <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Handlar detta om massautomation / spam?
+            Handlar det här om massautomation / spam?
             <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
           <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Nej. Fokus är kvalitet och förtroende. Det är ett human-in-the-loop-flöde där AI hjälper — och du styr.
+            Nej. Fokus är kvalitet och förtroende. Det här är ett human-in-the-loop-flöde där AI hjälper — och du har kontroll.
           </div>
         </div>
 
         <div class="card-dark">
           <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Vad behöver jag ta med?
+            Vad behöver jag ta med mig?
             <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
@@ -807,13 +806,13 @@
 
         <div class="card-dark">
           <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Kan jag använda detta i mitt arbete efteråt?
+            Kan jag använda det här i mitt arbete efteråt?
             <svg class="faq-chevron w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
           <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Ja. Du får ett återanvändbart ramverk + mallar som kan anpassas till kundsupport, rekrytering, sälj eller din personliga inbox.
+            Ja. Du går hem med ett återanvändbart ramverk + mallar som du kan anpassa till kundsupport, rekrytering, sälj eller din egen inbox.
           </div>
         </div>
       </div>

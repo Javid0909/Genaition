@@ -199,7 +199,7 @@
 
 <body class="text-gray-900">
 
-  <!-- ================= NAV (same vibe as event page) ================= -->
+  <!-- ================= NAV ================= -->
   <header class="fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
       <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
@@ -214,7 +214,6 @@
         <div class="flex items-center gap-3">
           <a href="/event-1.html" class="hidden sm:inline-flex btn btn-outline focus-ring px-4 py-2">Back to event</a>
 
-          <!-- Language dropdown -->
           <div class="relative dropdown">
             <button class="focus-ring btn btn-outline px-3 py-2" aria-label="Language selector">
               <img src="/english.png" alt="English" class="h-5 w-5">
@@ -255,19 +254,7 @@
           Fill in your details. Then you’ll proceed securely to payment via Stripe.
         </p>
 
-        <div class="mt-6 max-w-xl mx-auto card-dark p-5 sm:p-6">
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 text-sm">
-            <div class="price-wrap">
-              <span class="text-green-100 opacity-80">Current total:</span>
-              <span id="heroTotal" class="price-new text-2xl" style="color:var(--accent2);">SEK 595</span>
-              <span id="heroOriginal" class="price-old text-green-100">SEK 895</span>
-              <span id="heroBadge" class="pill">-27%</span>
-            </div>
-          </div>
-          <p id="heroPromoHint" class="mt-3 text-xs text-green-100 opacity-85 hidden">
-            ✅ Promo applied. Price updated.
-          </p>
-        </div>
+        <!-- ✅ REMOVED: hero "Current total" pricing box -->
       </div>
     </div>
   </section>
@@ -275,10 +262,11 @@
   <!-- ================= CONTENT ================= -->
   <main class="bg-acoustic">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-14">
-      <div class="grid lg:grid-cols-12 gap-6 -mt-6">
+      <!-- ✅ Changed to single-column layout (removed right sidebar) -->
+      <div class="grid grid-cols-1 gap-6 -mt-6">
 
         <!-- FORM CARD -->
-        <div class="lg:col-span-7">
+        <div>
           <form id="booking-form" class="card p-7 sm:p-8">
             <div class="flex items-start justify-between gap-4">
               <div>
@@ -350,7 +338,7 @@
               </div>
             </div>
 
-            <!-- Totals -->
+            <!-- Totals (kept) -->
             <div class="mt-6 card p-5" style="background: linear-gradient(180deg, #ffffff, #fbfbfb);">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
@@ -363,85 +351,33 @@
                   <p id="promoLabel" class="mt-1 text-xs text-gray-500">Standard pricing (promo optional).</p>
                 </div>
 
-                <button type="button" id="submitBtn" class="btn btn-primary focus-ring w-full sm:w-auto px-6">
-                  Continue to checkout
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"/>
-                  </svg>
-                </button>
+<button type="button" id="submitBtn" class="btn btn-primary focus-ring w-full sm:w-auto px-6">
+  Continue to checkout
+</button>
               </div>
 
               <p class="mt-3 text-xs text-gray-500">
                 By continuing, you will be redirected to Stripe to complete your payment securely.
               </p>
-            </div>
-          </form>
-        </div>
 
-        <!-- SUMMARY / TRUST CARD -->
-        <div class="lg:col-span-5">
-          <div class="card p-7 sm:p-8 sticky" style="top: 96px;">
-            <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Order summary</p>
-            <h3 class="mt-2 text-2xl font-extrabold text-gray-900">You’re almost done</h3>
-            <p class="mt-2 text-gray-600">
-              Review what’s included, then continue to Stripe payment.
-            </p>
-
-            <div class="soft-divider my-6"></div>
-
-            <div class="space-y-3 text-sm text-gray-800">
-              <div class="flex gap-2">
-                <span class="font-extrabold" style="color:var(--accent);">✓</span>
-                <span>Full workshop access (live, in-person)</span>
-              </div>
-              <div class="flex gap-2">
-                <span class="font-extrabold" style="color:var(--accent);">✓</span>
-                <span>Prompt & reply templates</span>
-              </div>
-              <div class="flex gap-2">
-                <span class="font-extrabold" style="color:var(--accent);">✓</span>
-                <span>Certificate of completion</span>
-              </div>
-              <div class="flex gap-2">
-                <span class="font-extrabold" style="color:var(--accent);">✓</span>
-                <span>Support during the build</span>
-              </div>
-            </div>
-
-            <div class="soft-divider my-6"></div>
-
-            <div>
-              <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Total</p>
-              <div class="mt-2 price-wrap">
-                <span id="sideTotal" class="price-new text-4xl" style="color:var(--forest2);">SEK 595</span>
-                <span id="sideOriginal" class="price-old text-gray-700">SEK 895</span>
-              </div>
-              <p id="sideHint" class="mt-2 text-sm text-gray-600">Ticket(s): <span id="sideTickets" class="font-extrabold">1</span></p>
-              <p id="sidePromo" class="mt-1 text-xs hidden" style="color:var(--accent); font-weight: 900;">
-                Promo applied.
-              </p>
-            </div>
-
-            <div class="mt-6">
-              <button type="button" id="submitBtn2" class="btn btn-primary focus-ring w-full">
-                Continue to checkout
-              </button>
-              <a href="mailto:info@genaition.org" class="mt-3 inline-flex w-full btn focus-ring px-6 py-3 bg-white text-gray-900 border border-gray-200 rounded-xl font-extrabold justify-center">
+              <!-- ✅ Keep the invoice/swish line without the right sidebar -->
+              <a href="mailto:info@genaition.org"
+                 class="mt-4 inline-flex w-full btn focus-ring px-6 py-3 bg-white text-gray-900 border border-gray-200 rounded-xl font-extrabold justify-center">
                 Need Swish / invoice? Email us
               </a>
-            </div>
 
-            <p class="mt-4 text-xs text-gray-500">
-              Questions: <a class="underline" href="mailto:info@genaition.org">info@genaition.org</a>
-            </p>
-          </div>
+              <p class="mt-3 text-xs text-gray-500">
+                Questions: <a class="underline" href="mailto:info@genaition.org">info@genaition.org</a>
+              </p>
+            </div>
+          </form>
         </div>
 
       </div>
     </div>
   </main>
 
-  <!-- ================= FOOTER (same as your style) ================= -->
+  <!-- ================= FOOTER ================= -->
   <footer class="pt-12 pb-8" style="background:#050c0a; color:#e9f2ee;">
     <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-10 text-sm">
       <div class="space-y-2">
@@ -479,7 +415,7 @@
     </div>
   </footer>
 
-  <!-- ================= LOGIC (kept from your original, upgraded UI bindings) ================= -->
+  <!-- ================= LOGIC ================= -->
   <script>
     const dec = document.getElementById('decrease');
     const inc = document.getElementById('increase');
@@ -491,17 +427,6 @@
 
     const promo = document.getElementById('promoCode');
     const promoMsg = document.getElementById('promoMessage');
-
-    // Extra UI mirrors (hero + side)
-    const heroTotal = document.getElementById('heroTotal');
-    const heroOriginal = document.getElementById('heroOriginal');
-    const heroBadge = document.getElementById('heroBadge');
-    const heroPromoHint = document.getElementById('heroPromoHint');
-
-    const sideTotal = document.getElementById('sideTotal');
-    const sideOriginal = document.getElementById('sideOriginal');
-    const sideTickets = document.getElementById('sideTickets');
-    const sidePromo = document.getElementById('sidePromo');
 
     const promoLabel = document.getElementById('promoLabel');
 
@@ -520,24 +445,10 @@
       const totalOrig = val * originalPrice;
       const discount = Math.round(((totalOrig - totalDisc) / totalOrig) * 100);
 
-      // Main total line
       discounted.textContent = fmtSEK(totalDisc);
       original.textContent = fmtSEK(totalOrig);
       badge.textContent = promoActive ? "-46% (Hyper Island)" : `-${discount}%`;
 
-      // Hero mirrors
-      heroTotal.textContent = fmtSEK(totalDisc);
-      heroOriginal.textContent = fmtSEK(totalOrig);
-      heroBadge.textContent = promoActive ? "-46% (Hyper Island)" : `-${discount}%`;
-      heroPromoHint.classList.toggle("hidden", !promoActive);
-
-      // Side mirrors
-      sideTotal.textContent = fmtSEK(totalDisc);
-      sideOriginal.textContent = fmtSEK(totalOrig);
-      sideTickets.textContent = String(val);
-      sidePromo.classList.toggle("hidden", !promoActive);
-
-      // Labels
       promoLabel.textContent = promoActive ? "Promo pricing applied." : "Standard pricing (promo optional).";
     }
 
@@ -611,7 +522,6 @@
     }
 
     document.getElementById("submitBtn").addEventListener("click", goToStripe);
-    document.getElementById("submitBtn2").addEventListener("click", goToStripe);
   </script>
 </body>
 </html>
