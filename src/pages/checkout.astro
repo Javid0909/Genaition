@@ -87,9 +87,9 @@
     .form-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
 
     .ticket-row { display: flex; align-items: center; gap: 1rem; }
-    .qty-btn { width: 38px; height: 38px; border-radius: var(--r); border: 1px solid var(--border-strong); background: var(--off-black); color: var(--white); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; }
+    .qty-btn { width: 30px; height: 30px; border-radius: var(--r); border: 1px solid var(--border-strong); background: var(--off-black); color: var(--white); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; }
     .qty-btn:hover { border-color: var(--green); background: var(--green-dim); color: var(--green); }
-    .qty-input { width: 80px; text-align: center; background: var(--off-black) !important; color: var(--white) !important; -webkit-appearance: none; -moz-appearance: textfield; border: 1px solid var(--border-strong) !important; border-radius: var(--r) !important; padding: 0.75rem 1rem !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.9rem !important; outline: none; }    .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .qty-input { width: 60px; text-align: center; background: var(--off-black) !important; color: var(--white) !important; -webkit-appearance: none; -moz-appearance: textfield; border: 1px solid var(--border-strong) !important; border-radius: var(--r) !important; padding: 0.45rem 0.75rem !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.9rem !important; outline: none; }    .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .ticket-price-hint { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.4rem; }
 
     .promo-toggle { background: none; border: 1px solid var(--border-strong); border-radius: var(--r); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; padding: 0.6rem 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.6rem; transition: border-color 0.2s, color 0.2s; }
@@ -125,7 +125,7 @@
     .line-item .li-label { color: var(--muted); font-size: 0.875rem; }
     .line-item .li-val { color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.82rem; }
     .line-item.total { padding-top: 0.85rem; margin-top: 0.4rem; border-top: 1px solid var(--border-strong); }
-    .line-item.total .li-label { color: var(--white); font-weight: 600; font-size: 0.9rem; }
+    .line-item.total .li-label { color: var(--white); font-weight: 400; font-size: 0.875rem; }
     .line-item.total .li-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--green); letter-spacing: 0.04em; }
 
     .cta-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 1rem 2rem; border-radius: var(--r); border: none; cursor: pointer; transition: all 0.22s; font-family: 'DM Sans', sans-serif; }
@@ -153,6 +153,16 @@
     .step-track { animation-delay: 0.2s; }
 
     footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); }
+
+    .early-bird-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(118,184,42,0.1); color: var(--green); border: 1px solid rgba(118,184,42,0.28); margin-bottom: 0.75rem; }
+    .early-bird-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; flex-shrink: 0; }
+    .orig-price { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: line-through; display: block; text-align: right; line-height: 1.4; }
+    .summary-qty-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 0.4rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 0.4rem; }
+    .summary-qty-left { display: flex; flex-direction: column; gap: 0.5rem; }
+    .ticket-summary-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+    .summary-qty-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.1rem; }
+    .summary-qty-count { color: var(--muted) !important; font-size: 0.75rem !important; margin-top: 0.25rem; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
   </style>
 </head>
 <body>
@@ -235,16 +245,6 @@
         </div>
         <div class="form-divider"></div>
         <div class="form-group">
-          <label>Number of tickets</label>
-          <div class="ticket-row">
-            <button type="button" class="qty-btn" id="decrease">−</button>
-            <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
-            <button type="button" class="qty-btn" id="increase">+</button>
-          </div>
-          <p class="ticket-price-hint">Max 6 tickets per order</p>
-        </div>
-        <div class="form-divider"></div>
-        <div class="form-group">
           <button type="button" class="promo-toggle" id="promoToggle">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
             Have a promo code?
@@ -269,18 +269,26 @@
       <p class="summary-label">Order summary</p>
 
       <div class="line-items">
-        <div class="promo-applied" id="promoAppliedBadge"></div>
-        <div class="line-item">
-          <span class="li-label">Price per ticket</span>
-          <span class="li-val" id="pricePerUnit">SEK 3,985</span>
-        </div>
-        <div class="line-item">
-          <span class="li-label">Tickets</span>
-          <span class="li-val" id="summaryTickets">× 1</span>
+        <div class="early-bird-tag"><span class="early-bird-dot"></span> Early bird</div>
+        <div class="summary-qty-row">
+          <div class="summary-qty-left">
+            <p class="ticket-summary-label">Number of tickets</p>
+            <div class="ticket-row">
+              <button type="button" class="qty-btn" id="decrease">−</button>
+              <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
+              <button type="button" class="qty-btn" id="increase">+</button>
+            </div>
+            <p class="ticket-price-hint">Max 6 tickets per order</p>
+          </div>
+          <div class="summary-qty-right">
+            <span class="orig-price">SEK 4,985</span>
+            <span class="li-val" id="pricePerUnit">SEK 2,985</span>
+            <span class="li-val summary-qty-count" id="summaryTickets">× 1</span>
+          </div>
         </div>
         <div class="line-item total">
           <span class="li-label">Total</span>
-          <span class="li-val" id="totalPrice">SEK 3,985</span>
+          <span class="li-val" id="totalPrice">SEK 2,985</span>
         </div>
       </div>
 
@@ -319,23 +327,16 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  const STANDARD_PRICE = 3985, HYPER_PRICE = 2985, STING_PRICE = 2985;
-  const NORMAL_LINKS = { 1:"https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",2:"https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",3:"https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",4:"https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",5:"https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",6:"https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g" };
-  const HYPER_LINKS  = { 1:"https://buy.stripe.com/9B67sLfwLeepaRudvP8AE0u",2:"https://buy.stripe.com/7sY6oH84jeep2kY63n8AE0v",3:"https://buy.stripe.com/14A5kD70ffitgbOajD8AE0w",4:"https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",5:"https://buy.stripe.com/bJecN584j0nzaRugI18AE0x",6:"https://buy.stripe.com/fZu28r84jc6h2kY9fz8AE0y" };
+  const STANDARD_PRICE = 2985;
+  const DEFAULT_LINKS = { 1:"https://buy.stripe.com/aFa5kD70f3zL3p2bnH8AE0B",2:"https://buy.stripe.com/28EcN55Wb5HT5xabnH8AE0C",3:"https://buy.stripe.com/4gM14n1FVb2d3p29fz8AE0D",4:"https://buy.stripe.com/6oU3cv5Wb9Y9cZCcrL8AE0E",5:"https://buy.stripe.com/6oU5kDbgvb2d3p2gI18AE0F",6:"https://buy.stripe.com/aFa28r3O31rD3p2crL8AE0G" };
 
-  let activePromo = null, ticketCount = 1;
+  let ticketCount = 1;
 
   function fmtSEK(n) { return 'SEK ' + n.toLocaleString('sv-SE'); }
-  function pricePerTicket() { return activePromo === 'hyperisland' ? HYPER_PRICE : activePromo === 'sting' ? STING_PRICE : STANDARD_PRICE; }
   function updateSummary() {
-    const per = pricePerTicket();
-    document.getElementById('pricePerUnit').textContent = fmtSEK(per);
+    document.getElementById('pricePerUnit').textContent = fmtSEK(STANDARD_PRICE);
     document.getElementById('summaryTickets').textContent = '× ' + ticketCount;
-    document.getElementById('totalPrice').textContent = fmtSEK(per * ticketCount);
-    const badge = document.getElementById('promoAppliedBadge');
-    if (activePromo === 'hyperisland') { badge.textContent = '✓ Hyper Island promo applied'; badge.classList.add('visible'); }
-    else if (activePromo === 'sting') { badge.textContent = '✓ Sting promo applied'; badge.classList.add('visible'); }
-    else { badge.classList.remove('visible'); }
+    document.getElementById('totalPrice').textContent = fmtSEK(STANDARD_PRICE * ticketCount);
   }
 
   document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; updateSummary(); } });
@@ -351,11 +352,9 @@
 
   document.getElementById('promoCode').addEventListener('input', function () {
     const code = this.value.trim().toLowerCase(), msg = document.getElementById('promoMsg');
-    if (code === 'hyperisland') { activePromo = 'hyperisland'; msg.className = 'promo-msg success'; msg.textContent = '✓ Hyper Island discount applied'; }
-    else if (code === 'sting') { activePromo = 'sting'; msg.className = 'promo-msg success'; msg.textContent = '✓ Sting promo applied'; }
-    else if (!code) { activePromo = null; msg.textContent = ''; msg.className = 'promo-msg'; }
-    else { activePromo = null; msg.className = 'promo-msg error'; msg.textContent = '⚠ Code not recognized'; }
-    updateSummary();
+    if (code === 'hyperisland') { msg.className = 'promo-msg success'; msg.textContent = '✓ Code noted — discount applied at next cohort'; }
+    else if (!code) { msg.textContent = ''; msg.className = 'promo-msg'; }
+    else { msg.className = 'promo-msg error'; msg.textContent = '⚠ Code not recognized'; }
   });
 
   function validate() {
@@ -368,8 +367,7 @@
   document.getElementById('submitBtn').addEventListener('click', () => {
     if (!validate()) return;
     try { const p=new URLSearchParams(new FormData(document.getElementById('booking-form'))); navigator.sendBeacon("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",new Blob([p.toString()],{type:'application/x-www-form-urlencoded'})); } catch(e) { console.warn('Webhook failed:',e); }
-    const code=(document.getElementById('promoCode').value||'').trim().toLowerCase();
-    window.location.href = (code==='hyperisland'||code==='sting' ? HYPER_LINKS : NORMAL_LINKS)[ticketCount] || NORMAL_LINKS[1];
+    window.location.href = DEFAULT_LINKS[ticketCount] || DEFAULT_LINKS[1];
   });
 
   ['firstName','lastName','email','background'].forEach(id => {
