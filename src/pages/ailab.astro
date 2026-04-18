@@ -65,6 +65,9 @@
     .persona-tag { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-strong); padding: 0.25rem 0.65rem; border-radius: 2px; }
     .persona-tag.active { color: var(--green); border-color: rgba(118,184,42,0.35); background: var(--green-dim); }
 
+    .hero-eyebrow { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .open-tag { display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.22rem 0.6rem; border-radius: 2px; background: rgba(118,184,42,0.12); color: var(--green); border: 1px solid rgba(118,184,42,0.35); }
+    .open-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; display: inline-block; }
     .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.2rem, 5.5vw, 6rem); line-height: 1.0; letter-spacing: 0.02em; }
     .hero-title .t-white { color: var(--white); display: block; }
     .hero-title .t-green { color: var(--green); display: block; }
@@ -312,8 +315,10 @@
     .pill { padding: 0.35rem 0.9rem; border: 1px solid var(--border-strong); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
     .apply-box { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r); padding: 2.5rem; text-align: center; position: relative; overflow: hidden; }
     .apply-box::before { content: ''; position: absolute; top: 0; left: 0; width: 80px; height: 80px; background: radial-gradient(circle at top left, rgba(118,184,42,0.2), transparent 70%); }
-    .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: 0.4rem; }
-    .apply-box-sub { color: var(--green); font-size: 0.88rem; margin-bottom: 0.75rem; }
+    .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; margin-bottom: 0.2rem; line-height: 1; }
+    .apply-box-orig { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--muted); text-decoration: line-through; margin-bottom: 1.25rem; }
+    .ticket-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(118,184,42,0.1); color: var(--green); border: 1px solid rgba(118,184,42,0.28); margin-bottom: 1rem; }
+    .ticket-status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; flex-shrink: 0; }
     .apply-box-anchor { color: var(--green); font-size: 0.82rem; margin-bottom: 1.5rem; }
     .apply-support { margin-top: 1rem; font-size: 0.78rem; color: var(--muted); }
     .apply-btn { display: block; width: 100%; background: var(--green); color: #000; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 1.1rem 2rem; border-radius: var(--r); text-decoration: none; transition: all 0.22s; }
@@ -483,6 +488,7 @@
 <section id="top" class="hero">
   <div class="hero-inner">
     <div class="hero-left">
+      <p class="hero-eyebrow"><span class="open-tag"><span class="open-dot"></span> Early bird price</span></p>
       <!-- CHANGE #1: Outcome-led headline -->
       <h1 class="hero-title">
         <span class="t-white">Build YOUR</span>
@@ -500,7 +506,7 @@
       </div>
 
       <div class="hero-meta">
-        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">SEP 20</p></div>
+        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">SEP 19</p></div>
         <div class="meta-block"><p class="meta-label">Location</p><p class="meta-value green">Park City Hotel</p></div>
         <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-Person</p></div>
         <div class="meta-block"><p class="meta-label">Duration</p><p class="meta-value">4 Weeks</p></div>
@@ -833,7 +839,7 @@
       </div>
       <div class="gallery-slot-c">
         <img src="/telegram-workshop.png" alt="Genaition workshopparticipants" style="object-position: center center;" />
-        <div class="gallery-img-label">Göteborg · SEP 2025</div>
+        <div class="gallery-img-label">Göteborg · SEP 1925</div>
       </div>
     </div>
     <p class="gallery-scroll-hint">← Swipe to see more →</p>
@@ -886,13 +892,14 @@
           <span class="pill">In-person</span>
           <span class="pill">4 weeks</span>
           <span class="pill">Park City Hotel</span>
-          <span class="pill">SEP 20, 2026</span>
+          <span class="pill">SEP 19, 2026</span>
         </div>
         <p class="apply-desc">Ready? Apply below.</p>
       </div>
       <div class="apply-box" id="pricing">
+        <div class="ticket-status"><span class="ticket-status-dot"></span> Early bird - Limited seats</div>
+        <p class="apply-box-orig">4,985 SEK</p>
         <p class="apply-box-title">2,985 SEK</p>
-        <p class="apply-box-sub">Early Bird pricinglimited seats</p>
         <ul class="cell-list" style="text-align:left;margin-bottom:1.5rem;max-width:260px;margin-left:auto;margin-right:auto;">
           <li>VIP in-person support throughout</li>
           <li>24/7 Slack access to ask questions</li>
@@ -1025,7 +1032,7 @@
 <div class="sticky-bar">
   <div class="sticky-text">
     <p class="sticky-title">Applied AI Lab</p>
-    <p class="sticky-sub">In-person · SEP 20 · Stockholm</p>
+    <p class="sticky-sub">In-person · SEP 19 · Stockholm</p>
   </div>
   <a href="#pricing" class="sticky-btn">Apply</a>
 </div>
@@ -1106,7 +1113,7 @@
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && backdrop.classList.contains('open')) closeChat(); });
 
   const OR_KEY = 'YOUR_OPENROUTER_KEY_HERE';
-  const SYSTEM_PROMPT = `You are a friendly and knowledgeable assistant for Genaition's Applied AI Laba 4-week in-person cohort program in Stockholm (Park City Hotel) starting September 20, 2026.
+  const SYSTEM_PROMPT = `You are a friendly and knowledgeable assistant for Genaition's Applied AI Laba 4-week in-person cohort program in Stockholm (Park City Hotel) starting September 19, 2026.
 
 Key facts:
 - Price: 2,985 SEK (Cohort 1 pricinglowest it will ever be)
