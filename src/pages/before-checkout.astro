@@ -2,526 +2,788 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Before Checkout | GenAition</title>
+  <title>Register — AI Email Reply Agent Workshop · Uppsala · 13 June</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Complete your GenAition workshop registration and proceed securely to checkout." />
-  <link rel="icon" href="/favicon.ico" />
+  <meta name="description" content="Secure your seat at the AI Email Reply Agent Workshop. Uppsala · 13 June 2026." />
 
-  <!-- Tailwind (v2) -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-
-  <!-- ✅ Umami Analytics -->
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
-
-  <!-- ✅ Meta Pixel Code -->
-  <script>
-    !function(f,b,e,v,n,t,s){
-      if(f.fbq)return; n=f.fbq=function(){ n.callMethod ?
-        n.callMethod.apply(n,arguments) : n.queue.push(arguments) };
-      if(!f._fbq)f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
-      n.queue=[]; t=b.createElement(e); t.async=!0; t.src=v;
-      s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)
-    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1507001663644263');
-    fbq('track', 'PageView');
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
-  </noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Umami Analytics -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --ink:#07110e;
-      --forest:#0b1f19;
-      --forest2:#0f2a22;
-      --accent:#2a7a5a;
-      --accent2:#9ed1b7;
-      --gold:#FFC107;
-      --paper:#f6f7f7;
-      --card:#ffffff;
-      --ring: rgba(42,122,90,.35);
-      --shadow: 0 20px 40px rgba(0,0,0,.10);
-      --shadow2: 0 10px 24px rgba(0,0,0,.10);
-      --radius: 20px;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black:         #050505;
+      --off-black:     #0d0d0d;
+      --card:          #111111;
+      --card2:         #161616;
+      --border:        rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+      --green:         #00bf63;
+      --green-dim:     rgba(0,191,99,0.10);
+      --green-glow:    rgba(0,191,99,0.25);
+      --gold:          #ffb800;
+      --gold-dim:      rgba(255,184,0,0.10);
+      --gold-glow:     rgba(255,184,0,0.28);
+      --white:         #ffffff;
+      --muted:         rgba(255,255,255,0.42);
+      --muted2:        rgba(255,255,255,0.65);
+      --red:           #e53e3e;
+      --header:        66px;
+      --r:             3px;
     }
 
-    html { scroll-behavior:smooth; }
-    body { background: var(--paper); }
-    :focus { outline: none; }
-    .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
-
-    .bg-acoustic{
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.28), transparent 60%),
-        radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.16), transparent 60%),
-        linear-gradient(180deg, #ffffff, #f3f5f5);
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-size: 16px;
+      line-height: 1.6; overflow-x: hidden; min-height: 100vh;
     }
 
-    .glass{
-      background: rgba(7,17,14,.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.10);
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--header);
+      background: rgba(5,5,5,0.96); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border); z-index: 100;
+      display: flex; align-items: center;
+    }
+    .hdr-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 2.5rem;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: var(--r);
+      background: var(--card); border: 1px solid var(--border-strong);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: var(--white); line-height: 1; }
+    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.24em; color: var(--green); display: block; margin-top: 2px; }
+    .nav-back {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+    .nav-back svg { width: 14px; height: 14px; }
+    @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } }
+
+    /* ── BACKGROUND ── */
+    .page-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,184,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,184,0,0.03) 1px, transparent 1px);
+      background-size: 52px 52px;
+    }
+    .page-glow {
+      position: fixed; top: -300px; right: -200px; width: 800px; height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,191,99,0.05) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .page-glow-2 {
+      position: fixed; bottom: -200px; left: -100px; width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,184,0,0.04) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
     }
 
-    .hero{
-      position: relative;
-      overflow:hidden;
-      background:
-        radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.22), transparent 60%),
-        radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.16), transparent 55%),
-        linear-gradient(180deg, rgba(7,17,14,.92), rgba(7,17,14,.98));
+    /* ── LAYOUT ── */
+    .page-wrap {
+      padding-top: calc(var(--header) + 4rem);
+      padding-bottom: 6rem;
+      position: relative; z-index: 1;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem; }
+    @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header { margin-bottom: 3.5rem; animation: fadeUp 0.6s ease 0.1s both; }
+    .page-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 1.1rem;
+    }
+    .page-eyebrow::before { content: ''; display: inline-block; width: 16px; height: 1px; background: var(--green); }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      line-height: 0.95; letter-spacing: 0.02em;
+    }
+    .page-title .t-white { color: var(--white); display: block; }
+    .page-title .t-gold { color: var(--gold); display: block; }
+    .page-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin: 1.4rem 0; }
+
+    /* ── STEP INDICATOR ── */
+    .step-bar {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 3rem; animation: fadeUp 0.6s ease 0.2s both;
+    }
+    .step {
+      display: flex; align-items: center; gap: 0.65rem;
+      font-family: 'DM Mono', monospace; font-size: 0.58rem;
+      text-transform: uppercase; letter-spacing: 0.16em;
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: var(--r);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0;
+      flex-shrink: 0;
+    }
+    .step.active .step-num { background: var(--gold); color: #000; }
+    .step.active .step-label { color: var(--white); }
+    .step.inactive .step-num { background: var(--card); border: 1px solid var(--border-strong); color: var(--muted); }
+    .step.inactive .step-label { color: var(--muted); }
+    .step-connector { width: 40px; height: 1px; background: var(--border-strong); margin: 0 0.75rem; flex-shrink: 0; }
+
+    /* ── MAIN GRID ── */
+    .main-grid {
+      display: block;
+      max-width: 680px;
+      margin: 0 auto;
     }
 
-    .blob{
-      position:absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 9999px;
-      background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.40), rgba(42,122,90,.08) 55%, transparent 70%);
-      opacity: .85;
-      animation: drift 10s ease-in-out infinite;
-      pointer-events:none;
-      left: -120px;
-      top: -140px;
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--card); border: 1px solid var(--border-strong);
+      border-radius: var(--r); position: relative; overflow: hidden;
+      animation: fadeUp 0.6s ease 0.25s both;
     }
-    @keyframes drift{
-      0%,100%{ transform: translate(0,0) scale(1); }
-      50%{ transform: translate(30px, 22px) scale(1.05); }
+    .form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+    .form-card-header {
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .form-card-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+      letter-spacing: 0.04em; line-height: 1;
+    }
+    .seats-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'DM Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem; border-radius: 2px;
+      background: var(--green-dim); color: var(--green);
+      border: 1px solid rgba(0,191,99,0.22);
+    }
+    .seats-dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
+
+    .form-body { padding: 2rem 2.5rem; }
+    @media (max-width: 500px) { .form-card-header { padding: 1.5rem; } .form-body { padding: 1.5rem; } }
+
+    /* ── FORM FIELDS ── */
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+    .field { margin-bottom: 1.25rem; }
+    .field-row .field { margin-bottom: 0; }
+
+    label {
+      display: block; font-family: 'DM Mono', monospace;
+      font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--muted); margin-bottom: 0.55rem;
+    }
+    label .opt {
+      color: var(--muted); font-size: 0.5rem; letter-spacing: 0.1em;
+      margin-left: 0.4rem; opacity: 0.6;
     }
 
-    .badge{
-      display:inline-flex;
-      gap:.5rem;
-      align-items:center;
-      padding:.35rem .65rem;
-      border-radius: 9999px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: .72rem;
-      color: #0a1a15;
-      background: rgba(255,193,7,.92);
-      border: 1px solid rgba(255,255,255,.35);
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r); padding: 0.85rem 1rem;
+      color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem; transition: border-color 0.2s, background 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    input::placeholder { color: rgba(255,255,255,0.2); }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--gold); background: rgba(255,184,0,0.03);
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+    select option { background: #111; color: var(--white); }
+
+    /* Validation states */
+    input.valid, select.valid { border-color: rgba(0,191,99,0.4); }
+    input.invalid, select.invalid { border-color: rgba(229,62,62,0.5); }
+    .field-error {
+      font-family: 'DM Mono', monospace; font-size: 0.52rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--red); margin-top: 0.4rem; display: none;
+    }
+    .field-error.show { display: block; }
+
+    /* ── TICKET COUNTER ── */
+    .ticket-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.55rem; }
+    .ticket-counter { display: flex; align-items: center; gap: 1px; background: var(--border-strong); border-radius: var(--r); overflow: hidden; width: fit-content; }
+    .tc-btn {
+      background: var(--card2); border: none; color: var(--white);
+      width: 44px; height: 44px; cursor: pointer;
+      font-size: 1.1rem; font-family: 'DM Sans', sans-serif;
+      transition: background 0.18s; display: flex; align-items: center; justify-content: center;
+      user-select: none;
+    }
+    .tc-btn:hover { background: #1d1d1d; }
+    .tc-btn:active { background: #222; }
+    .tc-num {
+      background: var(--card2); border: none;
+      width: 56px; height: 44px;
+      text-align: center; font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; color: var(--gold); pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
     }
 
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      border: 1px solid rgba(7,17,14,.06);
+    /* ── SECTION DIVIDER ── */
+    .form-section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.56rem;
+      text-transform: uppercase; letter-spacing: 0.22em;
+      color: var(--muted); margin: 1.75rem 0 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
     }
-    .card-dark{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 30px rgba(0,0,0,.22);
-      border-radius: var(--radius);
+    .form-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── PROMO CODE ── */
+    .promo-toggle-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--muted); display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0; transition: color 0.2s;
+    }
+    .promo-toggle-btn:hover { color: var(--gold); }
+    .promo-toggle-btn svg { width: 10px; height: 10px; transition: transform 0.25s; }
+    .promo-toggle-btn.open svg { transform: rotate(180deg); }
+    .promo-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .promo-panel.open { max-height: 120px; margin-top: 1rem; }
+    .promo-inner { display: flex; gap: 0.75rem; }
+    .promo-inner input { flex: 1; }
+    .promo-apply-btn {
+      background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r);
+      color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.12em; padding: 0 1.1rem;
+      cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s;
+    }
+    .promo-apply-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .promo-msg {
+      font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-top: 0.5rem;
+    }
+    .promo-msg.success { color: var(--green); }
+    .promo-msg.error { color: var(--red); }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.65rem;
+      width: 100%; padding: 1.1rem 2rem; margin-top: 2rem;
+      background: var(--gold); color: #000; border: none; border-radius: var(--r);
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.14em; cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .submit-btn:hover { background: #ffc926; transform: translateY(-1px); box-shadow: 0 8px 32px var(--gold-glow); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .submit-btn.loading { opacity: 0.7; pointer-events: none; }
+
+    .submit-note {
+      margin-top: 0.85rem; text-align: center;
+      font-family: 'DM Mono', monospace; font-size: 0.52rem;
+      text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .submit-note svg { width: 11px; height: 11px; opacity: 0.5; }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display: flex; flex-direction: column; gap: 1.25rem; animation: fadeUp 0.6s ease 0.35s both; }
+
+    /* Event summary card */
+    .event-summary {
+      background: var(--card); border: 1px solid var(--border-strong);
+      border-radius: var(--r); overflow: hidden; position: relative;
+    }
+    .event-summary::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); z-index: 2; }
+    .event-summary-img { position: relative; height: 160px; overflow: hidden; }
+    .event-summary-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center top;
+      filter: brightness(0.6) saturate(0.7) sepia(0.1);
+    }
+    .event-summary-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 40%, rgba(17,17,17,0.95) 100%); }
+    .event-summary-body { padding: 1.5rem; }
+    .event-summary-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 1rem; }
+
+    .event-meta-row { display: flex; flex-direction: column; gap: 0.65rem; }
+    .event-meta-item { display: flex; align-items: flex-start; gap: 0.65rem; }
+    .event-meta-icon {
+      width: 26px; height: 26px; border-radius: 2px;
+      background: var(--green-dim); border: 1px solid rgba(0,191,99,0.18);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .event-meta-icon svg { width: 12px; height: 12px; stroke: var(--green); }
+    .event-meta-text { font-size: 0.82rem; color: var(--muted2); line-height: 1.4; }
+    .event-meta-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.08rem; }
+
+    /* Price summary card */
+    .price-card {
+      background: var(--card); border: 1px solid var(--border-strong);
+      border-radius: var(--r); padding: 1.5rem; position: relative; overflow: hidden;
+    }
+    .price-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+    .price-card-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.3rem; }
+    .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.65rem 0; border-bottom: 1px solid var(--border); }
+    .price-row:last-of-type { border-bottom: none; }
+    .price-row-label { font-size: 0.85rem; color: var(--muted2); }
+    .price-row-value { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.05em; }
+    .price-row-value.strike { text-decoration: line-through; color: var(--muted); font-size: 0.85rem; }
+    .price-row-value.green { color: var(--green); }
+    .price-total-row { display: flex; justify-content: space-between; align-items: baseline; padding-top: 1rem; margin-top: 0.5rem; border-top: 1px solid var(--border-strong); }
+    .price-total-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+    .price-total-value { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--white); line-height: 1; letter-spacing: 0.02em; }
+    .price-per { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+    .early-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'DM Mono', monospace; font-size: 0.52rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.22rem 0.65rem; border-radius: 2px; margin-top: 0.85rem;
+      background: var(--gold-dim); color: var(--gold);
+      border: 1px solid rgba(255,184,0,0.22);
+    }
+    .early-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; animation: pulse 2s ease infinite; }
+
+    /* Trust block */
+    .trust-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.25rem 1.5rem;
+    }
+    .trust-items { display: flex; flex-direction: column; gap: 0.75rem; }
+    .trust-item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+    .trust-item::before { content: '→'; color: var(--green); flex-shrink: 0; font-size: 0.7rem; margin-top: 2px; }
+
+    /* Trustpilot mini */
+    .tp-mini { padding: 1.25rem 1.5rem; }
+    .tp-mini-inner { display: flex; align-items: center; gap: 1rem; }
+    .tp-stars { display: flex; gap: 3px; }
+    .tp-star { width: 14px; height: 14px; background: #00b67a; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    .tp-meta { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-top: 0.25rem; }
+    .tp-score-big { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); line-height: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 0; border-top: 1px solid var(--border);
+      text-align: center; position: relative; z-index: 1;
+    }
+    footer p { font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); }
+
+    /* ── PRICE SUMMARY STRIP ── */
+    .price-summary-strip {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 1.75rem 0 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba(255,184,0,0.04);
+      border: 1px solid rgba(255,184,0,0.18);
+      border-radius: var(--r);
+    }
+    .pss-left { display: flex; flex-direction: column; gap: 0.2rem; }
+    .pss-label {
+      font-family: 'DM Mono', monospace; font-size: 0.56rem;
+      text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted);
+    }
+    .pss-breakdown {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.1em; color: var(--muted2);
+    }
+    .pss-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.1rem; }
+    .pss-old {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--muted); text-decoration: line-through; letter-spacing: 0.08em;
+    }
+    .pss-total {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+      color: var(--gold); line-height: 1; letter-spacing: 0.04em;
     }
 
-    .soft-divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.6rem;
-      padding:.9rem 1.15rem;
-      border-radius: 14px;
-      font-weight: 900;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
-      will-change: transform;
-      user-select:none;
+    /* ── SUCCESS STATE ── */
+    .success-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: var(--black); align-items: center; justify-content: center;
+      flex-direction: column; text-align: center; padding: 2rem;
     }
-    .btn:active{ transform: translateY(1px) scale(.99); }
+    .success-overlay.show { display: flex; }
+    .success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--green-dim); border: 1px solid rgba(0,191,99,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
+    .success-icon svg { width: 28px; height: 28px; stroke: var(--green); }
+    .success-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.02em; margin-bottom: 0.75rem; }
+    .success-sub { color: var(--muted2); font-size: 0.95rem; max-width: 400px; line-height: 1.7; }
 
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), #2f8b66);
-      color:#fff;
-      box-shadow: 0 12px 26px rgba(42,122,90,.30);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .btn-primary:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 34px rgba(42,122,90,.34);
-    }
-
-    .btn-outline{
-      background: rgba(255,255,255,.10);
-      color:#fff;
-      border: 1px solid rgba(255,255,255,.18);
-    }
-    .btn-outline:hover{
-      background: rgba(255,255,255,.14);
-      transform: translateY(-1px);
-    }
-
-    .input{
-      width:100%;
-      border: 1px solid rgba(7,17,14,.14);
-      border-radius: 14px;
-      padding: .75rem .9rem;
-      background: #fff;
-      transition: box-shadow .15s ease, border-color .15s ease;
-    }
-    .input:focus{
-      border-color: rgba(42,122,90,.55);
-      box-shadow: 0 0 0 4px rgba(42,122,90,.18);
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:.4rem;
-      padding:.25rem .55rem;
-      border-radius: 9999px;
-      font-size: .72rem;
-      font-weight: 900;
-      background: rgba(255,193,7,.14);
-      border: 1px solid rgba(255,193,7,.30);
-      color: #5a4300;
-    }
-
-    .price-wrap{ display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
-    .price-old{ text-decoration: line-through; opacity:.65; font-weight:800; }
-    .price-new{ font-weight: 900; letter-spacing: -0.02em; }
-
-    /* Dropdown */
-    .dropdown-menu{ display:none; }
-    .dropdown:hover .dropdown-menu,
-    .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover{ display:block; }
+    /* Language dropdown */
+    .lang-wrap { position: relative; }
+    .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r); padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s; }
+    .lang-btn:hover { color: var(--white); border-color: var(--border-strong); }
+    .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
+    .lang-btn svg { width: 12px; height: 12px; }
+    .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; z-index: 200; }
+    .lang-wrap.open .lang-menu { display: block; }
+    .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+    .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
   </style>
 </head>
+<body>
 
-<body class="text-gray-900">
+<div class="page-bg"></div>
+<div class="page-glow"></div>
+<div class="page-glow-2"></div>
 
-  <!-- ================= NAV ================= -->
-  <header class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-      <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
-        <a href="/index.html" class="flex items-center gap-3">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full">
-          <div class="hidden sm:block leading-tight">
-            <p class="text-white font-extrabold tracking-tight">GenAition</p>
-            <p class="text-xs text-green-100 opacity-90">Secure checkout</p>
-          </div>
-        </a>
+<!-- ── HEADER ── -->
+<header>
+  <div class="hdr-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">
+        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.background='#ffb800';this.style.display='none';" />
+      </div>
+      <div>
+        <span class="logo-name">Genaition</span>
+        <span class="logo-sub">Workshops · AI Agents</span>
+      </div>
+    </a>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="/event-1.html" class="nav-back">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
+        Back to event
+      </a>
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
+          <img src="/english.png" alt="English" />
+          <span>EN</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <a href="/index.html"><img src="/english.png" alt="English flag" /> English</a>
+          <a href="/before-checkout-sv.html"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-        <div class="flex items-center gap-3">
-          <a href="/event-1.html" class="hidden sm:inline-flex btn btn-outline focus-ring px-4 py-2">Back to event</a>
+<!-- ── PAGE WRAP ── -->
+<div class="page-wrap">
+  <div class="container">
 
-          <div class="relative dropdown">
-            <button class="focus-ring btn btn-outline px-3 py-2" aria-label="Language selector">
-              <img src="/english.png" alt="English" class="h-5 w-5">
-              <span class="text-sm font-extrabold">EN</span>
-              <svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
+    <!-- Page header -->
+    <div class="page-header">
+      <p class="page-eyebrow">Registration</p>
+      <h1 class="page-title">
+        <span class="t-white">Workshop</span>
+        <span class="t-gold">Registration</span>
+      </h1>
+      <div class="page-divider"></div>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="step-bar">
+      <div class="step active">
+        <div class="step-num">1</div>
+        <span class="step-label" style="font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.16em;">Details</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step inactive">
+        <div class="step-num">2</div>
+        <span class="step-label" style="font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.16em;">Payment</span>
+      </div>
+    </div>
+
+    <!-- Main content grid -->
+    <div class="main-grid">
+
+      <!-- ── FORM ── -->
+      <div class="form-card">
+        <div class="form-card-header">
+          <p class="form-card-title">Your details</p>
+          <span class="seats-badge"><span class="seats-dot"></span> Seats available</span>
+        </div>
+
+        <div class="form-body">
+          <form id="booking-form" novalidate>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="firstName">First Name</label>
+                <input id="firstName" type="text" name="name" autocomplete="given-name" placeholder="Sara" required />
+                <p class="field-error" id="firstName-err">Required</p>
+              </div>
+              <div class="field">
+                <label for="lastName">Last Name</label>
+                <input id="lastName" type="text" name="surname" autocomplete="family-name" placeholder="Lindqvist" required />
+                <p class="field-error" id="lastName-err">Required</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required />
+              <p class="field-error" id="email-err">Enter a valid email address</p>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone <span class="opt">Optional</span></label>
+              <input id="phone" type="tel" name="phone" autocomplete="tel" placeholder="+46 70 000 00 00" />
+            </div>
+
+            <div class="field">
+              <label for="background">Professional Background</label>
+              <select id="background" name="background" required>
+                <option value="" disabled selected>Select your background</option>
+                <option>Tech / Engineering</option>
+                <option>Marketing / Ops</option>
+                <option>Entrepreneur / Founder</option>
+                <option>Sales / Business Dev</option>
+                <option>Non-Tech / Other</option>
+              </select>
+              <p class="field-error" id="background-err">Please select your background</p>
+            </div>
+
+            <p class="form-section-label">Tickets</p>
+
+            <div class="field">
+              <label for="ticketDisplay">Quantity</label>
+              <div style="margin-top:0.55rem; display:flex; align-items:center; gap:1.25rem;">
+                <div class="ticket-counter">
+                  <button type="button" id="decrease" class="tc-btn">−</button>
+                  <div class="tc-num" id="ticketDisplay">1</div>
+                  <button type="button" id="increase" class="tc-btn">+</button>
+                </div>
+              </div>
+              <input type="hidden" id="ticketCount" name="tickets" value="1" />
+              <p class="field-error show" id="ticket-max-err" style="display:none;">Maximum 6 tickets per order.</p>
+            </div>
+
+            <!-- Live price summary -->
+            <div class="price-summary-strip">
+              <div class="pss-left">
+                <span class="pss-label">Order Total</span>
+                <span class="pss-breakdown" id="priceBreakdown">1 ticket × 595 SEK</span>
+              </div>
+              <div class="pss-right">
+                <span class="pss-old">895 SEK</span>
+                <span class="pss-total" id="totalDisplay">595 SEK</span>
+              </div>
+            </div>
+
+            <p class="form-section-label">Promo Code</p>
+
+            <button type="button" id="promoToggle" class="promo-toggle-btn">
+              Have a promo code?
+              <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg>
             </button>
-            <div class="dropdown-menu absolute right-0 mt-2 w-44 bg-white text-black rounded-xl shadow-lg z-30 overflow-hidden border border-gray-100">
-              <a href="/before-checkout.html" class="flex items-center px-3 py-2 hover:bg-gray-50">
-                <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
-              </a>
-              <a href="/before-checkout-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-50">
-                <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ================= HERO ================= -->
-  <section class="hero pt-28 pb-10 text-white">
-    <div class="blob"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto">
-        <div class="flex flex-wrap items-center justify-center gap-3 mb-5">
-          <span class="badge">Step 1 of 2</span>
-          <span class="text-sm text-green-100 opacity-90">Registration → Payment</span>
-        </div>
-
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-          Workshop registration
-        </h1>
-        <p class="mt-4 text-green-100 text-lg">
-          Fill in your details. Then you’ll proceed securely to payment via Stripe.
-        </p>
-
-        <!-- ✅ REMOVED: hero "Current total" pricing box -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTENT ================= -->
-  <main class="bg-acoustic">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-14">
-      <!-- ✅ Changed to single-column layout (removed right sidebar) -->
-      <div class="grid grid-cols-1 gap-6 -mt-6">
-
-        <!-- FORM CARD -->
-        <div>
-          <form id="booking-form" class="card p-7 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Your details</p>
-                <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-gray-900">Complete registration</h2>
-                <p class="mt-2 text-gray-600">We’ll use this to send your confirmation and workshop details.</p>
+            <div id="promoPanel" class="promo-panel">
+              <div class="promo-inner">
+                <input type="text" id="promoCode" name="promoCode" placeholder="Enter code" style="text-transform:uppercase;" />
+                <button type="button" id="applyPromo" class="promo-apply-btn">Apply</button>
               </div>
-
-              <div class="hidden sm:block text-right">
-                <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Secure</p>
-                <p class="text-sm font-extrabold" style="color:var(--forest2);">Stripe checkout</p>
-              </div>
+              <p id="promoMsg" class="promo-msg"></p>
             </div>
 
-            <div class="soft-divider my-6"></div>
+            <button type="button" id="submitBtn" class="submit-btn">
+              Continue to Payment
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
+            </button>
+            <p class="submit-note">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="8" rx="1"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>
+              Secure checkout via Stripe · SSL encrypted
+            </p>
 
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">First Name</label>
-                <input type="text" name="name" class="input focus-ring" required />
-              </div>
-
-              <div>
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">Last Name</label>
-                <input type="text" name="surname" class="input focus-ring" required />
-              </div>
-
-              <div>
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">Phone Number</label>
-                <input type="tel" name="phone" class="input focus-ring" required />
-              </div>
-
-              <div>
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">Email</label>
-                <input type="email" name="email" class="input focus-ring" required />
-              </div>
-
-              <div class="sm:col-span-2">
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">Background</label>
-                <select name="background" class="input focus-ring" required>
-                  <option value="" disabled selected>Select your background</option>
-                  <option>Tech</option>
-                  <option>Non-Tech</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="soft-divider my-6"></div>
-
-            <!-- Promo + tickets -->
-            <div class="grid lg:grid-cols-12 gap-5 items-start">
-              <div class="lg:col-span-7">
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">Promo Code (optional)</label>
-                <input type="text" id="promoCode" name="promoCode" placeholder="Enter promo code" class="input focus-ring" />
-                <p id="promoMessage" class="text-sm mt-2 hidden" style="color: var(--accent); font-weight: 800;">
-                  ✅ Promo applied! Price updated.
-                </p>
-              </div>
-
-              <div class="lg:col-span-5">
-                <label class="block font-extrabold text-sm text-gray-800 mb-2">Number of Tickets</label>
-                <div class="flex items-center gap-3">
-                  <button type="button" id="decrease" class="focus-ring btn px-4 py-3 bg-gray-100 text-gray-900 border border-gray-200" aria-label="Decrease">−</button>
-                  <input type="number" id="ticketCount" value="1" min="1" max="6"
-                         class="input focus-ring text-center" style="max-width: 90px;" readonly />
-                  <button type="button" id="increase" class="focus-ring btn px-4 py-3 bg-gray-100 text-gray-900 border border-gray-200" aria-label="Increase">+</button>
-                </div>
-                <p class="mt-2 text-xs text-gray-500">Max 6 tickets per order.</p>
-              </div>
-            </div>
-
-            <!-- Totals (kept) -->
-            <div class="mt-6 card p-5" style="background: linear-gradient(180deg, #ffffff, #fbfbfb);">
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Total</p>
-                  <div class="mt-1 price-wrap">
-                    <span id="discountedPrice" class="price-new text-3xl" style="color:var(--forest2);">SEK 595</span>
-                    <span id="originalPrice" class="price-old text-gray-700">SEK 895</span>
-                    <span id="discountBadge" class="pill">-27%</span>
-                  </div>
-                  <p id="promoLabel" class="mt-1 text-xs text-gray-500">Standard pricing (promo optional).</p>
-                </div>
-
-<button type="button" id="submitBtn" class="btn btn-primary focus-ring w-full sm:w-auto px-6">
-  Continue to checkout
-</button>
-              </div>
-
-              <p class="mt-3 text-xs text-gray-500">
-                By continuing, you will be redirected to Stripe to complete your payment securely.
-              </p>
-
-              <!-- ✅ Keep the invoice/swish line without the right sidebar -->
-              <a href="mailto:info@genaition.org"
-                 class="mt-4 inline-flex w-full btn focus-ring px-6 py-3 bg-white text-gray-900 border border-gray-200 rounded-xl font-extrabold justify-center">
-                Need Swish / invoice? Email us
-              </a>
-
-              <p class="mt-3 text-xs text-gray-500">
-                Questions: <a class="underline" href="mailto:info@genaition.org">info@genaition.org</a>
-              </p>
-            </div>
           </form>
         </div>
-
-      </div>
-    </div>
-  </main>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="pt-12 pb-8" style="background:#050c0a; color:#e9f2ee;">
-    <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-10 text-sm">
-      <div class="space-y-2">
-        <p class="font-extrabold text-white text-base mb-3">Links</p>
-        <a href="/index.html" class="block hover:text-green-200">Home</a>
-        <a href="/learn-more.html" class="block hover:text-green-200">About us</a>
-        <a href="/index.html#workshops" class="block hover:text-green-200">Events</a>
-        <a href="/index.html#services" class="block hover:text-green-200">Services</a>
-        <a href="/index.html#contact" class="block hover:text-green-200">Contact</a>
       </div>
 
-      <div class="sm:text-right space-y-1">
-        <p class="font-extrabold text-white text-base mb-3">GenAition</p>
-        <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sweden</p>
-        <p class="mt-3">info@genaition.org</p>
-        <p>+46 762 608 848</p>
-      </div>
-    </div>
 
-    <div class="max-w-6xl mx-auto px-4 mt-10 flex flex-col items-center gap-4">
-      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14 rounded-2xl" />
-      <div class="flex items-center gap-4">
-        <a href="https://www.linkedin.com/company/genaition-io/" target="_blank" rel="noreferrer" class="hover:opacity-80">
-          <img src="/linkedin.png" class="h-6 w-6" alt="LinkedIn" />
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank" rel="noreferrer" class="hover:opacity-80">
-          <img src="/facebook.png" class="h-6 w-6" alt="Facebook" />
-        </a>
-        <a href="https://www.instagram.com/genaition.io/" target="_blank" rel="noreferrer" class="hover:opacity-80">
-          <img src="/instagram.png" class="h-6 w-6" alt="Instagram" />
-        </a>
-      </div>
+    </div><!-- /main-grid -->
+  </div>
+</div>
 
-      <p class="text-xs text-gray-400 mt-2">&copy; 2026 GenAition. All rights reserved.</p>
-    </div>
-  </footer>
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2026 Genaition · Stockholm · EST 2024 · hello@genaition.io</p>
+</footer>
 
-  <!-- ================= LOGIC ================= -->
-  <script>
-    const dec = document.getElementById('decrease');
-    const inc = document.getElementById('increase');
-    const count = document.getElementById('ticketCount');
+<script>
+  // Language dropdown
+  const langWrap = document.getElementById('langWrap');
+  const langBtn  = document.getElementById('langBtn');
+  function closeLang() { langWrap && langWrap.classList.remove('open'); langBtn && langBtn.setAttribute('aria-expanded','false'); }
+  function toggleLang() { const open = !langWrap.classList.contains('open'); langWrap.classList.toggle('open', open); langBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  if (langBtn) {
+    langBtn.addEventListener('click', e => { e.stopPropagation(); toggleLang(); });
+    document.addEventListener('click', closeLang);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLang(); });
+  }
+</script>
 
-    const discounted = document.getElementById('discountedPrice');
-    const original = document.getElementById('originalPrice');
-    const badge = document.getElementById('discountBadge');
+<script>
+  // ── CONFIG ──
+  const PRICE_REGULAR   = 895;
+  const PRICE_EARLY     = 595;
+  const PRICE_PROMO     = 495;
+  const PROMO_CODES     = { "HYPERISLAND": PRICE_PROMO, "STING": PRICE_PROMO };
 
-    const promo = document.getElementById('promoCode');
-    const promoMsg = document.getElementById('promoMessage');
+  let ticketQty    = 1;
+  let activePromo  = null;
+  let pricePerSeat = PRICE_EARLY;
 
-    const promoLabel = document.getElementById('promoLabel');
+  // ── STRIPE LINKS ──
+  const normalLinks = {
+    1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
+    2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
+    3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
+    4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
+    5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
+    6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
+  };
+  const promoLinks = {
+    1: "https://buy.stripe.com/9B67sLfwLeepaRudvP8AE0u",
+    2: "https://buy.stripe.com/7sY6oH84jeep2kY63n8AE0v",
+    3: "https://buy.stripe.com/14A5kD70ffitgbOajD8AE0w",
+    4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
+    5: "https://buy.stripe.com/bJecN584j0nzaRugI18AE0x",
+    6: "https://buy.stripe.com/fZu28r84jc6h2kY9fz8AE0y"
+  };
 
-    let promoActive = false;
+  // ── ELEMENTS ──
+  const decBtn        = document.getElementById('decrease');
+  const incBtn        = document.getElementById('increase');
+  const ticketDisplay = document.getElementById('ticketDisplay');
+  const ticketCount   = document.getElementById('ticketCount');
+  const totalDisplay  = document.getElementById('totalDisplay');
+  const priceBreakdown= document.getElementById('priceBreakdown');
 
-    // Keep your original pricing (DO NOT change Stripe links logic)
-    const normalPrice = 595, originalPrice = 895, hyperPrice = 595;
+  const promoToggle   = document.getElementById('promoToggle');
+  const promoPanel    = document.getElementById('promoPanel');
+  const promoCode     = document.getElementById('promoCode');
+  const applyPromo    = document.getElementById('applyPromo');
+  const promoMsg      = document.getElementById('promoMsg');
+  const submitBtn     = document.getElementById('submitBtn');
+  const maxErr        = document.getElementById('ticket-max-err');
 
-    function fmtSEK(n){ return `SEK ${n}`; }
+  function updateUI() {
+    const total = ticketQty * pricePerSeat;
+    ticketDisplay.textContent = ticketQty;
+    ticketCount.value = ticketQty;
+    priceBreakdown.textContent = `${ticketQty} ticket${ticketQty > 1 ? 's' : ''} × ${pricePerSeat} SEK`;
+    totalDisplay.textContent = `${total.toLocaleString('sv-SE')} SEK`;
+  }
 
-    function updateTotal() {
-      const val = parseInt(count.value, 10);
-      const pricePer = promoActive ? hyperPrice : normalPrice;
+  // Ticket counter
+  decBtn.addEventListener('click', () => {
+    if (ticketQty > 1) { ticketQty--; maxErr.style.display = 'none'; updateUI(); }
+  });
+  incBtn.addEventListener('click', () => {
+    if (ticketQty < 6) { ticketQty++; maxErr.style.display = 'none'; updateUI(); }
+    else { maxErr.style.display = 'block'; }
+  });
 
-      const totalDisc = val * pricePer;
-      const totalOrig = val * originalPrice;
-      const discount = Math.round(((totalOrig - totalDisc) / totalOrig) * 100);
+  // Promo toggle
+  promoToggle.addEventListener('click', () => {
+    promoPanel.classList.toggle('open');
+    promoToggle.classList.toggle('open');
+  });
 
-      discounted.textContent = fmtSEK(totalDisc);
-      original.textContent = fmtSEK(totalOrig);
-      badge.textContent = promoActive ? "-46% (Hyper Island)" : `-${discount}%`;
-
-      promoLabel.textContent = promoActive ? "Promo pricing applied." : "Standard pricing (promo optional).";
+  // Apply promo
+  function applyCode() {
+    const code = promoCode.value.trim().toUpperCase();
+    if (PROMO_CODES[code]) {
+      activePromo = code;
+      pricePerSeat = PROMO_CODES[code];
+      promoMsg.className = 'promo-msg success';
+      promoMsg.textContent = `✓ ${code} discount applied`;
+    } else if (code.length === 0) {
+      activePromo = null;
+      pricePerSeat = PRICE_EARLY;
+      promoMsg.textContent = '';
+    } else {
+      activePromo = null;
+      pricePerSeat = PRICE_EARLY;
+      promoMsg.className = 'promo-msg error';
+      promoMsg.textContent = '⚠ Code not recognised.';
     }
+    updateUI();
+  }
 
-    dec.addEventListener('click', () => {
-      if (parseInt(count.value, 10) > 1) {
-        count.value = parseInt(count.value, 10) - 1;
-        updateTotal();
-      }
+  applyPromo.addEventListener('click', applyCode);
+  promoCode.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCode(); } });
+
+  // Inline validation
+  function validateField(input) {
+    const errEl = document.getElementById(input.id + '-err');
+    if (!errEl) return true;
+    const valid = input.checkValidity() && input.value.trim() !== '';
+    input.classList.toggle('valid', valid);
+    input.classList.toggle('invalid', !valid);
+    errEl.classList.toggle('show', !valid);
+    return valid;
+  }
+
+  ['firstName','lastName','email','background'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('blur', () => validateField(el));
+    el.addEventListener('input', () => { if (el.classList.contains('invalid')) validateField(el); });
+  });
+
+  // Submit
+  submitBtn.addEventListener('click', () => {
+    const fields = ['firstName','lastName','email','background'];
+    let allValid = true;
+    fields.forEach(id => {
+      if (!validateField(document.getElementById(id))) allValid = false;
     });
+    if (!allValid) return;
 
-    inc.addEventListener('click', () => {
-      if (parseInt(count.value, 10) < 6) {
-        count.value = parseInt(count.value, 10) + 1;
-        updateTotal();
-      }
-    });
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10" opacity=".3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round" style="animation:spin .8s linear infinite;transform-origin:center"/></svg> Processing…`;
 
-    promo.addEventListener('input', () => {
-      if (promo.value.trim().toLowerCase() === "hyperisland") {
-        promoActive = true;
-        promoMsg.classList.remove("hidden");
-        promoMsg.textContent = "✅ Hyper Island discount applied! Price updated.";
-      } else {
-        promoActive = false;
-        promoMsg.classList.add("hidden");
-      }
-      updateTotal();
-    });
+    // Webhook
+    const form = document.getElementById('booking-form');
+    const formData = new FormData(form);
+    try {
+      navigator.sendBeacon(
+        "https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",
+        new Blob([new URLSearchParams(formData).toString()], { type: 'application/x-www-form-urlencoded' })
+      );
+    } catch (err) {}
 
-    updateTotal();
+    const link = activePromo ? promoLinks[ticketQty] : normalLinks[ticketQty];
+    setTimeout(() => { window.location.href = link || normalLinks[1]; }, 400);
+  });
 
-    function goToStripe() {
-      const form = document.getElementById("booking-form");
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+  updateUI();
+</script>
 
-      const tickets = parseInt(count.value, 10);
-      const code = promo.value.trim().toLowerCase();
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 
-      // Webhook (keep your endpoint)
-      try {
-        const params = new URLSearchParams(new FormData(form));
-        navigator.sendBeacon(
-          "https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",
-          new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' })
-        );
-      } catch (err) { console.warn("Webhook failed:", err); }
-
-      const normalLinks = {
-        1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
-        2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
-        3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
-        4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
-        5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
-        6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
-      };
-
-      const hyperLinks = {
-        1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
-        2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
-        3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
-        4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
-        5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
-        6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"
-      };
-
-      const chosenLink = (code === "hyperisland")
-        ? (hyperLinks[tickets] || hyperLinks[1])
-        : (normalLinks[tickets] || normalLinks[1]);
-
-      window.location.href = chosenLink;
-    }
-
-    document.getElementById("submitBtn").addEventListener("click", goToStripe);
-  </script>
 </body>
 </html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout — Applied AI Lab · Genaition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Secure checkout for the Applied AI Lab — 4-week in-person cohort in Stockholm." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #050505; --off-black: #0d0d0d; --card: #111111; --card2: #161616;
+      --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.12);
+      --green: #76b82a; --green-dim: rgba(118,184,42,0.12); --green-glow: rgba(118,184,42,0.3);
+      --white: #ffffff; --muted: rgba(255,255,255,0.45); --muted2: rgba(255,255,255,0.65);
+      --header: 68px; --r: 2px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; height: var(--header); background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; display: flex; align-items: center; }
+    .hdr-inner { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .logo-mark { width: 38px; height: 38px; border-radius: var(--r); border: 1px solid rgba(17,20,13,0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0a0a0a; }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: 0.12em; color: var(--white); line-height: 1; }
+    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--green); display: block; margin-top: 2px; }
+    .hdr-right { display: flex; align-items: center; gap: 1.5rem; }
+    .hdr-step { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+    .hdr-back { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; transition: color 0.2s; }
+    .hdr-back:hover { color: var(--white); }
+    @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .hdr-step { display: none; } }
+
+    /* HERO STRIP */
+    .hero-strip { padding-top: var(--header); background: var(--black); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .hero-strip::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(118,184,42,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(118,184,42,0.03) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .hero-strip-inner { max-width: 800px; margin: 0 auto; padding: 3rem 2.5rem; position: relative; z-index: 1; }
+    .hero-eyebrow { display: flex; align-items: center; gap: 0.6rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--green); }
+    .hero-strip h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: 0.02em; }
+    .hero-strip h1 .t-green { color: var(--green); }
+    .step-track { display: flex; align-items: center; margin-top: 1.5rem; }
+    .step-item { display: flex; align-items: center; gap: 0.6rem; }
+    .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; flex-shrink: 0; }
+    .step-dot.active { background: var(--green); color: #000; }
+    .step-dot.inactive { background: var(--card); border: 1px solid var(--border-strong); color: var(--muted); }
+    .step-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; }
+    .step-label.active { color: var(--white); }
+    .step-label.inactive { color: var(--muted); }
+    .step-line { width: 40px; height: 1px; background: var(--border-strong); margin: 0 0.75rem; flex-shrink: 0; }
+    @media (max-width: 640px) { .hero-strip-inner { padding: 2rem 1.25rem; } .step-line { width: 20px; } }
+
+    /* MAIN */
+    .main-wrap { max-width: 800px; margin: 0 auto; padding: 3rem 2.5rem 5rem; }
+    @media (max-width: 640px) { .main-wrap { padding: 1.5rem 1.25rem 4rem; } }
+
+    /* ONE CARD */
+    .checkout-card { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; animation: fadeUp 0.6s ease 0.15s both; }
+
+    .card-header { padding: 1.75rem 2rem; border-bottom: 1px solid var(--border); }
+    .sec-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .sec-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--green); }
+    .card-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.02em; color: var(--white); }
+
+    .card-form { padding: 2rem; }
+    @media (max-width: 640px) { .card-header { padding: 1.25rem; } .card-form { padding: 1.25rem; } }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 1rem; }
+    .form-group:last-of-type { margin-bottom: 0; }
+
+    label { display: block; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 0.5rem; }
+
+    input[type="text"], input[type="email"], input[type="tel"], select {
+      width: 100%; background: var(--off-black); border: 1px solid var(--border-strong); border-radius: var(--r);
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; padding: 0.75rem 1rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none;
+    }
+    input:focus, select:focus { border-color: rgba(118,184,42,0.5); box-shadow: 0 0 0 3px rgba(118,184,42,0.1); }
+    input::placeholder { color: var(--muted); font-size: 0.875rem; }
+    select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    select option { background: #111; }
+
+    .form-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+    .ticket-row { display: flex; align-items: center; gap: 1rem; }
+    .qty-btn { width: 38px; height: 38px; border-radius: var(--r); border: 1px solid var(--border-strong); background: var(--off-black); color: var(--white); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; }
+    .qty-btn:hover { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+    .qty-input { width: 80px; text-align: center; background: var(--off-black) !important; color: var(--white) !important; -webkit-appearance: none; -moz-appearance: textfield; border: 1px solid var(--border-strong) !important; border-radius: var(--r) !important; padding: 0.75rem 1rem !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.9rem !important; outline: none; }    .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .ticket-price-hint { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.4rem; }
+
+    .promo-toggle { background: none; border: 1px solid var(--border-strong); border-radius: var(--r); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; padding: 0.6rem 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.6rem; transition: border-color 0.2s, color 0.2s; }
+    .promo-toggle:hover { border-color: var(--green); color: var(--green); }
+    .promo-toggle svg { transition: transform 0.3s; flex-shrink: 0; }
+    .promo-toggle.open svg:last-child { transform: rotate(180deg); }
+    .promo-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .promo-panel.open { max-height: 120px; }
+    .promo-panel .form-group { margin-top: 0.75rem; margin-bottom: 0; }
+    .promo-msg { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.4rem; }
+    .promo-msg.success { color: var(--green); }
+    .promo-msg.error { color: #ff4444; }
+
+    /* full-bleed divider inside card */
+    .card-section-divider { height: 1px; background: var(--border-strong); }
+
+    /* ORDER SUMMARY inside card */
+    .card-summary { padding: 2rem; }
+    @media (max-width: 640px) { .card-summary { padding: 1.25rem; } }
+
+    .summary-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .summary-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--green); }
+
+    .event-block { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .event-icon { width: 44px; height: 44px; background: var(--green-dim); border: 1px solid rgba(118,184,42,0.25); border-radius: var(--r); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .event-name { font-weight: 600; font-size: 0.9rem; color: var(--white); line-height: 1.2; margin-bottom: 0.3rem; }
+    .event-meta { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); line-height: 1.7; }
+
+    .line-items { margin-bottom: 1.5rem; }
+    .promo-applied { display: none; padding: 0.5rem 0.75rem; background: var(--green-dim); border: 1px solid rgba(118,184,42,0.25); border-radius: var(--r); font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--green); margin-bottom: 0.75rem; }
+    .promo-applied.visible { display: block; }
+    .line-item { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; }
+    .line-item .li-label { color: var(--muted); font-size: 0.875rem; }
+    .line-item .li-val { color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.82rem; }
+    .line-item.total { padding-top: 0.85rem; margin-top: 0.4rem; border-top: 1px solid var(--border-strong); }
+    .line-item.total .li-label { color: var(--white); font-weight: 600; font-size: 0.9rem; }
+    .line-item.total .li-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--green); letter-spacing: 0.04em; }
+
+    .cta-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; background: var(--green); color: #000; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 1rem 2rem; border-radius: var(--r); border: none; cursor: pointer; transition: all 0.22s; font-family: 'DM Sans', sans-serif; }
+    .cta-btn:hover { background: #8fd433; box-shadow: 0 8px 32px var(--green-glow); }
+    .cta-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .cta-note { margin-top: 0.85rem; font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .cta-note svg { width: 10px; height: 10px; flex-shrink: 0; }
+
+    .includes-block { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .includes-title { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 0.75rem; }
+    .include-item { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.3rem 0; font-size: 0.82rem; color: var(--muted2); }
+    .include-item::before { content: '→'; color: var(--green); font-size: 0.7rem; margin-top: 2px; flex-shrink: 0; }
+
+    .trust-row { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .trust-item { display: flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+    .trust-item svg { width: 14px; height: 14px; color: var(--green); flex-shrink: 0; }
+
+    .field-error { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em; color: #ff4444; margin-top: 0.35rem; display: none; }
+    .field-error.visible { display: block; }
+    input.invalid, select.invalid { border-color: rgba(255,68,68,0.5); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-strip h1, .hero-eyebrow, .step-track { animation: fadeUp 0.6s ease both; }
+    .hero-strip h1 { animation-delay: 0.1s; }
+    .step-track { animation-delay: 0.2s; }
+
+    footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-inner">
+    <a href="/ailab/" class="logo">
+      <div class="logo-mark"><img src="/brand.png" alt="Genaition" onerror="this.style.display='none';" /></div>
+      <div>
+        <span class="logo-name">Genaition</span>
+        <span class="logo-sub">Applied AI Lab</span>
+      </div>
+    </a>
+    <div class="hdr-right">
+      <span class="hdr-step">Step 1 of 2 — Registration</span>
+      <a href="/ailab/" class="hdr-back">← Back to Lab</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero-strip">
+  <div class="hero-strip-inner">
+    <p class="hero-eyebrow">Secure checkout</p>
+    <h1>Register for the<br><span class="t-green">Applied AI Lab</span></h1>
+    <div class="step-track">
+      <div class="step-item">
+        <div class="step-dot active">1</div>
+        <span class="step-label active">Registration</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-item">
+        <div class="step-dot inactive">2</div>
+        <span class="step-label inactive">Payment</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-wrap">
+  <div class="checkout-card">
+
+    <!-- FORM -->
+    <div class="card-header">
+      <p class="sec-label">Your details</p>
+      <h2>Personal information</h2>
+    </div>
+    <div class="card-form">
+      <form id="booking-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="name" autocomplete="given-name" required placeholder="Johan" />
+            <p class="field-error" id="err-firstName">Required</p>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="surname" autocomplete="family-name" required placeholder="Lindqvist" />
+            <p class="field-error" id="err-lastName">Required</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@company.com" />
+          <p class="field-error" id="err-email">Valid email required</p>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone <span style="color:var(--muted);font-size:0.85em;">(optional)</span></label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+46 76 260 8848" />
+        </div>
+        <div class="form-group">
+          <label for="background">Your background</label>
+          <select id="background" name="background" required>
+            <option value="" disabled selected>Select your background</option>
+            <option value="Tech">Tech</option>
+            <option value="Non-Tech">Non-tech</option>
+            <option value="Founder">Founder / Operator</option>
+            <option value="Other">Other</option>
+          </select>
+          <p class="field-error" id="err-background">Please select your background</p>
+        </div>
+        <div class="form-divider"></div>
+        <div class="form-group">
+          <label>Number of tickets</label>
+          <div class="ticket-row">
+            <button type="button" class="qty-btn" id="decrease">−</button>
+            <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
+            <button type="button" class="qty-btn" id="increase">+</button>
+          </div>
+          <p class="ticket-price-hint">Max 6 tickets per order</p>
+        </div>
+        <div class="form-divider"></div>
+        <div class="form-group">
+          <button type="button" class="promo-toggle" id="promoToggle">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            Have a promo code?
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="promo-panel" id="promoPanel">
+            <div class="form-group">
+              <label for="promoCode">Promo code</label>
+              <input type="text" id="promoCode" name="promoCode" placeholder="Enter code" />
+              <p class="promo-msg" id="promoMsg"></p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="card-section-divider"></div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="card-summary">
+      <p class="summary-label">Order summary</p>
+
+      <div class="line-items">
+        <div class="promo-applied" id="promoAppliedBadge"></div>
+        <div class="line-item">
+          <span class="li-label">Price per ticket</span>
+          <span class="li-val" id="pricePerUnit">SEK 3,985</span>
+        </div>
+        <div class="line-item">
+          <span class="li-label">Tickets</span>
+          <span class="li-val" id="summaryTickets">× 1</span>
+        </div>
+        <div class="line-item total">
+          <span class="li-label">Total</span>
+          <span class="li-val" id="totalPrice">SEK 3,985</span>
+        </div>
+      </div>
+
+      <button type="button" class="cta-btn" id="submitBtn">
+        Continue to Payment
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
+      </button>
+<p class="cta-note" style="margin-top:0.5rem; color:rgba(255,255,255,0.35);">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  You'll receive a confirmation and onboarding info within 24 hours
+</p>
+
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Secure checkout via Stripe
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Confirmation within 24h
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Stockholm · In-person
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© <span id="yr"></span> Genaition · Stockholm · EST 2024</p>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const STANDARD_PRICE = 3985, HYPER_PRICE = 2985, STING_PRICE = 2985;
+  const NORMAL_LINKS = { 1:"https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",2:"https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",3:"https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",4:"https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",5:"https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",6:"https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g" };
+  const HYPER_LINKS  = { 1:"https://buy.stripe.com/9B67sLfwLeepaRudvP8AE0u",2:"https://buy.stripe.com/7sY6oH84jeep2kY63n8AE0v",3:"https://buy.stripe.com/14A5kD70ffitgbOajD8AE0w",4:"https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",5:"https://buy.stripe.com/bJecN584j0nzaRugI18AE0x",6:"https://buy.stripe.com/fZu28r84jc6h2kY9fz8AE0y" };
+
+  let activePromo = null, ticketCount = 1;
+
+  function fmtSEK(n) { return 'SEK ' + n.toLocaleString('sv-SE'); }
+  function pricePerTicket() { return activePromo === 'hyperisland' ? HYPER_PRICE : activePromo === 'sting' ? STING_PRICE : STANDARD_PRICE; }
+  function updateSummary() {
+    const per = pricePerTicket();
+    document.getElementById('pricePerUnit').textContent = fmtSEK(per);
+    document.getElementById('summaryTickets').textContent = '× ' + ticketCount;
+    document.getElementById('totalPrice').textContent = fmtSEK(per * ticketCount);
+    const badge = document.getElementById('promoAppliedBadge');
+    if (activePromo === 'hyperisland') { badge.textContent = '✓ Hyper Island promo applied'; badge.classList.add('visible'); }
+    else if (activePromo === 'sting') { badge.textContent = '✓ Sting promo applied'; badge.classList.add('visible'); }
+    else { badge.classList.remove('visible'); }
+  }
+
+  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; updateSummary(); } });
+  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 6) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; updateSummary(); } });
+
+  const promoToggle = document.getElementById('promoToggle');
+  const promoPanel  = document.getElementById('promoPanel');
+  promoToggle.addEventListener('click', () => {
+    const open = promoPanel.classList.toggle('open');
+    promoToggle.classList.toggle('open', open);
+    if (open) setTimeout(() => document.getElementById('promoCode').focus(), 50);
+  });
+
+  document.getElementById('promoCode').addEventListener('input', function () {
+    const code = this.value.trim().toLowerCase(), msg = document.getElementById('promoMsg');
+    if (code === 'hyperisland') { activePromo = 'hyperisland'; msg.className = 'promo-msg success'; msg.textContent = '✓ Hyper Island discount applied'; }
+    else if (code === 'sting') { activePromo = 'sting'; msg.className = 'promo-msg success'; msg.textContent = '✓ Sting promo applied'; }
+    else if (!code) { activePromo = null; msg.textContent = ''; msg.className = 'promo-msg'; }
+    else { activePromo = null; msg.className = 'promo-msg error'; msg.textContent = '⚠ Code not recognized'; }
+    updateSummary();
+  });
+
+  function validate() {
+    let ok = true;
+    [{id:'firstName',err:'err-firstName',check:v=>v.trim().length>0},{id:'lastName',err:'err-lastName',check:v=>v.trim().length>0},{id:'email',err:'err-email',check:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())},{id:'background',err:'err-background',check:v=>v!==''}]
+    .forEach(({id,err,check})=>{ const el=document.getElementById(id),errEl=document.getElementById(err); if(!check(el.value)){el.classList.add('invalid');errEl.classList.add('visible');ok=false;}else{el.classList.remove('invalid');errEl.classList.remove('visible');} });
+    return ok;
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    if (!validate()) return;
+    try { const p=new URLSearchParams(new FormData(document.getElementById('booking-form'))); navigator.sendBeacon("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",new Blob([p.toString()],{type:'application/x-www-form-urlencoded'})); } catch(e) { console.warn('Webhook failed:',e); }
+    const code=(document.getElementById('promoCode').value||'').trim().toLowerCase();
+    window.location.href = (code==='hyperisland'||code==='sting' ? HYPER_LINKS : NORMAL_LINKS)[ticketCount] || NORMAL_LINKS[1];
+  });
+
+  ['firstName','lastName','email','background'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() { this.classList.remove('invalid'); const e=document.getElementById('err-'+id); if(e) e.classList.remove('visible'); });
+  });
+
+  updateSummary();
+</script>
+</body>
+</html>

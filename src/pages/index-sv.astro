@@ -5,693 +5,786 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GenAition | AI-workshops & Automation</title>
   <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- ✅ Umami Analytics (always active) -->
+  <!-- Umami Analytics -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 
   <style>
-    :root{
-      --ink:#07110e;
-      --forest:#0b1f19;
-      --forest2:#0f2a22;
-      --accent:#2a7a5a;
-      --accent2:#9ed1b7;
-      --gold:#FFC107;
-      --paper:#f6f7f7;
-      --card:#ffffff;
-      --ring: rgba(42,122,90,.35);
-      --shadow: 0 20px 40px rgba(0,0,0,.10);
-      --shadow2: 0 10px 24px rgba(0,0,0,.10);
-      --radius: 20px;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #050505;
+      --off-black: #0d0d0d;
+      --card: #111111;
+      --card2: #161616;
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+      --accent: #00bf63;
+      --accent-dim: rgba(0,191,99,0.10);
+      --accent-glow: rgba(0,191,99,0.28);
+      --gold: #ffb800;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.42);
+      --muted2: rgba(255,255,255,0.65);
+      --header: 66px;
+      --r: 3px;
     }
 
-    html { scroll-behavior:smooth; }
-    body { background: #050c0a; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    section, [id] { scroll-margin-top: calc(var(--header) + 12px); }
 
-    :focus { outline: none; }
-    .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--header);
+      background: rgba(5,5,5,0.96); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border); z-index: 100;
+      display: flex; align-items: center;
+    }
+    .hdr-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 2.5rem;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: var(--r);
+      background: var(--card); border: 1px solid var(--border-strong);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: var(--white); line-height: 1; }
+    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.24em; color: var(--accent); display: block; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2.2rem; }
+    .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
 
-    .bg-acoustic{
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.20), transparent 60%),
-        radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.12), transparent 60%),
-        linear-gradient(180deg, #ffffff, #f3f5f5);
+    /* Language dropdown */
+    .lang-wrap { position: relative; }
+    .lang-btn {
+      display: flex; align-items: center; gap: 0.4rem; cursor: pointer;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r);
+      padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s;
     }
+    .lang-btn:hover { color: var(--white); border-color: var(--border-strong); }
+    .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
+    .lang-btn svg { width: 12px; height: 12px; }
+    .lang-menu {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px;
+      background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; z-index: 200;
+    }
+    .lang-wrap.open .lang-menu { display: block; }
+    .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+    .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
 
-    .glass{
-      background: rgba(7,17,14,.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.10);
+    .nav-cta {
+      background: var(--accent); color: #000;
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      padding: 0.55rem 1.4rem; border-radius: var(--r); text-decoration: none;
+      transition: all 0.2s;
     }
+    .nav-cta:hover { background: #00d470; transform: translateY(-1px); }
 
-    .hero{
-      position: relative;
-      min-height: 92vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.18), transparent 60%),
-        radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.14), transparent 55%),
-        linear-gradient(180deg, rgba(7,17,14,.80), rgba(7,17,14,.96)),
-        url('/humanai.png') center/cover no-repeat;
+    .mobile-menu-btn {
+      display: none; align-items: center; justify-content: center;
+      width: 38px; height: 38px; background: none; border: 1px solid var(--border);
+      border-radius: var(--r); cursor: pointer; color: var(--white);
     }
+    .mobile-menu-btn svg { width: 20px; height: 20px; }
 
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(90deg, rgba(7,17,14,.84) 0%, rgba(7,17,14,.55) 55%, rgba(7,17,14,.35) 100%);
-      pointer-events:none;
-    }
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: radial-gradient(900px 500px at 50% 10%, rgba(42,122,90,.18), transparent 60%);
-      pointer-events:none;
-    }
-
-    .blob{
-      position:absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 9999px;
-      background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.34), rgba(42,122,90,.08) 55%, transparent 70%);
-      opacity: .85;
-      animation: drift 10s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes drift{
-      0%,100%{ transform: translate(-18%, -10%) scale(1); }
-      50%{ transform: translate(-10%, -4%) scale(1.05); }
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.6rem;
-      padding:.9rem 1.15rem;
-      border-radius: 14px;
-      font-weight: 800;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
-      user-select:none;
-    }
-    .btn:active{ transform: translateY(1px) scale(.99); }
-
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), #2f8b66);
-      color:#fff;
-      box-shadow: 0 12px 26px rgba(42,122,90,.30);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .btn-primary:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 34px rgba(42,122,90,.34);
+    @media (max-width: 768px) {
+      .hdr-inner { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .mobile-menu-btn { display: flex; }
     }
 
-    .btn-outline{
-      background: rgba(255,255,255,.10);
-      color:#fff;
-      border: 1px solid rgba(255,255,255,.18);
+    /* Mobile drawer */
+    #mobileMenu { display: none; position: fixed; inset: 0; z-index: 200; }
+    #mobileMenu.open { display: block; }
+    .mobile-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
+    .mobile-drawer {
+      position: absolute; top: 0; right: 0; height: 100%; width: 280px;
+      background: var(--card2); border-left: 1px solid var(--border-strong);
+      padding: 1.5rem; display: flex; flex-direction: column; gap: 0;
     }
-    .btn-outline:hover{
-      background: rgba(255,255,255,.14);
-      transform: translateY(-1px);
+    .mobile-drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .mobile-drawer-close {
+      width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+      background: none; border: 1px solid var(--border); border-radius: var(--r); cursor: pointer; color: var(--muted);
+    }
+    .mobile-drawer a { display: block; padding: 0.75rem 0; font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .mobile-drawer a:hover { color: var(--white); }
+    .mobile-drawer-lang { margin-top: 1.25rem; }
+    .mobile-drawer-lang p { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.75rem; }
+    .mobile-lang-links { display: flex; gap: 0.5rem; }
+    .mobile-lang-link { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.75rem; border: 1px solid var(--border); border-radius: var(--r); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted2); transition: border-color 0.2s, color 0.2s; }
+    .mobile-lang-link:hover { border-color: var(--border-strong); color: var(--white); }
+    .mobile-lang-link img { width: 16px; height: 16px; border-radius: 2px; }
+    .mobile-cta { margin-top: 1.5rem; display: block; width: 100%; padding: 0.9rem; background: var(--accent); color: #000; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; text-align: center; text-decoration: none; border-radius: var(--r); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh; padding-top: var(--header);
+      display: flex; align-items: stretch; background: var(--black); position: relative; overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: linear-gradient(rgba(0,191,99,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,191,99,0.04) 1px, transparent 1px);
+      background-size: 52px 52px;
+    }
+    .hero-glow {
+      position: absolute; top: -200px; left: 30%; width: 700px; height: 700px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(0,191,99,0.08) 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+    }
+    .hero-img-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('/javidbest.png') center/cover no-repeat;
+      opacity: 0.12;
+    }
+    .hero-inner {
+      max-width: 1280px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 55% 45%; align-items: center;
+      position: relative; z-index: 2; padding: 0 2.5rem;
+    }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; padding: 0 1.25rem; } .hero { min-height: auto; } }
+
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 3rem 3.5rem 0; }
+    @media (max-width: 900px) { .hero-left { padding: 3rem 0 2rem; } }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;
+      font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .live-tag {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.22rem 0.6rem; border-radius: 2px;
+      background: rgba(0,191,99,0.12); color: var(--accent); border: 1px solid rgba(0,191,99,0.28);
+    }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s ease infinite; display: inline-block; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.2rem, 5.8vw, 6.2rem);
+      line-height: 0.97; letter-spacing: 0.02em;
+    }
+    .hero-title .t-white { color: var(--white); display: block; }
+    .hero-title .t-accent { color: var(--accent); display: block; }
+    .hero-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--accent), transparent); margin: 1.6rem 0; }
+    .hero-desc { font-size: 1rem; color: var(--muted2); line-height: 1.78; max-width: 460px; font-weight: 300; }
+
+    .hero-meta {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 1.8rem;
+      border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; max-width: 460px;
+    }
+    @media (max-width: 480px) { .hero-meta { grid-template-columns: 1fr 1fr; max-width: 100%; } }
+    .meta-block { padding: 0.9rem 1rem; border-right: 1px solid var(--border); }
+    .meta-block:last-child { border-right: none; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
+    .meta-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--white); line-height: 1; }
+    .meta-value.accent { color: var(--accent); }
+
+    .hero-btns { display: flex; gap: 0.85rem; flex-wrap: wrap; margin-top: 1.75rem; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem; background: var(--accent); color: #000;
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem;
+      text-transform: uppercase; letter-spacing: 0.12em; border-radius: var(--r);
+      text-decoration: none; transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { background: #00d470; transform: translateY(-1px); box-shadow: 0 8px 28px var(--accent-glow); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem; background: none; color: var(--muted2);
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem;
+      text-transform: uppercase; letter-spacing: 0.12em; border-radius: var(--r);
+      border: 1px solid var(--border-strong); text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
+
+    .hero-right { position: relative; display: flex; align-items: center; justify-content: center; padding: 4rem 0 4rem 1rem; }
+    @media (max-width: 900px) { .hero-right { padding: 0 0 3rem; } }
+
+    .hero-card {
+      width: 100%; max-width: 420px;
+      background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r);
+      overflow: hidden; position: relative;
+    }
+    .hero-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); z-index: 2; }
+    .hero-card-body { padding: 2rem; }
+    .hero-card-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 0.6rem; }
+    .hero-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.03em; line-height: 1.05; margin-bottom: 1rem; }
+    .hero-card-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+    .hero-card-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+    .hero-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .hero-card-stat { background: var(--card2); padding: 1.1rem; }
+    .hero-card-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+    .hero-card-stat-label { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── PRINCIPLE BANNER ── */
+    .principle { background: var(--accent); padding: 1.6rem 0; overflow: hidden; }
+    .principle-inner { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .principle-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(0,0,0,0.5); white-space: nowrap; border: 1px solid rgba(0,0,0,0.2); padding: 0.22rem 0.6rem; border-radius: var(--r); }
+    .principle-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 3vw, 2.5rem); color: #000; letter-spacing: 0.04em; }
+
+    /* ── SECTIONS ── */
+    .section { padding: 6rem 0; }
+    .section-alt { background: var(--off-black); }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
+    @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
+    .sec-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+    .sec-label::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--accent); }
+    .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 4.5vw, 4.2rem); line-height: 0.95; letter-spacing: 0.01em; }
+    .sec-desc { margin-top: 1.1rem; color: var(--muted2); font-size: 0.97rem; line-height: 1.82; max-width: 540px; font-weight: 300; }
+
+    /* ── BENEFITS GRID ── */
+    .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-top: 2.5rem; }
+    @media (max-width: 900px) { .benefits-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .benefits-grid { grid-template-columns: 1fr; } }
+    .benefit-cell { background: var(--card); padding: 2rem 1.75rem; transition: background 0.2s; position: relative; overflow: hidden; }
+    .benefit-cell:hover { background: var(--card2); }
+    .benefit-cell::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: 0; transition: opacity 0.2s; }
+    .benefit-cell:hover::after { opacity: 1; }
+    .benefit-icon { width: 36px; height: 36px; border-radius: var(--r); background: var(--accent-dim); border: 1px solid rgba(0,191,99,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; color: var(--accent); flex-shrink: 0; }
+    .benefit-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--white); margin-bottom: 0.6rem; }
+    .benefit-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── NEXT EVENT CARD ── */
+    .next-event-card {
+      background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r);
+      overflow: hidden; position: relative; margin-bottom: 4rem;
+    }
+    .next-event-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); z-index: 2; }
+    .next-event-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 700px) { .next-event-inner { grid-template-columns: 1fr; } }
+    .next-event-body { padding: 2.5rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+    @media (max-width: 700px) { .next-event-body { padding: 2rem 1.75rem; } }
+    .next-event-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--accent); margin-bottom: 0.75rem; }
+    .next-event-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1; letter-spacing: 0.02em; margin-bottom: 1rem; }
+    .next-event-desc { font-size: 0.9rem; color: var(--muted2); line-height: 1.75; margin-bottom: 1.75rem; }
+    .next-event-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .next-event-img { position: relative; overflow: hidden; min-height: 280px; }
+    .next-event-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65) saturate(0.8) sepia(0.08); transition: transform 0.6s ease; }
+    .next-event-card:hover .next-event-img img { transform: scale(1.04); }
+    .next-event-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17,17,17,0.5) 0%, transparent 60%); }
+
+    /* ── WORKSHOPS (build-rows) ── */
+    .build-rows { margin-top: 3.5rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+    .build-row { display: grid; grid-template-columns: 1fr 1fr; min-height: 300px; background: var(--card); }
+    .build-row.flip .build-text-side { order: 2; }
+    .build-row.flip .build-photo-side { order: 1; }
+    .build-text-side { display: flex; flex-direction: column; justify-content: center; padding: 2.5rem 3rem; border-right: 1px solid var(--border); }
+    .build-row.flip .build-text-side { border-right: none; border-left: 1px solid var(--border); }
+    .build-photo-side { position: relative; overflow: hidden; }
+    .build-photo-side img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65) saturate(0.75) sepia(0.08) contrast(1.05); transition: transform 0.6s ease, filter 0.4s ease; display: block; }
+    .build-row:hover .build-photo-side img { transform: scale(1.04); filter: brightness(0.78) saturate(0.85) sepia(0.04) contrast(1.03); }
+    .build-photo-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); z-index: 2; }
+    .build-photo-label { position: absolute; bottom: 1rem; left: 1.25rem; z-index: 3; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .build-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--accent); opacity: 0.25; line-height: 1; margin-bottom: 0.5rem; transition: opacity 0.2s; }
+    .build-row:hover .build-num { opacity: 0.5; }
+    .build-tag { display: inline-flex; padding: 0.2rem 0.65rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(0,191,99,0.2); margin-bottom: 0.75rem; }
+    .build-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--white); margin-bottom: 0.5rem; }
+    .build-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
+    .build-checks { list-style: none; }
+    .build-checks li { display: flex; gap: 0.65rem; font-size: 0.84rem; color: var(--muted2); padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+    .build-checks li:last-child { border-bottom: none; }
+    .build-checks li::before { content: '→'; color: var(--accent); flex-shrink: 0; font-size: 0.7rem; margin-top: 3px; }
+    .build-cta { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; padding: 0.75rem 1.25rem; background: var(--accent); color: #000; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; border-radius: var(--r); text-decoration: none; transition: background 0.2s; }
+    .build-cta:hover { background: #00d470; }
+    @media (max-width: 700px) {
+      .build-row { grid-template-columns: 1fr; }
+      .build-photo-side { min-height: 220px; order: 0 !important; }
+      .build-text-side { order: 1 !important; border-right: none !important; border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem; }
     }
 
-    .badge{
-      display:inline-flex;
-      gap:.5rem;
-      align-items:center;
-      padding:.35rem .65rem;
-      border-radius: 9999px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: .72rem;
-      color: #0a1a15;
-      background: rgba(255,193,7,.92);
-      border: 1px solid rgba(255,255,255,.35);
-    }
+    /* ── CONTACT ── */
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
+    @media (max-width: 800px) { .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .contact-info p { font-size: 0.97rem; color: var(--muted2); line-height: 1.82; font-weight: 300; margin-bottom: 1.5rem; }
+    .contact-detail { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.9rem; }
+    .contact-detail-icon { width: 32px; height: 32px; border-radius: var(--r); background: var(--accent-dim); border: 1px solid rgba(0,191,99,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .contact-detail-icon svg { width: 14px; height: 14px; stroke: var(--accent); }
+    .contact-detail-text { font-size: 0.88rem; color: var(--muted2); line-height: 1.5; }
+    .contact-detail-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); display: block; margin-bottom: 0.1rem; }
+    .contact-form-box { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r); padding: 2.5rem; position: relative; overflow: hidden; }
+    .contact-form-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); }
+    .form-field { margin-bottom: 1rem; }
+    .form-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); display: block; margin-bottom: 0.45rem; }
+    .form-input { width: 100%; background: var(--off-black); border: 1px solid var(--border); border-radius: var(--r); padding: 0.8rem 1rem; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: border-color 0.2s; }
+    .form-input:focus { outline: none; border-color: rgba(0,191,99,0.4); }
+    .form-input::placeholder { color: var(--muted); }
+    textarea.form-input { resize: vertical; min-height: 100px; }
+    .form-submit { width: 100%; padding: 1rem; background: var(--accent); color: #000; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; border: none; border-radius: var(--r); cursor: pointer; margin-top: 0.5rem; transition: background 0.2s, transform 0.2s; }
+    .form-submit:hover { background: #00d470; transform: translateY(-1px); }
 
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      border: 1px solid rgba(7,17,14,.06);
-    }
-    .card-dark{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 30px rgba(0,0,0,.22);
-      border-radius: var(--radius);
-    }
+    /* ── FOOTER ── */
+    footer { padding: 4rem 0 2.5rem; border-top: 1px solid var(--border); background: var(--black); }
+    .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; }
+    @media (max-width: 800px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; } }
+    @media (max-width: 500px) { .footer-inner { grid-template-columns: 1fr; gap: 2rem; padding: 0 1.25rem; } }
+    .footer-brand-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.1em; color: var(--white); margin-bottom: 0.5rem; }
+    .footer-brand-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; max-width: 260px; margin-bottom: 1.5rem; }
+    .footer-socials { display: flex; gap: 0.65rem; }
+    .footer-social { width: 34px; height: 34px; border-radius: var(--r); background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; transition: border-color 0.2s; }
+    .footer-social:hover { border-color: var(--border-strong); }
+    .footer-social img { width: 18px; height: 18px; object-fit: cover; }
+    .footer-col-title { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 1.25rem; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-links a { font-size: 0.88rem; color: var(--muted2); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom { max-width: 1280px; margin: 3rem auto 0; padding: 1.5rem 2.5rem 0; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.18); }
 
-    .soft-divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
-    }
-
-    .title-underline{
-      position: relative;
-      display:inline-block;
-      padding-bottom:.35rem;
-    }
-    .title-underline::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width: 72%;
-      height: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, rgba(42,122,90,.95), rgba(158,209,183,.90));
-    }
-
-    /* Dropdown (click-based) */
-    .dropdown-menu { display:none; }
-    .dropdown-open .dropdown-menu { display:block; }
-
-    /* Scroll animation */
-    @keyframes breatheZoom {
-      0% { transform: scale(0.98); opacity: .01; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-breathe {
-      animation: breatheZoom 0.7s ease-out both;
-      will-change: transform;
-    }
-
-    @media (max-width: 768px){
-      .hero{
-        min-height: 88vh;
-        background:
-          radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.18), transparent 60%),
-          radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.14), transparent 55%),
-          linear-gradient(180deg, rgba(7,17,14,.80), rgba(7,17,14,.96)),
-          url('/javidbest-mobile.png') center/cover no-repeat;
-      }
-      .blob{ width: 420px; height: 420px; }
-    }
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-eyebrow { animation: fadeUp 0.6s ease 0.1s both; }
+    .hero-title    { animation: fadeUp 0.7s ease 0.2s both; }
+    .hero-divider  { animation: fadeUp 0.6s ease 0.3s both; }
+    .hero-desc     { animation: fadeUp 0.6s ease 0.35s both; }
+    .hero-meta     { animation: fadeUp 0.6s ease 0.45s both; }
+    .hero-btns     { animation: fadeUp 0.6s ease 0.5s both; }
+    .hero-card     { animation: fadeUp 0.7s ease 0.3s both; }
   </style>
 </head>
 
-<body class="text-white font-sans">
+<body>
 
-  <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-40"></div>
+  <!-- hidden overlay used by cookie banner -->
+  <div id="overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:40;"></div>
 
-  <!-- ================= NAV ================= -->
-  <header class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-      <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
-        <a href="/index-sv.html" class="flex items-center gap-3">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logotyp" class="h-10 w-10 rounded-full object-cover">
-          <div class="hidden sm:block leading-tight">
-            <p class="text-white font-extrabold tracking-tight">GenAition</p>
-            <p class="text-xs text-green-100 opacity-90">Workshops • AI-agenter</p>
-          </div>
-        </a>
-
-        <nav class="hidden md:flex items-center gap-7 text-sm">
-          <a href="/index-sv.html" class="text-green-100 hover:text-white">Hem</a>
-          <a href="/learn-more-sv" class="text-green-100 hover:text-white">Om oss</a>
-          <a href="#workshops" class="text-green-100 hover:text-white">Evenemang</a>
-          <a href="#services" class="text-green-100 hover:text-white">Tjänster</a>
-          <a href="#contact" class="text-green-100 hover:text-white">Kontakt</a>
-          <span class="hidden md:inline text-black select-none">Justeringar</span>
-
-          <!-- Language dropdown -->
-          <div class="relative" id="langWrap">
-            <button id="langBtn" class="focus-ring btn btn-outline px-3 py-2" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu">
-              <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
-              <span class="text-sm font-extrabold">SV</span>
-              <svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </button>
-            <div id="langMenu" class="dropdown-menu absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 text-gray-900">
-              <a href="/index.html" class="flex items-center px-3 py-2 hover:bg-gray-50">
-                <img src="/english.png" class="h-4 w-4 mr-2" alt="English flag"> English
-              </a>
-              <a href="/index-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-50">
-                <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Swedish flag"> Svenska
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        <div class="md:hidden flex items-center gap-2">
-          <button id="langBtnMobile" class="focus-ring btn btn-outline px-3 py-2" aria-label="Välj språk">
-            <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
-            <span class="text-sm font-extrabold">SV</span>
-          </button>
-          <button id="mobileMenuBtn" class="focus-ring btn btn-outline px-3 py-2" aria-label="Öppna meny">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="hdr-inner">
+      <a href="/index-sv.html" class="logo">
+        <div class="logo-mark">
+          <img src="/android-chrome-512x512.png" alt="GenAition Logotyp" />
         </div>
+        <div>
+          <span class="logo-name">GenAition</span>
+          <span class="logo-sub">Workshops · AI-agenter</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="/index-sv.html">Hem</a>
+        <a href="/learn-more-sv">Om oss</a>
+        <a href="#workshops">Workshops</a>
+        <a href="#contact">Kontakt</a>
+        <div class="lang-wrap" id="langWrap">
+          <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
+            <img src="/swedish.png" alt="Svenska" />
+            <span>SV</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="lang-menu" id="langMenu">
+            <a href="/index.html"><img src="/english.png" alt="English flag" /> English</a>
+            <a href="/index-sv.html"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
+          </div>
+        </div>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:0.85rem;">
+        <a href="#contact" class="nav-cta">Kom i kontakt</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Öppna meny">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="hidden fixed inset-0 z-50">
-    <div class="absolute inset-0 bg-black opacity-60" id="mobileOverlay"></div>
-    <div class="absolute top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl p-6 text-gray-900">
-      <div class="flex items-center justify-between mb-5">
-        <p class="font-extrabold text-gray-900">Meny</p>
-        <button id="mobileMenuClose" class="focus-ring px-3 py-2 rounded-lg border border-gray-200 bg-white" aria-label="Stäng meny">✕</button>
+  <!-- Mobile drawer -->
+  <div id="mobileMenu">
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer">
+      <div class="mobile-drawer-header">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;">Meny</span>
+        <button class="mobile-drawer-close" id="mobileMenuClose" aria-label="Stäng meny">✕</button>
       </div>
-
-      <div class="flex flex-col space-y-4">
-        <a href="/index-sv.html" class="hover:text-green-700">Hem</a>
-        <a href="/learn-more-sv" class="hover:text-green-700">Om oss</a>
-        <a href="#workshops" class="hover:text-green-700">Evenemang</a>
-        <a href="#services" class="hover:text-green-700">Tjänster</a>
-        <a href="#contact" class="hover:text-green-700">Kontakt</a>
-
-        <div class="soft-divider my-2"></div>
-
-        <div class="mt-2 card p-4">
-          <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Språk</p>
-          <div class="mt-3 space-y-2">
-            <a href="/index.html" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
-              <img src="/english.png" class="h-5 w-5" alt="English flag"> English
-            </a>
-            <a href="/index-sv.html" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
-              <img src="/swedish.png" class="h-5 w-5" alt="Swedish flag"> Svenska
-            </a>
-          </div>
+      <a href="/index-sv.html">Hem</a>
+      <a href="/learn-more-sv">Om oss</a>
+      <a href="#workshops">Workshops</a>
+      <a href="#contact">Kontakt</a>
+      <div class="mobile-drawer-lang">
+        <p>Språk</p>
+        <div class="mobile-lang-links">
+          <a href="/index.html" class="mobile-lang-link"><img src="/english.png" alt="English" /> EN</a>
+          <a href="/index-sv.html" class="mobile-lang-link"><img src="/swedish.png" alt="Swedish" /> SV</a>
         </div>
       </div>
+      <a href="#contact" class="mobile-cta">Kom i kontakt</a>
     </div>
   </div>
 
-  <!-- ================= HERO ================= -->
-  <section class="hero pt-28 scroll-animate">
-    <div class="blob"></div>
+  <!-- ── HERO ── -->
+  <section id="top" class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-img-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <p class="hero-eyebrow">
+          <span class="live-tag"><span class="live-dot"></span> Stockholm · Live</span>
+          Praktiskt · Nybörjarvänligt · Riktiga flöden
+        </p>
+        <h1 class="hero-title">
+          <span class="t-white">AI-workshops</span>
+          <span class="t-accent">&amp; Agenter</span>
+          <span class="t-white">för byggare</span>
+        </h1>
+        <div class="hero-divider"></div>
+        <p class="hero-desc">
+          GenAition är ett AI-community i Stockholm som gör AI praktiskt och tillgängligt.
+          Vi hjälper yrkesverksamma, entreprenörer och studenter att bygga riktiga AI-system,
+          automatisera uppgifter och optimera arbetsflöden — utan kod.
+        </p>
+        <div class="hero-meta">
+          <div class="meta-block">
+            <p class="meta-label">Fokus</p>
+            <p class="meta-value accent">Praktisk</p>
+          </div>
+          <div class="meta-block">
+            <p class="meta-label">Format</p>
+            <p class="meta-value">Workshops</p>
+          </div>
+          <div class="meta-block">
+            <p class="meta-label">Nivå</p>
+            <p class="meta-value">Nybörjare</p>
+          </div>
+        </div>
+        <div class="hero-btns">
+          <a href="/learn-more-sv" class="btn-primary">
+            Läs mer
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l7 7-7 7M3 12h18"/></svg>
+          </a>
+          <a href="#workshops" class="btn-secondary">Se workshops</a>
+        </div>
+      </div>
 
-    <div class="relative z-10 w-full">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        <div class="grid lg:grid-cols-12 gap-10 items-center">
-          <div class="lg:col-span-7">
-            <div class="flex flex-wrap items-center gap-3 mb-6">
-              <span class="badge">Stockholm • Live</span>
-              <span class="text-sm text-green-100 opacity-90">Praktiskt • Nybörjarvänligt • Riktiga flöden</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Vem <span style="color:var(--accent2);">är vi?</span>
-            </h1>
-
-            <p class="mt-5 text-lg sm:text-xl text-green-100 max-w-2xl">
-              GenAition är ett AI-community i Stockholm som gör AI praktiskt och tillgängligt.
-              Vi hjälper yrkesverksamma, entreprenörer och studenter att bygga riktiga AI-system,
-              automatisera uppgifter och optimera arbetsflöden.
-            </p>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <a href="/learn-more-sv" class="btn btn-primary focus-ring">
-                <span>Läs mer</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"/>
-                </svg>
-              </a>
-              <a href="#workshops" class="btn btn-outline focus-ring">
-                <span>Se workshops</span>
-              </a>
-            </div>
-
-            <div class="mt-8 card-dark p-5 sm:p-6">
-              <div class="grid sm:grid-cols-3 gap-4 text-sm">
-                <div>
-                  <p class="text-green-100 opacity-80">Fokus</p>
-                  <p class="font-extrabold">Praktisk AI</p>
-                  <p class="text-green-100 opacity-90">flöden, inte teori</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-80">Format</p>
-                  <p class="font-extrabold">Workshops & tjänster</p>
-                  <p class="text-green-100 opacity-90">för individer & team</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-80">Resultat</p>
-                  <p class="font-extrabold">Bygg riktiga verktyg</p>
-                  <p class="text-green-100 opacity-90">som du använder direkt</p>
-                </div>
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-card-body">
+            <p class="hero-card-label">GenAition</p>
+            <h2 class="hero-card-title">AI-workshops &amp; Tillämpad AI</h2>
+            <p class="hero-card-desc">Delta i live-sessioner, få beprövade mallar och lär dig bygga pålitliga AI-agenter med "human-in-the-loop".</p>
+            <div class="hero-card-divider"></div>
+            <div class="hero-card-stats">
+              <div class="hero-card-stat">
+                <p class="hero-card-stat-num">5+</p>
+                <p class="hero-card-stat-label">Workshops</p>
+              </div>
+              <div class="hero-card-stat">
+                <p class="hero-card-stat-num">150+</p>
+                <p class="hero-card-stat-label">Utbildade</p>
               </div>
             </div>
           </div>
-
-          <div class="lg:col-span-5 hidden lg:block">
-            <div class="card-dark p-7">
-              <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">GenAition</p>
-              <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">AI-workshops & automation</h2>
-              <p class="mt-4 text-green-100">
-                Delta i live-sessioner, få beprövade mallar och lär dig bygga pålitliga AI-agenter med “human-in-the-loop”.
-              </p>
-              <div class="soft-divider my-6"></div>
-              <a href="#services" class="btn btn-outline focus-ring w-full">
-                Utforska tjänster
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= WORKSHOPS ================= -->
-  <section id="workshops" class="bg-acoustic py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 text-gray-900">
-
-      <!-- Highlighted card -->
-      <div class="max-w-4xl mx-auto mb-12">
-        <div class="card overflow-hidden">
-          <div class="grid md:grid-cols-2">
-            <div class="p-7">
-              <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Nästa workshop</p>
-              <h3 class="text-2xl sm:text-3xl font-extrabold mt-2">
-                Bygg din första <span class="title-underline">AI-agent</span>
-              </h3>
-              <p class="mt-3 text-gray-700">
-                Delta i vår praktiska AI-workshop på plats i Stockholm. Nybörjarvänlig, hands-on och full av riktiga flöden.
-              </p>
-              <div class="mt-6 flex gap-3 flex-wrap">
-                <a href="/event-1-sv" class="btn btn-primary focus-ring">Läs mer →</a>
-                <a href="#contact" class="btn focus-ring" style="background:#fff; border:1px solid rgba(7,17,14,.12); color:var(--forest2);">Ställ en fråga</a>
-              </div>
-            </div>
-            <div class="p-4 md:p-0">
-              <img src="/humanai.png" alt="AI Agent Workshop" class="w-full h-64 md:h-full object-cover">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center mb-12">
-        <a href="/event-1-sv" class="inline-block font-extrabold text-3xl sm:text-4xl hover:underline">
-          Våra workshops
-        </a>
-        <p class="mt-4 max-w-2xl mx-auto text-gray-700 text-sm sm:text-base">
-          Våra nybörjarvänliga workshops hjälper dig att bygga riktiga AI-verktyg – från Slack-chatbots till e-postautomation – på bara några timmar.
-        </p>
-      </div>
-
-      <div class="max-w-6xl mx-auto space-y-10">
-        <!-- 1 -->
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6">
-            <div class="card overflow-hidden">
-              <img src="/email-workshop.jpg" alt="E-postworkshop" class="w-full h-80 object-cover">
-            </div>
-          </div>
-          <div class="lg:col-span-6">
-            <div class="card p-7">
-              <span class="inline-flex text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full" style="background: rgba(255,193,7,.18); border:1px solid rgba(255,193,7,.28); color:#5a4300;">
-                No-Code AI
-              </span>
-              <h3 class="text-2xl font-extrabold mt-4">AI-e-postassistent</h3>
-              <p class="mt-3 text-gray-700">
-                Bygg en AI-driven e-postassistent med Gmail, Google Sheets och generativ AI. Den läser inkommande mail,
-                sammanfattar innehåll och föreslår eller skriver svar – vilket sparar tid och skapar bättre struktur.
-              </p>
-              <a href="/what-built-1-sv.html" class="btn btn-primary focus-ring mt-5">Se vad vi byggde →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2 -->
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6 lg:order-2">
-            <div class="card overflow-hidden">
-              <img src="/chatbot-chatbot.jpg" alt="Chatbotworkshop" class="w-full h-80 object-cover">
-            </div>
-          </div>
-          <div class="lg:col-span-6 lg:order-1">
-            <div class="card p-7">
-              <span class="inline-flex text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full" style="background: rgba(42,122,90,.12); border:1px solid rgba(42,122,90,.18); color:var(--accent);">
-                Slack-botar
-              </span>
-              <h3 class="text-2xl font-extrabold mt-4">AI-chattassistent</h3>
-              <p class="mt-3 text-gray-700">
-                Skapa en AI-chatbot i Slack som kan svara på frågor, hämta information från kopplade verktyg
-                och hjälpa teamet i realtid – direkt i arbetsytan.
-              </p>
-              <a href="/chatbot-video-sv.html" class="btn btn-primary focus-ring mt-5">Se vad vi byggde →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3 -->
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6">
-            <div class="card overflow-hidden">
-              <img src="/telegram-workshop.png" alt="Telegramworkshop" class="w-full h-80 object-cover">
-            </div>
-          </div>
-          <div class="lg:col-span-6">
-            <div class="card p-7">
-              <span class="inline-flex text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full" style="background: rgba(158,209,183,.22); border:1px solid rgba(158,209,183,.30); color:var(--forest2);">
-                Praktisk AI
-              </span>
-              <h3 class="text-2xl font-extrabold mt-4">AI-kundagent</h3>
-              <p class="mt-3 text-gray-700">
-                Bygg en kundsupportassistent i Telegram. Med n8n + generativ AI kan den svara automatiskt på kundmeddelanden,
-                ge hjälpsamma svar och guida användare i ett konversationsflöde.
-              </p>
-              <a href="/n8nwork-sv" class="btn btn-primary focus-ring mt-5">Se vad vi byggde →</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SERVICES ================= -->
-  <section id="services" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest2), var(--forest));">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Tjänster</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white">Våra tjänster</h2>
-        <p class="mt-4 text-green-100 text-sm sm:text-base">
-          Praktiska, kodfria AI-lösningar för soloföretagare, startups och små team — samt utbildning för att implementera AI som faktiskt fungerar.
-        </p>
-      </div>
-
-      <div class="mt-10 grid gap-6 grid-cols-1 md:grid-cols-3">
-        <div class="card-dark p-6 overflow-hidden">
-          <img src="/servicea.jpg" alt="AI-teamutbildning" class="w-full h-40 object-cover rounded-2xl border border-white border-opacity-10" />
-          <h3 class="text-xl font-extrabold mt-5 text-white">AI-teamutbildning</h3>
-          <p class="text-sm mt-2 text-green-100">Boka en session där ditt team lär sig att använda AI — tillsammans.</p>
-          <a href="/service-1-sv" class="btn btn-outline focus-ring mt-5 w-full">Läs mer →</a>
-        </div>
-
-        <div class="card-dark p-6 overflow-hidden" style="border:1px solid rgba(158,209,183,.25);">
-          <img src="/serviceb.png" alt="1:1 AI-coaching" class="w-full h-40 object-cover rounded-2xl border border-white border-opacity-10" />
-          <h3 class="text-xl font-extrabold mt-5 text-white">1:1 AI-coaching</h3>
-          <p class="text-sm mt-2 text-green-100">Personlig vägledning för att bygga dina AI-kunskaper och verktyg.</p>
-          <a href="/service-2-sv" class="btn btn-outline focus-ring mt-5 w-full">Läs mer →</a>
-        </div>
-
-        <div class="card-dark p-6 overflow-hidden" style="border:1px solid rgba(255,193,7,.22);">
-          <img src="/servicec.png" alt="AI-agenter & automation" class="w-full h-40 object-cover rounded-2xl border border-white border-opacity-10" />
-          <h3 class="text-xl font-extrabold mt-5 text-white">AI-agenter & automation</h3>
-          <p class="text-sm mt-2 text-green-100">Få AI-agenter eller automation byggd för ditt företag.</p>
-          <a href="/service-3-sv" class="btn btn-outline focus-ring mt-5 w-full">Läs mer →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= CONTACT ================= -->
-  <section id="contact" class="bg-acoustic py-16 sm:py-20 scroll-animate">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-gray-900">
-      <div class="text-center mb-10">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Kontakt</p>
-        <h2 class="text-3xl sm:text-4xl font-extrabold">Kontakta oss!</h2>
-        <p class="mt-3 text-gray-700 max-w-xl mx-auto">
-          Vill du ha experthjälp med AI? Delta i våra workshops eller boka våra tjänster — fyll i dina uppgifter nedan så hör vi av oss.
-        </p>
+  <!-- ── PRINCIPLE BANNER ── -->
+  <div class="principle">
+    <div class="principle-inner">
+      <span class="principle-tag">Vårt uppdrag</span>
+      <p class="principle-text">Praktisk AI. Riktiga flöden. Nybörjarvänligt. Stockholm &amp; vidare.</p>
+    </div>
+  </div>
+
+  <!-- ── ABOUT / BENEFITS ── -->
+  <section id="about" class="section section-alt">
+    <div class="container">
+      <p class="sec-label">Vem vi är</p>
+      <h2 class="sec-title">AI Evolution<br>Community</h2>
+      <p class="sec-desc">Vi gör AI praktiskt och hands-on. Ingen teori. Bara riktiga verktyg du kan använda nästa dag — från Slack-chatbots till e-postautomation, byggt på bara några timmar.</p>
+      <div class="benefits-grid">
+        <div class="benefit-cell">
+          <div class="benefit-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p class="benefit-title">Riktiga flöden</p>
+          <p class="benefit-desc">Bygg faktiska AI-verktyg på några timmar. Gå hem med något du kan använda redan nästa dag.</p>
+        </div>
+        <div class="benefit-cell">
+          <div class="benefit-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <p class="benefit-title">Ingen kod krävs</p>
+          <p class="benefit-desc">Nybörjarvänliga sessioner. Du sätter reglerna — AI:n följer dem, inte tvärtom.</p>
+        </div>
+        <div class="benefit-cell">
+          <div class="benefit-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <p class="benefit-title">Små grupper</p>
+          <p class="benefit-desc">Max 25 platser. Hands-on hjälp under hela sessionen. Du bygger, vi vägleder.</p>
+        </div>
       </div>
-
-      <form class="max-w-4xl mx-auto grid md:grid-cols-2 gap-5">
-        <div class="card p-5">
-          <label for="phone" class="block font-extrabold text-gray-900">Telefon</label>
-          <input id="phone" type="text" placeholder="Telefon"
-                 class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-gray-200 focus-ring" />
-        </div>
-
-        <div class="card p-5">
-          <label for="email" class="block font-extrabold text-gray-900">E-post</label>
-          <input id="email" type="email" placeholder="E-post"
-                 class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-gray-200 focus-ring" />
-        </div>
-
-        <div class="md:col-span-2 card p-5">
-          <label for="message" class="block font-extrabold text-gray-900">Meddelande</label>
-          <textarea id="message" rows="4" placeholder="Meddelande"
-                    class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-gray-200 focus-ring"></textarea>
-        </div>
-
-        <div class="md:col-span-2">
-          <button type="submit" class="btn btn-primary focus-ring w-full py-4">
-            Skicka
-          </button>
-        </div>
-      </form>
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="pt-12 pb-8" style="background:#050c0a; color:#e9f2ee;">
-    <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-10 text-sm">
-      <div class="space-y-2">
-        <p class="font-extrabold text-white text-base mb-3">Länkar</p>
-        <a href="/index-sv.html" class="block hover:text-green-200">Hem</a>
-        <a href="/learn-more-sv" class="block hover:text-green-200">Om oss</a>
-        <a href="/index-sv.html#workshops" class="block hover:text-green-200">Evenemang</a>
-        <a href="/index-sv.html#services" class="block hover:text-green-200">Tjänster</a>
-        <a href="/index-sv.html#contact" class="block hover:text-green-200">Kontakt</a>
+  <!-- ── WORKSHOPS ── -->
+  <section id="workshops" class="section">
+    <div class="container">
+
+      <!-- Next event highlight -->
+      <div class="next-event-card">
+        <div class="next-event-inner">
+          <div class="next-event-body">
+            <p class="next-event-label">Nästa workshop</p>
+            <h3 class="next-event-title">Bygg din första AI-agent</h3>
+            <p class="next-event-desc">Delta i vår praktiska AI-workshop på plats i Uppsala. Nybörjarvänlig, hands-on och full av riktiga flöden. 13 juni 2026 · Scandic Hotel.</p>
+            <div class="next-event-btns">
+              <a href="/event-1-sv" class="btn-primary">Läs mer →</a>
+              <a href="#contact" class="btn-secondary">Ställ en fråga</a>
+            </div>
+          </div>
+          <div class="next-event-img">
+            <img src="/humanai.png" alt="AI Agent Workshop" />
+          </div>
+        </div>
       </div>
 
-      <div class="sm:text-right space-y-1">
-        <p class="font-extrabold text-white text-base mb-3">GenAition</p>
-        <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
-        <p class="mt-3">info@genaition.org</p>
-        <p>+46 762 608 848</p>
+      <p class="sec-label">Vad vi bygger</p>
+      <h2 class="sec-title">Våra workshops</h2>
+      <p class="sec-desc">Från e-postautomation till chatbots — riktiga, fungerande AI-system byggda live i rummet.</p>
+
+      <div class="build-rows">
+        <!-- Workshop 1 -->
+        <div class="build-row">
+          <div class="build-text-side">
+            <div class="build-num">01</div>
+            <span class="build-tag">No-code AI</span>
+            <p class="build-title">AI-e-postassistent</p>
+            <p class="build-desc">Bygg en AI-driven e-postassistent med Gmail, Google Sheets och generativ AI. Den läser inkommande mail, sammanfattar innehåll och skriver svar.</p>
+            <ul class="build-checks">
+              <li>Läser &amp; sammanfattar inkommande mail automatiskt</li>
+              <li>Skriver personliga svar i din ton</li>
+              <li>Fungerar med Gmail — inga nya verktyg att lära sig</li>
+            </ul>
+            <a href="/what-built-1-sv.html" class="build-cta">Se vad vi byggde →</a>
+          </div>
+          <div class="build-photo-side">
+            <div class="build-photo-accent"></div>
+            <img src="/email-workshop.jpg" alt="AI-e-postassistent Workshop" />
+            <p class="build-photo-label">AI E-postagent · Workshop 01</p>
+          </div>
+        </div>
+
+        <!-- Workshop 2 -->
+        <div class="build-row flip">
+          <div class="build-text-side">
+            <div class="build-num">02</div>
+            <span class="build-tag">Slack-botar</span>
+            <p class="build-title">AI-chattassistent</p>
+            <p class="build-desc">Skapa en AI-chatbot i Slack som svarar på frågor, hämtar information från kopplade verktyg och hjälper teamet i realtid.</p>
+            <ul class="build-checks">
+              <li>Körs direkt i din Slack-arbetsyta</li>
+              <li>Kopplar till dina befintliga verktyg &amp; data</li>
+              <li>Tillgänglig dygnet runt för hela teamet</li>
+            </ul>
+            <a href="/chatbot-video-sv.html" class="build-cta">Se vad vi byggde →</a>
+          </div>
+          <div class="build-photo-side">
+            <div class="build-photo-accent"></div>
+            <img src="/chatbot-chatbot.jpg" alt="AI-chattassistent Workshop" />
+            <p class="build-photo-label">Slack AI-bot · Workshop 02</p>
+          </div>
+        </div>
+
+        <!-- Workshop 3 -->
+        <div class="build-row">
+          <div class="build-text-side">
+            <div class="build-num">03</div>
+            <span class="build-tag">Praktisk AI</span>
+            <p class="build-title">AI-kundagent</p>
+            <p class="build-desc">Bygg en kundsupportassistent i Telegram med n8n + generativ AI. Svarar på kundmeddelanden, ger hjälpsamma svar och guidar användare i ett konversationsflöde.</p>
+            <ul class="build-checks">
+              <li>Hanterar kundmeddelanden i Telegram automatiskt</li>
+              <li>Drivs av n8n + Claude — ingen kod krävs</li>
+              <li>Anpassningsbar för alla branscher och användningsfall</li>
+            </ul>
+            <a href="/n8nwork-sv" class="build-cta">Se vad vi byggde →</a>
+          </div>
+          <div class="build-photo-side">
+            <div class="build-photo-accent"></div>
+            <img src="/telegram-workshop.png" alt="AI-kundagent Workshop" />
+            <p class="build-photo-label">Telegram AI-agent · Workshop 03</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact" class="section section-alt">
+    <div class="container">
+      <p class="sec-label">Kom i kontakt</p>
+      <h2 class="sec-title">Kontakta oss</h2>
+      <div class="contact-wrap">
+        <div class="contact-info">
+          <p>Vill du ha experthjälp med AI? Delta i våra workshops eller boka oss för ditt team. Fyll i dina uppgifter så hör vi av oss.</p>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="contact-detail-text">
+              <span class="contact-detail-label">E-post</span>
+              info@genaition.org
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="contact-detail-text">
+              <span class="contact-detail-label">Telefon</span>
+              +46 762 608 848
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-detail-text">
+              <span class="contact-detail-label">Adress</span>
+              Konstgjutarvägen 4, 121 44 Stockholm, Sverige
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-box">
+          <form>
+            <div class="form-field">
+              <label class="form-label" for="phone">Telefon</label>
+              <input id="phone" type="text" placeholder="+46 700 000 000" class="form-input" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="email">E-post</label>
+              <input id="email" type="email" placeholder="du@exempel.se" class="form-input" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="message">Meddelande</label>
+              <textarea id="message" rows="4" placeholder="Berätta hur vi kan hjälpa dig..." class="form-input"></textarea>
+            </div>
+            <button type="submit" class="form-submit">Skicka meddelande</button>
+          </form>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="max-w-6xl mx-auto px-4 mt-10 flex flex-col items-center gap-4">
-      <img src="/android-chrome-512x512.png" alt="GenAition Logotyp" class="h-14 w-14 rounded-2xl" />
-      <div class="flex items-center gap-4">
-        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank" rel="noreferrer" class="hover:opacity-80" aria-label="LinkedIn">
-          <img src="/linkedin.png" class="h-6 w-6" alt="LinkedIn" />
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank" rel="noreferrer" class="hover:opacity-80" aria-label="Facebook">
-          <img src="/facebook.png" class="h-6 w-6" alt="Facebook" />
-        </a>
-        <a href="https://www.instagram.com/genaition.io/" target="_blank" rel="noreferrer" class="hover:opacity-80" aria-label="Instagram">
-          <img src="/instagram.png" class="h-6 w-6" alt="Instagram" />
-        </a>
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand-name">GenAition</p>
+        <p class="footer-brand-desc">Stockholmsbaserat AI-community som gör AI praktiskt, hands-on och tillgängligt för alla.</p>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank" rel="noreferrer" class="footer-social" aria-label="LinkedIn">
+            <img src="/linkedin.png" alt="LinkedIn" />
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank" rel="noreferrer" class="footer-social" aria-label="Facebook">
+            <img src="/facebook.png" alt="Facebook" />
+          </a>
+          <a href="https://www.instagram.com/genaition.io/" target="_blank" rel="noreferrer" class="footer-social" aria-label="Instagram">
+            <img src="/instagram.png" alt="Instagram" />
+          </a>
+        </div>
       </div>
-
-      <p class="text-xs text-gray-400 mt-2">&copy; 2026 GenAition. Alla rättigheter förbehållna.</p>
+      <div>
+        <p class="footer-col-title">Länkar</p>
+        <ul class="footer-links">
+          <li><a href="/index-sv.html">Hem</a></li>
+          <li><a href="/learn-more-sv">Om oss</a></li>
+          <li><a href="#contact">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Kontakt</p>
+        <ul class="footer-links">
+          <li><a href="mailto:info@genaition.org">info@genaition.org</a></li>
+          <li><a href="tel:+46762608848">+46 762 608 848</a></li>
+          <li><a href="#">Stockholm, Sverige</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2026 GenAition. Alla rättigheter förbehållna.</p>
+      <a href="/privacy.html" style="font-family:'DM Mono',monospace;font-size:0.55rem;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.18);text-decoration:none;">Integritetspolicy</a>
     </div>
   </footer>
 
-  <!-- ================= SCRIPTS ================= -->
+  <!-- ── SCRIPTS ── -->
   <script>
-    // Desktop language dropdown (click-based)
-    const langBtn = document.getElementById('langBtn');
-    const langMenu = document.getElementById('langMenu');
+    // Desktop language dropdown
     const langWrap = document.getElementById('langWrap');
-
-    function closeLangMenu() {
-      if (!langMenu || !langBtn) return;
-      langWrap && langWrap.classList.remove('dropdown-open');
-      langBtn.setAttribute('aria-expanded', 'false');
-    }
-    function toggleLangMenu() {
-      if (!langMenu || !langBtn) return;
-      const open = !(langWrap && langWrap.classList.contains('dropdown-open'));
-      if (langWrap) langWrap.classList.toggle('dropdown-open', open);
+    const langBtn  = document.getElementById('langBtn');
+    function closeLang() { langWrap && langWrap.classList.remove('open'); langBtn && langBtn.setAttribute('aria-expanded','false'); }
+    function toggleLang() {
+      const open = !langWrap.classList.contains('open');
+      langWrap.classList.toggle('open', open);
       langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
-
-    if (langBtn && langMenu) {
-      langBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleLangMenu(); });
-      document.addEventListener('click', closeLangMenu);
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLangMenu(); });
+    if (langBtn) {
+      langBtn.addEventListener('click', e => { e.stopPropagation(); toggleLang(); });
+      document.addEventListener('click', closeLang);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLang(); });
     }
 
     // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuBtn   = document.getElementById('mobileMenuBtn');
+    const mobileMenu      = document.getElementById('mobileMenu');
     const mobileMenuClose = document.getElementById('mobileMenuClose');
-    const mobileOverlay = document.getElementById('mobileOverlay');
-
-    function openMenu() { mobileMenu && mobileMenu.classList.remove('hidden'); }
-    function closeMenu() { mobileMenu && mobileMenu.classList.add('hidden'); }
-
-    mobileMenuBtn && mobileMenuBtn.addEventListener('click', openMenu);
+    const mobileOverlay   = document.getElementById('mobileOverlay');
+    function openMenu()  { mobileMenu && mobileMenu.classList.add('open'); }
+    function closeMenu() { mobileMenu && mobileMenu.classList.remove('open'); }
+    mobileMenuBtn   && mobileMenuBtn.addEventListener('click', openMenu);
     mobileMenuClose && mobileMenuClose.addEventListener('click', closeMenu);
-    mobileOverlay && mobileOverlay.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    mobileOverlay   && mobileOverlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
     mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-
-    // Mobile language button: open menu and scroll to language block
-    const langBtnMobile = document.getElementById('langBtnMobile');
-    langBtnMobile && langBtnMobile.addEventListener('click', () => {
-      openMenu();
-      setTimeout(() => {
-        const el = mobileMenu ? mobileMenu.querySelector('.card') : null;
-        el && el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    });
-
-    // Scroll Animation
-    const sections = document.querySelectorAll('.scroll-animate');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-breathe');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      section.classList.remove('animate-breathe');
-      observer.observe(section);
-    });
   </script>
 
-  <!-- Cookie Banner Popup -->
-  <div id="cookie-banner" style="display: none;"
-       class="fixed bottom-20 md:bottom-0 left-0 right-0 w-full bg-white text-black px-6 py-4 z-50 shadow-xl">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-      <p class="text-center md:text-left leading-snug">
+  <!-- Cookie Banner -->
+  <div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; width:100%; background:#fff; color:#000; padding:1rem 1.5rem; z-index:50; box-shadow:0 -4px 24px rgba(0,0,0,0.12); border-top:1px solid rgba(0,0,0,0.08);">
+    <div style="max-width:1280px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; font-size:0.85rem; line-height:1.5;">
+      <p>
         Vår webbplats använder cookies för att anpassa och förbättra din upplevelse samt för att genomföra analyser.
-        Genom att klicka på ”Acceptera alla” godkänner du vår cookiepolicy:
-        <a href="/privacy.html" class="underline text-green-600 hover:text-green-800" target="_blank" rel="noreferrer">
-          genaition.io/privacy
-        </a>
+        Genom att klicka på "Acceptera alla" godkänner du vår cookiepolicy:
+        <a href="/privacy.html" style="color:#00bf63; text-decoration:underline;" target="_blank" rel="noreferrer">genaition.io/privacy</a>
       </p>
-      <div class="flex gap-3 flex-wrap justify-center md:justify-end">
-        <button id="reject-cookies"
-                class="bg-gray-200 text-black px-5 py-1.5 rounded-md hover:bg-gray-300 text-sm font-medium">
-          Endast nödvändiga
-        </button>
-        <button id="accept-cookies"
-                class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-1.5 rounded-md text-sm">
-          Acceptera alla
-        </button>
+      <div style="display:flex; gap:0.75rem; flex-shrink:0;">
+        <button id="reject-cookies" style="background:#f0f0f0; color:#000; padding:0.5rem 1.1rem; border-radius:3px; border:none; cursor:pointer; font-size:0.82rem; font-weight:500;">Endast nödvändiga</button>
+        <button id="accept-cookies" style="background:#00bf63; color:#000; padding:0.5rem 1.1rem; border-radius:3px; border:none; cursor:pointer; font-size:0.82rem; font-weight:700;">Acceptera alla</button>
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const banner = document.getElementById("cookie-banner");
-      const overlay = document.getElementById("overlay");
-      const acceptBtn = document.getElementById("accept-cookies");
-      const rejectBtn = document.getElementById("reject-cookies");
+      const banner    = document.getElementById('cookie-banner');
+      const overlay   = document.getElementById('overlay');
+      const acceptBtn = document.getElementById('accept-cookies');
+      const rejectBtn = document.getElementById('reject-cookies');
 
       function loadGA() {
         const gaScript = document.createElement('script');
         gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-7G28B2HMYY';
         gaScript.async = true;
         document.head.appendChild(gaScript);
-
         gaScript.onload = () => {
           window.dataLayer = window.dataLayer || [];
           function gtag() { dataLayer.push(arguments); }
@@ -702,20 +795,12 @@
 
       function hideBanner() {
         banner.style.display = 'none';
-        overlay.classList.add('hidden');
+        if (overlay) overlay.style.display = 'none';
       }
 
       if (acceptBtn && rejectBtn) {
-        acceptBtn.addEventListener('click', () => {
-          localStorage.setItem('cookieConsent', 'accepted');
-          loadGA();
-          hideBanner();
-        });
-
-        rejectBtn.addEventListener('click', () => {
-          localStorage.setItem('cookieConsent', 'rejected');
-          hideBanner();
-        });
+        acceptBtn.addEventListener('click', () => { localStorage.setItem('cookieConsent', 'accepted'); loadGA(); hideBanner(); });
+        rejectBtn.addEventListener('click', () => { localStorage.setItem('cookieConsent', 'rejected'); hideBanner(); });
       }
 
       const consent = localStorage.getItem('cookieConsent');
@@ -724,7 +809,7 @@
       } else if (!consent) {
         setTimeout(() => {
           banner.style.display = 'block';
-          overlay.classList.remove('hidden');
+          if (overlay) overlay.style.display = 'block';
         }, 3000);
       }
     });
