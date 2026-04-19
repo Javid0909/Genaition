@@ -410,7 +410,7 @@
           <a href="/event-1-sv.html"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
         </div>
       </div>
-      <a href="#tickets" class="nav-register">Sign-Up</a>
+      <a href="#ticket-box" class="nav-register">Sign-Up</a>
     </div>
   </div>
 </header>
@@ -493,7 +493,7 @@
               </div>
             </div>
           </div>
-          <a href="#tickets" class="register-block">Sign-up</a>
+          <a href="#ticket-box" class="register-block">Sign-up</a>
         </div>
       </div>
       <div class="stat-badge tl"><p class="sb-num">5+</p><p class="sb-label">Workshops led</p></div>
@@ -746,15 +746,13 @@
     <h2 class="sec-title">Sign-Up</h2>
     <p class="sec-desc">Early Bird pricing active now — secure yours before it's gone.</p>
     <div class="tickets-wrap">
-      <div class="ticket-box">
+      <div class="ticket-box" id="ticket-box">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Ends 30 April</div>
         <div class="ticket-price-old">895 SEK</div>
         <div style="display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap;">
           <div class="ticket-price">595 SEK</div>
           <span style="font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.13em;color:#00bf63;background:rgba(0,191,99,0.1);border:1px solid rgba(0,191,99,0.25);padding:0.2rem 0.55rem;border-radius:2px;white-space:nowrap;">Save 300 SEK</span>
         </div>
-        <div class="ticket-price-sub">Per person · incl. VAT</div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.06em;margin:0.4rem 0 0;">3 hours of instruction · agent runs for years</p>
         <div class="ticket-divider"></div>
         <ul style="list-style:none;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0;">
           <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.07);"><span style="color:#00bf63;flex-shrink:0;">→</span> Full 3-hour live online workshop</li>
@@ -1216,7 +1214,7 @@
     <p class="sticky-title">AI Agent Workshop</p>
     <p class="sticky-sub">Online · 13 June · Early Bird Active</p>
   </div>
-  <a href="/before-checkout.html" class="sticky-register-btn">Sign-up</a>
+  <a href="#ticket-box" class="sticky-register-btn">Sign-up</a>
 </div>
 
 <script>
@@ -1259,8 +1257,11 @@
 
   // Sticky bar on scroll
   const stickyBar = document.getElementById('stickyBar');
+  const ticketBox = document.getElementById('ticket-box');
   window.addEventListener('scroll', () => {
-    stickyBar.classList.toggle('visible', window.scrollY > 500);
+    const rect = ticketBox.getBoundingClientRect();
+    const ticketVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    stickyBar.classList.toggle('visible', window.scrollY > 500 && !ticketVisible);
   });
 </script>
 
