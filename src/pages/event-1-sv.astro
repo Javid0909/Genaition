@@ -131,6 +131,14 @@
     .hero-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--green), transparent); margin: 1.6rem 0; }
 
     .hero-desc { font-size: 1rem; color: var(--muted2); line-height: 1.78; max-width: 460px; font-weight: 300; }
+    .hero-audience { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.85rem; max-width: 460px; line-height: 1.6; }
+
+    /* SEAT COUNTER */
+    .seat-counter { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 1.1rem; padding: 0.6rem 1.1rem; background: rgba(255,100,50,0.08); border: 1px solid rgba(255,100,50,0.25); border-radius: var(--r); }
+    .seat-counter-dot { width: 7px; height: 7px; background: #ff6432; border-radius: 50%; animation: pulse 1.8s ease infinite; flex-shrink: 0; }
+    .seat-counter-text { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,140,80,0.9); }
+    .seat-counter-text strong { color: #ff8050; }
+    .seat-counter { animation: fadeUp 0.6s ease 0.4s both; }
 
     .hero-meta {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -458,7 +466,7 @@
   <div class="hero-inner">
     <div class="hero-left">
       <p class="hero-eyebrow">
-        <span class="open-tag"><span class="open-dot"></span> Early Bird · Avslutas 1 juni</span>
+        <span class="open-tag"><span class="open-dot"></span> Early Bird · Avslutas 30 april</span>
       </p>
       <h1 class="hero-title">
         <span class="t-white">Bygg din</span>
@@ -467,6 +475,11 @@
       </h1>
       <div class="hero-divider"></div>
       <p class="hero-desc">Lämna på 3 timmar med en live AI-e-postagent du byggt själv – ingen kodning krävs. Delta online varifrån som helst den 13 juni.</p>
+      <p class="hero-audience">För grundare, konsulter och säljare som vill ha AI i inkorgen – inte på läslistan.</p>
+      <div class="seat-counter">
+        <span class="seat-counter-dot"></span>
+        <span class="seat-counter-text"><strong>17</strong> av 25 platser kvar</span>
+      </div>
       <div class="hero-meta">
         <div class="meta-block">
           <p class="meta-label">Datum</p>
@@ -525,7 +538,7 @@
               </div>
             </div>
           </div>
-          <a href="/before-checkout-sv.html" class="register-block">Reservera min plats →</a>
+          <a href="/before-checkout-sv.html" class="register-block">Bygg min agent — 595 SEK →</a>
         </div>
       </div>
       <div class="stat-badge tl"><p class="sb-num">5+</p><p class="sb-label">Workshops genomförda</p></div>
@@ -567,7 +580,7 @@
         <div class="benefit-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <p class="benefit-title">Riktig agent byggd av dig.</p>
+        <p class="benefit-title">RIKTIG AGENT, BYGGD AV DIG</p>
         <p class="benefit-desc">Se hur ReAct, LLM API och systemprompts faktiskt fungerar – genom att bygga en själv, live online.</p>
       </div>
       <div class="benefit-cell">
@@ -586,7 +599,11 @@
       </button>
       <div class="tech-reveal-body" id="techBody">
         <div class="tech-reveal-inner">
-          Stacken: n8n Cloud · Claude Sonnet 4.5 · n8n MCP · ReAct Workflow. Tänkande. Orkestrering. Resonemang. En pipeline. Förkonfigurerad så du lägger tid på att anpassa – inte felsöka.
+          <strong>n8n Cloud</strong> — automationsmotorn som kopplar ihop dina verktyg och kör hela pipelinen.<br>
+          <strong>Claude Sonnet 4.5</strong> — läser mejl, skriver svar i din ton och kontrollerar kvaliteten innan något skickas.<br>
+          <strong>n8n MCP</strong> — ger agenten kontext och minne så den vet vem den pratar med och vad den ska göra härnäst.<br>
+          <strong>ReAct Workflow</strong> — resonemangsloopen som låter agenten tänka, besluta och agera steg för steg – utan manuell input.<br><br>
+          Förkonfigurerad så du lägger tid på att anpassa – inte felsöka.
         </div>
       </div>
     </div>
@@ -604,7 +621,7 @@
         <div class="build-text-side">
           <div class="build-num">01</div>
           <p class="build-title">Hands-on AI-agent</p>
-          <p class="build-desc">Inga slides. Ingen föreläsning. Du bygger "Ove", en live e-postagent som hämtar kontakter, skriver personliga mejl, skickar via Gmail och loggar resultaten. Autonomt.</p>
+          <p class="build-desc">Inga slides. Ingen föreläsning. Du bygger "Ove", en live e-postagent som hämtar kontakter, skriver personliga mejl, skickar via Gmail och loggar resultaten — autonomt.</p>
           <ul class="build-checks">
             <li>Prompts som anpassar sig till varje kontakt automatiskt</li>
             <li>Låt AI:n kopiera din ton – formell, avslappnad eller varumärkesröst?</li>
@@ -734,15 +751,6 @@
     <div class="tp-header">
       <div>
         <p class="sec-label">Vad folk säger</p>
-        <div class="tp-score-wrap">
-          <div class="tp-score">4.5</div>
-          <div>
-            <div class="tp-star-row">
-              <div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star half"></div>
-            </div>
-            <p class="tp-score-sub">15 recensioner · Trustpilot</p>
-          </div>
-        </div>
       </div>
       <a href="https://www.trustpilot.com/review/genaition.io" target="_blank" class="tp-link">Se alla recensioner ↗</a>
     </div>
@@ -784,7 +792,7 @@
         </ul>
       </div>
       <div class="ticket-box">
-        <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Avslutas 1 juni</div>
+        <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Avslutas 30 april</div>
         <div class="ticket-price-old">895 SEK</div>
         <div style="display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap;">
           <div class="ticket-price">595 SEK</div>
@@ -800,7 +808,7 @@
           <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;"><span style="color:#00bf63;flex-shrink:0;">→</span> Intyg om genomförd kurs</li>
         </ul>
         <a href="/before-checkout-sv.html" class="ticket-register-btn">
-          Reservera min plats
+          Bygg min agent — 595 SEK
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
         </a>
         <p class="ticket-note">Säker betalning · Max 25 platser · 13 juni 2026</p>
@@ -843,6 +851,10 @@
       <div class="faq-item">
         <button class="faq-btn"><span>Kan mitt företag betala? Utfärdar ni fakturor?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 011-1z"/></svg></button>
         <div class="faq-body"><div class="faq-body-inner">Ja. Om du behöver faktura, vill boka flera platser eller behöver företagsrabatt, maila <a href="mailto:info@genaition.org" style="color:var(--green);">info@genaition.org</a> så löser vi det – vanligtvis inom 1 arbetsdag. Många deltagare kostnadsför detta via sitt företag.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn"><span>Vad kommer n8n Cloud och Claude API att kosta mig per månad efter workshopen?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
+        <div class="faq-body"><div class="faq-body-inner">Väldigt lite. n8n Cloud börjar på ca €20/månad (~220 SEK), och Claude API för en typisk e-postinkorg kostar €5–15/månad. Totalt: ungefär 150–350 SEK/månad — mindre än de flesta SaaS-verktyg du redan betalar för. Du kan också självhosta n8n gratis om du vill ha full kontroll utan månadsavgift.</div></div>
       </div>
     </div>
   </div>

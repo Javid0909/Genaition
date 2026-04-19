@@ -117,6 +117,14 @@
     .hero-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--green), transparent); margin: 1.6rem 0; }
 
     .hero-desc { font-size: 1rem; color: var(--muted2); line-height: 1.78; max-width: 460px; font-weight: 300; }
+    .hero-audience { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.85rem; max-width: 460px; line-height: 1.6; }
+
+    /* SEAT COUNTER */
+    .seat-counter { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 1.1rem; padding: 0.6rem 1.1rem; background: rgba(255,100,50,0.08); border: 1px solid rgba(255,100,50,0.25); border-radius: var(--r); }
+    .seat-counter-dot { width: 7px; height: 7px; background: #ff6432; border-radius: 50%; animation: pulse 1.8s ease infinite; flex-shrink: 0; }
+    .seat-counter-text { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,140,80,0.9); }
+    .seat-counter-text strong { color: #ff8050; }
+    .seat-counter { animation: fadeUp 0.6s ease 0.4s both; }
 
     .hero-meta {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -414,7 +422,7 @@
   <div class="hero-inner">
     <div class="hero-left">
       <p class="hero-eyebrow">
-        <span class="open-tag"><span class="open-dot"></span> Early Bird · Ends 1 June</span>
+        <span class="open-tag"><span class="open-dot"></span> Early Bird · Ends 30 April</span>
       </p>
       <h1 class="hero-title">
         <span class="t-white">Build your</span>
@@ -423,6 +431,11 @@
       </h1>
       <div class="hero-divider"></div>
       <p class="hero-desc">Leave in 3 hours with a live AI email agent you built yourself — no coding required. Join online from anywhere on 13 June.</p>
+      <p class="hero-audience">For founders, consultants, and sales leads who want AI working in their inbox — not on their reading list.</p>
+      <div class="seat-counter">
+        <span class="seat-counter-dot"></span>
+        <span class="seat-counter-text"><strong>17</strong> of 25 seats remaining</span>
+      </div>
       <div class="hero-meta">
         <div class="meta-block">
           <p class="meta-label">Date</p>
@@ -481,7 +494,7 @@
               </div>
             </div>
           </div>
-          <a href="/before-checkout.html" class="register-block">Reserve My Seat →</a>
+          <a href="/before-checkout.html" class="register-block">Build My Agent — 595 SEK →</a>
         </div>
       </div>
       <div class="stat-badge tl"><p class="sb-num">5+</p><p class="sb-label">Workshops led</p></div>
@@ -523,8 +536,8 @@
         <div class="benefit-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <p class="benefit-title">Real Agent Built by you.</p>
-        <p class="benefit-desc">See how ReAct, LLM API, and system prompts actually work by building one yourself, live in the room.</p>
+        <p class="benefit-title">REAL AGENT, BUILT BY YOU</p>
+        <p class="benefit-desc">See how ReAct, LLM API, and system prompts actually work by building one yourself, live online.</p>
       </div>
       <div class="benefit-cell">
         <div class="benefit-icon">
@@ -542,7 +555,11 @@
       </button>
       <div class="tech-reveal-body" id="techBody">
         <div class="tech-reveal-inner">
-          The stack n8n Cloud · Claude Sonnet 4.5 · n8n MCP · ReAct Workflow. Thinking. Orchestration. Reasoning. One pipeline. Pre-configured so you spend time customising, not troubleshooting.
+          <strong>n8n Cloud</strong> — the automation backbone that connects your tools and runs the entire pipeline.<br>
+          <strong>Claude Sonnet 4.5</strong> — reads emails, writes replies in your tone, and checks quality before anything is sent.<br>
+          <strong>n8n MCP</strong> — gives the agent context and memory so it knows who it's talking to and what to do next.<br>
+          <strong>ReAct Workflow</strong> — the reasoning loop that lets the agent think, decide, and act step by step, without manual input.<br><br>
+          Pre-configured so you spend time customising, not troubleshooting.
         </div>
       </div>
     </div>
@@ -560,7 +577,7 @@
         <div class="build-text-side">
           <div class="build-num">01</div>
           <p class="build-title">Hands-on AI agent</p>
-          <p class="build-desc">No slides. No lecture. You'll build "Ove", a live email agent that pulls contacts, writes personalized emails, sends via Gmail, and logs results. Autonomously.</p>
+          <p class="build-desc">No slides. No lecture. You'll build "Ove", a live email agent that pulls contacts, writes personalized emails, sends via Gmail, and logs results — autonomously.</p>
           <ul class="build-checks">
             <li>Prompts that adapt to each contact automatically</li>
             <li>Let AI copy your tone — formal, casual, or brand voice?</li>
@@ -690,15 +707,6 @@
     <div class="tp-header">
       <div>
         <p class="sec-label">What people say</p>
-        <div class="tp-score-wrap">
-          <div class="tp-score">4.5</div>
-          <div>
-            <div class="tp-star-row">
-              <div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star half"></div>
-            </div>
-            <p class="tp-score-sub">15 reviews · Trustpilot</p>
-          </div>
-        </div>
       </div>
       <a href="https://www.trustpilot.com/review/genaition.io" target="_blank" class="tp-link">See all reviews ↗</a>
     </div>
@@ -740,7 +748,7 @@
         </ul>
       </div>
       <div class="ticket-box">
-        <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Ends 1 June</div>
+        <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Ends 30 April</div>
         <div class="ticket-price-old">895 SEK</div>
         <div style="display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap;">
           <div class="ticket-price">595 SEK</div>
@@ -756,7 +764,7 @@
           <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;"><span style="color:#00bf63;flex-shrink:0;">→</span> Certificate of completion</li>
         </ul>
         <a href="/before-checkout.html" class="ticket-register-btn">
-          Reserve My Seat
+          Build My Agent — 595 SEK
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
         </a>
         <p class="ticket-note">Secure checkout · Max 25 seats · 13 June 2026</p>
@@ -799,6 +807,10 @@
       <div class="faq-item">
         <button class="faq-btn"><span>Can my company pay? Do you provide invoices?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 011-1z"/></svg></button>
         <div class="faq-body"><div class="faq-body-inner">Yes. If you need an invoice, want to book multiple seats, or need a team discount, email <a href="mailto:info@genaition.org" style="color:var(--green);">info@genaition.org</a> and we'll sort it out — usually within 1 business day. Many attendees expense this through their company.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn"><span>After the workshop, what will n8n Cloud and Claude API cost me monthly?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
+        <div class="faq-body"><div class="faq-body-inner">Very little. n8n Cloud starts at around €20/month (~220 SEK), and Claude API usage for a typical email inbox runs €5–15/month. Total: roughly 150–350 SEK/month — less than most SaaS tools you already pay for. You can also self-host n8n for free if you want full control and no monthly fee.</div></div>
       </div>
     </div>
   </div>
