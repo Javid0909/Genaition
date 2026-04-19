@@ -328,8 +328,8 @@
     .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; }
 
     /* ── TICKETS ── */
-    .tickets-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
-    @media (max-width: 800px) { .tickets-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .tickets-wrap { display: flex; justify-content: center; margin-top: 3.5rem; }
+    .ticket-box { max-width: 480px; width: 100%; }
     .include-list { list-style: none; margin-top: 1.5rem; }
     .include-list li { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.9rem 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
     .include-list li:last-child { border-bottom: none; }
@@ -477,7 +477,7 @@
       <p class="hero-desc">Lämna på 3 timmar med en live AI-e-postagent du byggt själv – ingen kodning krävs. Delta online varifrån som helst den 13 juni.</p>
       <div class="seat-counter">
         <span class="seat-counter-dot"></span>
-        <span class="seat-counter-text"><strong>17</strong> av 25 platser kvar</span>
+        <span class="seat-counter-text"><strong>19</strong> av 25 platser kvar</span>
       </div>
       <div class="hero-meta">
         <div class="meta-block">
@@ -790,16 +790,6 @@
     <h2 class="sec-title">Anmäl dig</h2>
     <p class="sec-desc">Early Bird-pris aktivt nu – säkra din plats innan det är för sent.</p>
     <div class="tickets-wrap">
-      <div>
-        <p class="sec-label" style="margin-top:1rem;">Vad som ingår</p>
-        <ul class="include-list">
-          <li><span class="ic">→</span>Full 3-timmars live-workshop online (Zoom)</li>
-          <li><span class="ic">→</span>Mallar, prompts &amp; workflow-filer att behålla för alltid</li>
-          <li><span class="ic">→</span>Intyg om genomförd kurs</li>
-          <li><span class="ic">→</span>Hands-on hjälp från instruktören tills det fungerar</li>
-          <li><span class="ic">→</span>Nybörjarsäkert – ingen kodningserfarenhet krävs</li>
-        </ul>
-      </div>
       <div class="ticket-box">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Avslutas 30 april</div>
         <div class="ticket-price-old">895 SEK</div>
@@ -822,7 +812,7 @@
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
         </a>
         <p class="ticket-note">Säker betalning · Max 25 platser · 13 juni 2026</p>
-        <p style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--muted);letter-spacing:0.06em;margin:0.4rem 0 0;text-align:center;">Behöver du faktura? Mejla <a href="mailto:hello@genaition.io" style="color:var(--muted);text-decoration:underline;">hello@genaition.io</a></p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--muted);letter-spacing:0.06em;margin:0.4rem 0 0;text-align:center;">Behöver du faktura? Mejla <a href="mailto:info@genaition.org" style="color:var(--muted);text-decoration:underline;">info@genaition.org</a></p>
       </div>
     </div>
   </div>
