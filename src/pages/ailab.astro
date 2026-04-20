@@ -76,18 +76,20 @@
     @media (max-width: 640px) { .hero-desc { max-width: 100%; font-size: 0.95rem; } .hero-title { font-size: clamp(3rem, 14vw, 4.5rem); } }
 
     /* SEAT COUNTERnew */
-    .seat-counter { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 1.2rem; padding: 0.6rem 1.1rem; background: rgba(255,100,50,0.08); border: 1px solid rgba(255,100,50,0.25); border-radius: var(--r); }
+    .seat-counter { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 1.2rem; padding: 0.6rem 1.1rem; background: rgba(255,100,50,0.08); border: 1px solid rgba(255,100,50,0.25); border-radius: var(--r); width: fit-content; }
+    @media (max-width: 900px) { .seat-counter { margin-left: auto; margin-right: auto; display: flex; } }
     .seat-counter-dot { width: 7px; height: 7px; background: #ff6432; border-radius: 50%; animation: pulse 1.8s ease infinite; flex-shrink: 0; }
     .seat-counter-text { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,140,80,0.9); }
     .seat-counter-text strong { color: #ff8050; }
 
-    .hero-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; max-width: 480px; }
+    .hero-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; max-width: 580px; }
     @media (max-width: 640px) { .hero-meta { grid-template-columns: 1fr 1fr; max-width: 100%; } }
     .meta-block { padding: 0.85rem 1rem; border-right: 1px solid var(--border); }
     .meta-block:last-child { border-right: none; }
-    @media (max-width: 640px) { .meta-block { border-bottom: 1px solid var(--border); } .meta-block:nth-child(2n) { border-right: none; } .meta-block:nth-last-child(-n+2) { border-bottom: none; } }
+    @media (max-width: 640px) { .meta-block { border-bottom: 1px solid var(--border); } .meta-block:nth-child(2n) { border-right: none; } .meta-block:nth-last-child(-n+2) { border-bottom: none; } .meta-block:last-child { border-bottom: none; border-right: none; } }
     .meta-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
     .meta-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.06em; color: var(--white); line-height: 1; white-space: nowrap; }
+    .meta-sub { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.45); margin-top: 0.2rem; }
     .meta-value.green { color: var(--green); }
     .hero-actions { margin-top: 1.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
     @media (max-width: 640px) { .hero-actions { flex-direction: column; align-items: flex-start; gap: 1rem; } .hero-cta { width: 100%; justify-content: center; } }
@@ -110,12 +112,15 @@
     .instructor-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.05em; line-height: 1; }
     @media (max-width: 900px) { .instructor-name { font-size: 1.4rem; } }
     .instructor-role { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--green); margin-top: 0.35rem; }
+    .instructor-li { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.3rem 0.75rem; background: rgba(10,102,194,0.15); border: 1px solid rgba(10,102,194,0.4); border-radius: var(--r); font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: #6eaad8; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+    .instructor-li:hover { background: rgba(10,102,194,0.3); border-color: rgba(10,102,194,0.7); color: #fff; }
+    .instructor-li svg { width: 11px; height: 11px; fill: currentColor; flex-shrink: 0; }
     .stat-badge { position: absolute; z-index: 6; background: rgba(5,5,5,0.88); backdrop-filter: blur(16px); border: 1px solid var(--border-strong); padding: 0.75rem 1rem; border-radius: var(--r); }
     .stat-badge.tl { top: 1rem; left: -1rem; }
     .stat-badge.br { bottom: 7rem; right: -1rem; }
     .sb-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--green); line-height: 1; }
     .sb-label { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-top: 0.1rem; }
-    @media (max-width: 900px) { .stat-badge { padding: 0.45rem 0.7rem; } .stat-badge.tl { top: 0.75rem; left: 0.75rem; } .stat-badge.br { bottom: 4.5rem; right: 0.75rem; } .sb-num { font-size: 1.2rem; } .sb-label { font-size: 0.46rem; } }
+    @media (max-width: 900px) { .stat-badge { padding: 0.45rem 0.7rem; } .stat-badge.tl { top: 0.75rem; left: 0.75rem; } .stat-badge.br { bottom: 6rem; right: 0.75rem; top: auto; } .sb-num { font-size: 1.2rem; } .sb-label { font-size: 0.46rem; } }
 
     /* VIDEO HEROimmediately after hero */
     .video-hero { position: relative; overflow: hidden; height: 420px; display: flex; align-items: center; justify-content: center; }
@@ -305,6 +310,13 @@
     .tp-card-meta { display: flex; flex-direction: column; gap: 0.15rem; }
     .tp-card-name { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--white); }
     .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .tp-avg-block { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
+    .tp-avg-score { font-family: 'DM Sans', sans-serif; font-size: clamp(2rem,4vw,3rem); font-weight: 800; color: var(--white); line-height: 1; }
+    .tp-avg-stars { display: flex; gap: 3px; margin-bottom: 0.25rem; }
+    .tp-avg-star { width: 20px; height: 20px; background: #00b67a; flex-shrink: 0; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    .tp-avg-star-half { width: 10px; height: 20px; overflow: hidden; flex-shrink: 0; }
+    .tp-avg-star-half span { display: block; width: 20px; height: 20px; background: #00b67a; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    .tp-avg-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
 
     /* APPLY */
     .apply-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; align-items: center; }
@@ -329,7 +341,7 @@
     .faq-list { margin-top: 3.5rem; max-width: 780px; }
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-btn { width: 100%; background: none; border: none; color: var(--white); padding: 1.4rem 0; display: flex; justify-content: space-between; align-items: center; text-align: left; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.97rem; font-weight: 500; gap: 1rem; transition: color 0.2s; }
-    .faq-btn span { flex: 1; min-width: 0; word-break: break-word; }
+    .faq-btn span { flex: 1; min-width: 0; word-break: break-word; color: var(--white); }
     .faq-btn:hover { color: var(--green); }
     .faq-icon { width: 18px; height: 18px; flex-shrink: 0; min-width: 18px; color: var(--green); transition: transform 0.3s; }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
@@ -488,7 +500,7 @@
 <section id="top" class="hero">
   <div class="hero-inner">
     <div class="hero-left">
-      <p class="hero-eyebrow"><span class="open-tag"><span class="open-dot"></span> Early bird price</span></p>
+      <p class="hero-eyebrow"><span class="open-tag"><span class="open-dot"></span> Only 12 seats</span></p>
       <!-- CHANGE #1: Outcome-led headline -->
       <h1 class="hero-title">
         <span class="t-white">Build YOUR</span>
@@ -497,24 +509,18 @@
       </h1>
       <div class="hero-divider"></div>
       <!-- CHANGE #1: New subhead -->
-      <p class="hero-desc">Join an AI Lab in Stockholm. In 4 weeks, you'll build real AI infrastructure for your business, hands-on, no coding.</p>
+      <p class="hero-desc">In 4 weeks, you'll have a real AI system running in your business. Hands-on. No coding.</p>
 
       <!-- CHANGE #6: Seat counter -->
-      <div class="seat-counter">
-        <span class="seat-counter-dot"></span>
-        <span class="seat-counter-text"><strong id="seatsLeft">11</strong> of 12 seats remaining</span>
-      </div>
-
       <div class="hero-meta">
-        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">SEP 19</p></div>
-        <div class="meta-block"><p class="meta-label">Location</p><p class="meta-value green">Park City Hotel</p></div>
+        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">SEP 19</p><p class="meta-sub">4 Weeks</p></div>
+        <div class="meta-block"><p class="meta-label">Location</p><p class="meta-value green">Park City Hotel</p><p class="meta-sub">Midskeppsgatan 6</p></div>
         <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-Person</p></div>
-        <div class="meta-block"><p class="meta-label">Duration</p><p class="meta-value">4 Weeks</p></div>
+        <div class="meta-block"><p class="meta-label">Price</p><p class="meta-value green price">2,985 SEK</p></div>
       </div>
       <div class="hero-actions">
-        <a href="#apply" class="hero-cta">
-          Apply Now
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
+        <a href="#pricing" class="hero-cta">
+          Reserve your seat
         </a>
         <a href="#build" class="hero-link">See what you'll build</a>
       </div>
@@ -526,11 +532,15 @@
           <div class="photo-grid-overlay"></div>
           <div class="instructor-plate">
             <p class="instructor-name">Javid Valiyev</p>
-            <p class="instructor-role">AI Lab Lead &amp; Founder, Genaition</p>
+            <p class="instructor-role">AI Lab Lead in Genaition</p>
+            <a href="https://www.linkedin.com/in/javid-valiyev-060aa8132/" target="_blank" class="instructor-li">
+              <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              Connect with Javid
+            </a>
           </div>
         </div>
-        <div class="stat-badge tl"><p class="sb-num">5</p><p class="sb-label">Workshops led</p></div>
-        <div class="stat-badge br"><p class="sb-num">12</p><p class="sb-label">Seats per cohort</p></div>
+        <div class="stat-badge tl"><p class="sb-num">10</p><p class="sb-label">Workshops</p></div>
+        <div class="stat-badge br"><p class="sb-num">200</p><p class="sb-label">Attendees</p></div>
       </div>
     </div>
   </div>
@@ -633,7 +643,7 @@
             </svg>
           </div>
           <div class="stack-header-right">
-            <span class="stack-role">Development Layer</span>
+            <span class="stack-role">Your AI Mechanic</span>
             <p class="stack-name">Claude Code</p>
             <p class="stack-why"><strong>Why it matters:</strong> When your agent breaks, Claude Code reads your actual files and diagnoses fast and fixes it.</p>
           </div>
@@ -648,7 +658,7 @@
           </svg>
         </div>
         <span class="stack-role">AI Reasoning Layer</span>
-        <p class="stack-name">Claude AI</p>
+        <p class="stack-name">Claude Sonnet 4.6</p>
         <p class="stack-why"><strong>Why not GPT-4?</strong> Fewer hallucinated decisions. Handles long system prompts reliably critical when agents send emails.</p>
       </div>
       <div class="stack-card">
@@ -784,7 +794,6 @@
           <p class="week-num">Week 1</p>
           <p class="week-title">System Design & Decision Logic</p>
           <p class="week-desc">Before you build anything, you define the rules. What the AI sends. What it escalates. What it ignores. No guessing later.</p>
-          <span class="week-deliverable">↗ Architecture plan + ruleset</span>
         </div>
       </div>
       <div class="week-row">
@@ -793,7 +802,6 @@
           <p class="week-num">Week 2</p>
           <p class="week-title">Build the Inbound Reply Agent</p>
           <p class="week-desc">Your inbox goes live. Real emails come in. The agent reads, classifies, and replies in your tone, within your rules.</p>
-          <span class="week-deliverable">↗ Functional inbound workflow</span>
         </div>
       </div>
       <div class="week-row">
@@ -802,7 +810,6 @@
           <p class="week-num">Week 3</p>
           <p class="week-title">Follow-Up Agent + AI Quality Auditor</p>
           <p class="week-desc">Missed follow-ups kill deals. This agent tracks every thread, knows when to nudge, and documents every decision it makes.</p>
-          <span class="week-deliverable">↗ Follow-Up Agent + AI Quality Auditor</span>
         </div>
       </div>
       <div class="week-row">
@@ -811,7 +818,6 @@
           <p class="week-num">Week 4</p>
           <p class="week-title">Test, Harden, Deploy</p>
           <p class="week-desc">You break it before the real world does. Fix the edge cases. Then deploy to your actual inbox and run it live.</p>
-          <span class="week-deliverable">↗ Deployed system + operating model doc</span>
         </div>
       </div>
     </div>
@@ -839,7 +845,7 @@
       </div>
       <div class="gallery-slot-c">
         <img src="/telegram-workshop.png" alt="Genaition workshopparticipants" style="object-position: center center;" />
-        <div class="gallery-img-label">Göteborg · SEP 1925</div>
+        <div class="gallery-img-label">Göteborg · SEP 2025</div>
       </div>
     </div>
     <p class="gallery-scroll-hint">← Swipe to see more →</p>
@@ -852,7 +858,19 @@
     <div class="tp-header">
       <div>
         <p class="sec-label">What people say</p>
-        <h2 class="sec-title" style="font-size: clamp(2rem,4vw,3rem); margin-top: 0.5rem;">From the room.</h2>
+        <div class="tp-avg-block">
+          <span class="tp-avg-score">4.5</span>
+          <div>
+            <div class="tp-avg-stars">
+              <span class="tp-avg-star"></span>
+              <span class="tp-avg-star"></span>
+              <span class="tp-avg-star"></span>
+              <span class="tp-avg-star"></span>
+              <span class="tp-avg-star-half"><span></span></span>
+            </div>
+            <p class="tp-avg-label">Average rating</p>
+          </div>
+        </div>
       </div>
       <a href="https://www.trustpilot.com/review/genaition.io" target="_blank" class="tp-link">See all reviews on Trustpilot ↗</a>
     </div>
@@ -869,8 +887,8 @@
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
-        <p class="tp-card-text">I left the workshop feeling very inspired. A big insight in what Agentic AI actually is and how it works.</p>
-        <div class="tp-card-meta"><span class="tp-card-name">Joey Sorel</span><span class="tp-card-date">Workshop · Stockholm · 2025</span></div>
+        <p class="tp-card-text">By week 3 my follow-up agent was running live. I went from manually chasing 15–20 leads a week to checking a log once a day. That time is now back in my business.</p>
+        <div class="tp-card-meta"><span class="tp-card-name">Joey Sorel</span><span class="tp-card-date">AI Lab Cohort · Stockholm · 2025</span></div>
       </div>
     </div>
   </div>
@@ -882,10 +900,10 @@
     <div class="apply-wrap">
       <div>
         <p class="sec-label">Apply</p>
-        <h2 class="apply-title">Your competitors are already building this.</h2>
+        <h2 class="apply-title">Your AI system.<br>Running live.<br>In 4 weeks.</h2>
         <button class="chat-trigger" id="chatTriggerBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Ask us
+          Chat with us
         </button>
         <div class="apply-pills">
           <span class="pill">Small cohort</span>
@@ -894,11 +912,11 @@
           <span class="pill">Park City Hotel</span>
           <span class="pill">SEP 19, 2026</span>
         </div>
-        <p class="apply-desc">Ready? Apply below.</p>
+
       </div>
       <div class="apply-box" id="pricing">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Early bird - Limited seats</div>
-        <p class="apply-box-orig">4,985 SEK</p>
+        <p class="apply-box-orig">3,985 SEK</p>
         <p class="apply-box-title">2,985 SEK</p>
         <ul class="cell-list" style="text-align:left;margin-bottom:1.5rem;max-width:260px;margin-left:auto;margin-right:auto;">
           <li>VIP in-person support throughout</li>
@@ -906,8 +924,9 @@
           <li>Guiding materials included</li>
           <li>Post-lab Slack support</li>
         </ul>
-        <a href="/checkout" class="apply-btn">Apply now</a>
-        <p class="apply-note">In-person · Limited seats · Stockholm</p>
+        <a href="/checkout" class="apply-btn">Reserve your seat</a>
+        <p class="apply-note"></p>
+        <p class="apply-support">Not satisfied after session 1? Email us and we'll refund in full.</p>
       </div>
     </div>
   </div>
@@ -932,11 +951,7 @@
           <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
         </button>
         <div class="faq-body"><div class="faq-body-inner">
-          Good questionhere's the honest breakdown:<br><br>
-          <strong style="color:var(--white)">n8n (self-hosted):</strong> Free. You run it on your own server. A basic VPS on Render or Hetzner costs roughly 5–15 EUR/month. You own the infrastructure.<br><br>
-          <strong style="color:var(--white)">Claude API:</strong> Pay-as-you-use. A typical small business processing 200–500 emails/month will spend roughly 5–20 USD/month at current Claude Sonnet rates. Not a flat subscription.<br><br>
-          <strong style="color:var(--white)">Airtable:</strong> The free tier covers most post-lab use cases. Paid plans start at ~10 USD/month if you need more records or automations.<br><br>
-          Total ongoing cost for most participants: under 150 SEK/month. During the lab itself, API costs are minimalyou're building and testing, not running at scale.
+          Most participants spend under <strong style="color:var(--white)">150 SEK/month</strong> after the lab — n8n is self-hosted (free), Claude API is pay-as-you-use (~5–20 USD/month for typical usage), and Airtable's free tier covers most cases. During the lab itself, costs are minimal.
         </div></div>
       </div>
 
@@ -1127,7 +1142,7 @@ Key facts:
 - Post-program tool costs: n8n self-hosted ~5-15 EUR/month VPS, Claude API ~5-20 USD/month for typical usage, Airtable free tier covers most use cases. Total typically under 500 SEK/month.
 - 24/7 Slack access, VIP in-person support, guiding materials included
 - Teams of 2–3 can join together
-- Instructor: Javid Valiyev, AI Lab Lead & Founder of Genaition
+- Instructor: Javid Valiyev, AI Lab Lead in Genaition
 - 5 workshops run previously, 150+ attendees
 
 Keep answers concise, warm, and direct. Max 3 sentences per reply. If you don't know something specific, suggest they reach out directly via email: info@genaition.org`;
