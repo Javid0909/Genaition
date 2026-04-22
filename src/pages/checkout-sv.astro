@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <title>Checkout — Applied AI Lab · Genaition</title>
+  <title>Kassa — Tillämpad AI Lab · Genaition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Secure checkout for the Applied AI Lab — 4-week in-person cohort in Stockholm." />
+  <meta name="description" content="Säker kassa för Tillämpad AI Lab — 4-veckors personlig kohort i Stockholm." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -169,33 +169,33 @@
 
 <header>
   <div class="hdr-inner">
-    <a href="/ailab/" class="logo">
+    <a href="/ailab-sv/" class="logo">
       <div class="logo-mark"><img src="/brand.png" alt="Genaition" onerror="this.style.display='none';" /></div>
       <div>
         <span class="logo-name">Genaition</span>
-        <span class="logo-sub">Applied AI Lab</span>
+        <span class="logo-sub">Tillämpad AI Lab</span>
       </div>
     </a>
     <div class="hdr-right">
-      <span class="hdr-step">Step 1 of 2 — Registration</span>
-      <a href="/ailab/" class="hdr-back">← Back to Lab</a>
+      <span class="hdr-step">Steg 1 av 2 — Registrering</span>
+      <a href="/ailab-sv/" class="hdr-back">← Tillbaka till Lab</a>
     </div>
   </div>
 </header>
 
 <div class="hero-strip">
   <div class="hero-strip-inner">
-    <p class="hero-eyebrow">Secure checkout</p>
-    <h1>Register for the<br><span class="t-green">Applied AI Lab</span></h1>
+    <p class="hero-eyebrow">Säker kassa</p>
+    <h1>Registrera dig för<br><span class="t-green">Tillämpad AI Lab</span></h1>
     <div class="step-track">
       <div class="step-item">
         <div class="step-dot active">1</div>
-        <span class="step-label active">Registration</span>
+        <span class="step-label active">Registrering</span>
       </div>
       <div class="step-line"></div>
       <div class="step-item">
         <div class="step-dot inactive">2</div>
-        <span class="step-label inactive">Payment</span>
+        <span class="step-label inactive">Betalning</span>
       </div>
     </div>
   </div>
@@ -206,54 +206,54 @@
 
     <!-- FORM -->
     <div class="card-header">
-      <p class="sec-label">Your details</p>
-      <h2>Personal information</h2>
+      <p class="sec-label">Dina uppgifter</p>
+      <h2>Personlig information</h2>
     </div>
     <div class="card-form">
       <form id="booking-form" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label for="firstName">First name</label>
+            <label for="firstName">Förnamn</label>
             <input type="text" id="firstName" name="name" autocomplete="given-name" required placeholder="Johan" />
-            <p class="field-error" id="err-firstName">Required</p>
+            <p class="field-error" id="err-firstName">Obligatorisk</p>
           </div>
           <div class="form-group">
-            <label for="lastName">Last name</label>
+            <label for="lastName">Efternamn</label>
             <input type="text" id="lastName" name="surname" autocomplete="family-name" required placeholder="Lindqvist" />
-            <p class="field-error" id="err-lastName">Required</p>
+            <p class="field-error" id="err-lastName">Obligatorisk</p>
           </div>
         </div>
         <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@company.com" />
-          <p class="field-error" id="err-email">Valid email required</p>
+          <label for="email">E-postadress</label>
+          <input type="email" id="email" name="email" autocomplete="email" required placeholder="du@foretag.com" />
+          <p class="field-error" id="err-email">Giltig e-post krävs</p>
         </div>
         <div class="form-group">
-          <label for="phone">Phone <span style="color:var(--muted);font-size:0.85em;">(optional)</span></label>
+          <label for="phone">Telefon <span style="color:var(--muted);font-size:0.85em;">(valfritt)</span></label>
           <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+46 76 260 8848" />
         </div>
         <div class="form-group">
-          <label for="background">Your background</label>
+          <label for="background">Din bakgrund</label>
           <select id="background" name="background" required>
-            <option value="" disabled selected>Select your background</option>
+            <option value="" disabled selected>Välj din bakgrund</option>
             <option value="Tech">Tech</option>
             <option value="Non-Tech">Non-tech</option>
-            <option value="Founder">Founder / Operator</option>
-            <option value="Other">Other</option>
+            <option value="Founder">Grundare / Operatör</option>
+            <option value="Other">Annat</option>
           </select>
-          <p class="field-error" id="err-background">Please select your background</p>
+          <p class="field-error" id="err-background">Välj din bakgrund</p>
         </div>
         <div class="form-divider"></div>
         <div class="form-group">
           <button type="button" class="promo-toggle" id="promoToggle">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            Have a promo code?
+            Har du en kampanjkod?
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="promo-panel" id="promoPanel">
             <div class="form-group">
-              <label for="promoCode">Promo code</label>
-              <input type="text" id="promoCode" name="promoCode" placeholder="Enter code" />
+              <label for="promoCode">Kampanjkod</label>
+              <input type="text" id="promoCode" name="promoCode" placeholder="Ange kod" />
               <p class="promo-msg" id="promoMsg"></p>
             </div>
           </div>
@@ -266,19 +266,19 @@
 
     <!-- ORDER SUMMARY -->
     <div class="card-summary">
-      <p class="summary-label">Order summary</p>
+      <p class="summary-label">Ordersammanfattning</p>
 
       <div class="line-items">
-        <div class="early-bird-tag"><span class="early-bird-dot"></span> Early bird</div>
+        <div class="early-bird-tag"><span class="early-bird-dot"></span> Tidig rabatt</div>
         <div class="summary-qty-row">
           <div class="summary-qty-left">
-            <p class="ticket-summary-label">Number of tickets</p>
+            <p class="ticket-summary-label">Antal biljetter</p>
             <div class="ticket-row">
               <button type="button" class="qty-btn" id="decrease">−</button>
               <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
               <button type="button" class="qty-btn" id="increase">+</button>
             </div>
-            <p class="ticket-price-hint">Max 6 tickets per order</p>
+            <p class="ticket-price-hint">Max 6 biljetter per beställning</p>
           </div>
           <div class="summary-qty-right">
             <span class="orig-price">SEK 3,985</span>
@@ -287,32 +287,32 @@
           </div>
         </div>
         <div class="line-item total">
-          <span class="li-label">Total</span>
+          <span class="li-label">Totalt</span>
           <span class="li-val" id="totalPrice">SEK 2,985</span>
         </div>
       </div>
 
       <button type="button" class="cta-btn" id="submitBtn">
-        Continue to Payment
+        Fortsätt till betalning
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
       </button>
 <p class="cta-note" style="margin-top:0.5rem; color:rgba(255,255,255,0.35);">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-  You'll receive a confirmation and onboarding info within 24 hours
+  Du får en bekräftelse och introduktionsinfo inom 24 timmar
 </p>
 
       <div class="trust-row">
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Secure checkout via Stripe
+          Säker kassa via Stripe
         </div>
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Confirmation within 24h
+          Bekräftelse inom 24h
         </div>
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Stockholm · In-person
+          Stockholm · På plats
         </div>
       </div>
     </div>
@@ -352,9 +352,9 @@
 
   document.getElementById('promoCode').addEventListener('input', function () {
     const code = this.value.trim().toLowerCase(), msg = document.getElementById('promoMsg');
-    if (code === 'hyperisland') { msg.className = 'promo-msg success'; msg.textContent = '✓ Code noted — discount applied at next cohort'; }
+    if (code === 'hyperisland') { msg.className = 'promo-msg success'; msg.textContent = '✓ Kod noterad — rabatt tillämpas vid nästa kohort'; }
     else if (!code) { msg.textContent = ''; msg.className = 'promo-msg'; }
-    else { msg.className = 'promo-msg error'; msg.textContent = '⚠ Code not recognized'; }
+    else { msg.className = 'promo-msg error'; msg.textContent = '⚠ Kod inte igenkänd'; }
   });
 
   function validate() {
