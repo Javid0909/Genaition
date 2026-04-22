@@ -152,7 +152,47 @@
     .hero-strip h1 { animation-delay: 0.1s; }
     .step-track { animation-delay: 0.2s; }
 
-    footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); }
+    .lang-wrap { position: relative; }
+    .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r); padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s; }
+    .lang-btn:hover { color: var(--white); border-color: var(--border-strong); }
+    .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
+    .lang-btn svg { width: 12px; height: 12px; }
+    .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; z-index: 200; }
+    .lang-wrap.open .lang-menu { display: block; }
+    .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+    .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
+    .site-footer { border-top: 1px solid var(--border); padding: 3rem 0 2rem; }
+    .footer-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; }
+    .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); align-items: start; }
+    .footer-col-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.5rem; }
+    .footer-col-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .footer-col-label.right { justify-content: flex-end; }
+    .footer-col-label.right::before { display: none; }
+    .footer-col-label.right::after { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .footer-links li a { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: rgba(255,255,255,0.42); text-decoration: none; padding: 0.45rem 0; display: block; transition: color 0.2s; }
+    .footer-links li a:hover { color: #ffffff; }
+    .footer-right-col { text-align: right; }
+    .footer-address-lines { display: flex; flex-direction: column; gap: 0.25rem; text-align: right; }
+    .footer-address-lines p, .footer-address-lines a { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.42); line-height: 1.7; text-decoration: none; display: block; transition: color 0.2s; }
+    .footer-address-lines a:hover { color: var(--green); }
+    .footer-address-gap { margin-top: 0.6rem; }
+    .footer-bottom-row { padding-top: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
+    .footer-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .footer-logo-mark { width: 42px; height: 42px; border-radius: var(--r); background: var(--card); border: 1px solid var(--border-strong); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .footer-logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .footer-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.14em; color: #ffffff; line-height: 1; }
+    .footer-logo-sub { font-family: 'DM Mono', monospace; font-size: 0.46rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--green); display: block; margin-top: 3px; }
+    .footer-socials { display: flex; align-items: center; gap: 0.6rem; }
+    .footer-social-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; flex-shrink: 0; transition: transform 0.2s, opacity 0.2s; }
+    .footer-social-icon:hover { transform: translateY(-2px); opacity: 0.85; }
+    .footer-social-icon.linkedin { background: #0a66c2; }
+    .footer-social-icon.facebook { background: #1877f2; }
+    .footer-social-icon.instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .footer-social-icon svg { width: 15px; height: 15px; fill: white; }
+    .footer-copyright { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); text-align: center; }
+    @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr; } .footer-right-col { text-align: left; } .footer-col-label.right { justify-content: flex-start; } .footer-col-label.right::before { display: inline-block; } .footer-col-label.right::after { display: none; } .footer-address-lines { text-align: left; } }
 
     .early-bird-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(118,184,42,0.1); color: var(--green); border: 1px solid rgba(118,184,42,0.28); margin-bottom: 0.75rem; }
     .early-bird-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; flex-shrink: 0; }
@@ -179,6 +219,17 @@
     <div class="hdr-right">
       <span class="hdr-step">Step 1 of 2 — Registration</span>
       <a href="/ailab/" class="hdr-back">← Back to Lab</a>
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
+          <img src="/english.png" alt="English" />
+          <span>EN</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <a href="/checkout/"><img src="/english.png" alt="English flag" /> English</a>
+          <a href="/checkout-sv/"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -320,12 +371,59 @@
   </div>
 </div>
 
-<footer>
-  <p>© <span id="yr"></span> Genaition · Stockholm · EST 2024</p>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <p class="footer-col-label">Links</p>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/ailab/">Applied AI Lab</a></li>
+        </ul>
+      </div>
+      <div class="footer-right-col">
+        <p class="footer-col-label right">Location</p>
+        <div class="footer-address-lines">
+          <p>Sweden</p>
+          <p>Stockholm</p>
+          <div class="footer-address-gap"></div>
+          <a href="mailto:hello@genaition.io">hello@genaition.io</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom-row">
+      <a href="/" class="footer-logo">
+        <div class="footer-logo-mark"><img src="/brand.png" alt="Genaition" onerror="this.style.display='none';" /></div>
+        <div>
+          <span class="footer-logo-name">Genaition</span>
+          <span class="footer-logo-sub">Applied AI Lab</span>
+        </div>
+      </a>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/genaition" class="footer-social-icon linkedin" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://www.facebook.com/genaition" class="footer-social-icon facebook" aria-label="Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/genaition" class="footer-social-icon instagram" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+      <p class="footer-copyright">© <span id="yr"></span> Genaition · Stockholm · EST 2024 · All rights reserved.</p>
+    </div>
+  </div>
 </footer>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const langWrap = document.getElementById('langWrap');
+  const langBtn  = document.getElementById('langBtn');
+  document.addEventListener('click', e => {
+    if (langWrap.contains(e.target)) { langWrap.classList.toggle('open'); langBtn.setAttribute('aria-expanded', langWrap.classList.contains('open')); }
+    else { langWrap.classList.remove('open'); langBtn.setAttribute('aria-expanded', 'false'); }
+  });
 
   const STANDARD_PRICE = 2985;
   const DEFAULT_LINKS = { 1:"https://buy.stripe.com/aFa5kD70f3zL3p2bnH8AE0B",2:"https://buy.stripe.com/28EcN55Wb5HT5xabnH8AE0C",3:"https://buy.stripe.com/4gM14n1FVb2d3p29fz8AE0D",4:"https://buy.stripe.com/6oU3cv5Wb9Y9cZCcrL8AE0E",5:"https://buy.stripe.com/6oU5kDbgvb2d3p2gI18AE0F",6:"https://buy.stripe.com/aFa28r3O31rD3p2crL8AE0G" };
