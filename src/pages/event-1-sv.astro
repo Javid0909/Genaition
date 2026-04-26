@@ -280,9 +280,6 @@
       background: var(--dark); border-top: none;
       padding: 1.75rem 1.5rem 1.5rem;
     }
-    .ticket-status-row { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.25rem; }
-    .ticket-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 1.6s ease infinite; flex-shrink: 0; }
-    .ticket-status-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--green); }
     .ticket-price-old { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.28); text-decoration: line-through; margin-bottom: 0.2rem; }
     .ticket-price-row { display: flex; align-items: baseline; gap: 0.85rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
     .ticket-price { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; }
@@ -328,6 +325,7 @@
     .ticket-cta:hover::after { transform: translateX(100%); }
     .ticket-note { margin-top: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-align: center; }
     .ticket-note a { color: rgba(255,255,255,0.32); text-decoration: underline; }
+
 
     /* ── STAT BAR ── */
     .stat-bar { background: var(--ink); }
@@ -841,10 +839,6 @@
   <div class="ticket-section-inner">
     <div class="hero-event-card reveal">
       <div class="hero-ticket">
-        <div class="ticket-status-row">
-          <span class="ticket-dot"></span>
-          <span class="ticket-status-label">Early Bird — Avslutas 30 april</span>
-        </div>
         <p class="ticket-price-old">595 SEK</p>
         <div class="ticket-price-row">
           <span class="ticket-price">365 SEK</span>
@@ -860,7 +854,7 @@
         </ul>
 
         <a href="/before-checkout-sv.html" class="ticket-cta">
-          Anmäl dig - 365 SEK
+          Anmäl dig
         </a>
         <p class="ticket-note">Säker betalning · Max 25 platser · 13 juni 2026</p>
         <p class="ticket-note" style="margin-top:0.3rem;">Behöver du faktura? Mejla <a href="mailto:info@genaition.org">info@genaition.org</a></p>
