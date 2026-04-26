@@ -418,6 +418,11 @@
       font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
       color: var(--gold); line-height: 1; letter-spacing: 0.04em;
     }
+    @media (max-width: 500px) {
+      .price-summary-strip { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+      .pss-right { flex-direction: row; align-items: baseline; gap: 0.75rem; }
+      .pss-total { font-size: 1.7rem; }
+    }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
