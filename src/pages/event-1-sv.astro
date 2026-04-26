@@ -5,434 +5,619 @@
   <title>Bygg din första AI-agent på 3 timmar — Online · 13 juni</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <!-- Umami Analytics -->
-<script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --black: #050505;
-      --off-black: #0d0d0d;
-      --card: #111111;
-      --card2: #161616;
-      --border: rgba(255,255,255,0.07);
-      --border-strong: rgba(255,255,255,0.12);
-      --green: #ffb800;
-      --green-dim: rgba(255,184,0,0.10);
-      --green-glow: rgba(255,184,0,0.28);
+      --bg: #faf9f5;
+      --bg-alt: #f2f0ea;
+      --ink: #1a1208;
+      --ink-2: rgba(26,18,8,0.62);
+      --ink-3: rgba(26,18,8,0.38);
+      --green: #1a6b3a;
+      --green-bg: rgba(26,107,58,0.08);
+      --green-border: rgba(26,107,58,0.22);
+      --green-glow: rgba(26,107,58,0.18);
+      --border: rgba(26,18,8,0.10);
+      --border-s: rgba(26,18,8,0.18);
+      --dark: #0d0d0d;
       --white: #ffffff;
-      --muted: rgba(255,255,255,0.42);
-      --muted2: rgba(255,255,255,0.65);
-      --red: #e53e3e;
-      --gold: #ffb800;
-      --header: 66px;
+      --strip: 32px;
+      --nav: 60px;
+      --hdr: 92px;
       --r: 3px;
     }
 
     html { scroll-behavior: smooth; }
-    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    section, [id] { scroll-margin-top: calc(var(--header) + 12px); }
 
-    /* ── HEADER ── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; height: var(--header);
-      background: rgba(5,5,5,0.96); backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border); z-index: 100;
-      display: flex; align-items: center;
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    .hdr-inner {
-      max-width: 1280px; margin: 0 auto; padding: 0 2.5rem;
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    section, [id] { scroll-margin-top: calc(var(--hdr) + 12px); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(.22,.68,0,1.2), transform 0.7s cubic-bezier(.22,.68,0,1.2);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── PUBLICATION STRIP — MARQUEE ── */
+    .pub-strip {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--strip);
+      background: var(--ink); z-index: 200;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .pub-marquee {
+      display: flex; align-items: center;
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
+      gap: 0;
+    }
+    .pub-marquee-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.42); padding: 0 2.5rem;
+    }
+    .pub-marquee-item .dot {
+      display: inline-block; width: 4px; height: 4px; background: var(--green);
+      border-radius: 50%; margin: 0 1.2rem; vertical-align: middle;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── SITE NAV ── */
+    .site-nav {
+      position: fixed; top: var(--strip); left: 0; right: 0; height: var(--nav);
+      background: rgba(250,249,245,0.96);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-s);
+      z-index: 199; display: flex; align-items: center;
+      transition: box-shadow 0.3s;
+    }
+    .site-nav.scrolled { box-shadow: 0 2px 24px rgba(26,18,8,0.08); }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2.5rem;
       width: 100%; display: flex; align-items: center; justify-content: space-between;
     }
-    .logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+    .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
     .logo-mark {
-      width: 36px; height: 36px; border-radius: var(--r);
-      background: var(--card); border: 1px solid var(--border-strong);
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
+      width: 34px; height: 34px; border-radius: 2px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
     }
     .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
-    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: var(--white); line-height: 1; }
-    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.24em; color: #00bf63; display: block; margin-top: 2px; }
-    .nav-links { display: flex; align-items: center; gap: 2.2rem; }
-    .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--white); }
-
-    /* Language toggle */
-    .lang-toggle {
-      display: flex; align-items: center; gap: 0.45rem;
-      font-family: 'DM Mono', monospace; font-size: 0.6rem;
-      text-transform: uppercase; letter-spacing: 0.14em;
-      color: var(--muted); text-decoration: none;
-      border: 1px solid var(--border-strong); border-radius: var(--r);
-      padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s;
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 0.1em; color: var(--ink); line-height: 1; }
+    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.46rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-3); display: block; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase;
+      letter-spacing: 0.16em; color: var(--ink-2); text-decoration: none;
+      transition: color 0.2s; position: relative;
     }
-    .lang-toggle:hover { color: var(--white); border-color: rgba(255,255,255,0.25); }
-    .lang-toggle img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
-
-    .hdr-right { display: flex; align-items: center; gap: 1rem; }
-    .nav-register {
-      background: var(--green); color: #000;
-      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.72rem;
-      text-transform: uppercase; letter-spacing: 0.14em;
-      padding: 0.55rem 1.4rem; border-radius: var(--r); text-decoration: none;
-      transition: all 0.2s;
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--green);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
     }
-    .nav-register:hover { background: #ffc926; transform: translateY(-1px); }
-    @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .nav-links { display: none; } }
+    .nav-links a:hover { color: var(--green); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-actions { display: flex; align-items: center; gap: 0.85rem; }
+    .nav-signup {
+      background: #f0c000; color: var(--ink);
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0.52rem 1.25rem; border-radius: 2px; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-signup:hover { background: #d4aa00; transform: translateY(-1px); }
+
+    .lang-wrap { position: relative; }
+    .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-2); background: none; border: 1px solid var(--border-s); border-radius: 2px; padding: 0.32rem 0.65rem; transition: color 0.2s, border-color 0.2s; }
+    .lang-btn:hover { color: var(--ink); border-color: var(--border); }
+    .lang-btn img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
+    .lang-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; }
+    .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 6px); min-width: 140px; background: var(--bg); border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden; z-index: 300; box-shadow: 0 8px 32px rgba(26,18,8,0.12); }
+    .lang-wrap.open .lang-menu { display: block; }
+    .lang-menu a { display: flex; align-items: center; gap: 0.55rem; padding: 0.6rem 0.9rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-2); text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .lang-menu a:hover { background: var(--bg-alt); color: var(--green); }
+    .lang-menu a img { width: 15px; height: 15px; border-radius: 2px; }
+
+    @media (max-width: 700px) { .nav-links { display: none; } .nav-inner { padding: 0 1.25rem; } }
 
     /* ── HERO ── */
     .hero {
-      min-height: 92vh; padding-top: var(--header);
-      display: flex; align-items: stretch; background: var(--black); position: relative; overflow: hidden;
+      padding-top: var(--hdr);
+      background: var(--dark) url('/chatbot-chatbot.jpg') center center / cover no-repeat;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: relative;
     }
-    .hero-grid-bg {
+    @media (max-width: 640px) {
+      .hero { background-image: url('/chatbot-chatbotmob.png'); }
+    }
+    .hero::before {
+      content: '';
       position: absolute; inset: 0; z-index: 0;
-      background-image: linear-gradient(rgba(255,184,0,0.04) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,184,0,0.04) 1px, transparent 1px);
-      background-size: 52px 52px;
+      background: linear-gradient(100deg, rgba(8,6,4,0.92) 0%, rgba(8,6,4,0.82) 52%, rgba(8,6,4,0.68) 100%);
+      pointer-events: none;
     }
-    .hero-glow {
-      position: absolute; top: -200px; left: 30%; width: 700px; height: 700px;
-      border-radius: 50%; background: radial-gradient(circle, rgba(255,184,0,0.08) 0%, transparent 70%);
-      z-index: 0; pointer-events: none;
+    .hero::after {
+      content: '';
+      position: absolute; top: var(--hdr); right: 0; width: 600px; height: 500px;
+      background: radial-gradient(ellipse at 80% 20%, rgba(26,107,58,0.16) 0%, transparent 65%);
+      pointer-events: none; z-index: 1;
     }
-    .hero-inner {
-      max-width: 1280px; margin: 0 auto; width: 100%;
-      display: grid; grid-template-columns: 55% 45%; align-items: center;
-      position: relative; z-index: 2;
+    .hero-grid {
+      max-width: 860px; margin: 0 auto; padding: 5rem 2.5rem 5.5rem;
+      display: grid; grid-template-columns: 1fr;
+      gap: 3rem; align-items: start; position: relative; z-index: 1;
     }
-    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; } .hero { min-height: auto; } }
+    @media (max-width: 640px) { .hero-grid { padding: 3rem 1.25rem 2.5rem; } }
 
-    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 3rem 3.5rem 2.5rem; }
-    @media (max-width: 640px) { .hero-left { padding: 2.5rem 1.5rem 2.5rem; } }
+    .hero-left { display: flex; flex-direction: column; align-items: flex-start; }
 
     .hero-eyebrow {
-      display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;
-      font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green);
-      margin-bottom: 1.2rem;
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #f0c000; border: 1px solid rgba(240,192,0,0.35); background: rgba(240,192,0,0.08);
+      padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease 0.1s both;
     }
-    .open-tag {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
-      padding: 0.22rem 0.6rem; border-radius: 2px;
-      background: rgba(0,191,99,0.12); color: #00bf63; border: 1px solid rgba(0,191,99,0.28);
-    }
-    .open-dot { width: 6px; height: 6px; background: #00bf63; border-radius: 50%; animation: pulse 2s ease infinite; display: inline-block; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .eyebrow-dot { width: 6px; height: 6px; background: #f0c000; border-radius: 50%; animation: pulse 2s ease infinite; display: inline-block; flex-shrink: 0; }
+    @keyframes pulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.3; transform:scale(0.8);} }
+
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.2rem, 5.8vw, 6.2rem);
-      line-height: 0.97; letter-spacing: 0.02em;
+      font-size: clamp(4rem, 7.5vw, 7rem);
+      font-weight: 400; line-height: 0.92; letter-spacing: 0.02em;
+      color: var(--ink); margin-bottom: 1.8rem;
+      animation: fadeUp 0.7s ease 0.2s both;
     }
-    .hero-title .t-white { color: var(--white); display: block; }
-    .hero-title .t-green { color: var(--green); display: block; }
-    .hero-title .t-muted { color: rgba(255,255,255,0.35); display: block; }
-    .hero-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--green), transparent); margin: 1.6rem 0; }
+    .hero-title .t-ink { display: block; color: var(--white); }
+    .hero-title .t-yellow { display: block; color: #f0c000; font-style: normal; }
 
-    .hero-desc { font-size: 1rem; color: var(--muted2); line-height: 1.78; max-width: 460px; font-weight: 300; }
-    .hero-audience { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.85rem; max-width: 460px; line-height: 1.6; }
+    .hero-quote {
+      border-left: 3px solid var(--green); padding-left: 1.25rem; margin-bottom: 2rem;
+      font-family: 'DM Sans', sans-serif; font-style: normal; font-weight: 300;
+      font-size: 1.08rem; color: rgba(255,255,255,0.72); line-height: 1.75; max-width: 540px;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
 
-    /* SEAT COUNTER */
-    .seat-counter { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 1.1rem; padding: 0.6rem 1.1rem; background: rgba(255,100,50,0.08); border: 1px solid rgba(255,100,50,0.25); border-radius: var(--r); }
-    .seat-counter-dot { width: 7px; height: 7px; background: #ff6432; border-radius: 50%; animation: pulse 1.8s ease infinite; flex-shrink: 0; }
-    .seat-counter-text { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,140,80,0.9); }
-    .seat-counter-text strong { color: #ff8050; }
-    .seat-counter { animation: fadeUp 0.6s ease 0.4s both; }
+    /* ── COUNTDOWN ── */
+    .hero-countdown { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease 0.35s both; }
+    .countdown-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45); white-space: nowrap; }
+    .countdown-unit { display: flex; flex-direction: column; align-items: center; gap: 0.08rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 0.35rem 0.5rem; border-radius: 2px; min-width: 40px; }
+    .countdown-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; font-weight: 400; letter-spacing: 0.04em; color: var(--white); line-height: 1; }
+    .countdown-sub { font-family: 'DM Mono', monospace; font-size: 0.42rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .countdown-sep { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: rgba(255,255,255,0.3); }
+
+    .hero-rule { width: 100%; height: 1px; background: rgba(255,255,255,0.12); margin-bottom: 1.75rem; animation: fadeUp 0.5s ease 0.4s both; }
 
     .hero-meta {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 0; margin-top: 1.8rem;
-      border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; max-width: 460px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; border: 1px solid rgba(255,255,255,0.12); border-radius: 2px;
+      overflow: hidden; width: 100%; margin-bottom: 0;
+      animation: fadeUp 0.5s ease 0.45s both;
     }
-    @media (max-width: 640px) { .hero-meta { grid-template-columns: 1fr 1fr; max-width: 100%; } }
-    .meta-block { padding: 0.9rem 1rem; border-right: 1px solid var(--border); }
+    @media (max-width: 500px) { .hero-meta { grid-template-columns: 1fr 1fr; } }
+    .meta-block {
+      padding: 0.85rem 1rem; border-right: 1px solid rgba(255,255,255,0.1);
+      background: rgba(13,13,13,0.5); backdrop-filter: blur(8px); transition: background 0.2s;
+    }
+    .meta-block:hover { background: rgba(13,13,13,0.68); }
     .meta-block:last-child { border-right: none; }
-    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
-    .meta-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--white); line-height: 1; }
-    .meta-value.green { color: #00bf63; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 0.2rem; }
+    .meta-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; font-weight: 400; letter-spacing: 0.04em; color: var(--white); line-height: 1.2; }
+    .meta-value.yellow { color: #f0c000; }
 
-    .hero-right { position: relative; display: flex; align-items: center; justify-content: center; padding: 4rem 2.5rem 4rem 1rem; }
-    @media (max-width: 900px) { .hero-right { padding: 2rem 1.5rem 2.5rem; } }
-
-    .event-card-hero {
-      width: 90%; max-width: 460px;
-      background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r);
-      overflow: hidden; position: relative;
+    /* ── HERO EVENT CARD ── */
+    .hero-right { animation: fadeUp 0.7s ease 0.3s both; }
+    .hero-event-card {
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
-    .event-card-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #00bf63; z-index: 2; }
-    .event-card-img { position: relative; overflow: hidden; height: 260px; }
-    .event-card-img img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.72) saturate(0.85) sepia(0.08); }
-    .event-card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 50%, rgba(17,17,17,0.9) 100%); }
-    .event-card-img-label { position: absolute; bottom: 1rem; left: 1.25rem; z-index: 3; font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-    .event-card-body { padding: 1.75rem 1.75rem 2rem; }
-    .event-tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
-    .etag {
-      padding: 0.22rem 0.65rem; border-radius: 2px;
-      font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase;
+    .hero-event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
-    .etag.lang { background: rgba(255,184,0,0.1); color: var(--green); border: 1px solid rgba(255,184,0,0.2); }
-    .etag.format { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
-    .event-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; line-height: 1.05; letter-spacing: 0.03em; margin-bottom: 1.2rem; }
-    .event-detail-row { display: flex; flex-direction: column; gap: 0.65rem; }
-    .event-detail { display: flex; align-items: flex-start; gap: 0.75rem; }
-    .detail-icon { width: 28px; height: 28px; border-radius: 2px; background: rgba(0,191,99,0.10); border: 1px solid rgba(0,191,99,0.18); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .detail-icon svg { width: 13px; height: 13px; stroke: #00bf63; }
-    .detail-text { font-size: 0.88rem; color: var(--muted2); line-height: 1.4; }
-    .detail-label { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.1rem; }
 
-    .register-block {
-      margin-top: 1.5rem; display: block; width: 100%; padding: 0.95rem 1.1rem;
-      background: var(--green); border-radius: var(--r); text-decoration: none;
-      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
-      text-transform: uppercase; letter-spacing: 0.12em; color: #000;
-      text-align: center; transition: background 0.2s, transform 0.2s;
+    .hero-event-photo.is-product img {
+      filter: none;
+      object-position: top center;
     }
-    .register-block:hover { background: #ffc926; transform: translateY(-1px); }
+    .hero-event-photo.is-product .hero-event-photo-overlay {
+      background: linear-gradient(to bottom, transparent 55%, rgba(13,13,13,0.7) 100%);
+    }
+    .hero-event-photo { height: 300px; overflow: hidden; position: relative; }
+    .hero-event-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+      filter: sepia(0.15) brightness(0.78) contrast(1.08) saturate(0.85);
+      display: block; transition: transform 0.6s ease;
+    }
+    .hero-event-card:hover .hero-event-photo img { transform: scale(1.04); }
+    .hero-event-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(13,13,13,0.05) 0%, rgba(13,13,13,0.72) 100%);
+    }
+    .hero-event-photo-caption {
+      position: absolute; bottom: 0.85rem; left: 1rem;
+      font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+    }
+    .hero-event-card::before {
+      content: ''; display: block; height: 3px;
+      background: linear-gradient(90deg, var(--green), #2d8a52);
+    }
 
-    .stat-badge { position: absolute; z-index: 6; background: rgba(5,5,5,0.9); backdrop-filter: blur(16px); border: 1px solid var(--border-strong); padding: 0.7rem 1rem; border-radius: var(--r); }
-    .stat-badge.tl { top: 1rem; left: -1rem; }
-    .stat-badge.br { bottom: 4rem; right: -1rem; }
-    .sb-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #00bf63; line-height: 1; }
-    .sb-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-top: 0.1rem; }
-    @media (max-width: 900px) { .stat-badge { display: none; } }
+    /* ── HERO TICKET ── */
+    .hero-ticket {
+      background: var(--dark); border-top: none;
+      padding: 1.75rem 1.5rem 1.5rem;
+    }
+    .ticket-status-row { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.25rem; }
+    .ticket-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 1.6s ease infinite; flex-shrink: 0; }
+    .ticket-status-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--green); }
+    .ticket-price-old { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.28); text-decoration: line-through; margin-bottom: 0.2rem; }
+    .ticket-price-row { display: flex; align-items: baseline; gap: 0.85rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
+    .ticket-price { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; }
+    .ticket-save { font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: #d4aa00; background: rgba(212,170,0,0.14); border: 1px solid rgba(212,170,0,0.38); padding: 0.18rem 0.5rem; border-radius: 2px; white-space: nowrap; }
+    .ticket-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.2rem 0; }
+    .ticket-features { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0; }
+    .ticket-features li { display: flex; gap: 0.75rem; font-size: 0.84rem; color: rgba(255,255,255,0.58); padding: 0.42rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s; }
+    .ticket-features li:hover { color: rgba(255,255,255,0.85); }
+    .ticket-features li:last-child { border-bottom: none; }
+    .ticket-features li::before { content: '—'; color: var(--green); flex-shrink: 0; font-size: 0.75rem; margin-top: 2px; }
 
-    /* ── PRINCIPLE BANNER ── */
-    .principle { background: var(--green); padding: 1.6rem 0; overflow: hidden; }
-    .principle-inner { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-    .principle-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(0,0,0,0.5); white-space: nowrap; border: 1px solid rgba(0,0,0,0.2); padding: 0.22rem 0.6rem; border-radius: var(--r); }
-    .principle-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 3vw, 2.5rem); color: #000; letter-spacing: 0.04em; }
+    .seat-progress-wrap { margin-bottom: 1.1rem; }
+    .seat-progress-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.45rem;
+    }
+    .seat-progress-label .urgent { color: #e8624a; animation: urgency 2s ease infinite; }
+    @keyframes urgency { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .seat-bar { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+    .seat-bar-fill {
+      height: 100%; width: 72%; background: linear-gradient(90deg, var(--green), #2d8a52);
+      border-radius: 2px;
+      animation: fillIn 1.2s ease 0.8s both;
+    }
+    @keyframes fillIn { from { width: 0; } to { width: 72%; } }
+
+    .ticket-cta {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      width: 100%; padding: 0.95rem 2rem; background: #f0c000; color: var(--ink);
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.88rem;
+      text-transform: uppercase; letter-spacing: 0.14em; text-decoration: none;
+      border-radius: 2px; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .ticket-cta::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    .ticket-cta:hover { background: #d4aa00; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(240,192,0,0.35); }
+    .ticket-cta:hover::after { transform: translateX(100%); }
+    .ticket-note { margin-top: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-align: center; }
+    .ticket-note a { color: rgba(255,255,255,0.32); text-decoration: underline; }
+
+    /* ── STAT BAR ── */
+    .stat-bar { background: var(--ink); }
+    .stat-bar-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2.5rem;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .stat-item {
+      padding: 1.75rem 1rem; border-right: 1px solid rgba(255,255,255,0.08);
+      display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-align: center;
+      transition: background 0.2s;
+    }
+    .stat-item:hover { background: rgba(255,255,255,0.03); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; }
+    .stat-num .stat-accent { color: var(--green); }
+    .stat-label { font-family: 'DM Mono', monospace; font-size: 0.46rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+    @media (max-width: 640px) {
+      .stat-bar-inner { grid-template-columns: 1fr 1fr; padding: 0 1.25rem; }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    }
 
     /* ── SECTIONS ── */
-    .section { padding: 6rem 0; }
-    .section-alt { background: var(--off-black); }
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
+    .section { padding: 5.5rem 0; }
+    .section-alt { background: var(--bg-alt); }
+    .container { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
     @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
-    .sec-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: #00bf63; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
-    .sec-label::before { content: ''; display: inline-block; width: 18px; height: 1px; background: #00bf63; }
-    .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 4.5vw, 4.2rem); line-height: 0.95; letter-spacing: 0.01em; }
-    .sec-desc { margin-top: 1.1rem; color: var(--muted2); font-size: 0.97rem; line-height: 1.82; max-width: 540px; font-weight: 300; }
 
-    /* ── BENEFITS GRID ── */
-    .benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-top: 2.5rem; }
-    @media (max-width: 900px) { .benefits-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .benefits-grid { grid-template-columns: 1fr; } }
-    .benefit-cell { background: var(--card); padding: 2rem 1.75rem; transition: background 0.2s; position: relative; overflow: hidden; }
-    .benefit-cell:hover { background: var(--card2); }
-    .benefit-cell::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--green); opacity: 0; transition: opacity 0.2s; }
-    .benefit-cell:hover::after { opacity: 1; }
-    .benefit-icon { width: 36px; height: 36px; border-radius: var(--r); background: var(--green-dim); border: 1px solid rgba(255,184,0,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; color: var(--green); flex-shrink: 0; }
-    .benefit-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--white); margin-bottom: 0.6rem; }
-    .benefit-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .sec-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .sec-eyebrow::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--green); }
+    .sec-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+      font-weight: 400; line-height: 1.0; letter-spacing: 0.02em; color: var(--ink); margin-bottom: 1rem;
+    }
+    .sec-title em { font-style: normal; color: var(--green); }
+    .sec-desc { font-size: 0.97rem; color: var(--ink-2); line-height: 1.82; font-weight: 300; }
+    .sec-rule { height: 1px; background: var(--border); margin: 2rem 0; }
+
+    /* ── DARK BENEFIT CARDS ── */
+    .benefit-dark-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: var(--dark);
+      margin: 2.5rem 0;
+    }
+    .benefit-dark-card {
+      padding: 2.25rem 2rem; border-right: 1px solid rgba(255,255,255,0.07);
+      transition: background 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .benefit-dark-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--green); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .benefit-dark-card:hover { background: rgba(255,255,255,0.025); }
+    .benefit-dark-card:hover::after { transform: scaleX(1); }
+    .benefit-dark-card:last-child { border-right: none; }
+    .bdc-icon {
+      width: 40px; height: 40px; border: 1px solid rgba(26,107,58,0.3); border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.1rem; background: rgba(26,107,58,0.08);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .benefit-dark-card:hover .bdc-icon { background: rgba(26,107,58,0.18); border-color: rgba(26,107,58,0.5); }
+    .bdc-icon svg { width: 18px; height: 18px; stroke: var(--green); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .bdc-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--white); margin-bottom: 0.6rem; }
+    .bdc-desc { font-size: 0.83rem; color: rgba(255,255,255,0.45); line-height: 1.65; }
+    @media (max-width: 860px) {
+      .benefit-dark-grid { grid-template-columns: 1fr 1fr; }
+      .benefit-dark-card:nth-child(2) { border-right: none; }
+      .benefit-dark-card:nth-child(1), .benefit-dark-card:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    }
+    @media (max-width: 480px) {
+      .benefit-dark-grid { grid-template-columns: 1fr; }
+      .benefit-dark-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .benefit-dark-card:last-child { border-bottom: none; }
+    }
 
     /* ── TECH REVEAL ── */
-    .tech-reveal { margin-top: 2rem; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-    .tech-reveal-btn { width: 100%; background: var(--card); border: none; color: var(--white); padding: 1.1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.16em; transition: background 0.2s; }
-    .tech-reveal-btn:hover { background: var(--card2); }
-    .tech-reveal-btn svg { width: 16px; height: 16px; color: var(--green); transition: transform 0.3s; flex-shrink: 0; }
+    .tech-reveal { margin-top: 2rem; border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden; }
+    .tech-reveal-btn { width: 100%; background: var(--bg); border: none; color: var(--ink); padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; transition: background 0.2s; }
+    .tech-reveal-btn:hover { background: var(--bg-alt); color: var(--green); }
+    .tech-reveal-btn svg { width: 15px; height: 15px; stroke: var(--green); fill: none; transition: transform 0.3s; flex-shrink: 0; }
     .tech-reveal-btn.open svg { transform: rotate(45deg); }
-    .tech-reveal-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: var(--off-black); }
-    .tech-reveal-inner { padding: 1.5rem; font-size: 0.88rem; color: var(--muted2); line-height: 1.78; border-top: 1px solid var(--border); }
+    .tech-reveal-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: var(--bg-alt); }
+    .tech-reveal-inner { padding: 1.4rem 1.5rem; font-size: 0.88rem; color: var(--ink-2); line-height: 1.8; border-top: 1px solid var(--border); }
+    .tech-reveal-inner strong { color: var(--green); }
 
-    /* ── WHAT YOU'LL BUILD ── */
-    .build-rows { margin-top: 3.5rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-    .build-row { display: grid; grid-template-columns: 1fr 1fr; min-height: 300px; background: var(--card); }
-    .build-row.flip .build-text-side { order: 2; }
-    .build-row.flip .build-photo-side { order: 1; }
-    .build-text-side { display: flex; flex-direction: column; justify-content: center; padding: 2.5rem 3rem; border-right: 1px solid var(--border); position: relative; }
-    .build-row.flip .build-text-side { border-right: none; border-left: 1px solid var(--border); }
-    .build-photo-side { position: relative; overflow: hidden; }
-    .build-photo-side img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65) saturate(0.75) sepia(0.08) contrast(1.05); transition: transform 0.6s ease, filter 0.4s ease; display: block; }
-    .build-row:hover .build-photo-side img { transform: scale(1.04); filter: brightness(0.78) saturate(0.85) sepia(0.04) contrast(1.03); }
-    .build-photo-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); z-index: 2; }
-    .build-photo-label { position: absolute; bottom: 1rem; left: 1.25rem; z-index: 3; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
-    .build-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--green); opacity: 0.25; line-height: 1; margin-bottom: 0.5rem; transition: opacity 0.2s; }
-    .build-row:hover .build-num { opacity: 0.5; }
-    .build-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--white); margin-bottom: 0.5rem; }
-    .build-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
+    /* ── BUILD ROWS ── */
+    #build .container { max-width: 960px; }
+    .build-rows { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden; }
+    .build-row { display: grid; grid-template-columns: 1fr 1fr; }
+    .build-row.reverse .build-photo-side { order: 2; }
+    .build-row.reverse .build-text-side { order: 1; }
+    .build-text-side { padding: 2.25rem 2rem; border-left: 1px solid var(--border); }
+    .build-row.reverse .build-text-side { border-left: none; border-right: 1px solid var(--border); }
+    .build-photo-side { position: relative; overflow: hidden; min-height: 300px; height: auto; }
+    .build-photo-side img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      filter: sepia(0.2) brightness(0.82) contrast(1.05) saturate(0.82);
+      transition: transform 0.6s ease, filter 0.4s ease;
+      display: block; position: absolute; inset: 0;
+    }
+    .build-row:hover .build-photo-side img {
+      transform: scale(1.05);
+      filter: sepia(0.1) brightness(0.9) contrast(1.03) saturate(0.9);
+    }
+    .build-photo-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.75rem 1rem; background: linear-gradient(transparent, rgba(26,18,8,0.55)); font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); z-index: 1; }
+    .build-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; font-weight: 400; letter-spacing: 0.04em; color: var(--green); opacity: 0.22; line-height: 1; margin-bottom: 0.35rem; transition: opacity 0.2s; }
+    .build-row:hover .build-num { opacity: 0.4; }
+    .build-title { font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); margin-bottom: 0.4rem; }
+    .build-desc { font-size: 0.86rem; color: var(--ink-2); line-height: 1.65; margin-bottom: 1rem; }
     .build-checks { list-style: none; }
-    .build-checks li { display: flex; gap: 0.65rem; font-size: 0.84rem; color: var(--muted2); padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+    .build-checks li { display: flex; gap: 0.6rem; font-size: 0.84rem; color: var(--ink-2); padding: 0.42rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s, padding-left 0.2s; }
+    .build-checks li:hover { color: var(--ink); padding-left: 4px; }
     .build-checks li:last-child { border-bottom: none; }
-    .build-checks li::before { content: '→'; color: var(--green); flex-shrink: 0; font-size: 0.7rem; margin-top: 3px; }
-    @media (max-width: 700px) { .build-row { grid-template-columns: 1fr; } .build-photo-side { min-height: 220px; order: 0 !important; } .build-text-side { order: 1 !important; border-right: none !important; border-left: none !important; border-top: 1px solid var(--border); } }
+    .build-checks li::before { content: '—'; color: var(--green); flex-shrink: 0; font-size: 0.75rem; margin-top: 2px; }
+    .build-divider { height: 1px; background: var(--border); }
+    @media (max-width: 720px) {
+      .build-row, .build-row.reverse { grid-template-columns: 1fr; }
+      .build-photo-side { order: -1 !important; min-height: 220px; height: 220px; position: relative; }
+      .build-text-side, .build-row.reverse .build-text-side { border-left: none; border-right: none; border-top: 1px solid var(--border); }
+    }
 
     /* ── AGENDA ── */
-    .agenda-grid { margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-    @media (max-width: 700px) { .agenda-grid { grid-template-columns: 1fr; } }
-    .agenda-card { background: var(--card); padding: 2rem 2.25rem; transition: background 0.2s; }
-    .agenda-card:hover { background: var(--card2); }
-    .agenda-time { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #00bf63; line-height: 1; margin-bottom: 0.4rem; }
-    .agenda-topic { font-weight: 600; font-size: 0.9rem; color: var(--white); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
-    .agenda-detail { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .agenda-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden; }
+    .agenda-item { display: grid; grid-template-columns: 90px 1fr; gap: 0; border-bottom: 1px solid var(--border); transition: background 0.2s; }
+    .agenda-item:hover { background: rgba(26,107,58,0.04); }
+    .agenda-item:last-child { border-bottom: none; }
+    .agenda-time-col { background: var(--bg-alt); border-right: 1px solid var(--border); padding: 1.4rem 1rem; display: flex; align-items: flex-start; justify-content: center; transition: background 0.2s; }
+    .agenda-item:hover .agenda-time-col { background: rgba(26,107,58,0.08); }
+    .agenda-time { font-family: 'Bebas Neue', sans-serif; font-style: normal; font-size: 1.3rem; letter-spacing: 0.06em; color: var(--green); line-height: 1; }
+    .agenda-content { padding: 1.3rem 1.5rem; }
+    .agenda-topic { font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink); margin-bottom: 0.3rem; }
+    .agenda-detail { font-size: 0.84rem; color: var(--ink-2); line-height: 1.6; }
 
     /* ── INSTRUCTOR ── */
-    .instructor-wrap { display: grid; grid-template-columns: 340px 1fr; gap: 5rem; align-items: center; margin-top: 3.5rem; }
-    @media (max-width: 800px) { .instructor-wrap { grid-template-columns: 1fr; gap: 2rem; } }
-    .instructor-photo-card { position: relative; }
-    .instructor-photo-card-inner { overflow: hidden; border-radius: var(--r); position: relative; }
-    .instructor-photo-card-inner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); z-index: 2; }
-    .instructor-photo-card-inner img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; filter: brightness(0.78) saturate(0.88) sepia(0.1); }
-    .instructor-plate { padding: 1.2rem 1.25rem; background: var(--card); border: 1px solid var(--border-strong); border-top: none; }
-    .instructor-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.04em; line-height: 1; }
-    .instructor-role { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--green); margin-top: 0.3rem; }
-    .instructor-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
-    .ibadge { padding: 0.22rem 0.65rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase; background: var(--green-dim); color: var(--green); border: 1px solid rgba(255,184,0,0.2); }
-    .instructor-bio { font-size: 0.97rem; color: var(--muted2); line-height: 1.82; font-weight: 300; }
-    .instructor-quote { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--green-dim); border: 1px solid rgba(255,184,0,0.18); border-radius: var(--r); font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); line-height: 1.1; }
-    .instructor-quote span { color: var(--green); }
+    .instructor-grid { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; align-items: start; margin-top: 2.5rem; }
+    @media (max-width: 640px) { .instructor-grid { grid-template-columns: 1fr; gap: 1.75rem; } }
+    .instructor-photo-wrap {
+      position: relative; border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .instructor-photo-wrap:hover { box-shadow: 0 12px 40px rgba(26,18,8,0.12); transform: translateY(-2px); }
+    .instructor-photo-wrap img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; filter: sepia(0.15) brightness(0.9) contrast(1.04) saturate(0.85); transition: transform 0.5s ease; }
+    .instructor-photo-wrap:hover img { transform: scale(1.03); }
+    .instructor-plate { padding: 1rem 1rem 0.85rem; border-top: 1px solid var(--border-s); background: var(--bg-alt); }
+    .instructor-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.08em; color: var(--ink); line-height: 1.1; }
+    .instructor-role { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--green); margin-top: 0.2rem; }
+    .instructor-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+    .ibadge { padding: 0.18rem 0.55rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .instructor-bio { font-size: 0.95rem; color: var(--ink-2); line-height: 1.82; font-weight: 300; }
+    .instructor-bio + .instructor-bio { margin-top: 0.85rem; }
+    .instructor-pullquote {
+      margin-top: 1.5rem; border-left: 3px solid var(--green); padding-left: 1.1rem;
+      font-family: 'DM Sans', sans-serif; font-style: normal; font-weight: 300;
+      font-size: 1rem; color: var(--ink); line-height: 1.7;
+    }
 
     /* ── GALLERY ── */
-    .gallery-section { padding: 6rem 0; background: var(--black); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .gallery-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
-    .gallery-count { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 0.75rem; }
-    @media (max-width: 700px) { .gallery-grid { display: flex; overflow-x: auto; gap: 0.65rem; padding-bottom: 1rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; } .gallery-grid::-webkit-scrollbar { display: none; } }
-    .gallery-slot-a { grid-row: 1 / 3; position: relative; overflow: hidden; min-height: 420px; }
-    .gallery-slot-a img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: brightness(0.72) contrast(1.05) saturate(0.75) sepia(0.08); transition: transform 0.6s ease, filter 0.4s ease; }
-    .gallery-slot-a:hover img { transform: scale(1.03); filter: brightness(0.82) contrast(1.03) saturate(0.85) sepia(0.04); }
-    .gallery-slot-b { position: relative; overflow: hidden; aspect-ratio: 16/9; }
-    .gallery-slot-b img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.72) contrast(1.05) saturate(0.75) sepia(0.08); transition: transform 0.6s ease, filter 0.4s ease; }
-    .gallery-slot-b:hover img { transform: scale(1.03); filter: brightness(0.82) contrast(1.03) saturate(0.85) sepia(0.04); }
-    .gallery-slot-c { position: relative; overflow: hidden; aspect-ratio: 16/9; }
-    .gallery-slot-c img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; filter: brightness(0.72) contrast(1.05) saturate(0.75) sepia(0.08); transition: transform 0.6s ease, filter 0.4s ease; }
-    .gallery-slot-c:hover img { transform: scale(1.03); filter: brightness(0.82) contrast(1.03) saturate(0.85) sepia(0.04); }
-    .gallery-img-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.25rem 1.25rem 1rem; background: linear-gradient(transparent, rgba(5,5,5,0.82) 70%); font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); pointer-events: none; }
-    .gallery-slot-a::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); z-index: 2; }
-    @media (max-width: 700px) { .gallery-slot-a, .gallery-slot-b, .gallery-slot-c { flex: 0 0 72vw; max-width: 72vw; aspect-ratio: 4/3; scroll-snap-align: start; grid-row: auto; min-height: unset; } .gallery-slot-a::before { display: none; } .gallery-slot-a img, .gallery-slot-b img, .gallery-slot-c img { height: 100%; } }
-    .gallery-scroll-hint { display: none; margin-top: 0.85rem; font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-align: center; }
-    @media (max-width: 700px) { .gallery-scroll-hint { display: block; } }
+    .gallery-section { padding: 5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-alt); }
+    .gallery-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .gallery-count { font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 0.65rem; max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+    @media (max-width: 640px) { .gallery-grid { grid-template-columns: 1fr; padding: 0 1.25rem; } .gallery-slot-a { grid-row: auto; min-height: unset; } }
+    .gallery-slot-a { grid-row: 1 / 3; position: relative; overflow: hidden; min-height: 360px; border: 1px solid var(--border-s); }
+    .gallery-slot-a img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: sepia(0.18) brightness(0.88) contrast(1.04) saturate(0.82); transition: transform 0.6s ease, filter 0.4s ease; }
+    .gallery-slot-a:hover img { transform: scale(1.04); filter: sepia(0.08) brightness(0.95) contrast(1.02) saturate(0.9); }
+    .gallery-slot-b, .gallery-slot-c { position: relative; overflow: hidden; aspect-ratio: 16/9; border: 1px solid var(--border-s); }
+    .gallery-slot-b img, .gallery-slot-c img { width: 100%; height: 100%; object-fit: cover; display: block; filter: sepia(0.18) brightness(0.88) contrast(1.04) saturate(0.82); transition: transform 0.6s ease, filter 0.4s ease; }
+    .gallery-slot-b:hover img, .gallery-slot-c:hover img { transform: scale(1.04); filter: sepia(0.08) brightness(0.95) contrast(1.02) saturate(0.9); }
+    .gallery-img-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.75rem 0.85rem; background: linear-gradient(transparent, rgba(26,18,8,0.55)); font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.48); pointer-events: none; }
 
-    /* ── TRUSTPILOT ── */
-    .tp-section { padding: 6rem 0; background: var(--off-black); border-top: 1px solid var(--border); }
-    .tp-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem; }
-    .tp-score-wrap { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
-    .tp-score { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--white); line-height: 1; }
-    .tp-score-sub { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
-    .tp-star-row { display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.35rem; }
-    .tp-star { width: 22px; height: 22px; background: #00b67a; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
-    .tp-star.half { background: linear-gradient(90deg, #00b67a 60%, rgba(255,255,255,0.1) 60%); }
-    .tp-link { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(255,184,0,0.3); padding-bottom: 1px; transition: color 0.2s; }
-    .tp-link:hover { opacity: 0.8; }
-    .tp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-    @media (max-width: 800px) { .tp-cards { grid-template-columns: 1fr; } }
-    .tp-card { background: var(--card); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: background 0.2s; position: relative; overflow: hidden; }
-    .tp-card:hover { background: var(--card2); }
-    .tp-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--green); opacity: 0; transition: opacity 0.2s; }
-    .tp-card:hover::after { opacity: 1; }
-    .tp-card-stars { display: flex; gap: 3px; }
-    .tp-card-star { width: 16px; height: 16px; background: #00b67a; flex-shrink: 0; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
-    .tp-card-text { font-size: 0.9rem; color: var(--muted2); line-height: 1.75; font-style: italic; flex: 1; }
-    .tp-card-text::before { content: '"'; }
-    .tp-card-text::after { content: '"'; }
-    .tp-card-name { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--white); }
-    .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; }
-
-    /* ── TICKETS ── */
-    .tickets-wrap { display: flex; justify-content: center; margin-top: 3.5rem; }
-    .ticket-box { max-width: 480px; width: 100%; }
-    .include-list { list-style: none; margin-top: 1.5rem; }
-    .include-list li { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.9rem 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
-    .include-list li:last-child { border-bottom: none; }
-    .include-list li .ic { color: var(--green); flex-shrink: 0; margin-top: 2px; font-size: 0.8rem; }
-    .ticket-box { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r); padding: 2.5rem; position: relative; overflow: hidden; }
-    .ticket-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); }
-    .ticket-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(255,184,0,0.1); color: var(--green); border: 1px solid rgba(255,184,0,0.25); margin-bottom: 1.25rem; }
-    .ticket-status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
-    .ticket-price-old { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--muted); text-decoration: line-through; }
-    .ticket-price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--white); line-height: 1; letter-spacing: 0.02em; }
-    .ticket-price-sub { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-top: 0.2rem; }
-    .ticket-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
-    .ticket-register-btn { display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; padding: 1.1rem 2rem; border-radius: var(--r); text-decoration: none; background: var(--green); color: #000; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.14em; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
-    .ticket-register-btn:hover { background: #ffc926; transform: translateY(-2px); box-shadow: 0 8px 32px var(--green-glow); }
-    .ticket-note { margin-top: 0.85rem; font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); text-align: center; }
-    .ticket-note a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(255,184,0,0.3); }
+    /* ── TESTIMONIALS ── */
+    .tp-section { padding: 5.5rem 0; background: var(--bg); border-top: 1px solid var(--border); }
+    .tp-cards {
+      margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr 1fr;
+      border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden;
+    }
+    .tp-card { padding: 1.75rem 1.75rem 1.5rem; border-right: 1px solid var(--border); position: relative; transition: background 0.2s; }
+    .tp-card:hover { background: var(--bg-alt); }
+    .tp-card:last-child { border-right: none; }
+    .tp-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--green); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .tp-card:hover::before { transform: scaleX(1); }
+    @media (max-width: 700px) {
+      .tp-cards { grid-template-columns: 1fr; }
+      .tp-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .tp-card:last-child { border-bottom: none; }
+    }
+    .tp-card-stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+    .tp-star { width: 14px; height: 14px; background: var(--green); clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); flex-shrink: 0; }
+    .tp-quotemark { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: var(--green); opacity: 0.15; line-height: 0.6; margin-bottom: 0.6rem; display: block; }
+    .tp-card-text { font-family: 'DM Sans', sans-serif; font-style: normal; font-weight: 300; font-size: 0.98rem; color: var(--ink); line-height: 1.78; margin-bottom: 1rem; }
+    .tp-card-name { font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 700; color: var(--ink); }
+    .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-top: 0.1rem; }
 
     /* ── FAQ ── */
-    .faq-list { margin-top: 3.5rem; max-width: 760px; }
+    .faq-list { margin-top: 2.5rem; border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden; }
     .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-btn { width: 100%; background: none; border: none; color: var(--white); padding: 1.3rem 0; display: flex; justify-content: space-between; align-items: center; text-align: left; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; gap: 1rem; transition: color 0.2s; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-btn { width: 100%; background: none; border: none; color: var(--ink); padding: 1.1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; text-align: left; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; gap: 1rem; transition: color 0.2s, background 0.15s; }
     .faq-btn span { flex: 1; min-width: 0; }
-    .faq-btn:hover { color: var(--green); }
-    .faq-icon { width: 17px; height: 17px; flex-shrink: 0; color: var(--green); transition: transform 0.3s; }
+    .faq-btn:hover { color: var(--green); background: var(--bg-alt); }
+    .faq-icon { width: 15px; height: 15px; flex-shrink: 0; stroke: var(--green); fill: none; transition: transform 0.3s; }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
     .faq-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-    .faq-body-inner { padding-bottom: 1.4rem; color: var(--muted); font-size: 0.9rem; line-height: 1.82; }
+    .faq-body-inner { padding: 0 1.25rem 1.2rem; font-size: 0.88rem; color: var(--ink-2); line-height: 1.82; }
+    .faq-body-inner a { color: var(--green); text-decoration: none; border-bottom: 1px solid var(--green-border); }
 
     /* ── STICKY BAR ── */
-    .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 90; background: rgba(5,5,5,0.97); backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 0.9rem 1.5rem calc(0.9rem + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-between; gap: 1rem; transform: translateY(100%); transition: transform 0.3s ease; }
+    .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 190; background: rgba(13,13,13,0.97); backdrop-filter: blur(12px); border-top: 2px solid var(--green); padding: 0.85rem 1.5rem calc(0.85rem + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-between; gap: 1rem; transform: translateY(100%); transition: transform 0.4s cubic-bezier(.22,.68,0,1.2); }
     .sticky-bar.visible { transform: translateY(0); }
-    .sticky-title { font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.06em; }
-    .sticky-sub { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--green); margin-top: 0.15rem; letter-spacing: 0.1em; }
-    .sticky-register-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.7rem 1.5rem; border-radius: var(--r); text-decoration: none; background: var(--green); color: #000; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; white-space: nowrap; transition: background 0.2s; }
-    .sticky-register-btn:hover { background: #ffc926; }
+    .sticky-title { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--white); }
+    .sticky-sub { font-family: 'DM Mono', monospace; font-size: 0.56rem; color: var(--green); margin-top: 0.12rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .sticky-register-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 2px; text-decoration: none; background: #f0c000; color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
+    .sticky-register-btn:hover { background: #d4aa00; transform: translateY(-1px); }
 
     /* ── FOOTER ── */
-    .site-footer { background: var(--off-black); border-top: 1px solid var(--border); padding: 4rem 0 2rem; }
+    .site-footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08); padding: 4rem 0 2rem; }
     .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
-    .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); align-items: start; }
-    .footer-col-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase; color: #00bf63; margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.5rem; }
-    .footer-col-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: #00bf63; flex-shrink: 0; }
+    .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08); align-items: start; }
+    .footer-col-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+    .footer-col-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--green); flex-shrink: 0; }
     .footer-col-label.right { justify-content: flex-end; }
     .footer-col-label.right::before { display: none; }
-    .footer-col-label.right::after { content: ''; display: inline-block; width: 14px; height: 1px; background: #00bf63; flex-shrink: 0; }
+    .footer-col-label.right::after { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--green); flex-shrink: 0; }
     .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0; }
-    .footer-links li a { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: rgba(255,255,255,0.42); text-decoration: none; padding: 0.45rem 0; display: block; transition: color 0.2s; letter-spacing: 0.02em; }
-    .footer-links li a:hover { color: #ffffff; }
+    .footer-links li a { font-size: 0.9rem; color: rgba(255,255,255,0.42); text-decoration: none; padding: 0.42rem 0; display: block; transition: color 0.2s, padding-left 0.2s; }
+    .footer-links li a:hover { color: var(--white); padding-left: 6px; }
     .footer-right-col { text-align: right; }
-    .footer-address-lines { display: flex; flex-direction: column; gap: 0.25rem; text-align: right; }
-    .footer-address-lines p, .footer-address-lines a { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.42); line-height: 1.7; text-decoration: none; display: block; transition: color 0.2s; }
-    .footer-address-lines a:hover { color: #00bf63; }
-    .footer-address-gap { margin-top: 0.6rem; }
+    .footer-address-lines { display: flex; flex-direction: column; gap: 0.22rem; }
+    .footer-address-lines p, .footer-address-lines a { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.42); line-height: 1.7; text-decoration: none; display: block; transition: color 0.2s; }
+    .footer-address-lines a:hover { color: var(--green); }
     .footer-bottom-row { padding-top: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
     .footer-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-    .footer-logo-mark { width: 42px; height: 42px; border-radius: var(--r); background: var(--card); border: 1px solid var(--border-strong); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .footer-logo-mark { width: 40px; height: 40px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); transition: border-color 0.2s; }
+    .footer-logo:hover .footer-logo-mark { border-color: var(--green); }
     .footer-logo-mark img { width: 100%; height: 100%; object-fit: cover; }
-    .footer-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.14em; color: #ffffff; line-height: 1; }
-    .footer-logo-sub { font-family: 'DM Mono', monospace; font-size: 0.46rem; text-transform: uppercase; letter-spacing: 0.22em; color: #00bf63; display: block; margin-top: 3px; }
-    .footer-socials { display: flex; align-items: center; gap: 0.6rem; }
-    .footer-social-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; flex-shrink: 0; transition: transform 0.2s, opacity 0.2s; }
-    .footer-social-icon:hover { transform: translateY(-2px); opacity: 0.85; }
+    .footer-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; font-weight: 400; letter-spacing: 0.1em; color: var(--white); line-height: 1; }
+    .footer-logo-sub { font-family: 'DM Mono', monospace; font-size: 0.44rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--green); display: block; margin-top: 2px; }
+    .footer-socials { display: flex; align-items: center; gap: 0.55rem; }
+    .footer-social-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; flex-shrink: 0; transition: transform 0.2s, opacity 0.2s; }
+    .footer-social-icon:hover { transform: translateY(-3px); opacity: 0.85; }
     .footer-social-icon.linkedin { background: #0a66c2; }
     .footer-social-icon.facebook { background: #1877f2; }
     .footer-social-icon.instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-    .footer-social-icon svg { width: 15px; height: 15px; fill: white; }
+    .footer-social-icon svg { width: 14px; height: 14px; fill: white; }
     .footer-copyright { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); text-align: center; }
-    @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr; } .footer-right-col { text-align: left; } .footer-col-label.right { justify-content: flex-start; } .footer-col-label.right::before { display: inline-block; } .footer-col-label.right::after { display: none; } .footer-address-lines { text-align: left; } }
+    @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr; } .footer-right-col { text-align: left; } .footer-col-label.right { justify-content: flex-start; } .footer-col-label.right::before { display: inline-block; } .footer-col-label.right::after { display: none; } .footer-address-lines { text-align: left; } .footer-inner { padding: 0 1.25rem; } }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-    .hero-eyebrow { animation: fadeUp 0.6s ease 0.1s both; }
-    .hero-title    { animation: fadeUp 0.7s ease 0.2s both; }
-    .hero-divider  { animation: fadeUp 0.6s ease 0.3s both; }
-    .hero-desc     { animation: fadeUp 0.6s ease 0.35s both; }
-    .hero-meta     { animation: fadeUp 0.6s ease 0.45s both; }
-    .event-card-hero { animation: fadeUp 0.7s ease 0.3s both; }
+    /* ── TICKET SECTION ── */
+    .ticket-section { padding: 5.5rem 0; background: var(--ink); }
+    .ticket-section-inner { max-width: 480px; margin: 0 auto; padding: 0 2rem; }
+    .ticket-section .sec-title { color: var(--white); }
+    .ticket-section .sec-eyebrow { color: var(--green); }
+    .ticket-section .hero-event-card { border-color: rgba(255,255,255,0.18); }
+    @media (max-width: 640px) { .ticket-section-inner { padding: 0 1.25rem; } }
 
-    /* Language dropdown */
-    .lang-wrap { position: relative; }
-    .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r); padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s; }
-    .lang-btn:hover { color: var(--white); border-color: var(--border-strong); }
-    .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
-    .lang-btn svg { width: 12px; height: 12px; }
-    .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; z-index: 200; }
-    .lang-wrap.open .lang-menu { display: block; }
-    .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
-    .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
-    .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
+    /* ── GLOBAL ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
-<header>
-  <div class="hdr-inner">
-    <a href="/index-sv.html" class="logo">
+<!-- ── PUBLICATION STRIP — MARQUEE ── -->
+<div class="pub-strip">
+  <div class="pub-marquee">
+    <span class="pub-marquee-item">Genaition · Workshop-serie <span class="dot"></span> Workshop Nr. 06 · 2026 <span class="dot"></span> Online · 13 juni 2026 <span class="dot"></span> Max 25 platser <span class="dot"></span> Early Bird avslutas 30 april <span class="dot"></span></span>
+    <span class="pub-marquee-item">Genaition · Workshop-serie <span class="dot"></span> Workshop Nr. 06 · 2026 <span class="dot"></span> Online · 13 juni 2026 <span class="dot"></span> Max 25 platser <span class="dot"></span> Early Bird avslutas 30 april <span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- ── SITE NAV ── -->
+<nav class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="/index.html" class="logo">
       <div class="logo-mark">
-        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.background='#ffb800';this.style.display='none';" />
+        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none';" />
       </div>
       <div>
         <span class="logo-name">Genaition</span>
-        <span class="logo-sub">Workshops · AI Agents</span>
+        <span class="logo-sub">Workshops — AI Agents</span>
       </div>
     </a>
     <nav class="nav-links">
@@ -442,156 +627,122 @@
       <a href="#instructor">Instruktör</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <div class="hdr-right">
+    <div class="nav-actions">
       <div class="lang-wrap" id="langWrap">
         <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
           <img src="/swedish.png" alt="Svenska" />
           <span>SV</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div class="lang-menu" id="langMenu">
           <a href="/event-1.html"><img src="/english.png" alt="English flag" /> English</a>
           <a href="/event-1-sv.html"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
         </div>
       </div>
-      <a href="#ticket-box" class="nav-register">Anmäl dig</a>
+      <a href="#ticket-box" class="nav-signup">Anmäl dig</a>
     </div>
   </div>
-</header>
+</nav>
 
 <!-- ── HERO ── -->
 <section id="top" class="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-inner">
+  <div class="hero-grid">
+
     <div class="hero-left">
-      <p class="hero-eyebrow">
-        <span class="open-tag"><span class="open-dot"></span> Early Bird · Avslutas 30 april</span>
-      </p>
-      <h1 class="hero-title">
-        <span class="t-white">Bygg din</span>
-        <span class="t-green">Första AI-agent</span>
-        <span class="t-white">på 3 timmar</span>
+      <span class="hero-eyebrow"><span class="eyebrow-dot"></span> Early Bird · Avslutas 30 april</span>
+
+      <h1 class="hero-title" style="animation: fadeUp 0.7s ease 0.2s both;">
+        <span class="t-ink">Bygg din</span>
+        <span class="t-ink">Första</span>
+        <span class="t-yellow">AI Agent</span>
       </h1>
-      <div class="hero-divider"></div>
-      <p class="hero-desc">Lämna på 3 timmar med en live AI-e-postagent du byggt själv – ingen kodning krävs. Delta online varifrån som helst den 13 juni.</p>
+
+      <blockquote class="hero-quote">
+        Lämna på 3 timmar med en live AI-e-postagent du byggt själv – ingen kodning krävs. Delta online varifrån som helst den 13 juni.
+      </blockquote>
+
+      <!-- LIVE COUNTDOWN -->
+      <div class="hero-countdown" id="heroCountdown">
+        <span class="countdown-label">Startar om</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cdDays">48</span><span class="countdown-sub">Dagar</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cdHours">09</span><span class="countdown-sub">Tim</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cdMins">22</span><span class="countdown-sub">Min</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cdSecs">41</span><span class="countdown-sub">Sek</span></div>
+      </div>
+
+      <div class="hero-rule"></div>
+
       <div class="hero-meta">
         <div class="meta-block">
           <p class="meta-label">Datum</p>
-          <p class="meta-value">13 JUNI</p>
-        </div>
-        <div class="meta-block">
-          <p class="meta-label">Format</p>
-          <p class="meta-value green">Live Online</p>
+          <p class="meta-value">13 Juni</p>
         </div>
         <div class="meta-block">
           <p class="meta-label">Tid</p>
-          <p class="meta-value green">13:30–16:30</p>
+          <p class="meta-value">13:30–16:30</p>
+        </div>
+        <div class="meta-block">
+          <p class="meta-label">Format</p>
+          <p class="meta-value yellow">Live Online</p>
+        </div>
+        <div class="meta-block">
+          <p class="meta-label">Platser</p>
+          <p class="meta-value">Max 25</p>
         </div>
       </div>
     </div>
 
-    <div class="hero-right">
-      <div class="event-card-hero">
-        <div class="event-card-img">
-          <img src="/chatbot-chatbot.jpg" alt="AI Email Agent Workshop" onerror="this.style.background='#161616';this.style.minHeight='260px';" />
-          <div class="event-card-img-label">Online · 13 juni 2026</div>
-        </div>
-        <div class="event-card-body">
-          <div class="event-tag-row">
-            <span class="etag lang">På engelska</span>
-            <span class="etag format">Hands-on · Ingen kod</span>
-            <span class="etag lang">Online · Zoom</span>
-          </div>
-          <p class="event-card-title">AI Agent Workshop</p>
-          <div class="event-detail-row">
-            <div class="event-detail">
-              <div class="detail-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              </div>
-              <div class="detail-text">
-                <span class="detail-label">Var</span>
-                Live online — Länk skickas efter registrering
-              </div>
-            </div>
-            <div class="event-detail">
-              <div class="detail-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              </div>
-              <div class="detail-text">
-                <span class="detail-label">Tid</span>
-                13 juni 2026 · 13:30–16:30
-              </div>
-            </div>
-            <div class="event-detail">
-              <div class="detail-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <div class="detail-text">
-                <span class="detail-label">Platser</span>
-                Begränsat antal
-              </div>
-            </div>
-          </div>
-          <a href="#ticket-box" class="register-block">Bygg min agent — 365 SEK →</a>
-        </div>
-      </div>
-      <div class="stat-badge tl"><p class="sb-num">5+</p><p class="sb-label">Workshops</p></div>
-      <div class="stat-badge br"><p class="sb-num">150+</p><p class="sb-label">Deltagare</p></div>
-    </div>
+
   </div>
 </section>
 
-<!-- ── PRINCIPLE ── -->
-<div class="principle">
-  <div class="principle-inner">
-    <span class="principle-tag">Grundprincipen</span>
-    <p class="principle-text">Ingen teori. Ingen kod. Bara bygg en riktig, fungerande AI-agent.</p>
-  </div>
-</div>
 
-<!-- ── ABOUT / BENEFITS ── -->
+<!-- ── ABOUT ── -->
 <section id="about" class="section section-alt">
   <div class="container">
-    <p class="sec-label">För vem är detta</p>
-    <h2 class="sec-title">Grundare<br>och Operatörer</h2>
-    <div class="instructor-quote" style="margin-bottom:1.75rem;margin-top:1rem;max-width:460px;">Ny på AI?<br>Det är precis vem<br><span>den här workshopen</span><br>är till för.</div>
-    <p class="sec-desc">Praktisk workshop där du bygger och lanserar din egen AI-e-postagent på bara 3 timmar. Ingen kodning krävs, ta bara med en laptop. Lämna med en fungerande agent och en tydlig mental modell du kan återanvända i ditt riktiga arbete.</p>
-    <div class="benefits-grid">
-      <div class="benefit-cell">
-        <div class="benefit-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <p class="benefit-title">KLAR PÅ 3 TIMMAR</p>
-        <p class="benefit-desc">Bygg en riktig e-postagent på 3 timmar. Gå hem med ett fungerande verktyg – inga slides, ingen teori.</p>
+    <p class="sec-eyebrow reveal">För vem är detta</p>
+    <h2 class="sec-title reveal reveal-delay-1">Grundare<br>och Operatörer</h2>
+    <p class="sec-desc reveal reveal-delay-2">Praktisk workshop där du bygger och lanserar din egen AI-e-postagent på bara 3 timmar. Ingen kodning krävs – ta bara med en laptop. Lämna med en fungerande agent och en tydlig mental modell du kan återanvända i ditt riktiga arbete.</p>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="benefit-dark-grid">
+    <div class="benefit-dark-card reveal">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       </div>
-      <div class="benefit-cell">
-        <div class="benefit-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <p class="benefit-title">DU BESTÄMMER REGLERNA</p>
-        <p class="benefit-desc">Instruera din agent. AI:n följer dem. Du vet exakt vad den skickar, varför och när.</p>
-      </div>
-      <div class="benefit-cell">
-        <div class="benefit-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <p class="benefit-title">RIKTIG AGENT, BYGGD AV DIG</p>
-        <p class="benefit-desc">Se hur ReAct, LLM API och systemprompts faktiskt fungerar – genom att bygga en själv, live online.</p>
-      </div>
-      <div class="benefit-cell">
-        <div class="benefit-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        </div>
-        <p class="benefit-title">Hands-on hjälp</p>
-        <p class="benefit-desc">Max 25 platser — vi hjälper dig att bygga det.</p>
-      </div>
+      <p class="bdc-title">Klar på 3 timmar</p>
+      <p class="bdc-desc">Bygg en riktig e-postagent på 3 timmar. Gå hem med ett fungerande verktyg – inga slides, ingen teori.</p>
     </div>
-
+    <div class="benefit-dark-card reveal reveal-delay-1">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <p class="bdc-title">Du bestämmer reglerna</p>
+      <p class="bdc-desc">Instruera din agent. AI:n följer dem. Du vet exakt vad den skickar, varför och när.</p>
+    </div>
+    <div class="benefit-dark-card reveal reveal-delay-2">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <p class="bdc-title">Riktig agent, byggd av dig</p>
+      <p class="bdc-desc">Se hur ReAct, LLM API och systemprompts faktiskt fungerar – genom att bygga en själv, live online.</p>
+    </div>
+    <div class="benefit-dark-card reveal reveal-delay-3">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <p class="bdc-title">Hands-on hjälp</p>
+      <p class="bdc-desc">Max 25 platser – liten kohort, strukturerat tempo och stöd tills din agent faktiskt fungerar.</p>
+    </div>
+  </div>
+  <div class="container">
     <div class="tech-reveal">
       <button class="tech-reveal-btn" id="techBtn">
-        <span>🔧 Din teknikstack</span>
-        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
+        <span>Din teknikstack</span>
+        <svg viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
       </button>
       <div class="tech-reveal-body" id="techBody">
         <div class="tech-reveal-inner">
@@ -609,28 +760,32 @@
 <!-- ── WHAT YOU'LL BUILD ── -->
 <section id="build" class="section">
   <div class="container">
-    <p class="sec-label">Vad du bygger</p>
-    <h2 class="sec-title">AI-pipeline för outreach —<br>redo att använda direkt</h2>
-    <p class="sec-desc">Identifiera lead → profilera och analysera → generera e-posttext → skicka och uppdatera dokumentet.</p>
+    <p class="sec-eyebrow reveal">Vad du bygger</p>
+    <h2 class="sec-title reveal reveal-delay-1">AI-pipeline för outreach —<br><em>redo att använda direkt</em></h2>
+    <p class="sec-desc reveal reveal-delay-2">Identifiera lead → profilera och analysera → generera e-posttext → skicka och uppdatera dokumentet.</p>
     <div class="build-rows">
       <div class="build-row">
+        <div class="build-photo-side">
+          <img src="/email-workshopm.jpg" alt="Workshopdeltagare vid laptops" />
+          <p class="build-photo-label">Stockholm · Workshop-kohort</p>
+        </div>
         <div class="build-text-side">
           <div class="build-num">01</div>
           <p class="build-title">Hands-on AI-agent</p>
-          <p class="build-desc">Inga slides. Ingen föreläsning. Du bygger "Ove", en live e-postagent som hämtar kontakter, skriver personliga mejl, skickar via Gmail och loggar resultaten — autonomt.</p>
+          <p class="build-desc">Inga slides. Ingen föreläsning. Du bygger "Ove", en live e-postagent som hämtar kontakter, skriver personliga mejl, skickar via Gmail och loggar resultaten – autonomt.</p>
           <ul class="build-checks">
             <li>Prompts som anpassar sig till varje kontakt automatiskt</li>
             <li>Låt AI:n kopiera din ton – formell, avslappnad eller varumärkesröst?</li>
             <li>Ett klick för återanvändning – ta det rakt in i nästa projekt</li>
           </ul>
         </div>
-        <div class="build-photo-side">
-          <div class="build-photo-accent"></div>
-          <img src="/email-workshopm.jpg" alt="Workshopdeltagare vid laptops" />
-          <p class="build-photo-label">Stockholm · Workshop-kohort</p>
-        </div>
       </div>
-      <div class="build-row flip">
+      <div class="build-divider"></div>
+      <div class="build-row reverse">
+        <div class="build-photo-side">
+          <img src="/workshop999.jpg" alt="Workshop gruppfoto" style="object-position: center top;" />
+          <p class="build-photo-label">Göteborg · Sep 2025</p>
+        </div>
         <div class="build-text-side">
           <div class="build-num">02</div>
           <p class="build-title">Verkliga scenarion</p>
@@ -641,13 +796,13 @@
             <li>Plug-and-play-mallar för sälj, rekrytering och ops</li>
           </ul>
         </div>
-        <div class="build-photo-side">
-          <div class="build-photo-accent"></div>
-          <img src="/workshop999.jpg" alt="Workshop gruppfoto" style="object-position: center top;" />
-          <p class="build-photo-label">Göteborg · Sep 2025</p>
-        </div>
       </div>
+      <div class="build-divider"></div>
       <div class="build-row">
+        <div class="build-photo-side">
+          <img src="/email-workshop.jpg" alt="Workshop online-session" />
+          <p class="build-photo-label">Online · Juni 2026</p>
+        </div>
         <div class="build-text-side">
           <div class="build-num">03</div>
           <p class="build-title">Liten online-kohort</p>
@@ -658,11 +813,6 @@
             <li>Frågor och svar under hela sessionen</li>
           </ul>
         </div>
-        <div class="build-photo-side">
-          <div class="build-photo-accent"></div>
-          <img src="/email-workshop.jpg" alt="Workshop i rummet" />
-          <p class="build-photo-label">Online · Juni 2026</p>
-        </div>
       </div>
     </div>
   </div>
@@ -671,16 +821,49 @@
 <!-- ── AGENDA ── -->
 <section id="agenda" class="section section-alt">
   <div class="container">
-    <p class="sec-label">Agenda</p>
-    <h2 class="sec-title">13 juni · 13:30–16:30</h2>
-    <p class="sec-desc">Vi rör oss snabbt men håller det nybörjarvänligt. Du följer beprövade mallar, förstår logiken och anpassar allt till din egen inkorg.</p>
-    <div class="agenda-grid">
-      <div class="agenda-card"><p class="agenda-time">13:30</p><p class="agenda-topic">Intro &amp; Setup</p><p class="agenda-detail">Anslut dina verktyg, träffa din kohort. Allt förkonfigurerat — inga installationer, inget krångel.</p></div>
-      <div class="agenda-card"><p class="agenda-time">13:50</p><p class="agenda-topic">Anslut och testa</p><p class="agenda-detail">Koppla Gmail och n8n. Kör din första live-trigger och se agenten läsa ett riktigt mejl.</p></div>
-      <div class="agenda-card"><p class="agenda-time">14:30</p><p class="agenda-topic">Bygg din agent</p><p class="agenda-detail">Starta från mallen och utöka den — sätt regler, skriv din första systemprompt, kör ett livesend.</p></div>
-      <div class="agenda-card"><p class="agenda-time">15:00</p><p class="agenda-topic">10 min paus</p><p class="agenda-detail">Ta en paus, hämta kaffe, och kom tillbaka redo att bygga från grunden.</p></div>
-      <div class="agenda-card"><p class="agenda-time">15:10</p><p class="agenda-topic">Bygg från grunden</p><p class="agenda-detail">Bygg om agenten från grunden — du sätter reglerna, tonen och logiken.</p></div>
-      <div class="agenda-card"><p class="agenda-time">16:15</p><p class="agenda-topic">Q&amp;A + Intyg</p><p class="agenda-detail">Live-frågor, personaliseringstips och ditt intyg om genomförd kurs.</p></div>
+    <p class="sec-eyebrow reveal">Agenda</p>
+    <h2 class="sec-title reveal reveal-delay-1">13 Juni · 13:30–16:30</h2>
+    <p class="sec-desc reveal reveal-delay-2">Vi rör oss snabbt men håller det nybörjarvänligt. Du följer beprövade mallar, förstår logiken och anpassar allt till din egen inkorg.</p>
+    <div class="agenda-list">
+      <div class="agenda-item reveal"><div class="agenda-time-col"><span class="agenda-time">13:30</span></div><div class="agenda-content"><p class="agenda-topic">Intro &amp; Setup</p><p class="agenda-detail">Anslut dina verktyg, träffa din kohort. Allt förkonfigurerat – inga installationer, inget krångel.</p></div></div>
+      <div class="agenda-item reveal reveal-delay-1"><div class="agenda-time-col"><span class="agenda-time">13:50</span></div><div class="agenda-content"><p class="agenda-topic">Anslut och testa</p><p class="agenda-detail">Koppla Gmail och n8n. Kör din första live-trigger och se agenten läsa ett riktigt mejl.</p></div></div>
+      <div class="agenda-item reveal reveal-delay-2"><div class="agenda-time-col"><span class="agenda-time">14:30</span></div><div class="agenda-content"><p class="agenda-topic">Bygg din agent</p><p class="agenda-detail">Starta från mallen och utöka den – sätt regler, skriv din första systemprompt, kör ett livesend.</p></div></div>
+      <div class="agenda-item reveal"><div class="agenda-time-col"><span class="agenda-time">15:00</span></div><div class="agenda-content"><p class="agenda-topic">10 min paus</p><p class="agenda-detail">Ta en paus, hämta kaffe, och kom tillbaka redo att bygga från grunden.</p></div></div>
+      <div class="agenda-item reveal reveal-delay-1"><div class="agenda-time-col"><span class="agenda-time">15:10</span></div><div class="agenda-content"><p class="agenda-topic">Bygg från grunden</p><p class="agenda-detail">Bygg om agenten från grunden – du sätter reglerna, tonen och logiken.</p></div></div>
+      <div class="agenda-item reveal reveal-delay-2"><div class="agenda-time-col"><span class="agenda-time">16:15</span></div><div class="agenda-content"><p class="agenda-topic">Q&amp;A + Intyg</p><p class="agenda-detail">Live-frågor, personaliseringstips och ditt intyg om genomförd kurs.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKET ── -->
+<section class="ticket-section section-alt" id="ticket-box">
+  <div class="ticket-section-inner">
+    <div class="hero-event-card reveal">
+      <div class="hero-ticket">
+        <div class="ticket-status-row">
+          <span class="ticket-dot"></span>
+          <span class="ticket-status-label">Early Bird — Avslutas 30 april</span>
+        </div>
+        <p class="ticket-price-old">595 SEK</p>
+        <div class="ticket-price-row">
+          <span class="ticket-price">365 SEK</span>
+          <span class="ticket-save">Spara 230 SEK</span>
+        </div>
+        <div class="ticket-divider"></div>
+        <ul class="ticket-features">
+          <li>3-timmars hands-on workshopsession live online</li>
+          <li>Hands-on hjälp tills din agent fungerar</li>
+          <li>1:1-support efter workshopen via mejl</li>
+          <li>Mallar, prompts &amp; workflow-filer att behålla</li>
+          <li>Intyg om genomförd kurs</li>
+        </ul>
+
+        <a href="/before-checkout-sv.html" class="ticket-cta">
+          Anmäl dig - 365 SEK
+        </a>
+        <p class="ticket-note">Säker betalning · Max 25 platser · 13 juni 2026</p>
+        <p class="ticket-note" style="margin-top:0.3rem;">Behöver du faktura? Mejla <a href="mailto:info@genaition.org">info@genaition.org</a></p>
+      </div>
     </div>
   </div>
 </section>
@@ -688,25 +871,24 @@
 <!-- ── INSTRUCTOR ── -->
 <section id="instructor" class="section">
   <div class="container">
-    <p class="sec-label">Din instruktör</p>
-    <h2 class="sec-title">Javid Valiyev</h2>
-    <div class="instructor-wrap">
-      <div class="instructor-photo-card">
-        <div class="instructor-photo-card-inner">
-          <img src="/javidimage.jpg" alt="Javid Valiyev" onerror="this.style.background='#161616';this.style.minHeight='340px';this.style.display='block';" />
-        </div>
+    <p class="sec-eyebrow reveal">Din instruktör</p>
+    <h2 class="sec-title reveal reveal-delay-1">Javid Valiyev</h2>
+    <div class="instructor-grid">
+      <div class="instructor-photo-wrap reveal">
+        <img src="/javidimage.jpg" alt="Javid Valiyev" onerror="this.style.background='#e8e2d2';this.style.minHeight='280px';this.style.display='block';" />
         <div class="instructor-plate">
           <p class="instructor-name">Javid Valiyev</p>
-          <p class="instructor-role">Grundare · Genaition</p>
+          <p class="instructor-role">Grundare — Genaition</p>
           <div class="instructor-badges">
             <span class="ibadge">5+ år AI</span>
             <span class="ibadge">150+ utbildade</span>
           </div>
         </div>
       </div>
-      <div>
+      <div class="reveal reveal-delay-2">
         <p class="instructor-bio">Javid bygger tillämpad AI och lär människor och företag hur de implementerar det utan att behöva en utvecklare. Hans workshops är kända för att vara hands-on, strukturerade och nybörjarsäkra – du lämnar inte utan ett fungerande system.</p>
-        <p class="instructor-bio" style="margin-top:1rem;">Han är grundaren av Genaition och har lett 5 workshops i Sverige med över 150 utbildade proffs.</p>
+        <p class="instructor-bio">Han är grundaren av Genaition och har lett 5 workshops i Sverige med över 150 utbildade proffs.</p>
+        <blockquote class="instructor-pullquote">"Du lämnar inte utan ett fungerande system. Det är regeln."</blockquote>
       </div>
     </div>
   </div>
@@ -714,64 +896,59 @@
 
 <!-- ── GALLERY ── -->
 <section class="gallery-section">
-  <div class="container">
-    <div class="gallery-header">
+  <div style="max-width:760px;margin:0 auto;padding:0 2rem;">
+    <div class="gallery-header reveal">
       <div>
-        <p class="sec-label" style="margin-bottom:0.5rem;">Från våra workshops</p>
-        <h2 class="sec-title" style="font-size:clamp(2rem,4vw,3rem);">Så här undervisar vi</h2>
+        <p class="sec-eyebrow" style="margin-bottom:0.4rem;">Från våra workshops</p>
+        <h2 class="sec-title" style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Så här undervisar vi</h2>
       </div>
       <p class="gallery-count">Genaition · Stockholm · Workshops 01–05</p>
     </div>
-    <div class="gallery-grid">
-      <div class="gallery-slot-a">
-        <img src="/workshop13.jpg" alt="Genaition workshop – byggsession" style="object-position: center top;" onerror="this.parentElement.style.background='#161616';" />
-        <div class="gallery-img-label">Online · Juni 2026</div>
-      </div>
-      <div class="gallery-slot-b">
-        <img src="/workshop15.jpg" alt="Genaition workshop – gruppsession" onerror="this.parentElement.style.background='#1a1a1a';" />
-        <div class="gallery-img-label">Stockholm · Mars 2026</div>
-      </div>
-      <div class="gallery-slot-c">
-        <img src="/workshop16.jpg" alt="Genaition workshop – deltagare" style="object-position: center center;" onerror="this.parentElement.style.background='#141414';" />
-        <div class="gallery-img-label">Göteborg · Sep 2025</div>
-      </div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-slot-a reveal">
+      <img src="/workshop13.jpg" alt="Genaition workshop – byggsession" style="object-position: center top;" onerror="this.parentElement.style.background='#e8e2d2';" />
+      <div class="gallery-img-label">Online · Juni 2026</div>
     </div>
-    <p class="gallery-scroll-hint">← Svep för att se mer →</p>
+    <div class="gallery-slot-b reveal reveal-delay-1">
+      <img src="/workshop15.jpg" alt="Genaition workshop – gruppsession" onerror="this.parentElement.style.background='#e0dace';" />
+      <div class="gallery-img-label">Stockholm · Mars 2026</div>
+    </div>
+    <div class="gallery-slot-c reveal reveal-delay-2">
+      <img src="/workshop16.jpg" alt="Genaition workshop – deltagare" style="object-position: center center;" onerror="this.parentElement.style.background='#ddd8c8';" />
+      <div class="gallery-img-label">Göteborg · Sep 2025</div>
+    </div>
   </div>
 </section>
 
-<!-- ── TRUSTPILOT ── -->
+<!-- ── TESTIMONIALS ── -->
 <section class="tp-section">
   <div class="container">
-    <div class="tp-header">
-      <div>
-        <p class="sec-label">Vad folk säger</p>
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.4rem;">
-          <div style="display:flex;gap:3px;">
-            <div class="tp-card-star"></div>
-            <div class="tp-card-star"></div>
-            <div class="tp-card-star"></div>
-            <div class="tp-card-star"></div>
-            <div class="tp-card-star" style="background:linear-gradient(90deg,#00b67a 50%,rgba(255,255,255,0.12) 50%);"></div>
-          </div>
-          <span style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.08em;">4,5 / 5 · Trustpilot</span>
-        </div>
+    <p class="sec-eyebrow reveal">Vad folk säger</p>
+    <div class="reveal reveal-delay-1" style="display:flex;align-items:center;gap:0.6rem;margin-bottom:2rem;">
+      <div style="display:flex;gap:3px;">
+        <div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div>
+        <div class="tp-star" style="background:linear-gradient(90deg,#1a6b3a 50%,rgba(26,18,8,0.08) 50%);"></div>
       </div>
-      <a href="https://www.trustpilot.com/review/genaition.io" target="_blank" class="tp-link">Se alla recensioner ↗</a>
+      <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--ink-3);letter-spacing:0.08em;">4,5 / 5 · Trustpilot</span>
+      <a href="https://www.trustpilot.com/review/genaition.io" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:1px solid var(--green-border);padding-bottom:1px;margin-left:auto;">Se alla recensioner ↗</a>
     </div>
-    <div class="tp-cards">
+    <div class="tp-cards reveal reveal-delay-2">
       <div class="tp-card">
-        <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
+        <div class="tp-card-stars"><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div></div>
+        <span class="tp-quotemark">"</span>
         <p class="tp-card-text">Workshopen var mycket bra och hjälpsam. Instruktören guidade oss tydligt i varje steg och allt var lätt att följa.</p>
         <div><p class="tp-card-name">Valentina Fermanelli</p><p class="tp-card-date">Workshop · Göteborg · 2025</p></div>
       </div>
       <div class="tp-card">
-        <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
+        <div class="tp-card-stars"><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div></div>
+        <span class="tp-quotemark">"</span>
         <p class="tp-card-text">Bra session! Väldemonstrerад med praktisk förståelse och verkliga affärsscenarier genomgående.</p>
         <div><p class="tp-card-name">Sara Svensson</p><p class="tp-card-date">Workshop · Stockholm · 2026</p></div>
       </div>
       <div class="tp-card">
-        <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
+        <div class="tp-card-stars"><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div></div>
+        <span class="tp-quotemark">"</span>
         <p class="tp-card-text">Jag lämnade väldigt inspirerad. En stor insikt om vad Agentic AI faktiskt är och hur det fungerar i praktiken.</p>
         <div><p class="tp-card-name">Joey Sorel</p><p class="tp-card-date">Workshop · Stockholm · 2025</p></div>
       </div>
@@ -779,78 +956,21 @@
   </div>
 </section>
 
-<!-- ── TICKETS ── -->
-<section id="tickets" class="section section-alt">
-  <div class="container">
-    <p class="sec-label">Biljetter</p>
-    <h2 class="sec-title">Anmäl dig</h2>
-    <p class="sec-desc">Early Bird-pris aktivt nu – säkra din plats innan det är för sent.</p>
-    <div class="tickets-wrap">
-      <div class="ticket-box" id="ticket-box">
-        <div class="ticket-status"><span class="ticket-status-dot"></span> Early Bird · Avslutas 30 april</div>
-        <div class="ticket-price-old">595 SEK</div>
-        <div style="display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap;">
-          <div class="ticket-price">365 SEK</div>
-          <span style="font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.13em;color:#00bf63;background:rgba(0,191,99,0.1);border:1px solid rgba(0,191,99,0.25);padding:0.2rem 0.55rem;border-radius:2px;white-space:nowrap;">Spara 230 SEK</span>
-        </div>
-        <div class="ticket-divider"></div>
-        <ul style="list-style:none;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0;">
-          <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.07);"><span style="color:#00bf63;flex-shrink:0;">→</span> 3-timmars hands-on workshopsession</li>
-          <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.07);"><span style="color:#00bf63;flex-shrink:0;">→</span> Hands-on hjälp tills din agent fungerar</li>
-          <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.07);"><span style="color:#00bf63;flex-shrink:0;">→</span> 1:1-support efter workshopen via mejl</li>
-          <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;border-bottom:1px solid rgba(255,255,255,0.07);"><span style="color:#00bf63;flex-shrink:0;">→</span> Mallar &amp; workflow-filer att behålla för alltid</li>
-          <li style="display:flex;gap:0.65rem;font-size:0.85rem;color:rgba(255,255,255,0.65);padding:0.45rem 0;"><span style="color:#00bf63;flex-shrink:0;">→</span> Intyg om genomförd kurs</li>
-        </ul>
-        <a href="/before-checkout-sv.html" class="ticket-register-btn">
-          Bygg min agent — 595 SEK
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
-        </a>
-        <p class="ticket-note">Säker betalning · Max 25 platser · 13 juni 2026</p>
-        <p style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--muted);letter-spacing:0.06em;margin:0.4rem 0 0;text-align:center;">Behöver du faktura? Mejla <a href="mailto:info@genaition.org" style="color:var(--muted);text-decoration:underline;">info@genaition.org</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── FAQ ── -->
-<section id="faq" class="section">
+<section id="faq" class="section section-alt">
   <div class="container">
-    <p class="sec-label">FAQ</p>
-    <h2 class="sec-title">Vanliga frågor</h2>
-    <p class="sec-desc" style="max-width:100%;">Undrar du fortfarande? Maila <a href="mailto:info@genaition.org" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(255,184,0,0.3);">info@genaition.org</a> – vi svarar snabbt.</p>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-btn"><span>Jag har ingen erfarenhet av AI eller kodning. Är detta för mig?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Ja – detta är byggt för nybörjare. Du följer steg för steg, vi hjälper alla som fastnar, och du lämnar med en fungerande agent. Ingen kodning krävs.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Vad exakt kommer jag att bygga?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">En AI-svarsagent: den läser inkommande mejl, förstår vad avsändaren vill, skriver ett svar i din ton, kör en kvalitetskontroll och flaggar det sedan för ditt godkännande – eller skickar direkt för kategorier du definierar som säkra. Du kontrollerar reglerna.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Kommer detta att skicka mejl automatiskt utan att jag ser dem?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Bara om du uttryckligen ställer in det. Standardinställningen är human-in-the-loop – du granskar och godkänner innan något skickas. Du definierar vilka kategorier som är säkra att automatskicka.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Vad behöver jag ta med?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Din laptop och ett Google-konto (Gmail). Vi installerar alla andra verktyg tillsammans under de första 20 minuterna. Inga konton att skapa i förväg.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Kan jag använda detta i mitt eget arbete efter workshopen?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Ja. Du tar mallarna och workflow-filerna med dig. Vi täcker support, sälj, rekrytering och ops-inkorgar – välj den som är närmast ditt arbete och anpassa den live.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Vad är återbetalnings- och avbokningspolicyn?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Full återbetalning om du avbokar minst 7 dagar före evenemanget. Därefter kan du överföra din biljett till en kollega. Maila <a href="mailto:info@genaition.org" style="color:var(--green);">info@genaition.org</a> för att ordna något av detta.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Kan mitt företag betala? Utfärdar ni fakturor?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Ja. Om du behöver faktura, vill boka flera platser eller behöver företagsrabatt, maila <a href="mailto:info@genaition.org" style="color:var(--green);">info@genaition.org</a> så löser vi det – vanligtvis inom 1 arbetsdag. Många deltagare kostnadsför detta via sitt företag.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn"><span>Vad kommer n8n Cloud och Claude API att kosta mig per månad efter workshopen?</span><svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg></button>
-        <div class="faq-body"><div class="faq-body-inner">Väldigt lite. n8n Cloud börjar på ca €20/månad (~220 SEK), och Claude API för en typisk e-postinkorg kostar €5–15/månad. Totalt: ungefär 150–350 SEK/månad — mindre än de flesta SaaS-verktyg du redan betalar för. Du kan också självhosta n8n gratis om du vill ha full kontroll utan månadsavgift.</div></div>
-      </div>
+    <p class="sec-eyebrow reveal">FAQ</p>
+    <h2 class="sec-title reveal reveal-delay-1">Vanliga frågor</h2>
+    <p class="sec-desc reveal reveal-delay-2">Undrar du fortfarande? Mejla <a href="mailto:info@genaition.org" style="color:var(--green);text-decoration:none;border-bottom:1px solid var(--green-border);">info@genaition.org</a> – vi svarar snabbt.</p>
+    <div class="faq-list reveal">
+      <div class="faq-item"><button class="faq-btn"><span>Jag har ingen erfarenhet av AI eller kodning. Är detta för mig?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Ja – detta är byggt för nybörjare. Du följer steg för steg, vi hjälper alla som fastnar, och du lämnar med en fungerande agent. Ingen kodning krävs.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Vad exakt kommer jag att bygga?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">En AI-svarsagent: den läser inkommande mejl, förstår vad avsändaren vill, skriver ett svar i din ton, kör en kvalitetskontroll och flaggar det för ditt godkännande – eller skickar direkt för kategorier du definierar som säkra. Du kontrollerar reglerna.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Kommer detta att skicka mejl automatiskt utan att jag ser dem?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Bara om du uttryckligen ställer in det. Standardinställningen är human-in-the-loop – du granskar och godkänner innan något skickas. Du definierar vilka kategorier som är säkra att automatskicka.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Vad behöver jag ta med?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Din laptop och ett Google-konto (Gmail). Vi installerar alla andra verktyg tillsammans under de första 20 minuterna. Inga konton att skapa i förväg.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Kan jag använda detta i mitt eget arbete efter workshopen?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Ja. Du tar mallarna och workflow-filerna med dig. Vi täcker support, sälj, rekrytering och ops-inkorgar – välj den som är närmast ditt arbete och anpassa den live.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Vad är återbetalnings- och avbokningspolicyn?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Full återbetalning om du avbokar minst 7 dagar före evenemanget. Därefter kan du överföra din biljett till en kollega. Mejla <a href="mailto:info@genaition.org">info@genaition.org</a> för att ordna något av detta.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Kan mitt företag betala? Utfärdar ni fakturor?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Ja. Om du behöver faktura, vill boka flera platser eller behöver företagsrabatt, mejla <a href="mailto:info@genaition.org">info@genaition.org</a> så löser vi det – vanligtvis inom 1 arbetsdag.</div></div></div>
+      <div class="faq-item"><button class="faq-btn"><span>Vad kommer n8n Cloud och Claude API att kosta per månad efter workshopen?</span><svg class="faq-icon" viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg></button><div class="faq-body"><div class="faq-body-inner">Väldigt lite. n8n Cloud börjar på ca €20/månad (~220 SEK), och Claude API för en typisk e-postinkorg kostar €5–15/månad. Totalt: ungefär 150–350 SEK/månad. Du kan också självhosta n8n gratis om du vill ha full kontroll utan månadsavgift.</div></div></div>
     </div>
   </div>
 </section>
@@ -859,7 +979,7 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <div class="footer-left-col">
+      <div>
         <p class="footer-col-label">Länkar</p>
         <ul class="footer-links">
           <li><a href="/index.html">Hem</a></li>
@@ -874,31 +994,20 @@
           <p>Konstgjutarvägen 4</p>
           <p>121 44 Stockholm</p>
           <p>Sverige</p>
-          <a href="mailto:info@genaition.org" class="footer-address-gap">info@genaition.org</a>
+          <a href="mailto:info@genaition.org" style="margin-top:0.5rem;">info@genaition.org</a>
           <a href="tel:+46762608848">+46 762 608 848</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom-row">
       <a href="/index.html" class="footer-logo">
-        <div class="footer-logo-mark">
-          <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none'" />
-        </div>
-        <div>
-          <span class="footer-logo-name">Genaition</span>
-          <span class="footer-logo-sub">Workshops · AI Agents</span>
-        </div>
+        <div class="footer-logo-mark"><img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none'" /></div>
+        <div><span class="footer-logo-name">Genaition</span><span class="footer-logo-sub">Workshops · AI Agents</span></div>
       </a>
       <div class="footer-socials">
-        <a href="https://linkedin.com/company/genaition" target="_blank" class="footer-social-icon linkedin" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://facebook.com/genaition" target="_blank" class="footer-social-icon facebook" aria-label="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://instagram.com/genaition" target="_blank" class="footer-social-icon instagram" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-        </a>
+        <a href="https://linkedin.com/company/genaition" target="_blank" class="footer-social-icon linkedin" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://facebook.com/genaition" target="_blank" class="footer-social-icon facebook" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://instagram.com/genaition" target="_blank" class="footer-social-icon instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
       </div>
       <p class="footer-copyright">© 2026 GenAition. Alla rättigheter förbehållna.</p>
     </div>
@@ -907,15 +1016,26 @@
 
 <!-- ── STICKY BAR ── -->
 <div class="sticky-bar" id="stickyBar">
-  <div class="sticky-left">
+  <div>
     <p class="sticky-title">AI Agent Workshop</p>
-    <p class="sticky-sub">Online · 13 juni · Early Bird aktiv</p>
+    <p class="sticky-sub">Online · 13 juni · Early Bird Aktiv</p>
   </div>
-  <a href="#ticket-box" class="sticky-register-btn">Ta Early Bird-priset →</a>
+  <a href="#ticket-box" class="sticky-register-btn">Anmäl dig - 365 SEK</a>
 </div>
 
 <script>
-  // Language dropdown
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── NAV SCROLL SHADOW ──
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+
+  // ── LANGUAGE DROPDOWN ──
   const langWrap = document.getElementById('langWrap');
   const langBtn  = document.getElementById('langBtn');
   function closeLang() { langWrap && langWrap.classList.remove('open'); langBtn && langBtn.setAttribute('aria-expanded','false'); }
@@ -925,40 +1045,55 @@
     document.addEventListener('click', closeLang);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLang(); });
   }
-</script>
 
-<script>
+  // ── FAQ ──
   document.querySelectorAll('.faq-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.parentElement;
       const body = item.querySelector('.faq-body');
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-body').style.maxHeight = '0';
-      });
-      if (!isOpen) {
-        item.classList.add('open');
-        body.style.maxHeight = body.scrollHeight + 'px';
-      }
+      document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-body').style.maxHeight = '0'; });
+      if (!isOpen) { item.classList.add('open'); body.style.maxHeight = body.scrollHeight + 'px'; }
     });
   });
 
+  // ── TECH REVEAL ──
   const techBtn = document.getElementById('techBtn');
   const techBody = document.getElementById('techBody');
-  techBtn.addEventListener('click', () => {
-    const isOpen = techBtn.classList.contains('open');
-    techBtn.classList.toggle('open', !isOpen);
-    techBody.style.maxHeight = isOpen ? '0' : techBody.scrollHeight + 'px';
-  });
+  if (techBtn && techBody) {
+    techBtn.addEventListener('click', () => {
+      const isOpen = techBtn.classList.contains('open');
+      techBtn.classList.toggle('open', !isOpen);
+      techBody.style.maxHeight = isOpen ? '0' : techBody.scrollHeight + 'px';
+    });
+  }
 
+  // ── COUNTDOWN TIMER ──
+  function updateCountdown() {
+    const target = new Date('2026-06-13T13:30:00+02:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) { document.getElementById('heroCountdown').style.display = 'none'; return; }
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000) / 60000);
+    const secs  = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cdDays').textContent  = String(days).padStart(2,'0');
+    document.getElementById('cdHours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cdMins').textContent  = String(mins).padStart(2,'0');
+    document.getElementById('cdSecs').textContent  = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ── STICKY BAR ──
   const stickyBar = document.getElementById('stickyBar');
   const ticketBox = document.getElementById('ticket-box');
   window.addEventListener('scroll', () => {
     const rect = ticketBox.getBoundingClientRect();
     const ticketVisible = rect.top < window.innerHeight && rect.bottom > 0;
     stickyBar.classList.toggle('visible', window.scrollY > 500 && !ticketVisible);
-  });
+  }, { passive: true });
 </script>
 
 </body>
