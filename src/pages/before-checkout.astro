@@ -455,6 +455,29 @@
     .lang-menu a:hover { background: rgba(0,0,0,0.04); color: #1a1208; }
     .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
   </style>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1507001663644263');
+    fbq('track', 'PageView');
+    fbq('track', 'Purchase', {
+      value: 365,
+      currency: 'SEK'
+    });
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel -->
 </head>
 <body>
 
