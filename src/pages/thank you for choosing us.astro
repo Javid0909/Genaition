@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thank You for Choosing Us · Applied AI Lab · Genaition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1507001663644263');
+    fbq('track', 'PageView');
+    fbq('track', 'Purchase', {
+      value: 365,
+      currency: 'SEK'
+    });
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel -->
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #050505;
+      --card: #111111;
+      --card2: #161616;
+      --border: rgba(255,255,255,0.07);
+      --border-s: rgba(255,255,255,0.12);
+      --green: #76b82a;
+      --green-dim: rgba(118,184,42,0.12);
+      --green-glow: rgba(118,184,42,0.3);
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --muted2: rgba(255,255,255,0.65);
+      --header: 68px;
+      --r: 2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header);
+      background: rgba(5,5,5,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100; display: flex; align-items: center;
+    }
+    .hdr-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 2.5rem;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .logo-mark { width: 38px; height: 38px; border-radius: var(--r); border: 1px solid rgba(17,20,13,0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0a0a0a; }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: 0.12em; color: var(--white); line-height: 1; }
+    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--green); display: block; margin-top: 2px; }
+    @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding-top: calc(var(--header) + 4rem);
+      padding-bottom: 4rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .confirm-card {
+      max-width: 540px; width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border-s);
+      border-radius: var(--r);
+      overflow: hidden;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .confirm-card::before {
+      content: ''; display: block; height: 3px;
+      background: linear-gradient(90deg, var(--green), #a0e050);
+    }
+
+    .confirm-top {
+      padding: 2.5rem 2.5rem 2rem;
+      text-align: center;
+      background-image: linear-gradient(rgba(118,184,42,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(118,184,42,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .confirm-badge {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green); border: 1px solid rgba(118,184,42,0.35); background: var(--green-dim);
+      padding: 0.3rem 0.8rem; border-radius: var(--r); margin-bottom: 1.5rem;
+    }
+    .badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; flex-shrink: 0; animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.3;transform:scale(0.8);} }
+
+    .confirm-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 400; line-height: 0.95; letter-spacing: 0.02em;
+      color: var(--white); margin-bottom: 0.5rem;
+    }
+    .confirm-title .t-green { color: var(--green); display: block; }
+
+    .confirm-event {
+      font-family: 'DM Mono', monospace; font-size: 0.64rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin-top: 0.75rem;
+    }
+
+    .confirm-bottom {
+      padding: 2rem 2.5rem;
+      background: var(--card2);
+      border-top: 1px solid var(--border);
+    }
+
+    .confirm-message {
+      font-size: 0.97rem; color: var(--muted2); line-height: 1.82; font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+    .confirm-message strong { color: var(--white); font-weight: 600; }
+
+    .confirm-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+    .confirm-meta {
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .confirm-meta-row {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    }
+    .confirm-meta-row::before {
+      content: '—'; color: var(--green); flex-shrink: 0; font-size: 0.75rem;
+    }
+
+    .confirm-email-link {
+      color: var(--green); text-decoration: none;
+      border-bottom: 1px solid rgba(118,184,42,0.35);
+      transition: border-color 0.2s;
+    }
+    .confirm-email-link:hover { border-color: var(--green); }
+
+    .confirm-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.75rem;
+      font-family: 'DM Mono', monospace; font-size: 0.58rem;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .confirm-back:hover { color: var(--green); }
+    .confirm-back::before { content: '←'; }
+
+    /* ── FOOTER ── */
+    .site-footer { background: #000; border-top: 1px solid var(--border); padding: 2.5rem 0; margin-top: auto; }
+    .footer-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .footer-logo-mark { width: 32px; height: 32px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border-s); }
+    .footer-logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .footer-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; color: var(--white); }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); }
+    @media (max-width: 640px) { .footer-inner { padding: 0 1.25rem; justify-content: center; text-align: center; flex-direction: column; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-inner">
+    <a href="/index.html" class="logo">
+      <div class="logo-mark">
+        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none';" />
+      </div>
+      <div>
+        <span class="logo-name">Genaition</span>
+        <span class="logo-sub">Applied AI Lab</span>
+      </div>
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="confirm-card">
+    <div class="confirm-top">
+      <div class="confirm-badge">
+        <span class="badge-dot"></span> Registration Received
+      </div>
+      <h1 class="confirm-title">
+        Thank You for
+        <span class="t-green">Choosing Us</span>
+      </h1>
+      <p class="confirm-event">Applied AI Lab · Genaition · Stockholm</p>
+    </div>
+    <div class="confirm-bottom">
+      <p class="confirm-message">
+        We've received your registration. <strong>We will share your tickets and pre-workshop material soon</strong> — keep an eye on your inbox.
+      </p>
+      <div class="confirm-meta">
+        <div class="confirm-meta-row">4-week in-person cohort</div>
+        <div class="confirm-meta-row">Stockholm · Small group</div>
+        <div class="confirm-meta-row">n8n · Claude Sonnet · Airtable</div>
+      </div>
+      <div class="confirm-divider"></div>
+      <p class="confirm-message" style="margin-bottom:0;">
+        Questions? Email <a href="mailto:info@genaition.org" class="confirm-email-link">info@genaition.org</a>
+      </p>
+      <a href="/ailab" class="confirm-back">Back to AI Lab page</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <a href="/index.html" class="footer-logo">
+      <div class="footer-logo-mark"><img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none'" /></div>
+      <span class="footer-logo-name">Genaition</span>
+    </a>
+    <p class="footer-copy">© 2026 GenAition. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
