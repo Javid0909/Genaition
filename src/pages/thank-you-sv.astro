@@ -2,158 +2,277 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <title>Tack | GenAition</title>
+  <title>Du är med — Workshop 06 · Genaition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1507001663644263');
+    fbq('track', 'PageView');
+    fbq('track', 'Purchase', {
+      value: 365,
+      currency: 'SEK'
+    });
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel -->
+
   <style>
-    .dropdown:hover .dropdown-menu,
-    .dropdown:focus-within .dropdown-menu,
-    .dropdown-menu:hover {
-      display: block;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #faf9f5;
+      --bg-alt: #f2f0ea;
+      --ink: #1a1208;
+      --ink-2: rgba(26,18,8,0.62);
+      --ink-3: rgba(26,18,8,0.38);
+      --green: #1a6b3a;
+      --green-bg: rgba(26,107,58,0.08);
+      --green-border: rgba(26,107,58,0.22);
+      --border: rgba(26,18,8,0.10);
+      --border-s: rgba(26,18,8,0.18);
+      --dark: #0d0d0d;
+      --white: #ffffff;
+      --strip: 32px;
+      --nav: 60px;
     }
-    .dropdown-menu {
-      display: none;
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    @keyframes breatheZoom {
-      0% { transform: scale(0.98); }
-      100% { transform: scale(1); }
+
+    /* ── PUBLICATION STRIP ── */
+    .pub-strip {
+      height: var(--strip);
+      background: var(--ink);
+      display: flex; align-items: center;
+      overflow: hidden;
     }
-    .animate-breathe {
-      animation: breatheZoom 0.7s ease-out both;
-      will-change: transform;
+    .pub-marquee {
+      display: flex; align-items: center;
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
     }
+    .pub-marquee-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.42); padding: 0 2.5rem;
+    }
+    .pub-marquee-item .dot {
+      display: inline-block; width: 4px; height: 4px; background: var(--green);
+      border-radius: 50%; margin: 0 1.2rem; vertical-align: middle;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      height: var(--nav);
+      background: rgba(250,249,245,0.96);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-s);
+      display: flex; align-items: center;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2.5rem;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .logo-mark { width: 34px; height: 34px; border-radius: 2px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 0.1em; color: var(--ink); line-height: 1; }
+    .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.46rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-3); display: block; margin-top: 2px; }
+    @media (max-width: 700px) { .nav-inner { padding: 0 1.25rem; } }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 4rem 1.5rem;
+    }
+
+    .confirm-card {
+      max-width: 520px; width: 100%;
+      border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .confirm-card::before {
+      content: ''; display: block; height: 3px;
+      background: linear-gradient(90deg, var(--green), #2d8a52);
+    }
+
+    .confirm-top {
+      background: var(--dark);
+      padding: 2.5rem 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .confirm-badge {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #f0c000; border: 1px solid rgba(240,192,0,0.35); background: rgba(240,192,0,0.08);
+      padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 1.5rem;
+    }
+    .badge-dot { width: 6px; height: 6px; background: #f0c000; border-radius: 50%; display: inline-block; flex-shrink: 0; animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.3;transform:scale(0.8);} }
+
+    .confirm-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 400; line-height: 0.95; letter-spacing: 0.02em;
+      color: var(--white); margin-bottom: 0.5rem;
+    }
+    .confirm-title .t-yellow { color: #f0c000; display: block; }
+
+    .confirm-event {
+      font-family: 'DM Mono', monospace; font-size: 0.64rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); margin-top: 0.75rem;
+    }
+
+    .confirm-bottom {
+      background: var(--bg-alt);
+      padding: 2rem 2.5rem;
+    }
+
+    .confirm-message {
+      font-size: 0.97rem; color: var(--ink-2); line-height: 1.82; font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+    .confirm-message strong { color: var(--ink); font-weight: 600; }
+
+    .confirm-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+    .confirm-meta {
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .confirm-meta-row {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2);
+    }
+    .confirm-meta-row::before {
+      content: '—'; color: var(--green); flex-shrink: 0; font-size: 0.75rem;
+    }
+
+    .confirm-email-link {
+      color: var(--green); text-decoration: none;
+      border-bottom: 1px solid var(--green-border);
+      transition: border-color 0.2s;
+    }
+    .confirm-email-link:hover { border-color: var(--green); }
+
+    .confirm-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.75rem;
+      font-family: 'DM Mono', monospace; font-size: 0.58rem;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--ink-3); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .confirm-back:hover { color: var(--green); }
+    .confirm-back::before { content: '←'; }
+
+    /* ── FOOTER ── */
+    .site-footer { background: var(--ink); padding: 2.5rem 0; margin-top: auto; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .footer-logo-mark { width: 32px; height: 32px; border-radius: 2px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .footer-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; color: var(--white); }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.22); }
+    @media (max-width: 640px) { .footer-inner { padding: 0 1.25rem; justify-content: center; text-align: center; flex-direction: column; } }
   </style>
 </head>
-<body class="bg-white text-black font-sans">
+<body>
 
-  <!-- Header -->
-  <header class="p-4 border-b border-gray-800 bg-black">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
-        <a href="/index.html">
-          <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-10 w-10 rounded-full object-cover" />
-        </a>
-        <div class="relative dropdown ml-4">
-          <button tabindex="0" class="flex items-center gap-2 text-green-400 text-sm focus:outline-none">
-            <img src="/swedish.png" alt="SV" class="h-5 w-5 rounded-full"> SV
-            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="dropdown-menu absolute mt-2 w-28 bg-white text-black rounded shadow z-10">
-            <a href="/thank-you.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/english.png" class="h-4 w-4 mr-2" /> English
-            </a>
-            <a href="/thank-you-sv.html" class="flex items-center px-3 py-2 hover:bg-gray-100 text-sm">
-              <img src="/swedish.png" class="h-4 w-4 mr-2" /> Svenska
-            </a>
-          </div>
-        </div>
+<div class="pub-strip">
+  <div class="pub-marquee">
+    <span class="pub-marquee-item">Genaition · Workshop Series <span class="dot"></span> Workshop Nr. 06 · 2026 <span class="dot"></span> Online · 13 Juni 2026 <span class="dot"></span> Bokning Bekräftad <span class="dot"></span></span>
+    <span class="pub-marquee-item">Genaition · Workshop Series <span class="dot"></span> Workshop Nr. 06 · 2026 <span class="dot"></span> Online · 13 Juni 2026 <span class="dot"></span> Bokning Bekräftad <span class="dot"></span></span>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="/index.html" class="logo">
+      <div class="logo-mark">
+        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none';" />
       </div>
-
-      <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-        <button id="menu-toggle" class="md:hidden focus:outline-none">
-          <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <nav class="hidden md:flex">
-          <ul class="flex gap-6 items-center text-green-400 text-sm">
-            <li><a href="/index.html" class="hover:text-green-200">Hem</a></li>
-            <li><a href="/learn-more-sv" class="hover:text-green-200">Om oss</a></li>
-            <li><a href="/index.html#workshops" class="hover:text-green-200">Event</a></li>
-            <li><a href="/index.html#services" class="hover:text-green-200">Tjänster</a></li>
-            <li><a href="/index.html#contact" class="hover:text-green-200">Kontakt</a></li>
-            <li><span class="hidden md:inline text-black select-none">Justeringar</span></li>
-          </ul>
-        </nav>
+      <div>
+        <span class="logo-name">Genaition</span>
+        <span class="logo-sub">Workshops — AI Agents</span>
       </div>
-    </div>
+    </a>
+  </div>
+</nav>
 
-    <div id="mobile-menu" class="md:hidden hidden mt-4">
-      <ul class="flex flex-col gap-2 text-green-400 text-sm text-center">
-        <li><a href="/index.html" class="block py-2 hover:text-green-200">Hem</a></li>
-        <li><a href="/learn-more-sv" class="block py-2 hover:text-green-200">Om oss</a></li>
-        <li><a href="/index.html#workshops" class="block py-2 hover:text-green-200">Event</a></li>
-        <li><a href="/index.html#services" class="block py-2 hover:text-green-200">Tjänster</a></li>
-        <li><a href="/index.html#contact" class="block py-2 hover:text-green-200">Kontakt</a></li>
-      </ul>
+<main>
+  <div class="confirm-card">
+    <div class="confirm-top">
+      <div class="confirm-badge">
+        <span class="badge-dot"></span> Bokning Bekräftad
+      </div>
+      <h1 class="confirm-title">
+        Du är med
+        <span class="t-yellow">🎉</span>
+      </h1>
+      <p class="confirm-event">Workshop 06 · 13 Juni · 13:30–16:30</p>
     </div>
-  </header>
-
-  <!-- Confirmation Message -->
-  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-24 text-center text-black scroll-animate">
-    <div class="bg-gray-100 p-10 rounded-lg shadow-md">
-      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="mx-auto h-16 w-16 mb-6 rounded-full">
-      <h1 class="text-2xl sm:text-3xl font-bold text-green-500 mb-4">Tack för din anmälan!</h1>
-      <p class="text-base sm:text-lg text-gray-700">
-        Vi återkommer till dig så snart som möjligt.
+    <div class="confirm-bottom">
+      <p class="confirm-message">
+        Din plats är bekräftad. <strong>Kolla din e-post</strong> för Zoom-länken och allt du behöver förbereda.
       </p>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-black text-white pt-12 pb-6">
-    <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 text-sm">
-      <div class="flex flex-col space-y-2 text-left pl-2">
-        <a href="/index.html" class="hover:underline">Hem</a>
-        <a href="/learn-more-sv.html" class="hover:underline">Om oss</a>
-        <a href="/index.html#workshops" class="hover:underline">Event</a>
-        <a href="/index.html#services" class="hover:underline">Tjänster</a>
-        <a href="/index.html#contact" class="hover:underline">Kontakt</a>
+      <div class="confirm-meta">
+        <div class="confirm-meta-row">Online · Zoom · 13 Juni 2026</div>
+        <div class="confirm-meta-row">13:30–16:30 CET</div>
+        <div class="confirm-meta-row">Max 25 platser — liten grupp</div>
       </div>
-      <div class="flex flex-col text-right pr-2">
-        <p class="mb-1 font-semibold">GenAition</p>
-        <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
-        <p class="mt-2">info@genaition.org</p>
-        <p>+46 762 608 848</p>
-      </div>
+      <div class="confirm-divider"></div>
+      <p class="confirm-message" style="margin-bottom:0;">
+        Frågor? Maila <a href="mailto:info@genaition.org" class="confirm-email-link">info@genaition.org</a>
+      </p>
+      <a href="/event-1-sv" class="confirm-back">Tillbaka till workshop-sidan</a>
     </div>
+  </div>
+</main>
 
-    <div class="flex flex-col items-center mt-10 space-y-4">
-      <img src="/android-chrome-512x512.png" alt="GenAition Logo" class="h-14 w-14" />
-      <div class="flex space-x-4">
-        <a href="https://www.linkedin.com/company/genaition-io/posts/?feedView=all" target="_blank">
-          <img src="/linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:opacity-80" />
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61573993137142" target="_blank">
-          <img src="/facebook.png" alt="Facebook" class="h-6 w-6 hover:opacity-80" />
-        </a>
-        <a href="https://www.instagram.com/genaition.io/" target="_blank">
-          <img src="/instagram.png" alt="Instagram" class="h-6 w-6 hover:opacity-80" />
-        </a>
-      </div>
-    </div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <a href="/index.html" class="footer-logo">
+      <div class="footer-logo-mark"><img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none'" /></div>
+      <span class="footer-logo-name">Genaition</span>
+    </a>
+    <p class="footer-copy">© 2026 GenAition. Alla rättigheter förbehållna.</p>
+  </div>
+</footer>
 
-    <p class="text-center text-gray-400 text-xs mt-6">&copy; 2025 GenAition. Alla rättigheter förbehållna.</p>
-  </footer>
-
-  <!-- Scroll Animation Script -->
-  <script>
-    const sections = document.querySelectorAll('.scroll-animate');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-breathe');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => {
-      section.classList.remove('animate-breathe');
-      observer.observe(section);
-    });
-  </script>
-
-  <!-- Mobile Menu Script -->
-  <script>
-    const toggleButton = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    toggleButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  </script>
 </body>
 </html>
