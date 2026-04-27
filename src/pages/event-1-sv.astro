@@ -154,12 +154,12 @@
     /* ── HERO ── */
     .hero {
       padding-top: var(--hdr);
-      background: var(--dark) url('/chatbot-chatbot.jpg') center center / cover no-repeat;
+      background: var(--dark) url('/aiagentworkshop1.png') center center / cover no-repeat;
       border-bottom: 1px solid rgba(255,255,255,0.08);
       position: relative;
     }
     @media (max-width: 640px) {
-      .hero { background-image: url('/chatbot-chatbotmob.png'); }
+      .hero { background-image: url('/aiagentworkshop.png'); }
     }
     .hero::before {
       content: '';
@@ -207,6 +207,15 @@
       font-family: 'DM Sans', sans-serif; font-style: normal; font-weight: 300;
       font-size: 1.08rem; color: rgba(255,255,255,0.72); line-height: 1.75; max-width: 540px;
       animation: fadeUp 0.6s ease 0.3s both;
+    }
+
+    .hero-mobile-cta {
+      display: none;
+      margin-bottom: 1.5rem;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .hero-mobile-cta { display: flex; }
     }
 
     /* ── COUNTDOWN ── */
@@ -660,6 +669,10 @@
         Lämna på 3 timmar med en live AI-e-postagent du byggt själv – ingen kodning krävs. Delta online varifrån som helst den 13 juni.
       </blockquote>
 
+      <a href="#ticket-box" class="ticket-cta hero-mobile-cta">
+        Bygg min agent — 365 SEK →
+      </a>
+
       <!-- LIVE COUNTDOWN -->
       <div class="hero-countdown" id="heroCountdown">
         <span class="countdown-label">Startar om</span>
@@ -870,7 +883,7 @@
     <h2 class="sec-title reveal reveal-delay-1">Javid Valiyev</h2>
     <div class="instructor-grid">
       <div class="instructor-photo-wrap reveal">
-        <img src="/javidimage.jpg" alt="Javid Valiyev" onerror="this.style.background='#e8e2d2';this.style.minHeight='280px';this.style.display='block';" />
+        <img src="/workshop999.jpg" alt="Javid Valiyev" onerror="this.style.background='#e8e2d2';this.style.minHeight='280px';this.style.display='block';" />
         <div class="instructor-plate">
           <p class="instructor-name">Javid Valiyev</p>
           <p class="instructor-role">Grundare — Genaition</p>
@@ -1090,6 +1103,7 @@
     stickyBar.classList.toggle('visible', window.scrollY > 500 && !ticketVisible);
   }, { passive: true });
 </script>
+
 
 </body>
 </html>

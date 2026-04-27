@@ -155,12 +155,12 @@
     /* ── HERO ── */
     .hero {
       padding-top: var(--hdr);
-      background: var(--dark) url('/chatbot-chatbot.jpg') center center / cover no-repeat;
+      background: var(--dark) url('/aiagentworkshop1.png') center center / cover no-repeat;
       border-bottom: 1px solid rgba(255,255,255,0.08);
       position: relative;
     }
     @media (max-width: 640px) {
-      .hero { background-image: url('/chatbot-chatbotmob.png'); }
+      .hero { background-image: url('/aiagentworkshop.png'); }
     }
     .hero::before {
       content: '';
@@ -210,6 +210,14 @@
       animation: fadeUp 0.6s ease 0.3s both;
     }
 
+    .hero-mobile-cta {
+      display: none;
+      margin-bottom: 1.5rem;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .hero-mobile-cta { display: flex; }
+    }
 
     /* ── COUNTDOWN ── */
     .hero-countdown { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease 0.35s both; }
@@ -679,6 +687,10 @@
         Leave in 3 hours with a live AI email agent you built yourself, no coding required. Join online from anywhere on 13 June.
       </blockquote>
 
+      <a href="#ticket-box" class="ticket-cta hero-mobile-cta">
+        Build My Agent — 365 SEK →
+      </a>
+
       <!-- LIVE COUNTDOWN -->
       <div class="hero-countdown" id="heroCountdown">
         <span class="countdown-label">Starts in</span>
@@ -891,7 +903,7 @@
     <h2 class="sec-title reveal reveal-delay-1">Javid Valiyev</h2>
     <div class="instructor-grid">
       <div class="instructor-photo-wrap reveal">
-        <img src="/javidimage.jpg" alt="Javid Valiyev" onerror="this.style.background='#e8e2d2';this.style.minHeight='280px';this.style.display='block';" />
+        <img src="/workshop999.jpg" alt="Javid Valiyev" onerror="this.style.background='#e8e2d2';this.style.minHeight='280px';this.style.display='block';" />
         <div class="instructor-plate">
           <p class="instructor-name">Javid Valiyev</p>
           <p class="instructor-role">Founder — Genaition</p>
@@ -1111,6 +1123,7 @@
     stickyBar.classList.toggle('visible', window.scrollY > 500 && !ticketVisible);
   }, { passive: true });
 </script>
+
 
 </body>
 </html>
