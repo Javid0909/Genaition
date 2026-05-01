@@ -286,7 +286,7 @@
     .apply-box { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--r); padding: 2.5rem; text-align: center; position: relative; overflow: hidden; }
     .apply-box::before { content: ''; position: absolute; top: 0; left: 0; width: 80px; height: 80px; background: radial-gradient(circle at top left, rgba(118,184,42,0.2), transparent 70%); }
     .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; margin-bottom: 0.2rem; line-height: 1; }
-    .apply-box-orig { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--muted); text-decoration: line-through; margin-bottom: 0.2rem; }
+    .apply-box-deadline { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
     .ticket-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(118,184,42,0.1); color: var(--green); border: 1px solid rgba(118,184,42,0.28); margin-bottom: 1rem; }
     .ticket-status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; flex-shrink: 0; }
     .apply-support { margin-top: 1rem; font-size: 0.78rem; color: var(--muted); }
@@ -484,7 +484,7 @@
       <p class="hero-desc">På 4 veckor har du ett riktigt AI-system igång i ditt företag. Hands-on. Ingen kodning.</p>
       <div class="hero-meta">
         <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">19 SEP</p><p class="meta-sub">4 veckor</p></div>
-        <div class="meta-block"><p class="meta-label">Plats</p><p class="meta-value green">Hammarby Sjöstad</p><p class="meta-sub">Midskeppsgatan 6</p></div>
+        <div class="meta-block"><p class="meta-label">Plats</p><p class="meta-value green">Hammarby Sjöstad</p><p class="meta-sub">Stockholm</p></div>
         <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-person</p></div>
         <div class="meta-block"><p class="meta-label">Pris</p><p class="meta-value green">2 985 SEK</p></div>
       </div>
@@ -622,7 +622,7 @@
         </div>
         <span class="stack-role">Orkestreringslager</span>
         <p class="stack-name">n8n</p>
-        <p class="stack-why"><strong>Varför inte Zapier?</strong> Zapier hyr ut logiken och tar betalt per uppgift. n8n är ditt — inga avgifter, ingen inlåsning, full insyn.</p>
+        <p class="stack-why"><strong>Varför n8n?</strong> n8n körs på infrastruktur du kontrollerar — inga uppgiftsgränser, inga överraskande priser, inga avbrott du inte orsakat. Mer tillförlitligt, helt ditt.</p>
       </div>
       <div class="stack-card">
         <div class="stack-icon airtable">
@@ -647,7 +647,7 @@
         </div>
         <span class="stack-role">Din AI-mekaniker</span>
         <p class="stack-name">Claude Code</p>
-        <p class="stack-why"><strong>Varför det spelar roll:</strong> När din agent havererar läser Claude Code dina faktiska filer, diagnostiserar snabbt och löser det.</p>
+        <p class="stack-why"><strong>Varför det spelar roll:</strong> När din agent beter sig oväntat — beskriv problemet på vanlig svenska. Claude Code diagnostiserar och åtgärdar det, utan att du behöver en utvecklare.</p>
       </div>
     </div>
     <div class="stack-deploy">
@@ -865,8 +865,8 @@
       </div>
       <div class="apply-box" id="pricing">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Early bird – Begränsade platser</div>
-        <p class="apply-box-orig">3 985 SEK</p>
         <p class="apply-box-title">2 985 SEK</p>
+        <p class="apply-box-deadline">till 30 juni — höjs till 4 985 SEK efter</p>
         <ul class="cell-list" style="text-align:left;margin-bottom:1.5rem;max-width:260px;margin-left:auto;margin-right:auto;">
           <li>VIP in-person support under hela programmet</li>
           <li>Slack-tillgång dygnet runt för frågor</li>
