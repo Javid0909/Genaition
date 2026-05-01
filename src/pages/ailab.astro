@@ -330,21 +330,19 @@
     .apply-box::before { content: ''; position: absolute; top: 0; left: 0; width: 80px; height: 80px; background: radial-gradient(circle at top left, rgba(118,184,42,0.2), transparent 70%); }
     .ticket-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(118,184,42,0.1); color: var(--green); border: 1px solid rgba(118,184,42,0.28); margin-bottom: 1rem; }
     .ticket-status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; flex-shrink: 0; }
-    .apply-orig-price { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--muted); text-decoration: line-through; margin-bottom: 0.4rem; }
-    .apply-price-row { display: flex; align-items: center; gap: 0.85rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0; }
-    .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem; line-height: 1; }
-    .apply-save-badge { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); border: 1px solid rgba(118,184,42,0.4); background: rgba(118,184,42,0.1); padding: 0.28rem 0.7rem; border-radius: 2px; white-space: nowrap; }
-    .apply-price-divider { height: 1px; background: var(--border-strong); margin: 1.25rem 0; }
-    .apply-includes-list { list-style: none; text-align: left; margin-bottom: 1.5rem; }
-    .apply-includes-list li { display: flex; gap: 0.75rem; align-items: flex-start; color: var(--muted2); font-size: 0.88rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .apply-orig-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.28); text-decoration: line-through; margin-bottom: 0.2rem; }
+    .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
+    .apply-save-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--green); background: var(--green-dim); border: 1px solid rgba(118,184,42,0.38); padding: 0.18rem 0.5rem; border-radius: 2px; white-space: nowrap; }
+    .apply-price-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.2rem 0; }
+    .apply-includes-list { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0; text-align: left; }
+    .apply-includes-list li { display: flex; gap: 0.75rem; font-size: 0.84rem; color: rgba(255,255,255,0.58); padding: 0.42rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s; }
+    .apply-includes-list li:hover { color: rgba(255,255,255,0.85); }
     .apply-includes-list li:last-child { border-bottom: none; }
-    .apply-includes-list li::before { content: '—'; color: var(--green); flex-shrink: 0; }
+    .apply-includes-list li::before { content: '—'; color: var(--green); flex-shrink: 0; font-size: 0.75rem; margin-top: 2px; }
     .apply-btn { display: block; width: 100%; background: var(--green); color: #000; font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 1.1rem 2rem; border-radius: var(--r); text-decoration: none; transition: all 0.22s; }
     .apply-btn:hover { background: #8fd433; box-shadow: 0 8px 32px var(--green-glow); }
-    .apply-footnote { margin-top: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); line-height: 2; }
-    .apply-footnote a { color: var(--green); text-decoration: none; }
-    .apply-footnote a:hover { text-decoration: underline; }
-    .apply-note { margin-top: 1rem; font-size: 0.65rem; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+    .apply-note { margin-top: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-align: center; }
+    .apply-note a { color: rgba(255,255,255,0.32); text-decoration: underline; }
 
     /* FAQ */
     .faq-list { margin-top: 3.5rem; max-width: 780px; }
@@ -1098,10 +1096,8 @@
       <div class="apply-box" id="pricing">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Early bird — Limited seats</div>
         <p class="apply-orig-price">4,985 SEK</p>
-        <div class="apply-price-row">
-          <p class="apply-box-title">2,985 SEK</p>
-          <span class="apply-save-badge">Save 2,000 SEK</span>
-        </div>
+        <p class="apply-box-title">2,985 SEK</p>
+        <span class="apply-save-badge">Save 2,000 SEK</span>
         <div class="apply-price-divider"></div>
         <ul class="apply-includes-list">
           <li>VIP in-person support throughout</li>
@@ -1110,11 +1106,8 @@
           <li>Post-lab Slack support</li>
         </ul>
         <a href="/checkout" class="apply-btn">Reserve your seat</a>
-        <div class="apply-footnote">
-          <p>Secure checkout · Max 12 seats · Sep 19, 2026</p>
-          <p>Not satisfied after session 1? We'll refund in full.</p>
-          <p>Need an invoice? <a href="mailto:info@genaition.org">info@genaition.org</a></p>
-        </div>
+        <p class="apply-note">Secure checkout — Max 12 seats — Sep 19, 2026</p>
+        <p class="apply-note" style="margin-top:0.3rem;">Need an invoice? Email <a href="mailto:info@genaition.org">info@genaition.org</a></p>
       </div>
     </div>
   </div>
