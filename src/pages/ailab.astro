@@ -310,6 +310,7 @@
     .tp-card-text::after { content: '"'; }
     .tp-card-meta { display: flex; flex-direction: column; gap: 0.15rem; }
     .tp-card-name { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--white); }
+    .tp-card-role { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); }
     .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
     .tp-avg-block { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
     .tp-avg-score { font-family: 'DM Sans', sans-serif; font-size: clamp(2rem,4vw,3rem); font-weight: 800; color: var(--white); line-height: 1; }
@@ -320,8 +321,8 @@
     .tp-avg-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
 
     /* APPLY */
-    .apply-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; align-items: center; }
-    @media (max-width: 900px) { .apply-wrap { grid-template-columns: 1fr; gap: 3rem; } }
+    .apply-wrap { display: flex; flex-direction: column; gap: 3rem; }
+    .apply-box { max-width: 440px; }
     .apply-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.92; margin-bottom: 1.5rem; }
     .apply-desc { color: var(--muted2); font-size: 1rem; line-height: 1.8; font-weight: 300; }
     .apply-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
@@ -920,17 +921,17 @@
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
         <p class="tp-card-text">The workshop, about generating our first AI agent, was very good and helpful. The trainer guided us clearly in each step and everything was easy to follow.</p>
-        <div class="tp-card-meta"><span class="tp-card-name">Valentina Fermanelli</span><span class="tp-card-date">Workshop · Göteborg · 2025</span></div>
+        <div class="tp-card-meta"><span class="tp-card-name">Valentina Fermanelli</span><span class="tp-card-role">Statistics Consultant</span><span class="tp-card-date">Workshop · Göteborg · 2025</span></div>
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
         <p class="tp-card-text">Great session! The workshop was well-demonstrated with practical understanding with real business scenarios.</p>
-        <div class="tp-card-meta"><span class="tp-card-name">Sara Svensson</span><span class="tp-card-date">Workshop · Stockholm · 2026</span></div>
+        <div class="tp-card-meta"><span class="tp-card-name">Sara Svensson</span><span class="tp-card-role">Founder</span><span class="tp-card-date">Workshop · Stockholm · 2026</span></div>
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
         <p class="tp-card-text">Structured and hands-on from start to finish. I left with a working AI agent — no theory, no waiting. First time it actually felt real in my business.</p>
-        <div class="tp-card-meta"><span class="tp-card-name">Joey Sorel</span><span class="tp-card-date">Workshop · Stockholm · 2026</span></div>
+        <div class="tp-card-meta"><span class="tp-card-name">Joey Sorel</span><span class="tp-card-role">Freelancer</span><span class="tp-card-date">Workshop · Stockholm · 2026</span></div>
       </div>
     </div>
   </div>
