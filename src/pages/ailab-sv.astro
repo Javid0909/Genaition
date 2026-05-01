@@ -278,8 +278,31 @@
     .tp-avg-star-half span { display: block; width: 20px; height: 20px; background: #00b67a; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
     .tp-avg-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
 
-    .apply-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; align-items: center; }
-    @media (max-width: 900px) { .apply-wrap { grid-template-columns: 1fr; gap: 3rem; } }
+    /* DEMO VIDEO */
+    .demo-player { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border: 1px solid var(--border-strong); border-radius: 12px; overflow: hidden; cursor: pointer; box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(118,184,42,0.08); }
+    .demo-player video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .demo-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(5,5,5,0.45); transition: background 0.2s; z-index: 3; }
+    .demo-overlay.hidden { display: none; }
+    .demo-player:hover .demo-overlay:not(.hidden) { background: rgba(5,5,5,0.25); }
+    .demo-play-icon { width: 76px; height: 76px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, box-shadow 0.2s; }
+    .demo-player:hover .demo-play-icon { transform: scale(1.1); box-shadow: 0 0 50px var(--green-glow); }
+    .demo-play-icon svg { width: 28px; height: 28px; fill: #000; margin-left: 5px; }
+    .demo-controls { position: absolute; bottom: 0; left: 0; right: 0; z-index: 4; padding: 2.5rem 1rem 0.85rem; background: linear-gradient(transparent, rgba(0,0,0,0.88)); display: flex; align-items: center; gap: 0.7rem; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+    .demo-player:hover .demo-controls { opacity: 1; pointer-events: auto; }
+    .demo-ctrl-btn { background: none; border: none; cursor: pointer; padding: 0.3rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .demo-ctrl-btn svg { width: 22px; height: 22px; fill: #fff; transition: transform 0.15s; }
+    .demo-ctrl-btn:hover svg { transform: scale(1.15); }
+    .demo-time { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: rgba(255,255,255,0.75); white-space: nowrap; letter-spacing: 0.05em; }
+    .demo-progress-wrap { flex: 1; padding: 0.55rem 0; cursor: pointer; }
+    .demo-progress-track { height: 4px; background: rgba(255,255,255,0.25); border-radius: 2px; position: relative; transition: height 0.15s; }
+    .demo-progress-wrap:hover .demo-progress-track { height: 6px; }
+    .demo-progress-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--green); border-radius: 2px; width: 0%; pointer-events: none; }
+    .demo-progress-thumb { position: absolute; top: 50%; transform: translate(50%, -50%); width: 13px; height: 13px; border-radius: 50%; background: var(--green); right: 0; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
+    .demo-progress-wrap:hover .demo-progress-thumb { opacity: 1; }
+
+    .apply-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 6rem; }
+    @media (max-width: 900px) { .apply-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .apply-pricing-center { display: flex; justify-content: center; }
     .apply-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.92; margin-bottom: 1.5rem; }
     .apply-desc { color: var(--muted2); font-size: 1rem; line-height: 1.8; font-weight: 300; }
     .apply-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
@@ -290,6 +313,11 @@
     .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
     .apply-save-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--green); background: var(--green-dim); border: 1px solid rgba(118,184,42,0.38); padding: 0.18rem 0.5rem; border-radius: 2px; white-space: nowrap; }
     .apply-price-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.2rem 0; }
+    .apply-includes-list { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0; text-align: left; }
+    .apply-includes-list li { display: flex; gap: 0.75rem; font-size: 0.84rem; color: rgba(255,255,255,0.58); padding: 0.42rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s; }
+    .apply-includes-list li:hover { color: rgba(255,255,255,0.85); }
+    .apply-includes-list li:last-child { border-bottom: none; }
+    .apply-includes-list li::before { content: '—'; color: var(--green); flex-shrink: 0; font-size: 0.75rem; margin-top: 2px; }
     .ticket-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; padding: 0.3rem 0.8rem; border-radius: 2px; background: rgba(118,184,42,0.1); color: var(--green); border: 1px solid rgba(118,184,42,0.28); margin-bottom: 1rem; }
     .ticket-status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; flex-shrink: 0; }
     .apply-support { margin-top: 1rem; font-size: 0.78rem; color: var(--muted); }
@@ -468,7 +496,7 @@
           <a href="/ailab-sv/"><img src="/swedish.png" alt="Svensk flagga" /> Svenska</a>
         </div>
       </div>
-      <a href="#apply" class="nav-apply">Ansök nu</a>
+      <a href="#pricing" class="nav-apply">Ansök nu</a>
     </div>
   </div>
 </header>
@@ -866,21 +894,46 @@
           <span class="pill">19 Sep 2026</span>
         </div>
       </div>
+      <div class="demo-player" id="demoPlayer">
+        <video id="demoVideo" src="/Ai_lab_demo.mp4" preload="metadata" playsinline></video>
+        <div class="demo-overlay" id="demoOverlay">
+          <div class="demo-play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <div class="demo-controls" id="demoControls">
+          <button class="demo-ctrl-btn" id="demoPlayBtn" aria-label="Play">
+            <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            <svg id="iconReplay" viewBox="0 0 24 24" style="display:none"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          </button>
+          <span class="demo-time" id="demoCurrent">0:00</span>
+          <div class="demo-progress-wrap" id="demoProgressWrap">
+            <div class="demo-progress-track">
+              <div class="demo-progress-fill" id="demoFill"></div>
+              <div class="demo-progress-thumb" id="demoThumb"></div>
+            </div>
+          </div>
+          <span class="demo-time" id="demoDuration">0:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="apply-pricing-center">
       <div class="apply-box" id="pricing">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Early bird – Begränsade platser</div>
         <p class="apply-orig-price">4 985 SEK</p>
         <p class="apply-box-title">2 985 SEK</p>
         <span class="apply-save-badge">Spara 2 000 SEK</span>
         <div class="apply-price-divider"></div>
-        <ul class="cell-list" style="text-align:left;margin-bottom:1.5rem;max-width:260px;margin-left:auto;margin-right:auto;">
+        <ul class="apply-includes-list">
           <li>VIP in-person support under hela programmet</li>
           <li>Slack-tillgång dygnet runt för frågor</li>
           <li>Guidade material ingår</li>
           <li>Slack-support efter labbet</li>
         </ul>
         <a href="/checkout-sv" class="apply-btn">Reservera din plats</a>
-        <p class="apply-note"></p>
-        <p class="apply-support">Inte nöjd efter session 1? Maila oss så återbetalar vi fullt ut.</p>
+        <p class="apply-note">Säker checkout — Max 12 platser — 19 Sep 2026</p>
+        <p class="apply-note" style="margin-top:0.3rem;">Faktura? Maila <a href="mailto:info@genaition.org">info@genaition.org</a></p>
       </div>
     </div>
   </div>
@@ -1127,6 +1180,80 @@
   document.getElementById('chatInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
+</script>
+
+<script>
+  (function() {
+    const player   = document.getElementById('demoPlayer');
+    const video    = document.getElementById('demoVideo');
+    const overlay  = document.getElementById('demoOverlay');
+    const playBtn  = document.getElementById('demoPlayBtn');
+    const progressWrap = document.getElementById('demoProgressWrap');
+    const fill     = document.getElementById('demoFill');
+    const thumb    = document.getElementById('demoThumb');
+    const current  = document.getElementById('demoCurrent');
+    const duration = document.getElementById('demoDuration');
+    const iconPlay   = document.getElementById('iconPlay');
+    const iconPause  = document.getElementById('iconPause');
+    const iconReplay = document.getElementById('iconReplay');
+
+    function fmt(s) {
+      s = Math.floor(s || 0);
+      return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+    }
+    function setIcon(state) {
+      iconPlay.style.display   = state === 'play'   ? '' : 'none';
+      iconPause.style.display  = state === 'pause'  ? '' : 'none';
+      iconReplay.style.display = state === 'replay' ? '' : 'none';
+    }
+    function updateBar() {
+      const pct = video.duration ? (video.currentTime / video.duration) * 100 : 0;
+      fill.style.width  = pct + '%';
+      thumb.style.right = (100 - pct) + '%';
+      current.textContent = fmt(video.currentTime);
+    }
+    video.addEventListener('loadedmetadata', () => { duration.textContent = fmt(video.duration); });
+    video.addEventListener('timeupdate', updateBar);
+    video.addEventListener('ended', () => {
+      overlay.classList.remove('hidden');
+      setIcon('replay');
+      overlay.querySelector('.demo-play-icon svg').style.marginLeft = '0';
+    });
+    overlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.play();
+      overlay.classList.add('hidden');
+      setIcon('pause');
+    });
+    player.addEventListener('click', (e) => {
+      if (overlay.classList.contains('hidden')) {
+        if (video.paused) { video.play(); setIcon('pause'); }
+        else              { video.pause(); setIcon('play'); }
+      }
+    });
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video.ended) {
+        video.currentTime = 0; video.play(); overlay.classList.add('hidden'); setIcon('pause');
+      } else if (video.paused) {
+        video.play(); setIcon('pause');
+      } else {
+        video.pause(); setIcon('play');
+      }
+    });
+    function seek(e) {
+      const rect = progressWrap.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      if (video.duration) video.currentTime = pct * video.duration;
+      updateBar();
+    }
+    let dragging = false;
+    progressWrap.addEventListener('mousedown', (e) => { dragging = true; seek(e); e.stopPropagation(); });
+    document.addEventListener('mousemove', (e) => { if (dragging) seek(e); });
+    document.addEventListener('mouseup',   ()  => { dragging = false; });
+    progressWrap.addEventListener('click', (e) => { seek(e); e.stopPropagation(); });
+    document.getElementById('demoControls').addEventListener('click', (e) => e.stopPropagation());
+  })();
 </script>
 </body>
 </html>
