@@ -347,6 +347,23 @@
     .apply-note { margin-top: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-align: center; }
     .apply-note a { color: rgba(255,255,255,0.32); text-decoration: underline; }
 
+    /* INSTRUCTOR */
+    .instructor-inner { max-width: 820px; margin: 0 auto; }
+    .instructor-grid { display: grid; grid-template-columns: 220px minmax(0, 520px); gap: 3rem; align-items: start; margin-top: 2.5rem; }
+    @media (max-width: 640px) { .instructor-grid { grid-template-columns: 1fr; gap: 1.75rem; } }
+    .instructor-card { border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 4px 28px rgba(0,0,0,0.09); border: 1px solid #e8e4dc; transition: transform 0.3s, box-shadow 0.3s; }
+    .instructor-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(118,184,42,0.18); }
+    .instructor-card img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; transition: transform 0.5s ease; }
+    .instructor-card:hover img { transform: scale(1.03); }
+    .instructor-plate-light { padding: 1rem 1rem 1rem; background: #fff; border-top: 1px solid #e8e4dc; }
+    .instructor-name-dark { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.08em; color: #0d0d0d; line-height: 1.1; }
+    .instructor-role-dark { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.18em; color: #999; margin-top: 0.2rem; }
+    .instructor-badges-light { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+    .ibadge-light { padding: 0.2rem 0.65rem; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; background: #f0ede7; color: #666; border: 1px solid #ddd; }
+    .instructor-bio-dark { font-size: 0.95rem; color: #596070; line-height: 1.82; font-weight: 300; }
+    .instructor-bio-dark + .instructor-bio-dark { margin-top: 0.85rem; }
+    .instructor-pullquote-dark { margin-top: 1.5rem; border-left: 3px solid var(--green); padding-left: 1.1rem; font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 1rem; color: #2d3748; line-height: 1.7; }
+
     /* FAQ */
     .faq-list { margin-top: 3.5rem; max-width: 780px; }
     .faq-item { border-bottom: 1px solid var(--border); }
@@ -539,6 +556,7 @@
       <a href="#stack">Stack</a>
       <a href="#for">Who</a>
       <a href="#how">Timeline</a>
+      <a href="#instructor">Instructor</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div style="display:flex;align-items:center;gap:1rem;">
@@ -951,9 +969,12 @@
     const thumb    = document.getElementById('demoThumb');
     const current  = document.getElementById('demoCurrent');
     const duration = document.getElementById('demoDuration');
-    const iconPlay   = document.getElementById('iconPlay');
-    const iconPause  = document.getElementById('iconPause');
-    const iconReplay = document.getElementById('iconReplay');
+    const iconPlay     = document.getElementById('iconPlay');
+    const iconPause    = document.getElementById('iconPause');
+    const iconReplay   = document.getElementById('iconReplay');
+    const fsBtn        = document.getElementById('demoFsBtn');
+    const iconExpand   = document.getElementById('iconExpand');
+    const iconCompress = document.getElementById('iconCompress');
 
     function fmt(s) {
       s = Math.floor(s || 0);
@@ -1033,8 +1054,51 @@
 
     // Prevent controls clicks from reaching player toggle
     document.getElementById('demoControls').addEventListener('click', (e) => e.stopPropagation());
+
+    // Fullscreen toggle
+    fsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        player.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen();
+      }
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const isFs = !!document.fullscreenElement;
+      iconExpand.style.display   = isFs ? 'none' : '';
+      iconCompress.style.display = isFs ? '' : 'none';
+    });
   })();
 </script>
+
+<!-- INSTRUCTOR -->
+<section id="instructor" class="section">
+  <div class="container">
+    <div class="instructor-inner">
+    <p class="sec-label">Your instructor</p>
+    <h2 class="sec-title">Javid Valiyev</h2>
+    <div class="instructor-grid">
+      <div class="instructor-card">
+        <img src="/ailabjavid.png" alt="Javid Valiyev" onerror="this.style.background='#ddd';this.style.minHeight='280px';this.style.display='block';" />
+        <div class="instructor-plate-light">
+          <p class="instructor-name-dark">Javid Valiyev</p>
+          <p class="instructor-role-dark">Founder · Genaition</p>
+          <div class="instructor-badges-light">
+            <span class="ibadge-light">5+ years AI</span>
+            <span class="ibadge-light">150+ trained</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="instructor-bio-dark">Javid builds Applied AI and teaches people and businesses how to implement them without needing a developer. His workshops are known for being hands-on, structured, and beginner-safe. You don't leave without a working system.</p>
+        <p class="instructor-bio-dark">He is the founder of Genaition and has led 5 workshops across Sweden with over 150 professionals trained.</p>
+        <blockquote class="instructor-pullquote-dark">"You don't leave without a working system. That's the rule."</blockquote>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
 
 <!-- APPLY -->
 <section id="apply" class="section section-alt">
@@ -1076,6 +1140,10 @@
             </div>
           </div>
           <span class="demo-time" id="demoDuration">0:00</span>
+          <button class="demo-ctrl-btn" id="demoFsBtn" aria-label="Fullscreen">
+            <svg id="iconExpand" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            <svg id="iconCompress" viewBox="0 0 24 24" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+          </button>
         </div>
       </div>
     </div>
