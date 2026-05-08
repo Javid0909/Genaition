@@ -1313,20 +1313,34 @@
     progressWrap.addEventListener('click', (e) => { seek(e); e.stopPropagation(); });
     document.getElementById('demoControls').addEventListener('click', (e) => e.stopPropagation());
 
-    // Fullscreen toggle
-    fsBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!document.fullscreenElement) {
-        player.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen();
-      }
-    });
-    document.addEventListener('fullscreenchange', () => {
-      const isFs = !!document.fullscreenElement;
+    // Fullscreen toggle (desktop + mobile/iOS fallback)
+    function setFsIcon(isFs) {
       iconExpand.style.display   = isFs ? 'none' : '';
       iconCompress.style.display = isFs ? '' : 'none';
+    }
+    fsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (inFs) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      } else {
+        if (player.requestFullscreen) {
+          player.requestFullscreen().catch(() => {
+            if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+          });
+        } else if (player.webkitRequestFullscreen) {
+          player.webkitRequestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+          video.webkitEnterFullscreen();
+        }
+      }
     });
+    document.addEventListener('fullscreenchange', () => setFsIcon(!!document.fullscreenElement));
+    document.addEventListener('webkitfullscreenchange', () => setFsIcon(!!document.webkitFullscreenElement));
+    // iOS video-level fullscreen events
+    video.addEventListener('webkitbeginfullscreen', () => setFsIcon(true));
+    video.addEventListener('webkitendfullscreen',   () => setFsIcon(false));
   })();
 </script>
 </body>
