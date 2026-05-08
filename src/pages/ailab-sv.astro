@@ -105,11 +105,11 @@
     .instructor-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(118,184,42,0.18); }
     .instructor-card img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; transition: transform 0.5s ease; }
     .instructor-card:hover img { transform: scale(1.03); }
-    .instructor-plate-light { padding: 1rem 1rem 1rem; background: #fff; border-top: 1px solid #e8e4dc; }
-    .instructor-name-dark { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.08em; color: #0d0d0d; line-height: 1.1; }
-    .instructor-role-dark { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.18em; color: #999; margin-top: 0.2rem; }
+    .instructor-plate-light { padding: 1rem 1rem 1rem; background: var(--green); border-top: 1px solid rgba(0,0,0,0.12); }
+    .instructor-name-dark { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.08em; color: #000; line-height: 1.1; }
+    .instructor-role-dark { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(0,0,0,0.6); margin-top: 0.2rem; }
     .instructor-badges-light { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
-    .ibadge-light { padding: 0.2rem 0.65rem; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; background: #f0ede7; color: #666; border: 1px solid #ddd; }
+    .ibadge-light { padding: 0.2rem 0.65rem; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(0,0,0,0.15); color: #000; border: 1px solid rgba(0,0,0,0.2); }
     .instructor-bio-dark { font-size: 0.95rem; color: #596070; line-height: 1.82; font-weight: 300; }
     .instructor-bio-dark + .instructor-bio-dark { margin-top: 0.85rem; }
     .instructor-pullquote-dark { margin-top: 1.5rem; border-left: 3px solid var(--green); padding-left: 1.1rem; font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 1rem; color: #2d3748; line-height: 1.7; }
@@ -315,6 +315,15 @@
     .demo-progress-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--green); border-radius: 2px; width: 0%; pointer-events: none; }
     .demo-progress-thumb { position: absolute; top: 50%; transform: translate(50%, -50%); width: 13px; height: 13px; border-radius: 50%; background: var(--green); right: 0; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
     .demo-progress-wrap:hover .demo-progress-thumb { opacity: 1; }
+    /* Fullscreen */
+    .demo-player:fullscreen,
+    .demo-player:-webkit-full-screen {
+      aspect-ratio: unset; width: 100%; height: 100%; border-radius: 0; border: none;
+    }
+    .demo-player:fullscreen video,
+    .demo-player:-webkit-full-screen video { object-fit: contain; }
+    .demo-player:fullscreen .demo-controls,
+    .demo-player:-webkit-full-screen .demo-controls { opacity: 1; pointer-events: auto; }
 
     .apply-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 6rem; }
     @media (max-width: 900px) { .apply-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
@@ -530,10 +539,10 @@
       <div class="hero-divider"></div>
       <p class="hero-desc">På 4 veckor har du ett riktigt AI-system igång i ditt företag. Hands-on. Ingen kodning.</p>
       <div class="hero-meta">
-        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">19 SEP</p><p class="meta-sub">4 veckor</p></div>
+        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">19 SEP</p></div>
         <div class="meta-block"><p class="meta-label">Plats</p><p class="meta-value green">Stockholm</p><p class="meta-sub">Hammarby Sjöstad</p></div>
-        <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-person</p><p class="meta-sub">10 min från Slussen</p></div>
-        <div class="meta-block"><p class="meta-label">Pris</p><p class="meta-value green">2 985 SEK</p></div>
+        <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-person</p><p class="meta-sub">Plus Park City</p></div>
+        <div class="meta-block"><p class="meta-label">Längd</p><p class="meta-value">4 veckor</p></div>
       </div>
       <div class="hero-actions">
         <a href="#pricing" class="hero-cta">Reservera din plats</a>
@@ -911,7 +920,6 @@
       </div>
       <div>
         <p class="instructor-bio-dark">Javid bygger Applied AI och lär företag och privatpersoner hur de implementerar det utan att behöva en utvecklare. Hans workshops är kända för att vara praktiska, strukturerade och nybörjarvänliga. Du lämnar inte utan ett fungerande system.</p>
-        <p class="instructor-bio-dark">Han är grundaren av Genaition och har lett 5 workshops i Sverige med över 150 utbildade proffs.</p>
         <blockquote class="instructor-pullquote-dark">"Du lämnar inte utan ett fungerande system. Det är regeln."</blockquote>
       </div>
     </div>

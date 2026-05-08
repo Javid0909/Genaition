@@ -355,11 +355,11 @@
     .instructor-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(118,184,42,0.18); }
     .instructor-card img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; transition: transform 0.5s ease; }
     .instructor-card:hover img { transform: scale(1.03); }
-    .instructor-plate-light { padding: 1rem 1rem 1rem; background: #fff; border-top: 1px solid #e8e4dc; }
-    .instructor-name-dark { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.08em; color: #0d0d0d; line-height: 1.1; }
-    .instructor-role-dark { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.18em; color: #999; margin-top: 0.2rem; }
+    .instructor-plate-light { padding: 1rem 1rem 1rem; background: var(--green); border-top: 1px solid rgba(0,0,0,0.12); }
+    .instructor-name-dark { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.08em; color: #000; line-height: 1.1; }
+    .instructor-role-dark { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(0,0,0,0.6); margin-top: 0.2rem; }
     .instructor-badges-light { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
-    .ibadge-light { padding: 0.2rem 0.65rem; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; background: #f0ede7; color: #666; border: 1px solid #ddd; }
+    .ibadge-light { padding: 0.2rem 0.65rem; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(0,0,0,0.15); color: #000; border: 1px solid rgba(0,0,0,0.2); }
     .instructor-bio-dark { font-size: 0.95rem; color: #596070; line-height: 1.82; font-weight: 300; }
     .instructor-bio-dark + .instructor-bio-dark { margin-top: 0.85rem; }
     .instructor-pullquote-dark { margin-top: 1.5rem; border-left: 3px solid var(--green); padding-left: 1.1rem; font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 1rem; color: #2d3748; line-height: 1.7; }
@@ -479,6 +479,15 @@
     .demo-progress-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--green); border-radius: 2px; width: 0%; pointer-events: none; }
     .demo-progress-thumb { position: absolute; top: 50%; transform: translate(50%, -50%); width: 13px; height: 13px; border-radius: 50%; background: var(--green); right: 0; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
     .demo-progress-wrap:hover .demo-progress-thumb { opacity: 1; }
+    /* Fullscreen */
+    .demo-player:fullscreen,
+    .demo-player:-webkit-full-screen {
+      aspect-ratio: unset; width: 100%; height: 100%; border-radius: 0; border: none;
+    }
+    .demo-player:fullscreen video,
+    .demo-player:-webkit-full-screen video { object-fit: contain; }
+    .demo-player:fullscreen .demo-controls,
+    .demo-player:-webkit-full-screen .demo-controls { opacity: 1; pointer-events: auto; }
 
     /* FOOTER */
     .site-footer { background: var(--off-black); border-top: 1px solid var(--border); padding: 4rem 0 2rem; }
@@ -593,10 +602,10 @@
 
       <!-- CHANGE #6: Seat counter -->
       <div class="hero-meta">
-        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">SEP 19</p><p class="meta-sub">4 Weeks</p></div>
+        <div class="meta-block"><p class="meta-label">Start</p><p class="meta-value">SEP 19</p></div>
         <div class="meta-block"><p class="meta-label">Location</p><p class="meta-value green">Stockholm</p><p class="meta-sub">Hammarby Sjöstad</p></div>
-        <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-Person</p><p class="meta-sub">10 min from Slussen</p></div>
-        <div class="meta-block"><p class="meta-label">Price</p><p class="meta-value green price">2,985 SEK</p></div>
+        <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-Person</p><p class="meta-sub">Plus Park City</p></div>
+        <div class="meta-block"><p class="meta-label">Duration</p><p class="meta-value">4 Weeks</p></div>
       </div>
       <div class="hero-actions">
         <a href="#pricing" class="hero-cta">
@@ -1092,7 +1101,6 @@
       </div>
       <div>
         <p class="instructor-bio-dark">Javid builds Applied AI and teaches people and businesses how to implement them without needing a developer. His workshops are known for being hands-on, structured, and beginner-safe. You don't leave without a working system.</p>
-        <p class="instructor-bio-dark">He is the founder of Genaition and has led 5 workshops across Sweden with over 150 professionals trained.</p>
         <blockquote class="instructor-pullquote-dark">"You don't leave without a working system. That's the rule."</blockquote>
       </div>
     </div>
