@@ -238,8 +238,8 @@
 
 <div class="hero-strip">
   <div class="hero-strip-inner">
-    <p class="hero-eyebrow">Secure checkout</p>
-    <h1>Register for the<br><span class="t-green">Applied AI Lab</span></h1>
+    <p class="hero-eyebrow">Before checkout</p>
+    <h1>TELL US ABOUT<br><span class="t-green">YOURSELF FIRST</span></h1>
     <div class="step-track">
       <div class="step-item">
         <div class="step-dot active">1</div>
@@ -259,8 +259,7 @@
 
     <!-- FORM -->
     <div class="card-header">
-      <p class="sec-label">Your details</p>
-      <h2>Personal information</h2>
+      <h2>Claim your spot</h2>
     </div>
     <div class="card-form">
       <form id="booking-form" novalidate>
@@ -286,29 +285,24 @@
           <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+46 76 260 8848" />
         </div>
         <div class="form-group">
-          <label for="background">Your background</label>
+          <label for="background">Your role</label>
           <select id="background" name="background" required>
-            <option value="" disabled selected>Select your background</option>
-            <option value="Tech">Tech</option>
-            <option value="Non-Tech">Non-tech</option>
-            <option value="Founder">Founder / Operator</option>
+            <option value="" disabled selected>Select your role</option>
+            <option value="Founder">Founder / Entrepreneur</option>
+            <option value="Consultant">Consultant / Freelancer</option>
+            <option value="Agency Owner">Agency Owner</option>
+            <option value="Sales / BD">Sales / Business Development</option>
+            <option value="Corporate Employee">Corporate Employee</option>
             <option value="Other">Other</option>
           </select>
-          <p class="field-error" id="err-background">Please select your background</p>
+          <p class="field-error" id="err-background">Please select your role</p>
         </div>
-        <div class="form-divider"></div>
         <div class="form-group">
-          <button type="button" class="promo-toggle" id="promoToggle">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            Have a promo code?
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="promo-panel" id="promoPanel">
-            <div class="form-group">
-              <label for="promoCode">Promo code</label>
-              <input type="text" id="promoCode" name="promoCode" placeholder="Enter code" />
-              <p class="promo-msg" id="promoMsg"></p>
-            </div>
+          <label for="ticketCount">Number of seats</label>
+          <div class="ticket-row">
+            <button type="button" class="qty-btn" id="decrease">−</button>
+            <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
+            <button type="button" class="qty-btn" id="increase">+</button>
           </div>
         </div>
       </form>
@@ -317,47 +311,17 @@
     <!-- DIVIDER -->
     <div class="card-section-divider"></div>
 
-    <!-- ORDER SUMMARY -->
     <div class="card-summary">
-      <p class="summary-label">Order summary</p>
-
-      <div class="line-items">
-        <div class="early-bird-tag"><span class="early-bird-dot"></span> Early bird</div>
-        <div class="summary-qty-row">
-          <div class="summary-qty-left">
-            <p class="ticket-summary-label">Number of tickets</p>
-            <div class="ticket-row">
-              <button type="button" class="qty-btn" id="decrease">−</button>
-              <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
-              <button type="button" class="qty-btn" id="increase">+</button>
-            </div>
-            <p class="ticket-price-hint">Max 6 tickets per order</p>
-          </div>
-          <div class="summary-qty-right">
-            <span class="orig-price">SEK 4,985</span>
-            <span class="li-val" id="pricePerUnit">SEK 2,985</span>
-            <span class="li-val summary-qty-count" id="summaryTickets">× 1</span>
-          </div>
-        </div>
-        <div class="line-item total">
-          <span class="li-label">Total</span>
-          <span class="li-val" id="totalPrice">SEK 2,985</span>
-        </div>
-      </div>
-
+      <p class="cta-note" style="margin-bottom:0.75rem; color:rgba(255,255,255,0.45);">No payment on this step - just your details.</p>
       <button type="button" class="cta-btn" id="submitBtn">
-        Continue to Payment
+        Next Step
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
       </button>
-<p class="cta-note" style="margin-top:0.5rem; color:rgba(255,255,255,0.35);">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-  You'll receive a confirmation and onboarding info within 24 hours
-</p>
 
       <div class="trust-row">
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Secure checkout via Stripe
+          Secure registration
         </div>
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -389,7 +353,7 @@
           <p>Sweden</p>
           <p>Stockholm</p>
           <div class="footer-address-gap"></div>
-          <a href="mailto:hello@genaition.io">hello@genaition.io</a>
+          <a href="mailto:info@genaition.org">info@genaition.org</a>
         </div>
       </div>
     </div>
@@ -427,35 +391,12 @@
     else { langWrap.classList.remove('open'); langBtn.setAttribute('aria-expanded', 'false'); }
   });
 
-  const STANDARD_PRICE = 2985;
   const DEFAULT_LINKS = { 1:"https://buy.stripe.com/aFa5kD70f3zL3p2bnH8AE0B",2:"https://buy.stripe.com/28EcN55Wb5HT5xabnH8AE0C",3:"https://buy.stripe.com/4gM14n1FVb2d3p29fz8AE0D",4:"https://buy.stripe.com/6oU3cv5Wb9Y9cZCcrL8AE0E",5:"https://buy.stripe.com/6oU5kDbgvb2d3p2gI18AE0F",6:"https://buy.stripe.com/aFa28r3O31rD3p2crL8AE0G" };
 
   let ticketCount = 1;
 
-  function fmtSEK(n) { return 'SEK ' + n.toLocaleString('sv-SE'); }
-  function updateSummary() {
-    document.getElementById('pricePerUnit').textContent = fmtSEK(STANDARD_PRICE);
-    document.getElementById('summaryTickets').textContent = '× ' + ticketCount;
-    document.getElementById('totalPrice').textContent = fmtSEK(STANDARD_PRICE * ticketCount);
-  }
-
-  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; updateSummary(); } });
-  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 6) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; updateSummary(); } });
-
-  const promoToggle = document.getElementById('promoToggle');
-  const promoPanel  = document.getElementById('promoPanel');
-  promoToggle.addEventListener('click', () => {
-    const open = promoPanel.classList.toggle('open');
-    promoToggle.classList.toggle('open', open);
-    if (open) setTimeout(() => document.getElementById('promoCode').focus(), 50);
-  });
-
-  document.getElementById('promoCode').addEventListener('input', function () {
-    const code = this.value.trim().toLowerCase(), msg = document.getElementById('promoMsg');
-    if (code === 'hyperisland') { msg.className = 'promo-msg success'; msg.textContent = '✓ Code noted — discount applied at next cohort'; }
-    else if (!code) { msg.textContent = ''; msg.className = 'promo-msg'; }
-    else { msg.className = 'promo-msg error'; msg.textContent = '⚠ Code not recognized'; }
-  });
+  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; } });
+  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 6) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; } });
 
   function validate() {
     let ok = true;
@@ -473,8 +414,6 @@
   ['firstName','lastName','email','background'].forEach(id => {
     document.getElementById(id).addEventListener('input', function() { this.classList.remove('invalid'); const e=document.getElementById('err-'+id); if(e) e.classList.remove('visible'); });
   });
-
-  updateSummary();
 </script>
 </body>
 </html>
