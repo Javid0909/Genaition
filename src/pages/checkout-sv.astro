@@ -33,7 +33,7 @@
     .hdr-step { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
     .hdr-back { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; transition: color 0.2s; }
     .hdr-back:hover { color: var(--white); }
-    @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .hdr-step { display: none; } }
+    @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .hdr-step { display: none; } .logo-sub { display: none; } .hdr-right { gap: 0.5rem; } }
 
     /* HERO STRIP */
     .hero-strip { padding-top: var(--header); background: var(--black); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
@@ -219,8 +219,7 @@
       </div>
     </a>
     <div class="hdr-right">
-      <span class="hdr-step">Steg 1 av 2 — Registrering</span>
-      <a href="/ailab-sv/" class="hdr-back">← Tillbaka till Lab</a>
+      <a href="/ailab-sv/" class="hdr-back">← Huvudsida</a>
       <div class="lang-wrap" id="langWrap">
         <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
           <img src="/swedish.png" alt="Svenska" />
