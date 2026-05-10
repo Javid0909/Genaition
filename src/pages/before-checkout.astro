@@ -576,6 +576,25 @@
               <p class="field-error" id="email-err">Enter a valid email address</p>
             </div>
 
+            <div class="field">
+              <label for="phone">Phone Number <span class="opt">(optional)</span></label>
+              <input id="phone" type="tel" name="phone" autocomplete="tel" placeholder="+46 70 123 45 67" />
+            </div>
+
+            <div class="field">
+              <label for="background">Your role</label>
+              <select id="background" name="background" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="Founder">Founder / Entrepreneur</option>
+                <option value="Consultant">Consultant / Freelancer</option>
+                <option value="Agency Owner">Agency Owner</option>
+                <option value="Sales / BD">Sales / Business Development</option>
+                <option value="Corporate Employee">Corporate Employee</option>
+                <option value="Other">Other</option>
+              </select>
+              <p class="field-error" id="background-err">Please select your role</p>
+            </div>
+
             <p class="form-section-label">Tickets</p>
 
             <div class="field">
@@ -756,7 +775,7 @@
     return valid;
   }
 
-  ['firstName','lastName','email'].forEach(id => {
+  ['firstName','lastName','email','background'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('blur', () => validateField(el));
     el.addEventListener('input', () => { if (el.classList.contains('invalid')) validateField(el); });
@@ -764,7 +783,7 @@
 
   // Submit
   submitBtn.addEventListener('click', () => {
-    const fields = ['firstName','lastName','email'];
+    const fields = ['firstName','lastName','email','background'];
     let allValid = true;
     fields.forEach(id => {
       if (!validateField(document.getElementById(id))) allValid = false;
