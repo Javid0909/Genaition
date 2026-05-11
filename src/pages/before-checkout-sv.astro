@@ -256,7 +256,7 @@
       background: var(--card2); border: none;
       width: 56px; height: 44px;
       text-align: center; font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem; color: var(--gold); pointer-events: none;
+      font-size: 1.1rem; color: var(--gold); pointer-events: none;
       display: flex; align-items: center; justify-content: center;
     }
 
@@ -314,9 +314,8 @@
     .pss-old { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); text-decoration: line-through; letter-spacing: 0.08em; }
     .pss-total { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #1a1208; line-height: 1; letter-spacing: 0.04em; }
     @media (max-width: 500px) {
-      .price-summary-strip { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
-      .pss-right { flex-direction: row; align-items: baseline; gap: 0.75rem; }
-      .pss-total { font-size: 1.7rem; }
+      .price-summary-strip { padding: 1rem 1.25rem; align-items: center; }
+      .pss-total { font-size: 1.6rem; }
     }
 
     /* ── SUBMIT BUTTON ── */
@@ -506,7 +505,7 @@
 
             <div class="field">
               <label for="email">E-postadress</label>
-              <input id="email" type="email" name="email" autocomplete="email" placeholder="du@foretag.se" required />
+              <input id="email" type="email" name="email" autocomplete="email" placeholder="du@gmail.com" required />
               <p class="field-error" id="email-err">Ange en giltig e-postadress</p>
             </div>
 
@@ -515,46 +514,24 @@
               <input id="phone" type="tel" name="phone" autocomplete="tel" placeholder="+46 70 123 45 67" />
             </div>
 
-            <div class="field">
-              <label for="background">Din roll</label>
-              <select id="background" name="background" required>
-                <option value="" disabled selected>Välj din roll</option>
-                <option value="Founder">Grundare / Entreprenör</option>
-                <option value="Consultant">Konsult / Frilansar</option>
-                <option value="Agency Owner">Byråägare</option>
-                <option value="Sales / BD">Sälj / Affärsutveckling</option>
-                <option value="Corporate Employee">Anställd i företag</option>
-                <option value="Other">Annat</option>
-              </select>
-              <p class="field-error" id="background-err">Välj din roll</p>
-            </div>
-
             <p class="form-section-label">Biljetter</p>
 
-            <div class="field">
-              <label>Antal</label>
-              <div style="margin-top:0.55rem; display:flex; align-items:center; gap:1.25rem;">
-                <div class="ticket-counter">
+            <div class="price-summary-strip">
+              <div class="pss-left">
+                <span class="pss-label">Antal</span>
+                <div class="ticket-counter" style="margin-top:0.55rem;">
                   <button type="button" id="decrease" class="tc-btn">−</button>
                   <div class="tc-num" id="ticketDisplay">1</div>
                   <button type="button" id="increase" class="tc-btn">+</button>
                 </div>
               </div>
-              <input type="hidden" id="ticketCount" name="tickets" value="1" />
-              <p class="field-error" id="ticket-max-err" style="display:none;">Max 6 biljetter per beställning.</p>
-            </div>
-
-            <!-- Live price summary -->
-            <div class="price-summary-strip">
-              <div class="pss-left">
-                <span class="pss-label">Totalt att betala</span>
-                <span class="pss-breakdown" id="priceBreakdown">1 biljett × 365 SEK</span>
-              </div>
               <div class="pss-right">
-                <span class="pss-old">595 SEK</span>
+                <span class="pss-old" id="oldPriceDisplay">595 SEK</span>
                 <span class="pss-total" id="totalDisplay">365 SEK</span>
               </div>
             </div>
+            <input type="hidden" id="ticketCount" name="tickets" value="1" />
+            <p class="field-error" id="ticket-max-err" style="display:none;">Max 6 biljetter per beställning.</p>
 
             <p class="form-section-label">Kampanjkod</p>
 
@@ -685,7 +662,6 @@
   const ticketDisplay  = document.getElementById('ticketDisplay');
   const ticketCount    = document.getElementById('ticketCount');
   const totalDisplay   = document.getElementById('totalDisplay');
-  const priceBreakdown = document.getElementById('priceBreakdown');
   const promoToggle    = document.getElementById('promoToggle');
   const promoPanel     = document.getElementById('promoPanel');
   const promoCode      = document.getElementById('promoCode');
@@ -693,12 +669,13 @@
   const promoMsg       = document.getElementById('promoMsg');
   const submitBtn      = document.getElementById('submitBtn');
   const maxErr         = document.getElementById('ticket-max-err');
+  const oldPriceDisplay = document.getElementById('oldPriceDisplay');
 
   function updateUI() {
     const total = ticketQty * pricePerSeat;
     ticketDisplay.textContent = ticketQty;
     ticketCount.value = ticketQty;
-    priceBreakdown.textContent = `${ticketQty} biljett${ticketQty > 1 ? 'er' : ''} × ${pricePerSeat} SEK`;
+    oldPriceDisplay.textContent = `${(ticketQty * PRICE_REGULAR).toLocaleString('sv-SE')} SEK`;
     totalDisplay.textContent = `${total.toLocaleString('sv-SE')} SEK`;
   }
 
@@ -748,14 +725,14 @@
     return valid;
   }
 
-  ['firstName','lastName','email','background'].forEach(id => {
+  ['firstName','lastName','email'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('blur', () => validateField(el));
     el.addEventListener('input', () => { if (el.classList.contains('invalid')) validateField(el); });
   });
 
   submitBtn.addEventListener('click', () => {
-    const fields = ['firstName','lastName','email','background'];
+    const fields = ['firstName','lastName','email'];
     let allValid = true;
     fields.forEach(id => { if (!validateField(document.getElementById(id))) allValid = false; });
     if (!allValid) return;

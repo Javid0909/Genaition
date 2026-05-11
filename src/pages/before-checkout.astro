@@ -70,6 +70,7 @@
     }
     .nav-back:hover { color: #1a1208; }
     .nav-back svg { width: 14px; height: 14px; }
+    @media (max-width: 640px) { .nav-back span { display: none; } }
     @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } }
 
     /* ── BACKGROUND ── */
@@ -246,7 +247,7 @@
       background: var(--card2); border: none;
       width: 56px; height: 44px;
       text-align: center; font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem; color: var(--gold); pointer-events: none;
+      font-size: 1.1rem; color: var(--gold); pointer-events: none;
       display: flex; align-items: center; justify-content: center;
     }
 
@@ -416,12 +417,11 @@
     }
     .pss-total {
       font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
-      color: var(--gold); line-height: 1; letter-spacing: 0.04em;
+      color: #1a1208; line-height: 1; letter-spacing: 0.04em;
     }
     @media (max-width: 500px) {
-      .price-summary-strip { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
-      .pss-right { flex-direction: row; align-items: baseline; gap: 0.75rem; }
-      .pss-total { font-size: 1.7rem; }
+      .price-summary-strip { padding: 1rem 1.25rem; align-items: center; }
+      .pss-total { font-size: 1.6rem; }
     }
 
     /* ── ANIMATIONS ── */
@@ -500,7 +500,7 @@
     <div style="display:flex;align-items:center;gap:1rem;">
       <a href="/event-1.html" class="nav-back">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
-        Back to event
+        <span>Back to event</span>
       </a>
       <div class="lang-wrap" id="langWrap">
         <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
@@ -572,7 +572,7 @@
 
             <div class="field">
               <label for="email">Email Address</label>
-              <input id="email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required />
+              <input id="email" type="email" name="email" autocomplete="email" placeholder="you@gmail.com" required />
               <p class="field-error" id="email-err">Enter a valid email address</p>
             </div>
 
@@ -581,46 +581,24 @@
               <input id="phone" type="tel" name="phone" autocomplete="tel" placeholder="+46 70 123 45 67" />
             </div>
 
-            <div class="field">
-              <label for="background">Your role</label>
-              <select id="background" name="background" required>
-                <option value="" disabled selected>Select your role</option>
-                <option value="Founder">Founder / Entrepreneur</option>
-                <option value="Consultant">Consultant / Freelancer</option>
-                <option value="Agency Owner">Agency Owner</option>
-                <option value="Sales / BD">Sales / Business Development</option>
-                <option value="Corporate Employee">Corporate Employee</option>
-                <option value="Other">Other</option>
-              </select>
-              <p class="field-error" id="background-err">Please select your role</p>
-            </div>
-
             <p class="form-section-label">Tickets</p>
 
-            <div class="field">
-              <label for="ticketDisplay">Quantity</label>
-              <div style="margin-top:0.55rem; display:flex; align-items:center; gap:1.25rem;">
-                <div class="ticket-counter">
+            <div class="price-summary-strip">
+              <div class="pss-left">
+                <span class="pss-label">Quantity</span>
+                <div class="ticket-counter" style="margin-top:0.55rem;">
                   <button type="button" id="decrease" class="tc-btn">−</button>
                   <div class="tc-num" id="ticketDisplay">1</div>
                   <button type="button" id="increase" class="tc-btn">+</button>
                 </div>
               </div>
-              <input type="hidden" id="ticketCount" name="tickets" value="1" />
-              <p class="field-error show" id="ticket-max-err" style="display:none;">Maximum 6 tickets per order.</p>
-            </div>
-
-            <!-- Live price summary -->
-            <div class="price-summary-strip">
-              <div class="pss-left">
-                <span class="pss-label">Order Total</span>
-                <span class="pss-breakdown" id="priceBreakdown">1 ticket × 365 SEK</span>
-              </div>
               <div class="pss-right">
-                <span class="pss-old">595 SEK</span>
+                <span class="pss-old" id="oldPriceDisplay">595 SEK</span>
                 <span class="pss-total" id="totalDisplay">365 SEK</span>
               </div>
             </div>
+            <input type="hidden" id="ticketCount" name="tickets" value="1" />
+            <p class="field-error" id="ticket-max-err" style="display:none;">Maximum 6 tickets per order.</p>
 
             <p class="form-section-label">Promo Code</p>
 
@@ -707,7 +685,6 @@
   const ticketDisplay = document.getElementById('ticketDisplay');
   const ticketCount   = document.getElementById('ticketCount');
   const totalDisplay  = document.getElementById('totalDisplay');
-  const priceBreakdown= document.getElementById('priceBreakdown');
 
   const promoToggle   = document.getElementById('promoToggle');
   const promoPanel    = document.getElementById('promoPanel');
@@ -716,12 +693,13 @@
   const promoMsg      = document.getElementById('promoMsg');
   const submitBtn     = document.getElementById('submitBtn');
   const maxErr        = document.getElementById('ticket-max-err');
+  const oldPriceDisplay = document.getElementById('oldPriceDisplay');
 
   function updateUI() {
     const total = ticketQty * pricePerSeat;
     ticketDisplay.textContent = ticketQty;
     ticketCount.value = ticketQty;
-    priceBreakdown.textContent = `${ticketQty} ticket${ticketQty > 1 ? 's' : ''} × ${pricePerSeat} SEK`;
+    oldPriceDisplay.textContent = `${(ticketQty * PRICE_REGULAR).toLocaleString('sv-SE')} SEK`;
     totalDisplay.textContent = `${total.toLocaleString('sv-SE')} SEK`;
   }
 
@@ -775,7 +753,7 @@
     return valid;
   }
 
-  ['firstName','lastName','email','background'].forEach(id => {
+  ['firstName','lastName','email'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('blur', () => validateField(el));
     el.addEventListener('input', () => { if (el.classList.contains('invalid')) validateField(el); });
@@ -783,7 +761,7 @@
 
   // Submit
   submitBtn.addEventListener('click', () => {
-    const fields = ['firstName','lastName','email','background'];
+    const fields = ['firstName','lastName','email'];
     let allValid = true;
     fields.forEach(id => {
       if (!validateField(document.getElementById(id))) allValid = false;
