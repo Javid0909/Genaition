@@ -210,12 +210,10 @@
     }
 
     .hero-mobile-cta {
-      display: none;
+      display: flex;
       margin-bottom: 1.5rem;
       width: 100%;
-    }
-    @media (max-width: 640px) {
-      .hero-mobile-cta { display: flex; }
+      max-width: 340px;
     }
 
     /* ── COUNTDOWN ── */
@@ -703,7 +701,7 @@
       </blockquote>
 
       <a href="#ticket-box" class="ticket-cta hero-mobile-cta">
-        Sign-up
+        Reserve my seat
       </a>
 
       <div class="hero-rule"></div>
@@ -1017,7 +1015,7 @@
     <p class="sticky-title">AI Agent Workshop</p>
     <p class="sticky-sub">Online · 13 juni 2026</p>
   </div>
-  <a href="#ticket-box" class="sticky-register-btn">Anmäl dig</a>
+  <a href="#ticket-box" class="sticky-register-btn">Reserve my seat</a>
 </div>
 
 <script>
@@ -1064,24 +1062,6 @@
       techBody.style.maxHeight = isOpen ? '0' : techBody.scrollHeight + 'px';
     });
   }
-
-  // ── COUNTDOWN TIMER ──
-  function updateCountdown() {
-    const target = new Date('2026-06-13T13:30:00+02:00');
-    const now = new Date();
-    const diff = target - now;
-    if (diff <= 0) { document.getElementById('heroCountdown').style.display = 'none'; return; }
-    const days  = Math.floor(diff / 86400000);
-    const hours = Math.floor((diff % 86400000) / 3600000);
-    const mins  = Math.floor((diff % 3600000) / 60000);
-    const secs  = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cdDays').textContent  = String(days).padStart(2,'0');
-    document.getElementById('cdHours').textContent = String(hours).padStart(2,'0');
-    document.getElementById('cdMins').textContent  = String(mins).padStart(2,'0');
-    document.getElementById('cdSecs').textContent  = String(secs).padStart(2,'0');
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
 
   // ── STICKY BAR ──
   const stickyBar = document.getElementById('stickyBar');
