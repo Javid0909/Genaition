@@ -290,11 +290,11 @@
 
     /* ── HERO TICKET ── */
     .hero-ticket {
-      background: var(--dark); border-top: none;
+      background: #000; border-top: none;
       padding: 1.75rem 1.5rem 1.5rem;
     }
     .ticket-price-old { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.28); text-decoration: line-through; margin-bottom: 0.2rem; }
-    .ticket-price-row { display: flex; align-items: baseline; gap: 0.85rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
+    .ticket-price-row { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
     .ticket-price { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; }
     .ticket-save { font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: #d4aa00; background: rgba(212,170,0,0.14); border: 1px solid rgba(212,170,0,0.38); padding: 0.18rem 0.5rem; border-radius: 2px; white-space: nowrap; }
     .ticket-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.2rem 0; }
@@ -315,11 +315,11 @@
     @keyframes urgency { 0%,100%{opacity:1} 50%{opacity:0.5} }
     .seat-bar { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
     .seat-bar-fill {
-      height: 100%; width: 72%; background: linear-gradient(90deg, var(--green), #2d8a52);
+      height: 100%; width: 68%; background: linear-gradient(90deg, var(--green), #2d8a52);
       border-radius: 2px;
       animation: fillIn 1.2s ease 0.8s both;
     }
-    @keyframes fillIn { from { width: 0; } to { width: 72%; } }
+    @keyframes fillIn { from { width: 0; } to { width: 68%; } }
 
     .ticket-cta {
       display: flex; align-items: center; justify-content: center; gap: 0.6rem;
@@ -339,6 +339,8 @@
     .ticket-cta:hover::after { transform: translateX(100%); }
     .ticket-note { margin-top: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-align: center; }
     .ticket-note a { color: rgba(255,255,255,0.32); text-decoration: underline; }
+    .ticket-value-statement { font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--white); line-height: 1.45; margin-bottom: 1.2rem; }
+    .ticket-urgency { font-family: 'DM Mono', monospace; font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.13em; color: #e8624a; text-align: center; margin-top: 0.65rem; }
 
 
     /* ── STAT BAR ── */
@@ -386,7 +388,7 @@
 
     /* ── DARK BENEFIT CARDS ── */
     .dark-strip {
-      background: var(--dark);
+      background: #000;
       margin: 2.5rem 0;
       padding-bottom: 2.5rem;
     }
@@ -535,13 +537,13 @@
     .gallery-img-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.75rem 0.85rem; background: linear-gradient(transparent, rgba(26,18,8,0.55)); font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.48); pointer-events: none; }
 
     /* ── TESTIMONIALS ── */
-    .tp-section { padding: 5.5rem 0; background: var(--bg); border-top: 1px solid var(--border); }
+    .tp-section { padding: 5.5rem 0; background: #000; border-top: 1px solid var(--border); }
     .tp-cards {
       margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr 1fr;
       border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden;
     }
-    .tp-card { padding: 1.75rem 1.75rem 1.5rem; border-right: 1px solid var(--border); position: relative; transition: background 0.2s; }
-    .tp-card:hover { background: var(--bg-alt); }
+    .tp-card { padding: 1.75rem 1.75rem 1.5rem; border-right: 1px solid rgba(255,255,255,0.1); position: relative; transition: background 0.2s; }
+    .tp-card:hover { background: rgba(255,255,255,0.05); }
     .tp-card:last-child { border-right: none; }
     .tp-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -557,9 +559,9 @@
     .tp-card-stars { display: flex; gap: 3px; margin-bottom: 1rem; }
     .tp-star { width: 14px; height: 14px; background: var(--green); clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); flex-shrink: 0; }
     .tp-quotemark { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: var(--green); opacity: 0.15; line-height: 0.6; margin-bottom: 0.6rem; display: block; }
-    .tp-card-text { font-family: 'DM Sans', sans-serif; font-style: normal; font-weight: 300; font-size: 0.98rem; color: var(--ink); line-height: 1.78; margin-bottom: 1rem; }
-    .tp-card-name { font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 700; color: var(--ink); }
-    .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-top: 0.1rem; }
+    .tp-card-text { font-family: 'DM Sans', sans-serif; font-style: normal; font-weight: 300; font-size: 0.98rem; color: rgba(255,255,255,0.85); line-height: 1.78; margin-bottom: 1rem; }
+    .tp-card-name { font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 700; color: #fff; }
+    .tp-card-date { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 0.1rem; }
 
     /* ── FAQ ── */
     .faq-list { margin-top: 2.5rem; border: 1px solid var(--border-s); border-radius: 2px; overflow: hidden; }
@@ -583,7 +585,7 @@
     .sticky-register-btn:hover { background: #d4aa00; transform: translateY(-1px); }
 
     /* ── FOOTER ── */
-    .site-footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08); padding: 4rem 0 2rem; }
+    .site-footer { background: #000; border-top: 1px solid rgba(255,255,255,0.08); padding: 4rem 0 2rem; }
     .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
     .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08); align-items: start; }
     .footer-col-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
@@ -616,7 +618,7 @@
     @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr; } .footer-right-col { text-align: left; } .footer-col-label.right { justify-content: flex-start; } .footer-col-label.right::before { display: inline-block; } .footer-col-label.right::after { display: none; } .footer-address-lines { text-align: left; } .footer-inner { padding: 0 1.25rem; } }
 
     /* ── TICKET SECTION ── */
-    .ticket-section { padding: 5.5rem 0; background: var(--ink); }
+    .ticket-section { padding: 5.5rem 0; background: #000; }
     .ticket-section-inner { max-width: 480px; margin: 0 auto; padding: 0 2rem; }
     .ticket-section .sec-title { color: var(--white); }
     .ticket-section .sec-eyebrow { color: var(--green); }
@@ -703,7 +705,7 @@
   <div class="hero-grid">
 
     <div class="hero-left">
-      <span class="hero-eyebrow"><span class="eyebrow-dot"></span> Workshop · 13 June 2026</span>
+      <span class="hero-eyebrow"><span class="eyebrow-dot"></span> Final seats</span>
 
       <h1 class="hero-title" style="animation: fadeUp 0.7s ease 0.2s both;">
         <span class="t-ink">Build your</span>
@@ -719,18 +721,6 @@
         Sign-up
       </a>
 
-      <!-- LIVE COUNTDOWN -->
-      <div class="hero-countdown" id="heroCountdown">
-        <span class="countdown-label">Starts in</span>
-        <div class="countdown-unit"><span class="countdown-num" id="cdDays">48</span><span class="countdown-sub">Days</span></div>
-        <span class="countdown-sep">:</span>
-        <div class="countdown-unit"><span class="countdown-num" id="cdHours">09</span><span class="countdown-sub">Hours</span></div>
-        <span class="countdown-sep">:</span>
-        <div class="countdown-unit"><span class="countdown-num" id="cdMins">22</span><span class="countdown-sub">Mins</span></div>
-        <span class="countdown-sep">:</span>
-        <div class="countdown-unit"><span class="countdown-num" id="cdSecs">41</span><span class="countdown-sub">Secs</span></div>
-      </div>
-
       <div class="hero-rule"></div>
 
       <div class="hero-meta">
@@ -744,7 +734,7 @@
         </div>
         <div class="meta-block">
           <p class="meta-label">Format</p>
-          <p class="meta-value yellow">Live Online</p>
+          <p class="meta-value green">Live Online</p>
         </div>
         <div class="meta-block">
           <p class="meta-label">Seats</p>
@@ -754,66 +744,6 @@
     </div>
 
 
-  </div>
-</section>
-
-
-<!-- ── ABOUT ── -->
-<section id="about" class="section section-alt">
-  <div class="container">
-    <p class="sec-eyebrow reveal">Who this is for</p>
-    <h2 class="sec-title reveal reveal-delay-1">Founders<br>and Operators</h2>
-    <p class="sec-desc reveal reveal-delay-2">Hands-on workshop where you build and launch your own AI Email Agent in 3 hours. No coding required — just bring a laptop. Leave with a working agent and a clear mental model you can reuse for real work.</p>
-    <div class="sec-rule"></div>
-  </div>
-  <div class="dark-strip">
-    <div class="benefit-dark-grid">
-      <div class="benefit-dark-card reveal">
-        <div class="bdc-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        </div>
-        <p class="bdc-title">Ship in 3 hours</p>
-        <p class="bdc-desc">Build a real email agent in 3 hours. Walk out with a working assistant, not slides, not theory.</p>
-      </div>
-      <div class="benefit-dark-card reveal reveal-delay-1">
-        <div class="bdc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <p class="bdc-title">You set the rules</p>
-        <p class="bdc-desc">Instruct your agent. The AI follows them. Know exactly what it sends, why, and when.</p>
-      </div>
-      <div class="benefit-dark-card reveal reveal-delay-2">
-        <div class="bdc-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <p class="bdc-title">Real agent, built by you</p>
-        <p class="bdc-desc">See how ReAct, LLM API, and system prompts actually work by building one yourself.</p>
-      </div>
-      <div class="benefit-dark-card reveal reveal-delay-3">
-        <div class="bdc-icon">
-          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        </div>
-        <p class="bdc-title">Hands-on help</p>
-        <p class="bdc-desc">Max 25 seats — small cohort, structured pace, and support until your agent actually works.</p>
-      </div>
-    </div>
-    <div class="dark-strip-footer">
-      <div class="tech-reveal">
-        <button class="tech-reveal-btn" id="techBtn">
-          <span>Your tech stack</span>
-          <svg viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
-        </button>
-        <div class="tech-reveal-body" id="techBody">
-          <div class="tech-reveal-inner">
-            <strong>n8n Cloud</strong> — the automation backbone that connects your tools and runs the entire pipeline.<br>
-            <strong>Claude Sonnet 4.5</strong> — reads emails, writes replies in your tone, and checks quality before anything is sent.<br>
-            <strong>n8n MCP</strong> — gives the agent context and memory so it knows who it's talking to and what to do next.<br>
-            <strong>ReAct Workflow</strong> — the reasoning loop that lets the agent think, decide, and act step by step.<br><br>
-            Pre-configured so you spend time customising, not troubleshooting.
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -878,6 +808,57 @@
   </div>
 </section>
 
+<!-- ── BENEFITS ── -->
+<div class="dark-strip">
+  <div class="benefit-dark-grid">
+    <div class="benefit-dark-card reveal">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <p class="bdc-title">Ship in 3 hours</p>
+      <p class="bdc-desc">Build a real email agent in 3 hours. Walk out with a working assistant, not slides, not theory.</p>
+    </div>
+    <div class="benefit-dark-card reveal reveal-delay-1">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <p class="bdc-title">You set the rules</p>
+      <p class="bdc-desc">Instruct your agent. The AI follows them. Know exactly what it sends, why, and when.</p>
+    </div>
+    <div class="benefit-dark-card reveal reveal-delay-2">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <p class="bdc-title">Real agent, built by you</p>
+      <p class="bdc-desc">See how ReAct, LLM API, and system prompts actually work by building one yourself.</p>
+    </div>
+    <div class="benefit-dark-card reveal reveal-delay-3">
+      <div class="bdc-icon">
+        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <p class="bdc-title">Hands-on help</p>
+      <p class="bdc-desc">Max 25 seats — small cohort, structured pace, and support until your agent actually works.</p>
+    </div>
+  </div>
+  <div class="dark-strip-footer">
+    <div class="tech-reveal">
+      <button class="tech-reveal-btn" id="techBtn">
+        <span>Your tech stack</span>
+        <svg viewBox="0 0 20 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+      </button>
+      <div class="tech-reveal-body" id="techBody">
+        <div class="tech-reveal-inner">
+          <strong>n8n Cloud</strong> — the automation backbone that connects your tools and runs the entire pipeline.<br>
+          <strong>Claude Sonnet 4.5</strong> — reads emails, writes replies in your tone, and checks quality before anything is sent.<br>
+          <strong>n8n MCP</strong> — gives the agent context and memory so it knows who it's talking to and what to do next.<br>
+          <strong>ReAct Workflow</strong> — the reasoning loop that lets the agent think, decide, and act step by step.<br><br>
+          Pre-configured so you spend time customising, not troubleshooting.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── AGENDA ── -->
 <section id="agenda" class="section section-alt">
   <div class="container">
@@ -898,11 +879,22 @@
 <!-- ── TICKET ── -->
 <section class="ticket-section section-alt" id="ticket-box">
   <div class="ticket-section-inner">
+    <p class="sec-eyebrow reveal" style="margin-bottom:1.5rem;">Final seats</p>
     <div class="hero-event-card reveal">
       <div class="hero-ticket">
+        <div class="seat-progress-wrap">
+          <div class="seat-progress-label">
+            <span>Seats filled</span>
+            <span class="urgent">&#9888; 8 seats left</span>
+          </div>
+          <div class="seat-bar"><div class="seat-bar-fill"></div></div>
+        </div>
+
         <div class="ticket-price-row">
           <span class="ticket-price">595 SEK</span>
+          <span class="ticket-save">Final price</span>
         </div>
+
         <div class="ticket-divider"></div>
         <ul class="ticket-features">
           <li>Full 3-hour live online workshop</li>
@@ -913,9 +905,10 @@
         </ul>
 
         <a href="/before-checkout.html" class="ticket-cta">
-          Sign Up
+          Sign Up — 13 June
         </a>
-        <p class="ticket-note">Secure checkout — Max 25 seats — 13 June 2026</p>
+        <p class="ticket-urgency">Workshop closes once the last seat is gone</p>
+        <p class="ticket-note" style="margin-top:0.6rem;">Secure checkout — Max 25 seats — 13 June 2026</p>
         <p class="ticket-note" style="margin-top:0.3rem;">Need an invoice? Email <a href="mailto:info@genaition.org">info@genaition.org</a></p>
       </div>
     </div>
@@ -952,32 +945,6 @@
   </div>
 </section>
 
-<!-- ── GALLERY ── -->
-<section class="gallery-section">
-  <div style="max-width:760px;margin:0 auto;padding:0 2rem;">
-    <div class="gallery-header reveal">
-      <div>
-        <p class="sec-eyebrow" style="margin-bottom:0.4rem;">From our workshops</p>
-        <h2 class="sec-title" style="font-size:clamp(1.6rem,3.5vw,2.4rem);">How we teach</h2>
-      </div>
-      <p class="gallery-count">Genaition · Stockholm · Workshops 01–05</p>
-    </div>
-  </div>
-  <div class="gallery-grid">
-    <div class="gallery-slot-a reveal">
-      <img src="/workshop13.jpg" alt="Genaition workshop — building session" style="object-position: center top;" onerror="this.parentElement.style.background='#e8e2d2';" />
-      <div class="gallery-img-label">Online · June 2026</div>
-    </div>
-    <div class="gallery-slot-b reveal reveal-delay-1">
-      <img src="/workshop15.jpg" alt="Genaition workshop — group session" onerror="this.parentElement.style.background='#e0dace';" />
-      <div class="gallery-img-label">Stockholm · March 2026</div>
-    </div>
-    <div class="gallery-slot-c reveal reveal-delay-2">
-      <img src="/workshop16.jpg" alt="Genaition workshop — participants" style="object-position: center center;" onerror="this.parentElement.style.background='#ddd8c8';" />
-      <div class="gallery-img-label">Göteborg · SEP 2025</div>
-    </div>
-  </div>
-</section>
 
 <!-- ── TESTIMONIALS ── -->
 <section class="tp-section">
@@ -986,28 +953,28 @@
     <div class="reveal reveal-delay-1" style="display:flex;align-items:center;gap:0.6rem;margin-bottom:2rem;">
       <div style="display:flex;gap:3px;">
         <div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div>
-        <div class="tp-star" style="background:linear-gradient(90deg,#1a6b3a 50%,rgba(26,18,8,0.08) 50%);"></div>
+        <div class="tp-star" style="background:linear-gradient(90deg,#1a6b3a 50%,rgba(255,255,255,0.1) 50%);"></div>
       </div>
-      <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--ink-3);letter-spacing:0.08em;">4.5 / 5 · Trustpilot</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.45);letter-spacing:0.08em;">4.5 / 5 · Trustpilot</span>
       <a href="https://www.trustpilot.com/review/genaition.io" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:1px solid var(--green-border);padding-bottom:1px;margin-left:auto;">See all reviews ↗</a>
     </div>
     <div class="tp-cards reveal reveal-delay-2">
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div></div>
         <span class="tp-quotemark">"</span>
-        <p class="tp-card-text">The workshop was very good and helpful. The trainer guided us clearly in each step and everything was easy to follow.</p>
+        <p class="tp-card-text">Came in skeptical, left with a working agent in my inbox. By hour two I'd built the send loop myself. Not following along. Actually doing it.</p>
         <div><p class="tp-card-name">Valentina Fermanelli</p><p class="tp-card-date">Workshop · Göteborg · 2025</p></div>
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div></div>
         <span class="tp-quotemark">"</span>
-        <p class="tp-card-text">Great session! Well-demonstrated with practical understanding and real business scenarios throughout.</p>
+        <p class="tp-card-text">When the agent read an email and sent a draft back for my review, it finally clicked. I'd been trying to understand ReAct for months.</p>
         <div><p class="tp-card-name">Sara Svensson</p><p class="tp-card-date">Workshop · Stockholm · 2026</p></div>
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div><div class="tp-star"></div></div>
         <span class="tp-quotemark">"</span>
-        <p class="tp-card-text">I left feeling very inspired. A big insight into what Agentic AI actually is and how it works in practice.</p>
+        <p class="tp-card-text">Expected slides. Left with an agent pulling leads and writing outreach. Didn't think I'd ship something real in three hours.</p>
         <div><p class="tp-card-name">Joey Sorel</p><p class="tp-card-date">Workshop · Stockholm · 2025</p></div>
       </div>
     </div>
