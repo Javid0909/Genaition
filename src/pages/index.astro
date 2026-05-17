@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -277,6 +277,11 @@
     .next-event-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65) saturate(0.8) sepia(0.08); transition: transform 0.6s ease; }
     .next-event-card:hover .next-event-img img { transform: scale(1.04); }
     .next-event-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17,17,17,0.5) 0%, transparent 60%); }
+    @media (max-width: 700px) {
+      .next-event-img { order: -1; min-height: 260px; }
+      .next-event-btns { flex-direction: column; }
+      .next-event-btns a { width: 100%; text-align: center; justify-content: center; padding: 1rem; }
+    }
 
     /* ── WORKSHOPS (build-rows) ── */
     .build-rows { margin-top: 3.5rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
@@ -445,7 +450,7 @@
         </h1>
         <div class="hero-divider"></div>
         <p class="hero-desc">
-          GenAition is a Stockholm-based AI Evolution community. We help professionals, entrepreneurs, and students build real AI systems, automate tasks, and optimize workflows — no coding required.
+          GenAition is a Stockholm-based AI Evolution community. We help professionals, entrepreneurs, and students build real AI systems, automate tasks, and optimize workflows, no coding required.
         </p>
         <div class="hero-meta">
           <div class="meta-block">
@@ -506,7 +511,7 @@
     <div class="container">
       <p class="sec-label">Who we are</p>
       <h2 class="sec-title">AI Evolution<br>Community</h2>
-      <p class="sec-desc">We make AI practical and hands-on. No theory. Just real tools you can use the next day — from Slack chatbots to email automation, built in just a few hours.</p>
+      <p class="sec-desc">We make AI practical and hands-on. No theory. Just real tools you can use the next day, from Slack chatbots to email automation, built in just a few hours.</p>
       <div class="benefits-grid">
         <div class="benefit-cell">
           <div class="benefit-icon">
@@ -520,7 +525,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <p class="benefit-title">No coding needed</p>
-          <p class="benefit-desc">Beginner-friendly sessions. You set the rules — the AI follows them, not the other way around.</p>
+          <p class="benefit-desc">Beginner-friendly sessions. You set the rules, the AI follows them, not the other way around.</p>
         </div>
         <div class="benefit-cell">
           <div class="benefit-icon">
@@ -543,7 +548,7 @@
           <div class="next-event-body">
             <p class="next-event-label">Next workshop</p>
             <h3 class="next-event-title">Build your own AI Agent</h3>
-            <p class="next-event-desc">Build and launch your own AI Email Agent in 3 hours — live online. No coding required. 13 June 2026.</p>
+            <p class="next-event-desc">Build and launch your own AI Email Agent in 3 hours, live online. No coding required. 13 June 2026.</p>
             <div class="next-event-btns">
               <a href="/event-1" class="btn-primary">Learn more →</a>
               <a href="#contact" class="btn-secondary">Ask a question</a>
@@ -558,9 +563,30 @@
         </div>
       </div>
 
+      <!-- AI Lab card -->
+      <div class="next-event-card">
+        <div class="next-event-inner">
+          <div class="next-event-body">
+            <p class="next-event-label">AI Lab · In-Person · 4 Weeks</p>
+            <h3 class="next-event-title">Build your AI Team</h3>
+            <p class="next-event-desc">A 4-week focused in-person programme where you design and deploy a custom AI team for your business. Hands-on, structured, and results-driven.</p>
+            <div class="next-event-btns">
+              <a href="/ailab" class="btn-primary">Learn more →</a>
+              <a href="#contact" class="btn-secondary">Ask a question</a>
+            </div>
+          </div>
+          <div class="next-event-img">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/ailabmob.png">
+              <img src="/ailab.png" alt="AI Lab, Build your AI Team" />
+            </picture>
+          </div>
+        </div>
+      </div>
+
       <p class="sec-label">What we build</p>
       <h2 class="sec-title">Our workshops</h2>
-      <p class="sec-desc">From email automation to chatbots — real, working AI systems built live in the room.</p>
+      <p class="sec-desc">From email automation to chatbots, real, working AI systems built live in the room.</p>
 
       <div class="build-rows">
         <!-- Workshop 1 -->
@@ -573,7 +599,7 @@
             <ul class="build-checks">
               <li>Reads &amp; summarizes incoming emails automatically</li>
               <li>Drafts personalized replies in your tone</li>
-              <li>Works with Gmail — no new tools to learn</li>
+              <li>Works with Gmail, no new tools to learn</li>
             </ul>
             <a href="/what-built-1.html" class="build-cta">See what we built →</a>
           </div>
@@ -614,7 +640,7 @@
             <p class="build-desc">Build a customer support assistant on Telegram using n8n + Generative AI. Responds to customers, provides helpful answers, and guides users conversationally.</p>
             <ul class="build-checks">
               <li>Handles customer messages on Telegram automatically</li>
-              <li>Powered by n8n + Claude — no code required</li>
+              <li>Powered by n8n + Claude, no code required</li>
               <li>Customizable for any business or use case</li>
             </ul>
             <a href="/n8nwork" class="build-cta">See what we built →</a>
@@ -625,6 +651,7 @@
             <p class="build-photo-label">Telegram AI Agent · Workshop 03</p>
           </div>
         </div>
+
       </div>
 
     </div>

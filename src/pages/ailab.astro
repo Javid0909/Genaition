@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -523,7 +523,7 @@
     .footer-copyright { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); text-align: center; }
     @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr; } .footer-right-col { text-align: left; } .footer-col-label.right { justify-content: flex-start; } .footer-col-label.right::before { display: inline-block; } .footer-col-label.right::after { display: none; } .footer-address-lines { text-align: left; } }
 
-    /* MOBILE HERO — FULL BLEED */
+    /* MOBILE HERO, FULL BLEED */
     @media (max-width: 640px) {
       .hero { min-height: 100vh; }
       .hero-inner { position: relative; min-height: 100vh; align-items: stretch; }
@@ -778,7 +778,7 @@
         </div>
         <span class="stack-role">Orchestration Layer</span>
         <p class="stack-name">n8n</p>
-        <p class="stack-why"><strong>Why n8n?</strong> n8n runs on infrastructure you control — no task limits, no surprise pricing, no outages you didn't cause. More reliable, fully yours.</p>
+        <p class="stack-why"><strong>Why n8n?</strong> n8n runs on infrastructure you control, no task limits, no surprise pricing, no outages you didn't cause. More reliable, fully yours.</p>
       </div>
       <div class="stack-card">
         <div class="stack-icon airtable">
@@ -803,7 +803,7 @@
         </div>
         <span class="stack-role">Your AI Mechanic</span>
         <p class="stack-name">Claude Code</p>
-        <p class="stack-why"><strong>Why it matters:</strong> When your agent behaves unexpectedly, describe the problem in plain English. Claude Code diagnoses and fixes it — no developer needed.</p>
+        <p class="stack-why"><strong>Why it matters:</strong> When your agent behaves unexpectedly, describe the problem in plain English. Claude Code diagnoses and fixes it, no developer needed.</p>
       </div>
     </div>
     <div class="stack-deploy">
@@ -983,17 +983,17 @@
     <div class="tp-cards">
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
-        <p class="tp-card-text">The workshop, about generating our first AI agent, was very good and helpful. The trainer guided us clearly in each step and everything was easy to follow.</p>
+        <p class="tp-card-text">Came in skeptical, left with a working agent in my inbox. By hour two I'd built the send loop myself. Not following along. Actually doing it.</p>
         <div class="tp-card-meta"><span class="tp-card-name">Valentina Fermanelli</span><span class="tp-card-role">Statistics Consultant</span><span class="tp-card-date">Workshop · Göteborg · 2025</span></div>
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
-        <p class="tp-card-text">Great session! The workshop was well-demonstrated with practical understanding with real business scenarios.</p>
+        <p class="tp-card-text">When the agent read an email and sent a draft back for my review, it finally clicked. I'd been trying to understand ReAct for months.</p>
         <div class="tp-card-meta"><span class="tp-card-name">Sara Svensson</span><span class="tp-card-role">Founder</span><span class="tp-card-date">Workshop · Stockholm · 2026</span></div>
       </div>
       <div class="tp-card">
         <div class="tp-card-stars"><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div><div class="tp-card-star"></div></div>
-        <p class="tp-card-text">Structured and hands-on from start to finish. I left with a working AI agent — no theory, no waiting. First time it actually felt real in my business.</p>
+        <p class="tp-card-text">Structured and hands-on from start to finish. I left with a working AI agent, no theory, no waiting. First time it actually felt real in my business.</p>
         <div class="tp-card-meta"><span class="tp-card-name">Joey Sorel</span><span class="tp-card-role">Freelancer</span><span class="tp-card-date">Workshop · Stockholm · 2026</span></div>
       </div>
     </div>
@@ -1216,7 +1216,7 @@
           <li>Guiding materials included</li>
           <li>Post-lab Slack support</li>
         </ul>
-        <a href="/checkout" class="apply-btn">I am interested</a>
+        <a href="/checkout" class="apply-btn">Reserve your seat</a>
         <p class="apply-note">No commitment. We'll reach out within 24 hours.</p>
       </div>
     </div>
@@ -1242,7 +1242,7 @@
           <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
         </button>
         <div class="faq-body"><div class="faq-body-inner">
-          Most participants spend under <strong style="color:var(--white)">150 SEK/month</strong> after the lab — n8n is self-hosted (free), Claude API is pay-as-you-use (~5–20 USD/month for typical usage), and Airtable's free tier covers most cases. During the lab itself, costs are minimal.
+          Most participants spend under <strong style="color:var(--white)">150 SEK/month</strong> after the lab, n8n is self-hosted (free), Claude API is pay-as-you-use (~5–20 USD/month for typical usage), and Airtable's free tier covers most cases. During the lab itself, costs are minimal.
         </div></div>
       </div>
 
@@ -1367,6 +1367,9 @@
     </div>
     <div class="chat-typing" id="chatTyping">
       <span></span><span></span><span></span>
+    </div>
+    <div style="padding:0.5rem 1.25rem 0;text-align:center;font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);">
+      or email <a href="mailto:info@genaition.org" style="color:var(--green);text-decoration:none;">info@genaition.org</a>
     </div>
     <div class="chat-input-row">
       <input class="chat-input" id="chatInput" type="text" placeholder="Ask about the lab, tools, pricing…" autocomplete="off" />
