@@ -304,6 +304,20 @@
             <button type="button" class="qty-btn" id="increase">+</button>
           </div>
         </div>
+        <div class="form-group" style="margin-top:0.75rem; margin-bottom:0;">
+          <button type="button" class="promo-toggle" id="promoToggle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            Har du en rabattkod?
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="promo-panel" id="promoPanel">
+            <div class="form-group">
+              <label for="promoCode">Rabattkod</label>
+              <input type="text" id="promoCode" name="promoCode" placeholder="Ange kod" autocomplete="off" />
+              <p class="promo-msg" id="promoMsg"></p>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
 
@@ -391,11 +405,50 @@
   });
 
   const DEFAULT_LINKS = { 1:"https://buy.stripe.com/aFa5kD70f3zL3p2bnH8AE0B",2:"https://buy.stripe.com/28EcN55Wb5HT5xabnH8AE0C",3:"https://buy.stripe.com/4gM14n1FVb2d3p29fz8AE0D",4:"https://buy.stripe.com/6oU3cv5Wb9Y9cZCcrL8AE0E",5:"https://buy.stripe.com/6oU5kDbgvb2d3p2gI18AE0F",6:"https://buy.stripe.com/aFa28r3O31rD3p2crL8AE0G" };
+  const PROMO_LINKS  = { "HYPERISLAND": { 1:"https://buy.stripe.com/9B6bJ1ckz0nz6BeajD8AE0Q", 2:"https://buy.stripe.com/8x26oH0BReep2kY2Rb8AE0R", 3:"https://buy.stripe.com/14A14n84j3zLgbObnH8AE0S" } };
+  const PROMO_PRICES = { "HYPERISLAND": { 1:2685, 2:5370, 3:8055 } };
 
   let ticketCount = 1;
+  let activePromo = null;
 
-  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; } });
-  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 6) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; } });
+  function updatePromoMsg() {
+    if (!activePromo) return;
+    const msg = document.getElementById('promoMsg');
+    const price = PROMO_PRICES[activePromo][ticketCount];
+    if (price) {
+      msg.className = 'promo-msg success';
+      msg.textContent = '✓ ' + activePromo + ' tillämpad — ' + price + ' SEK för ' + ticketCount + ' plats' + (ticketCount > 1 ? 'er' : '');
+    } else {
+      msg.className = 'promo-msg error';
+      msg.textContent = 'Koden gäller för 1–3 platser';
+    }
+  }
+
+  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; updatePromoMsg(); } });
+  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 6) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; updatePromoMsg(); } });
+
+  document.getElementById('promoToggle').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.getElementById('promoPanel').classList.toggle('open');
+  });
+
+  document.getElementById('promoCode').addEventListener('input', function() {
+    const code = this.value.trim().toUpperCase();
+    this.value = code;
+    const msg = document.getElementById('promoMsg');
+    if (PROMO_LINKS[code]) {
+      activePromo = code;
+      updatePromoMsg();
+    } else if (code.length > 0) {
+      activePromo = null;
+      msg.className = 'promo-msg error';
+      msg.textContent = 'Ogiltig rabattkod';
+    } else {
+      activePromo = null;
+      msg.className = 'promo-msg';
+      msg.textContent = '';
+    }
+  });
 
   function validate() {
     let ok = true;
@@ -407,7 +460,8 @@
   document.getElementById('submitBtn').addEventListener('click', () => {
     if (!validate()) return;
     try { const p=new URLSearchParams(new FormData(document.getElementById('booking-form'))); navigator.sendBeacon("https://nariman09.app.n8n.cloud/webhook/ca321f00-1343-4b79-9e64-482fb94132d6",new Blob([p.toString()],{type:'application/x-www-form-urlencoded'})); } catch(e) { console.warn('Webhook failed:',e); }
-    window.location.href = DEFAULT_LINKS[ticketCount] || DEFAULT_LINKS[1];
+    const promoLink = activePromo && PROMO_LINKS[activePromo][ticketCount];
+    window.location.href = promoLink || DEFAULT_LINKS[ticketCount] || DEFAULT_LINKS[1];
   });
 
   ['firstName','lastName','email','background'].forEach(id => {
