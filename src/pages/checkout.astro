@@ -89,6 +89,7 @@
     .form-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
 
     .ticket-row { display: flex; align-items: center; gap: 1rem; }
+    .ticket-total { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.04em; color: var(--white); margin-left: 0.5rem; }
     .qty-btn { width: 30px; height: 30px; border-radius: var(--r); border: 1px solid var(--border-strong); background: var(--off-black); color: var(--white); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; }
     .qty-btn:hover { border-color: var(--green); background: var(--green-dim); color: var(--green); }
     .qty-input { width: 60px; text-align: center; background: var(--off-black) !important; color: var(--white) !important; -webkit-appearance: none; -moz-appearance: textfield; border: 1px solid var(--border-strong) !important; border-radius: var(--r) !important; padding: 0.45rem 0.75rem !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.9rem !important; outline: none; }    .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -300,8 +301,9 @@
           <label for="ticketCount">Number of seats</label>
           <div class="ticket-row">
             <button type="button" class="qty-btn" id="decrease">−</button>
-            <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="6" required readonly />
+            <input type="number" id="ticketCount" name="tickets" class="qty-input" value="1" min="1" max="4" required readonly />
             <button type="button" class="qty-btn" id="increase">+</button>
+            <span class="ticket-total" id="ticketTotal">3,985 SEK</span>
           </div>
         </div>
         <div class="form-group" style="margin-top:0.75rem; margin-bottom:0;">
@@ -404,12 +406,23 @@
     else { langWrap.classList.remove('open'); langBtn.setAttribute('aria-expanded', 'false'); }
   });
 
+  const PRICE_REGULAR = 3985;
+
   const DEFAULT_LINKS = { 1:"https://buy.stripe.com/fZu14nckz4DPaRudvP8AE0T",2:"https://buy.stripe.com/eVq5kD3O35HT0cQajD8AE0U",3:"https://buy.stripe.com/9B6fZh84j2vHaRudvP8AE0V",4:"https://buy.stripe.com/dRm14n2JZ7Q1bVy63n8AE0W" };
   const PROMO_LINKS  = { "HYPERISLAND": { 1:"https://buy.stripe.com/dRm7sL4S7c6h1gUdvP8AE0X", 2:"https://buy.stripe.com/cNi5kD98ngmxcZC2Rb8AE0Y", 3:"https://buy.stripe.com/28EfZhfwL4DP5xa63n8AE0Z", 4:"https://buy.stripe.com/3cI14nacrb2d3p21N78AE10" }, "MEMBER9": { 1:"https://buy.stripe.com/dRm7sL4S7c6h1gUdvP8AE0X", 2:"https://buy.stripe.com/cNi5kD98ngmxcZC2Rb8AE0Y", 3:"https://buy.stripe.com/28EfZhfwL4DP5xa63n8AE0Z", 4:"https://buy.stripe.com/3cI14nacrb2d3p21N78AE10" } };
   const PROMO_PRICES = { "HYPERISLAND": { 1:3485, 2:6970, 3:10455, 4:13940 }, "MEMBER9": { 1:3485, 2:6970, 3:10455, 4:13940 } };
 
   let ticketCount = 1;
   let activePromo = null;
+
+  function updatePriceDisplay() {
+    const totalEl = document.getElementById('ticketTotal');
+    if (!totalEl) return;
+    const total = activePromo && PROMO_PRICES[activePromo] && PROMO_PRICES[activePromo][ticketCount]
+      ? PROMO_PRICES[activePromo][ticketCount]
+      : ticketCount * PRICE_REGULAR;
+    totalEl.textContent = total.toLocaleString('sv-SE') + ' SEK';
+  }
 
   function updatePromoMsg() {
     if (!activePromo) return;
@@ -424,8 +437,8 @@
     }
   }
 
-  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; updatePromoMsg(); } });
-  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 4) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; updatePromoMsg(); } });
+  document.getElementById('decrease').addEventListener('click', () => { if (ticketCount > 1) { ticketCount--; document.getElementById('ticketCount').value = ticketCount; updatePromoMsg(); updatePriceDisplay(); } });
+  document.getElementById('increase').addEventListener('click', () => { if (ticketCount < 4) { ticketCount++; document.getElementById('ticketCount').value = ticketCount; updatePromoMsg(); updatePriceDisplay(); } });
 
   document.getElementById('promoToggle').addEventListener('click', function() {
     this.classList.toggle('open');
@@ -439,14 +452,17 @@
     if (PROMO_LINKS[code]) {
       activePromo = code;
       updatePromoMsg();
+      updatePriceDisplay();
     } else if (code.length > 0) {
       activePromo = null;
       msg.className = 'promo-msg error';
       msg.textContent = 'Invalid discount code';
+      updatePriceDisplay();
     } else {
       activePromo = null;
       msg.className = 'promo-msg';
       msg.textContent = '';
+      updatePriceDisplay();
     }
   });
 
