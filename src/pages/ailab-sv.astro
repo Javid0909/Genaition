@@ -340,6 +340,7 @@
     .apply-orig-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.28); text-decoration: line-through; margin-bottom: 0.2rem; }
     .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
     .apply-save-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--green); background: var(--green-dim); border: 1px solid rgba(118,184,42,0.38); padding: 0.18rem 0.5rem; border-radius: 2px; white-space: nowrap; }
+    .apply-deadline { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.13em; color: rgba(255,200,80,0.55); margin-top: 0.4rem; margin-bottom: 0; }
     .apply-price-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.2rem 0; }
     .apply-includes-list { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0; text-align: left; }
     .apply-includes-list li { display: flex; gap: 0.75rem; font-size: 0.84rem; color: rgba(255,255,255,0.58); padding: 0.42rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s; }
@@ -1016,8 +1017,8 @@
       <div class="apply-box" id="pricing">
         <div class="ticket-status"><span class="ticket-status-dot"></span> Begränsade platser</div>
         <p class="apply-orig-price">4 985 SEK</p>
-        <p class="apply-box-title">2 985 SEK</p>
-        <span class="apply-save-badge">Spara 2 000 SEK</span>
+        <p class="apply-box-title">3 985 SEK</p>
+        <p class="apply-deadline">Spara 1 000 SEK till 5 juli</p>
         <div class="apply-price-divider"></div>
         <ul class="apply-includes-list">
           <li>VIP in-person support under hela programmet</li>
@@ -1042,7 +1043,7 @@
         <button class="faq-btn"><span>Finns det betalningsplan?</span>
           <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
         </button>
-        <div class="faq-body"><div class="faq-body-inner">Cohort 1:s grundpris är 2 985 SEK, gäller till 30 juni. Höjs till 4 985 SEK efter. Ingen betalningsplan just nu, men om timing är ett problem, hör av dig direkt via Slack eller e-post.</div></div>
+        <div class="faq-body"><div class="faq-body-inner">Aktuellt pris är 3 985 SEK. Ingen betalningsplan just nu, men om timing är ett problem, hör av dig direkt via Slack eller e-post.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-btn"><span>Vad kostar det i verktyg och prenumerationer efter labbet?</span>
