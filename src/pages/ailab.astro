@@ -32,11 +32,11 @@
       --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.12);
       --green: #76b82a; --green-dim: rgba(118,184,42,0.12); --green-glow: rgba(118,184,42,0.3);
       --white: #ffffff; --muted: rgba(255,255,255,0.45); --muted2: rgba(255,255,255,0.65);
-      --header: 68px; --r: 2px;
+      --header: 68px; --banner: 40px; --r: 2px;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    section, [id] { scroll-margin-top: calc(var(--header) + 12px); }
+    section, [id] { scroll-margin-top: calc(var(--header) + var(--banner) + 12px); }
 
     /* HEADER */
     header { position: fixed; top: 0; left: 0; right: 0; height: var(--header); background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; display: flex; align-items: center; }
@@ -54,7 +54,7 @@
     @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .nav-links { display: none; } .nav-apply { display: none; } }
 
     /* HERO */
-    .hero { min-height: 88vh; padding-top: var(--header); display: flex; align-items: stretch; background: var(--black); }
+    .hero { min-height: 88vh; padding-top: calc(var(--header) + var(--banner)); display: flex; align-items: stretch; background: var(--black); }
     .hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 55% 45%; align-items: center; }
     @media (max-width: 900px) { .hero { min-height: auto; } .hero-inner { grid-template-columns: 1fr; } }
     .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 3.5rem 3rem 3rem 2.5rem; position: relative; z-index: 2; }
@@ -527,9 +527,35 @@
     .footer-copyright { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.18); text-align: center; }
     @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr; } .footer-right-col { text-align: left; } .footer-col-label.right { justify-content: flex-start; } .footer-col-label.right::before { display: inline-block; } .footer-col-label.right::after { display: none; } .footer-address-lines { text-align: left; } }
 
+    /* URGENCY BANNER */
+    .urgency-banner { position: fixed; top: var(--header); left: 0; right: 0; z-index: 98; height: var(--banner); background: rgba(26,8,0,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,140,50,0.25); display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 0 1.5rem; }
+    .urgency-banner-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,180,80,0.85); white-space: nowrap; }
+    .urgency-banner-text strong { color: #ff9945; }
+.urgency-save { display: inline-block; background: rgba(255,140,50,0.15); border: 1px solid rgba(255,140,50,0.35); padding: 0.18rem 0.65rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: #ff9945; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+    .urgency-save:hover { background: rgba(255,140,50,0.28); }
+    @media (max-width: 640px) { .urgency-banner { gap: 0.6rem; padding: 0 1rem; } .urgency-banner-text { font-size: 0.55rem; white-space: normal; text-align: center; } }
+
+    /* SOCIAL PROOF BAR */
+    .proof-bar { background: var(--off-black); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.75rem 0; }
+    .proof-bar-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+    .proof-stat { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .proof-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--green); line-height: 1; }
+    .proof-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+    .proof-divider { width: 1px; height: 2.5rem; background: var(--border-strong); }
+    @media (max-width: 640px) { .proof-divider { display: none; } .proof-bar-inner { gap: 1.5rem; } }
+
+    /* MICRO CTA */
+    .micro-cta { background: var(--green); padding: 2.5rem 0; }
+    .micro-cta-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .micro-cta-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.4rem, 3vw, 2.1rem); color: #000; letter-spacing: 0.04em; }
+    .micro-cta-sub { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(0,0,0,0.5); margin-top: 0.2rem; }
+    .micro-cta-btn { background: #000; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 0.9rem 2rem; border-radius: var(--r); text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+    .micro-cta-btn:hover { background: #111; }
+    @media (max-width: 640px) { .micro-cta-inner { justify-content: center; text-align: center; } }
+
     /* MOBILE HERO, FULL BLEED */
     @media (max-width: 640px) {
-      .hero { min-height: 100vh; }
+      .hero { min-height: 100vh; padding-top: calc(var(--header) + var(--banner)); }
       .hero-inner { position: relative; min-height: 100vh; align-items: stretch; }
       .hero-right {
         position: absolute; inset: 0; padding: 0; z-index: 0; display: block;
@@ -623,6 +649,12 @@
   </div>
 </header>
 
+<!-- URGENCY BANNER -->
+<div class="urgency-banner">
+  <span class="urgency-banner-text">Early Bird ends <strong>July 22</strong></span>
+  <a href="#pricing" class="urgency-save">Reserve seat →</a>
+</div>
+
 <!-- HERO -->
 <section id="top" class="hero">
   <div class="hero-inner">
@@ -642,7 +674,7 @@
       <div class="hero-meta">
         <div class="meta-block"><p class="meta-label">Dates</p><p class="meta-value">10, 17 and 24 OCT</p><p class="meta-sub">3 hours per session</p></div>
         <div class="meta-block"><p class="meta-label">Location</p><p class="meta-value green">Stockholm</p></div>
-        <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-Person</p></div>
+        <div class="meta-block"><p class="meta-label">Early Bird</p><p class="meta-value" style="color:#ff9945;">3,985 SEK</p><p class="meta-sub" style="color:#ff9945;opacity:0.75;">Save 1,000 SEK</p></div>
         <div class="meta-block"><p class="meta-label">Duration</p><p class="meta-value">9 Hours</p></div>
       </div>
       <div class="hero-actions">
@@ -674,17 +706,19 @@
   </div>
 </section>
 
-<!-- CHANGE #4: VIDEO immediately after hero -->
+<!-- VIDEO HERO -->
 <div class="video-hero">
-  <video id="bgVideo" src="/workshop1.mp4" autoplay muted loop playsinline preload="auto"></video>
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="/workshop1.mp4" type="video/mp4" />
+  </video>
   <div class="video-hero-overlay"></div>
   <div class="video-hero-grid"></div>
   <div class="video-hero-scanlines"></div>
   <div class="video-hero-vignette"></div>
   <div class="video-hero-content">
-    <p class="vh-tag">From the Workshop Floor</p>
-    <p class="vh-headline">YOUR FIRST<br><span class="accent">AGENTIC AI</span><br>SYSTEM</p>
-    <p class="vh-sub">Workshop #5 · 2025</p>
+    <div class="vh-tag">Live session footage</div>
+    <h2 class="vh-headline">See the system<br><span class="accent">in action</span></h2>
+    <p class="vh-sub">Real agents. Real decisions. Your business.</p>
   </div>
 </div>
 
@@ -692,6 +726,19 @@
   <div class="principle-inner">
     <span class="principle-tag">Core Principle</span>
     <p class="principle-text">No theory. We build a real-world AI project.</p>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-bar-inner">
+    <div class="proof-stat"><span class="proof-num">7</span><span class="proof-label">Workshops run</span></div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat"><span class="proof-num">180+</span><span class="proof-label">Attendees trained</span></div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat"><span class="proof-num">4.5★</span><span class="proof-label">Average rating</span></div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat"><span class="proof-num">3</span><span class="proof-label">Sessions to live</span></div>
   </div>
 </div>
 
@@ -862,6 +909,17 @@
 </div>
 <div class="scenario-section-bg-bottom-bar"></div>
 
+<!-- MICRO CTA -->
+<div class="micro-cta">
+  <div class="micro-cta-inner">
+    <div>
+      <p class="micro-cta-text">Ready to build your AI team?</p>
+      <p class="micro-cta-sub">3 sessions · Stockholm · Oct 10, 17 &amp; 24</p>
+    </div>
+    <a href="#pricing" class="micro-cta-btn">Reserve your seat</a>
+  </div>
+</div>
+
 <!-- WHO IT'S FOR -->
 <section id="for" class="section">
   <img class="for-bg-img for-bg-desktop" src="/workshopmarch2026.jpg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
@@ -927,35 +985,7 @@
   </div>
 </section>
 
-<!-- GALLERY -->
-<section class="gallery-section">
-  <div class="gallery-inner">
-    <div class="gallery-header">
-      <div>
-        <p class="sec-label" style="margin-bottom:0.5rem;">Images from our workshops</p>
-        <h2 class="sec-title" style="font-size:clamp(2rem,4vw,3rem);">We build in-person</h2>
-      </div>
-      <p class="gallery-count">Agentic AI Bootcamp · Stockholm · Workshops 01–05</p>
-    </div>
-    <div class="gallery-grid">
-      <div class="gallery-slot-a">
-        <img src="/javidw.jpg" alt="Genaition workshopbuilding session" style="object-position: center top;" />
-        <div class="gallery-img-label">Stockholm · March 2026</div>
-      </div>
-      <div class="gallery-slot-b">
-        <img src="/email-workshopm.jpg" alt="Genaition workshopgroup session" />
-        <div class="gallery-img-label">Stockholm · DEC 2025</div>
-      </div>
-      <div class="gallery-slot-c">
-        <img src="/telegram-workshop.png" alt="Genaition workshopparticipants" style="object-position: center center;" />
-        <div class="gallery-img-label">Göteborg · SEP 2025</div>
-      </div>
-    </div>
-    <p class="gallery-scroll-hint">← Swipe to see more →</p>
-  </div>
-</section>
-
-<!-- CHANGE #3: TRUSTPILOTquotes only, no aggregate score -->
+<!-- TESTIMONIALS -->
 <section class="trustpilot-section">
   <div class="container">
     <div class="tp-header">
@@ -996,135 +1026,6 @@
     </div>
   </div>
 </section>
-
-
-<script>
-  (function() {
-    const player   = document.getElementById('demoPlayer');
-    const video    = document.getElementById('demoVideo');
-    const overlay  = document.getElementById('demoOverlay');
-    const playBtn  = document.getElementById('demoPlayBtn');
-    const progressWrap = document.getElementById('demoProgressWrap');
-    const fill     = document.getElementById('demoFill');
-    const thumb    = document.getElementById('demoThumb');
-    const current  = document.getElementById('demoCurrent');
-    const duration = document.getElementById('demoDuration');
-    const iconPlay     = document.getElementById('iconPlay');
-    const iconPause    = document.getElementById('iconPause');
-    const iconReplay   = document.getElementById('iconReplay');
-    const fsBtn        = document.getElementById('demoFsBtn');
-    const iconExpand   = document.getElementById('iconExpand');
-    const iconCompress = document.getElementById('iconCompress');
-
-    function fmt(s) {
-      s = Math.floor(s || 0);
-      return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
-    }
-
-    function setIcon(state) {
-      iconPlay.style.display   = state === 'play'   ? '' : 'none';
-      iconPause.style.display  = state === 'pause'  ? '' : 'none';
-      iconReplay.style.display = state === 'replay' ? '' : 'none';
-    }
-
-    function updateBar() {
-      const pct = video.duration ? (video.currentTime / video.duration) * 100 : 0;
-      fill.style.width  = pct + '%';
-      thumb.style.right = (100 - pct) + '%';
-      current.textContent = fmt(video.currentTime);
-    }
-
-    video.addEventListener('loadedmetadata', () => {
-      duration.textContent = fmt(video.duration);
-    });
-
-    video.addEventListener('timeupdate', updateBar);
-
-    video.addEventListener('ended', () => {
-      overlay.classList.remove('hidden');
-      setIcon('replay');
-      overlay.querySelector('.demo-play-icon svg').style.marginLeft = '0';
-    });
-
-    // Initial overlay click → play
-    overlay.addEventListener('click', (e) => {
-      e.stopPropagation();
-      video.play();
-      overlay.classList.add('hidden');
-      setIcon('pause');
-    });
-
-    // Click on video area (not controls) → toggle play/pause
-    player.addEventListener('click', (e) => {
-      if (overlay.classList.contains('hidden')) {
-        if (video.paused) { video.play(); setIcon('pause'); }
-        else              { video.pause(); setIcon('play'); }
-      }
-    });
-
-    // Controls play button
-    playBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (video.ended) {
-        video.currentTime = 0;
-        video.play();
-        overlay.classList.add('hidden');
-        setIcon('pause');
-      } else if (video.paused) {
-        video.play();
-        setIcon('pause');
-      } else {
-        video.pause();
-        setIcon('play');
-      }
-    });
-
-    // Seek on progress bar
-    function seek(e) {
-      const rect = progressWrap.getBoundingClientRect();
-      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      if (video.duration) video.currentTime = pct * video.duration;
-      updateBar();
-    }
-    let dragging = false;
-    progressWrap.addEventListener('mousedown', (e) => { dragging = true; seek(e); e.stopPropagation(); });
-    document.addEventListener('mousemove', (e) => { if (dragging) seek(e); });
-    document.addEventListener('mouseup',   ()  => { dragging = false; });
-    progressWrap.addEventListener('click', (e) => { seek(e); e.stopPropagation(); });
-
-    // Prevent controls clicks from reaching player toggle
-    document.getElementById('demoControls').addEventListener('click', (e) => e.stopPropagation());
-
-    // Fullscreen toggle (desktop + mobile/iOS fallback)
-    function setFsIcon(isFs) {
-      iconExpand.style.display   = isFs ? 'none' : '';
-      iconCompress.style.display = isFs ? '' : 'none';
-    }
-    fsBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
-      if (inFs) {
-        if (document.exitFullscreen) document.exitFullscreen();
-        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      } else {
-        if (player.requestFullscreen) {
-          player.requestFullscreen().catch(() => {
-            if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
-          });
-        } else if (player.webkitRequestFullscreen) {
-          player.webkitRequestFullscreen();
-        } else if (video.webkitEnterFullscreen) {
-          video.webkitEnterFullscreen();
-        }
-      }
-    });
-    document.addEventListener('fullscreenchange', () => setFsIcon(!!document.fullscreenElement));
-    document.addEventListener('webkitfullscreenchange', () => setFsIcon(!!document.webkitFullscreenElement));
-    // iOS video-level fullscreen events
-    video.addEventListener('webkitbeginfullscreen', () => setFsIcon(true));
-    video.addEventListener('webkitendfullscreen',   () => setFsIcon(false));
-  })();
-</script>
 
 <!-- INSTRUCTOR -->
 <section id="instructor" class="section">
@@ -1214,9 +1115,37 @@
           <li>Post-lab Slack support</li>
         </ul>
         <a href="/checkout" class="apply-btn">Reserve your seat</a>
-        <p class="apply-note">Secure your spot today.</p>
+        <p class="apply-note" style="text-align:center;">Secure your spot today.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <div>
+        <p class="sec-label">From our workshops</p>
+        <h2 class="sec-title">See the room</h2>
+      </div>
+      <span class="gallery-count">7 workshops · 180+ attendees</span>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-slot-a">
+        <img src="/javidw.jpg" alt="Workshop session" onerror="this.style.display='none'" />
+        <p class="gallery-img-label">Stockholm · March 2026</p>
+      </div>
+      <div class="gallery-slot-b">
+        <img src="/email-workshopm.jpg" alt="Participants building" onerror="this.style.display='none'" />
+        <p class="gallery-img-label">Stockholm · DEC 2025</p>
+      </div>
+      <div class="gallery-slot-c">
+        <img src="/telegram-workshop.png" alt="Workshop group" onerror="this.style.display='none'" />
+        <p class="gallery-img-label">Göteborg · SEP 2025</p>
+      </div>
+    </div>
+    <p class="gallery-scroll-hint">← Scroll to see more →</p>
   </div>
 </section>
 
@@ -1524,6 +1453,123 @@ Keep answers concise, warm, and direct. Max 3 sentences per reply. If you don't 
       });
     }, { threshold: 0.5 });
     obs.observe(video);
+  })();
+</script>
+
+<script>
+  // Video player controls (moved to end of body so #demoPlayer exists in DOM)
+  (function() {
+    const player   = document.getElementById('demoPlayer');
+    const video    = document.getElementById('demoVideo');
+    const overlay  = document.getElementById('demoOverlay');
+    const playBtn  = document.getElementById('demoPlayBtn');
+    const progressWrap = document.getElementById('demoProgressWrap');
+    const fill     = document.getElementById('demoFill');
+    const thumb    = document.getElementById('demoThumb');
+    const current  = document.getElementById('demoCurrent');
+    const duration = document.getElementById('demoDuration');
+    const iconPlay     = document.getElementById('iconPlay');
+    const iconPause    = document.getElementById('iconPause');
+    const iconReplay   = document.getElementById('iconReplay');
+    const fsBtn        = document.getElementById('demoFsBtn');
+    const iconExpand   = document.getElementById('iconExpand');
+    const iconCompress = document.getElementById('iconCompress');
+    if (!player || !video) return;
+
+    function fmt(s) {
+      s = Math.floor(s || 0);
+      return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+    }
+
+    function setIcon(state) {
+      iconPlay.style.display   = state === 'play'   ? '' : 'none';
+      iconPause.style.display  = state === 'pause'  ? '' : 'none';
+      iconReplay.style.display = state === 'replay' ? '' : 'none';
+    }
+
+    function updateBar() {
+      const pct = video.duration ? (video.currentTime / video.duration) * 100 : 0;
+      fill.style.width  = pct + '%';
+      thumb.style.right = (100 - pct) + '%';
+      current.textContent = fmt(video.currentTime);
+    }
+
+    video.addEventListener('loadedmetadata', () => { duration.textContent = fmt(video.duration); });
+    video.addEventListener('timeupdate', updateBar);
+    video.addEventListener('ended', () => {
+      overlay.classList.remove('hidden');
+      setIcon('replay');
+      overlay.querySelector('.demo-play-icon svg').style.marginLeft = '0';
+    });
+
+    overlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.play();
+      overlay.classList.add('hidden');
+      setIcon('pause');
+    });
+
+    player.addEventListener('click', (e) => {
+      if (overlay.classList.contains('hidden')) {
+        if (video.paused) { video.play(); setIcon('pause'); }
+        else              { video.pause(); setIcon('play'); }
+      }
+    });
+
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video.ended) {
+        video.currentTime = 0;
+        video.play();
+        overlay.classList.add('hidden');
+        setIcon('pause');
+      } else if (video.paused) {
+        video.play(); setIcon('pause');
+      } else {
+        video.pause(); setIcon('play');
+      }
+    });
+
+    function seek(e) {
+      const rect = progressWrap.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      if (video.duration) video.currentTime = pct * video.duration;
+      updateBar();
+    }
+    let dragging = false;
+    progressWrap.addEventListener('mousedown', (e) => { dragging = true; seek(e); e.stopPropagation(); });
+    document.addEventListener('mousemove', (e) => { if (dragging) seek(e); });
+    document.addEventListener('mouseup',   ()  => { dragging = false; });
+    progressWrap.addEventListener('click', (e) => { seek(e); e.stopPropagation(); });
+
+    document.getElementById('demoControls').addEventListener('click', (e) => e.stopPropagation());
+
+    function setFsIcon(isFs) {
+      iconExpand.style.display   = isFs ? 'none' : '';
+      iconCompress.style.display = isFs ? '' : 'none';
+    }
+    fsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (inFs) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      } else {
+        if (player.requestFullscreen) {
+          player.requestFullscreen().catch(() => {
+            if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+          });
+        } else if (player.webkitRequestFullscreen) {
+          player.webkitRequestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+          video.webkitEnterFullscreen();
+        }
+      }
+    });
+    document.addEventListener('fullscreenchange', () => setFsIcon(!!document.fullscreenElement));
+    document.addEventListener('webkitfullscreenchange', () => setFsIcon(!!document.webkitFullscreenElement));
+    video.addEventListener('webkitbeginfullscreen', () => setFsIcon(true));
+    video.addEventListener('webkitendfullscreen',   () => setFsIcon(false));
   })();
 </script>
 </body>
