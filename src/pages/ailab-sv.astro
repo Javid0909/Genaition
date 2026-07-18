@@ -32,11 +32,11 @@
       --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.12);
       --green: #76b82a; --green-dim: rgba(118,184,42,0.12); --green-glow: rgba(118,184,42,0.3);
       --white: #ffffff; --muted: rgba(255,255,255,0.45); --muted2: rgba(255,255,255,0.65);
-      --header: 68px; --r: 2px;
+      --header: 68px; --banner: 40px; --r: 2px;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    section, [id] { scroll-margin-top: calc(var(--header) + 12px); }
+    section, [id] { scroll-margin-top: calc(var(--header) + var(--banner) + 12px); }
 
     header { position: fixed; top: 0; left: 0; right: 0; height: var(--header); background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; display: flex; align-items: center; }
     .hdr-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; width: 100%; display: flex; align-items: center; justify-content: space-between; }
@@ -52,7 +52,7 @@
     .nav-apply:hover { background: #8fd433; transform: translateY(-1px); }
     @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .nav-links { display: none; } .nav-apply { display: none; } }
 
-    .hero { min-height: 88vh; padding-top: var(--header); display: flex; align-items: stretch; background: var(--black); }
+    .hero { min-height: 88vh; padding-top: calc(var(--header) + var(--banner)); display: flex; align-items: stretch; background: var(--black); }
     .hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 55% 45%; align-items: center; }
     @media (max-width: 900px) { .hero { min-height: auto; } .hero-inner { grid-template-columns: 1fr; } }
     .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 3.5rem 3rem 3rem 2.5rem; position: relative; z-index: 2; }
@@ -141,6 +141,14 @@
     .principle-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
     .principle-tag { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(0,0,0,0.45); white-space: nowrap; border: 1px solid rgba(0,0,0,0.2); padding: 0.25rem 0.6rem; border-radius: var(--r); }
     .principle-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.8rem); color: #000; letter-spacing: 0.04em; }
+
+    .proof-bar { background: var(--off-black); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.75rem 0; }
+    .proof-bar-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+    .proof-stat { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .proof-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--green); line-height: 1; }
+    .proof-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+    .proof-divider { width: 1px; height: 2.5rem; background: var(--border-strong); }
+    @media (max-width: 640px) { .proof-divider { display: none; } .proof-bar-inner { gap: 0.6rem; flex-wrap: nowrap; padding: 0 1rem; } .proof-num { font-size: 1.4rem; } .proof-label { font-size: 0.38rem; letter-spacing: 0.1em; } .proof-bar { padding: 1.1rem 0; } }
 
     .section { padding: 7rem 0; }
     @media (max-width: 640px) { .section { padding: 3.5rem 0; } }
@@ -471,7 +479,7 @@
 
     /* MOBILE HERO, FULL BLEED */
     @media (max-width: 640px) {
-      .hero { min-height: 100vh; }
+      .hero { min-height: 100vh; padding-top: calc(var(--header) + var(--banner)); }
       .hero-inner { position: relative; min-height: 100vh; align-items: stretch; }
       .hero-right {
         position: absolute; inset: 0; padding: 0; z-index: 0; display: block;
@@ -502,6 +510,23 @@
       .hero-meta { max-width: 100%; }
       .hero-cta { width: 100%; justify-content: center; }
     }
+
+    /* URGENCY BANNER */
+    .urgency-banner { position: fixed; top: var(--header); left: 0; right: 0; z-index: 98; height: var(--banner); background: rgba(26,8,0,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,140,50,0.25); display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 0 1.5rem; }
+    .urgency-banner-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,180,80,0.85); white-space: nowrap; }
+    .urgency-banner-text strong { color: #ff9945; }
+    .urgency-save { display: inline-block; background: rgba(255,140,50,0.15); border: 1px solid rgba(255,140,50,0.35); padding: 0.18rem 0.65rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: #ff9945; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+    .urgency-save:hover { background: rgba(255,140,50,0.28); }
+    @media (max-width: 640px) { .urgency-banner { gap: 0.6rem; padding: 0 1rem; } .urgency-banner-text { font-size: 0.55rem; white-space: normal; text-align: center; } }
+
+    /* MICRO CTA */
+    .micro-cta { background: var(--green); padding: 2.5rem 0; }
+    .micro-cta-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .micro-cta-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.4rem, 3vw, 2.1rem); color: #000; letter-spacing: 0.04em; }
+    .micro-cta-sub { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(0,0,0,0.5); margin-top: 0.2rem; }
+    .micro-cta-btn { background: #000; color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; padding: 0.9rem 2rem; border-radius: var(--r); text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+    .micro-cta-btn:hover { background: #111; }
+    @media (max-width: 640px) { .micro-cta-inner { justify-content: center; text-align: center; } }
   </style>
 
   <!-- Meta Pixel -->
@@ -564,6 +589,12 @@
   </div>
 </header>
 
+<!-- URGENCY BANNER -->
+<div class="urgency-banner">
+  <span class="urgency-banner-text">Early Bird slutar <strong>22 Juli</strong></span>
+  <a href="#pricing" class="urgency-save">Reservera plats →</a>
+</div>
+
 <!-- HERO -->
 <section id="top" class="hero">
   <div class="hero-inner">
@@ -575,11 +606,11 @@
         <span class="t-white">team</span>
       </h1>
       <div class="hero-divider"></div>
-      <p class="hero-desc">På 3 sessioner har du ett riktigt AI-team igång i ditt företag. Hands-on. Ingen kodning. Sessioner hålls in-person på <span style="color: var(--green);">Midskeppsgatan 6, Plus Park City Sjöstaden, Stockholm.</span></p>
+      <p class="hero-desc">På 3 sessioner har du ett riktigt AI-team igång i ditt företag. Hands-on. Ingen kodning. Sessioner hålls in-person på <span style="color: var(--green);">Midskeppsgatan 6, Plus Park City, Stockholm.</span></p>
       <div class="hero-meta">
         <div class="meta-block"><p class="meta-label">Datum</p><p class="meta-value">10, 17 och 24 OKT</p><p class="meta-sub">3 timmar per session</p></div>
         <div class="meta-block"><p class="meta-label">Plats</p><p class="meta-value green">Stockholm</p></div>
-        <div class="meta-block"><p class="meta-label">Format</p><p class="meta-value">In-person</p></div>
+        <div class="meta-block"><p class="meta-label">Early Bird</p><p class="meta-value" style="color:#ff9945;">3 985 SEK</p><p class="meta-sub" style="color:#ff9945;opacity:0.75;">Spara 1 000 SEK</p></div>
         <div class="meta-block"><p class="meta-label">Längd</p><p class="meta-value">9 timmar</p></div>
       </div>
       <div class="hero-actions">
@@ -627,6 +658,19 @@
   <div class="principle-inner">
     <span class="principle-tag">Grundprincip</span>
     <p class="principle-text">Ingen teori. Vi bygger ett verkligt AI-projekt.</p>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-bar-inner">
+    <div class="proof-stat"><span class="proof-num">7</span><span class="proof-label">Workshops genomförda</span></div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat"><span class="proof-num">180+</span><span class="proof-label">Deltagare utbildade</span></div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat"><span class="proof-num">4.5★</span><span class="proof-label">Genomsnittligt betyg</span></div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat"><span class="proof-num">3</span><span class="proof-label">Sessioner kvar</span></div>
   </div>
 </div>
 
@@ -796,6 +840,17 @@
 </div>
 <div class="scenario-section-bg-bottom-bar"></div>
 
+<!-- MICRO CTA -->
+<div class="micro-cta">
+  <div class="micro-cta-inner">
+    <div>
+      <p class="micro-cta-text">Redo att bygga ditt AI-team?</p>
+      <p class="micro-cta-sub">3 sessioner · Stockholm · 10, 17 &amp; 24 okt</p>
+    </div>
+    <a href="#pricing" class="micro-cta-btn">Reservera din plats</a>
+  </div>
+</div>
+
 <!-- FÖR VEM -->
 <section id="for" class="section">
   <img class="for-bg-img for-bg-desktop" src="/workshopmarch2026.jpg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
@@ -889,6 +944,73 @@
   </div>
 </section>
 
+<!-- ANSÖK -->
+<section id="apply" class="section section-alt">
+  <div class="container">
+    <div class="apply-wrap">
+      <div>
+        <p class="sec-label">Ansök</p>
+        <h2 class="apply-title">Ditt AI-system.<br>Igång live.<br>På 3 dagar.</h2>
+        <button class="chat-trigger" id="chatTriggerBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Chatta med oss
+        </button>
+        <div class="apply-pills">
+          <span class="pill">Liten cohort</span>
+          <span class="pill">In-person</span>
+          <span class="pill">3 dagar</span>
+          <span class="pill">Plus Park City</span>
+          <span class="pill">10-24 Okt 2026</span>
+        </div>
+      </div>
+      <div class="demo-player" id="demoPlayer">
+        <video id="demoVideo" src="/Ai_lab_demo.mp4" preload="metadata" playsinline></video>
+        <div class="demo-overlay" id="demoOverlay">
+          <div class="demo-play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <div class="demo-controls" id="demoControls">
+          <button class="demo-ctrl-btn" id="demoPlayBtn" aria-label="Play">
+            <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            <svg id="iconReplay" viewBox="0 0 24 24" style="display:none"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          </button>
+          <span class="demo-time" id="demoCurrent">0:00</span>
+          <div class="demo-progress-wrap" id="demoProgressWrap">
+            <div class="demo-progress-track">
+              <div class="demo-progress-fill" id="demoFill"></div>
+              <div class="demo-progress-thumb" id="demoThumb"></div>
+            </div>
+          </div>
+          <span class="demo-time" id="demoDuration">0:00</span>
+          <button class="demo-ctrl-btn" id="demoFsBtn" aria-label="Helskärm">
+            <svg id="iconExpand" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            <svg id="iconCompress" viewBox="0 0 24 24" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="apply-pricing-center">
+      <div class="apply-box" id="pricing">
+        <div class="ticket-status"><span class="ticket-status-dot"></span> Begränsade platser</div>
+        <p class="apply-orig-price">4 985 SEK</p>
+        <p class="apply-box-title">3 985 SEK</p>
+        <p class="apply-deadline">Spara 1 000 SEK till 20 juli</p>
+        <div class="apply-price-divider"></div>
+        <ul class="apply-includes-list">
+          <li>VIP in-person support under hela programmet</li>
+          <li>Slack-tillgång dygnet runt för frågor</li>
+          <li>Guidade material ingår</li>
+          <li>Slack-support efter labbet</li>
+        </ul>
+        <a href="/checkout-sv" class="apply-btn">Jag är intresserad</a>
+        <p class="apply-note">Säkra din plats idag.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- OMDÖMEN -->
 <section class="trustpilot-section">
   <div class="container">
@@ -954,73 +1076,6 @@
         <blockquote class="instructor-pullquote-dark">"Du lämnar inte utan ett fungerande system. Det är regeln."</blockquote>
       </div>
     </div>
-    </div>
-  </div>
-</section>
-
-<!-- ANSÖK -->
-<section id="apply" class="section section-alt">
-  <div class="container">
-    <div class="apply-wrap">
-      <div>
-        <p class="sec-label">Ansök</p>
-        <h2 class="apply-title">Ditt AI-system.<br>Igång live.<br>På 3 dagar.</h2>
-        <button class="chat-trigger" id="chatTriggerBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Chatta med oss
-        </button>
-        <div class="apply-pills">
-          <span class="pill">Liten cohort</span>
-          <span class="pill">In-person</span>
-          <span class="pill">3 dagar</span>
-          <span class="pill">Plus Park City Sjöstaden</span>
-          <span class="pill">10-24 Okt 2026</span>
-        </div>
-      </div>
-      <div class="demo-player" id="demoPlayer">
-        <video id="demoVideo" src="/Ai_lab_demo.mp4" preload="metadata" playsinline></video>
-        <div class="demo-overlay" id="demoOverlay">
-          <div class="demo-play-icon">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <div class="demo-controls" id="demoControls">
-          <button class="demo-ctrl-btn" id="demoPlayBtn" aria-label="Play">
-            <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-            <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-            <svg id="iconReplay" viewBox="0 0 24 24" style="display:none"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
-          </button>
-          <span class="demo-time" id="demoCurrent">0:00</span>
-          <div class="demo-progress-wrap" id="demoProgressWrap">
-            <div class="demo-progress-track">
-              <div class="demo-progress-fill" id="demoFill"></div>
-              <div class="demo-progress-thumb" id="demoThumb"></div>
-            </div>
-          </div>
-          <span class="demo-time" id="demoDuration">0:00</span>
-          <button class="demo-ctrl-btn" id="demoFsBtn" aria-label="Helskärm">
-            <svg id="iconExpand" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
-            <svg id="iconCompress" viewBox="0 0 24 24" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="apply-pricing-center">
-      <div class="apply-box" id="pricing">
-        <div class="ticket-status"><span class="ticket-status-dot"></span> Begränsade platser</div>
-        <p class="apply-orig-price">4 985 SEK</p>
-        <p class="apply-box-title">3 985 SEK</p>
-        <p class="apply-deadline">Spara 1 000 SEK till 20 juli</p>
-        <div class="apply-price-divider"></div>
-        <ul class="apply-includes-list">
-          <li>VIP in-person support under hela programmet</li>
-          <li>Slack-tillgång dygnet runt för frågor</li>
-          <li>Guidade material ingår</li>
-          <li>Slack-support efter labbet</li>
-        </ul>
-        <a href="/checkout-sv" class="apply-btn">Jag är intresserad</a>
-        <p class="apply-note">Säkra din plats idag.</p>
-      </div>
     </div>
   </div>
 </section>
