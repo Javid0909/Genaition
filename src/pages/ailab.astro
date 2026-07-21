@@ -542,7 +542,7 @@
     .proof-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--green); line-height: 1; }
     .proof-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
     .proof-divider { width: 1px; height: 2.5rem; background: var(--border-strong); }
-    @media (max-width: 640px) { .proof-divider { display: none; } .proof-bar-inner { gap: 1.5rem; } }
+    @media (max-width: 640px) { .proof-divider { display: none; } .proof-bar-inner { gap: 0.6rem; flex-wrap: nowrap; padding: 0 1rem; } .proof-num { font-size: 1.4rem; } .proof-label { font-size: 0.38rem; letter-spacing: 0.1em; } .proof-bar { padding: 1.1rem 0; } }
 
     /* MICRO CTA */
     .micro-cta { background: var(--green); padding: 2.5rem 0; }
@@ -651,7 +651,7 @@
 
 <!-- URGENCY BANNER -->
 <div class="urgency-banner">
-  <span class="urgency-banner-text">Early Bird ends <strong>July 22</strong></span>
+  <span class="urgency-banner-text">Early Bird ends <strong>July 29</strong></span>
   <a href="#pricing" class="urgency-save">Reserve seat →</a>
 </div>
 
@@ -668,7 +668,7 @@
       </h1>
       <div class="hero-divider"></div>
       <!-- CHANGE #1: New subhead -->
-      <p class="hero-desc">In 3 sessions, you'll have a real AI team running in your business. Hands-on. No coding. Sessions held in person at <span style="color: var(--green);">Midskeppsgatan 6, Plus Park City Sjöstaden, Stockholm.</span></p>
+      <p class="hero-desc">In 3 sessions, you'll have a real AI team running in your business. Hands-on. No coding. Sessions held in person at <span style="color: var(--green);">Midskeppsgatan 6, Plus Park City, Stockholm.</span></p>
 
       <!-- CHANGE #6: Seat counter -->
       <div class="hero-meta">
@@ -1028,7 +1028,7 @@
           <span class="pill">Small cohort</span>
           <span class="pill">In-person</span>
           <span class="pill">3 days</span>
-          <span class="pill">Plus Park City Sjöstaden</span>
+          <span class="pill">Plus Park City</span>
           <span class="pill">OCT 10-24, 2026</span>
         </div>
       </div>
@@ -1348,12 +1348,12 @@
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && backdrop.classList.contains('open')) closeChat(); });
 
   const OR_KEY = 'YOUR_OPENROUTER_KEY_HERE';
-  const SYSTEM_PROMPT = `You are a friendly and knowledgeable assistant for Genaition's Agentic AI Bootcamp, a 3-day in-person program in Stockholm (Plus Park City Sjöstaden) running October 10, 17 & 24, 2026.
+  const SYSTEM_PROMPT = `You are a friendly and knowledgeable assistant for Genaition's Agentic AI Bootcamp, a 3-day in-person program in Stockholm (Plus Park City) running October 10, 17 & 24, 2026.
 
 Key facts:
 - Price: 3,985 SEK
 - Format: In-person, 3 Saturdays (Oct 10, 17 & 24) — one 3-hour session per day. 9 hours in-person total.
-- Location: Plus Park City Sjöstaden, Stockholm
+- Location: Plus Park City, Stockholm
 - Cohort size: 12 participants max
 - What participants build: A multi-agent AI email orchestration system using n8n (self-hosted via Docker), Claude Sonnet 4.6 by Anthropic, Airtable, and Gmail
 - The system has 4 agents: Orchestrator, Inbound Reply Agent, Follow-Up Agent, Performance Agent
