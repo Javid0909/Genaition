@@ -32,11 +32,11 @@
       --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.12);
       --green: #76b82a; --green-dim: rgba(118,184,42,0.12); --green-glow: rgba(118,184,42,0.3);
       --white: #ffffff; --muted: rgba(255,255,255,0.45); --muted2: rgba(255,255,255,0.65);
-      --header: 68px; --banner: 40px; --r: 2px;
+      --header: 68px; --r: 2px;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    section, [id] { scroll-margin-top: calc(var(--header) + var(--banner) + 12px); }
+    section, [id] { scroll-margin-top: calc(var(--header) + 12px); }
 
     header { position: fixed; top: 0; left: 0; right: 0; height: var(--header); background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; display: flex; align-items: center; }
     .hdr-inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; width: 100%; display: flex; align-items: center; justify-content: space-between; }
@@ -52,7 +52,7 @@
     .nav-apply:hover { background: #8fd433; transform: translateY(-1px); }
     @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } .nav-links { display: none; } .nav-apply { display: none; } }
 
-    .hero { min-height: 88vh; padding-top: calc(var(--header) + var(--banner)); display: flex; align-items: stretch; background: var(--black); }
+    .hero { min-height: 88vh; padding-top: var(--header); display: flex; align-items: stretch; background: var(--black); }
     .hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 55% 45%; align-items: center; }
     @media (max-width: 900px) { .hero { min-height: auto; } .hero-inner { grid-template-columns: 1fr; } }
     .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 3.5rem 3rem 3rem 2.5rem; position: relative; z-index: 2; }
@@ -479,7 +479,7 @@
 
     /* MOBILE HERO, FULL BLEED */
     @media (max-width: 640px) {
-      .hero { min-height: 100vh; padding-top: calc(var(--header) + var(--banner)); }
+      .hero { min-height: 100vh; padding-top: var(--header); }
       .hero-inner { position: relative; min-height: 100vh; align-items: stretch; }
       .hero-right {
         position: absolute; inset: 0; padding: 0; z-index: 0; display: block;
@@ -511,13 +511,6 @@
       .hero-cta { width: 100%; justify-content: center; }
     }
 
-    /* URGENCY BANNER */
-    .urgency-banner { position: fixed; top: var(--header); left: 0; right: 0; z-index: 98; height: var(--banner); background: rgba(26,8,0,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,140,50,0.25); display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 0 1.5rem; }
-    .urgency-banner-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,180,80,0.85); white-space: nowrap; }
-    .urgency-banner-text strong { color: #ff9945; }
-    .urgency-save { display: inline-block; background: rgba(255,140,50,0.15); border: 1px solid rgba(255,140,50,0.35); padding: 0.18rem 0.65rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: #ff9945; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
-    .urgency-save:hover { background: rgba(255,140,50,0.28); }
-    @media (max-width: 640px) { .urgency-banner { gap: 0.6rem; padding: 0 1rem; } .urgency-banner-text { font-size: 0.55rem; white-space: normal; text-align: center; } }
 
     /* MICRO CTA */
     .micro-cta { background: var(--green); padding: 2.5rem 0; }
@@ -589,12 +582,6 @@
   </div>
 </header>
 
-<!-- URGENCY BANNER -->
-<div class="urgency-banner">
-  <span class="urgency-banner-text">Early Bird</span>
-  <a href="#pricing" class="urgency-save">Reservera plats →</a>
-</div>
-
 <!-- HERO -->
 <section id="top" class="hero">
   <div class="hero-inner">
@@ -610,8 +597,8 @@
       <div class="hero-meta">
         <div class="meta-block"><p class="meta-label">Datum</p><p class="meta-value">10, 17 och 24 OKT</p><p class="meta-sub">3 timmar per session</p></div>
         <div class="meta-block"><p class="meta-label">Plats</p><p class="meta-value green">Stockholm</p></div>
-        <div class="meta-block"><p class="meta-label">Early Bird</p><p class="meta-value" style="color:#ff9945;">3 985 SEK</p><p class="meta-sub" style="color:#ff9945;opacity:0.75;">Spara 1 000 SEK</p></div>
-        <div class="meta-block"><p class="meta-label">Längd</p><p class="meta-value">9 timmar</p></div>
+        <div class="meta-block"><p class="meta-label">Pris</p><p class="meta-value" style="color:#ff9945;">3 985 SEK</p><p class="meta-sub" style="color:#ff9945;opacity:0.75;">Spara 1 000 SEK</p></div>
+        <div class="meta-block"><p class="meta-label">Totalt</p><p class="meta-value">9 timmar</p></div>
       </div>
       <div class="hero-actions">
         <a href="#pricing" class="hero-cta">Reservera din plats</a>
