@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title>Agentic AI Bootcamp – Genaition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Bygg ett multi-agent AI-system för e-post på 3 sessioner. In-person i Stockholm med n8n (självhostat via Docker), Claude Sonnet 4.6 av Anthropic och Airtable. Ingen kodning krävs." />
-  <meta name="keywords" content="AI lab Stockholm, agentisk AI, n8n, Claude Sonnet, Airtable, multi-agent system, AI-workshop, Genaition" />
+  <meta name="description" content="Bygg ett multi-agent AI-system för e-post på 3 sessioner. In-person i Stockholm med n8n (självhostat via Docker), Claude Sonnet 4.6 av Anthropic och Supabase. Ingen kodning krävs." />
+  <meta name="keywords" content="AI lab Stockholm, agentisk AI, n8n, Claude Sonnet, Supabase, multi-agent system, AI-workshop, Genaition" />
   <meta name="author" content="Javid Valiyev, Genaition" />
   <link rel="canonical" href="https://genaition.io/ailab-sv/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://genaition.io/ailab-sv/" />
   <meta property="og:title" content="Agentic AI Bootcamp – Bygg ditt första agentiska AI-system" />
-  <meta property="og:description" content="3-sessioners in-person cohort i Stockholm. Driftsätt ett multi-agent AI-system med n8n, Claude Sonnet 4.6 och Airtable. Ingen kodning krävs." />
+  <meta property="og:description" content="3-sessioners in-person cohort i Stockholm. Driftsätt ett multi-agent AI-system med n8n, Claude Sonnet 4.6 och Supabase. Ingen kodning krävs." />
   <meta property="og:image" content="https://genaition.io/ailab.png" />
   <meta property="og:image:width" content="1280" />
   <meta property="og:image:height" content="720" />
@@ -20,7 +20,7 @@
   <meta property="og:locale" content="sv_SE" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Agentic AI Bootcamp – Bygg ditt första agentiska AI-system" />
-  <meta name="twitter:description" content="3-sessioners in-person cohort i Stockholm. Driftsätt ett multi-agent AI-system med n8n, Claude Sonnet 4.6 och Airtable. Ingen kodning krävs." />
+  <meta name="twitter:description" content="3-sessioners in-person cohort i Stockholm. Driftsätt ett multi-agent AI-system med n8n, Claude Sonnet 4.6 och Supabase. Ingen kodning krävs." />
   <meta name="twitter:image" content="https://genaition.io/ailab.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
@@ -188,7 +188,7 @@
     .stack-icon { width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; flex-shrink: 0; }
     .stack-icon.n8n { background: rgba(255,140,0,0.1); }
     .stack-icon.claude { background: rgba(118,184,42,0.1); }
-    .stack-icon.airtable { background: rgba(255,195,0,0.08); }
+    .stack-icon.supabase { background: rgba(62,207,142,0.08); }
     .stack-role { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; border: 1px solid rgba(118,184,42,0.25); padding: 0.18rem 0.5rem; border-radius: 2px; display: inline-block; width: fit-content; }
     .stack-name { font-weight: 600; font-size: 0.95rem; color: var(--white); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.85rem; }
     .stack-why { margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 0.58rem; color: rgba(118,184,42,0.65); line-height: 1.6; letter-spacing: 0.02em; }
@@ -751,16 +751,14 @@
         <p class="stack-why"><strong>Varför n8n?</strong> n8n körs på infrastruktur du kontrollerar, inga uppgiftsgränser, inga överraskande priser, inga avbrott du inte orsakat. Mer tillförlitligt, helt ditt.</p>
       </div>
       <div class="stack-card">
-        <div class="stack-icon airtable">
+        <div class="stack-icon supabase">
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <rect x="3" y="5" width="16" height="3" rx="1" fill="#FFC300" opacity="0.9"/>
-            <rect x="3" y="10" width="16" height="3" rx="1" fill="#FFC300" opacity="0.5"/>
-            <rect x="3" y="15" width="10" height="3" rx="1" fill="#FFC300" opacity="0.25"/>
+            <path d="M13 2L5 12.5h6.5L10 20l8.5-10H12L13 2z" fill="#3ECF8E" opacity="0.9"/>
           </svg>
         </div>
         <span class="stack-role">Datalager</span>
-        <p class="stack-name">Airtable</p>
-        <p class="stack-why"><strong>Varför Airtable?</strong> Varje AI-beslut loggas och är läsbart. Se varje tillståndsändring utan att röra kod.</p>
+        <p class="stack-name">Supabase</p>
+        <p class="stack-why"><strong>Varför Supabase?</strong> Varje AI-beslut lagras i en riktig Postgres-databas. Hämta och inspektera varje tillståndsändring utan att röra kod.</p>
       </div>
       <div class="stack-card">
         <div class="stack-icon claude">
@@ -1083,7 +1081,7 @@
         <button class="faq-btn"><span>Vad kostar det i verktyg och prenumerationer efter labbet?</span>
           <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
         </button>
-        <div class="faq-body"><div class="faq-body-inner">De flesta deltagare spenderar under <strong style="color:var(--white)">150 SEK/månaden</strong> efter labbet, n8n är självhostat (gratis), Claude API är betala-per-användning (~5–20 USD/månad för typisk användning), och Airtables gratisplan räcker för de flesta. Under labbet är kostnaderna minimala.</div></div>
+        <div class="faq-body"><div class="faq-body-inner">De flesta deltagare spenderar under <strong style="color:var(--white)">150 SEK/månaden</strong> efter labbet, n8n är självhostat (gratis), Claude API är betala-per-användning (~5–20 USD/månad för typisk användning), och Supabases gratisplan räcker för de flesta. Under labbet är kostnaderna minimala.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-btn"><span>Kommer systemet att skicka e-post utan mitt godkännande?</span>
@@ -1107,7 +1105,7 @@
         <button class="faq-btn"><span>Vilka verktyg använder vi?</span>
           <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
         </button>
-        <div class="faq-body"><div class="faq-body-inner">n8n (självhostat via Docker) som arbetsflödesorkestratör, Claude Sonnet 4.6 av Anthropic för AI-resonemang och systempromptlogik, Airtable för tillstånd och beslutsloggen, samt Gmail via OAuth. Alla verktyg är visuella och körbara lokalt innan driftsättning.</div></div>
+        <div class="faq-body"><div class="faq-body-inner">n8n (självhostat via Docker) som arbetsflödesorkestratör, Claude Sonnet 4.6 av Anthropic för AI-resonemang och systempromptlogik, Supabase för tillstånd och beslutsloggen, samt Gmail via OAuth. Alla verktyg är visuella och körbara lokalt innan driftsättning.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-btn"><span>Är det för enskilda eller kan team gå med?</span>
