@@ -348,7 +348,7 @@
     .apply-orig-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.28); text-decoration: line-through; margin-bottom: 0.2rem; }
     .apply-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.02em; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
     .apply-save-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--green); background: var(--green-dim); border: 1px solid rgba(118,184,42,0.38); padding: 0.18rem 0.5rem; border-radius: 2px; white-space: nowrap; }
-    .apply-deadline { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.13em; color: rgba(255,200,80,0.55); margin-top: 0.4rem; margin-bottom: 0; }
+    .apply-deadline { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.13em; color: rgba(255,60,60,0.85); margin-top: 0.4rem; margin-bottom: 0; }
     .apply-price-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.2rem 0; }
     .apply-includes-list { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0; text-align: left; }
     .apply-includes-list li { display: flex; gap: 0.75rem; font-size: 0.84rem; color: rgba(255,255,255,0.58); padding: 0.42rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s; }
@@ -597,7 +597,7 @@
       <div class="hero-meta">
         <div class="meta-block"><p class="meta-label">Datum</p><p class="meta-value">10, 17 och 24 OKT</p><p class="meta-sub">3 timmar per session</p></div>
         <div class="meta-block"><p class="meta-label">Plats</p><p class="meta-value green">Stockholm</p></div>
-        <div class="meta-block"><p class="meta-label">Pris</p><p class="meta-value" style="color:#ff9945;">3 985 SEK</p><p class="meta-sub" style="color:#ff9945;opacity:0.75;">Spara 1 000 SEK</p></div>
+        <div class="meta-block"><p class="meta-label">Limited offer</p><p class="meta-value" style="color:#ff4500;display:flex;align-items:center;gap:0.5rem;"><span style="width:7px;height:7px;background:#ff4500;border-radius:50%;animation:pulse 2s ease infinite;flex-shrink:0;display:inline-block;"></span>1 500 SEK</p><p class="meta-label">Until 6 Sep</p></div>
         <div class="meta-block"><p class="meta-label">Totalt</p><p class="meta-value">9 timmar</p></div>
       </div>
       <div class="hero-actions">
@@ -978,10 +978,9 @@
     </div>
     <div class="apply-pricing-center">
       <div class="apply-box" id="pricing">
-        <div class="ticket-status"><span class="ticket-status-dot"></span> Begränsade platser</div>
-        <p class="apply-orig-price">4 985 SEK</p>
-        <p class="apply-box-title">3 985 SEK</p>
-        <p class="apply-deadline">Spara 1 000 SEK</p>
+        <div class="ticket-status"><span class="ticket-status-dot"></span> Limited offer</div>
+        <p class="apply-box-title">1 500 SEK</p>
+        <p class="apply-deadline">Limited offer until 6 September</p>
         <div class="apply-price-divider"></div>
         <ul class="apply-includes-list">
           <li>VIP in-person support under hela programmet</li>
@@ -1075,7 +1074,7 @@
         <button class="faq-btn"><span>Finns det betalningsplan?</span>
           <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
         </button>
-        <div class="faq-body"><div class="faq-body-inner">Aktuellt pris är 3 985 SEK. Ingen betalningsplan just nu, men om timing är ett problem, hör av dig direkt via Slack eller e-post.</div></div>
+        <div class="faq-body"><div class="faq-body-inner">Aktuellt pris är 1 500 SEK. Ingen betalningsplan just nu, men om timing är ett problem, hör av dig direkt via Slack eller e-post.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-btn"><span>Vad kostar det i verktyg och prenumerationer efter labbet?</span>
