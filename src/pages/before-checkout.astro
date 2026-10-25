@@ -14,29 +14,29 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --black:         #faf9f5;
-      --off-black:     #f2f0ea;
-      --card:          #ffffff;
-      --card2:         #f5f4f0;
-      --border:        rgba(0,0,0,0.07);
-      --border-strong: rgba(0,0,0,0.12);
+      --black:         #080808;
+      --off-black:     #111111;
+      --card:          #131313;
+      --card2:         #1c1c1c;
+      --border:        rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.13);
       --green:         #1a6b3a;
-      --green-dim:     rgba(26,107,58,0.08);
-      --green-glow:    rgba(26,107,58,0.20);
+      --green-dim:     rgba(26,107,58,0.15);
+      --green-glow:    rgba(26,107,58,0.25);
       --gold:          #f0c000;
-      --gold-dim:      rgba(240,192,0,0.10);
+      --gold-dim:      rgba(240,192,0,0.12);
       --gold-glow:     rgba(240,192,0,0.28);
       --white:         #ffffff;
-      --muted:         rgba(0,0,0,0.38);
-      --muted2:        rgba(0,0,0,0.60);
-      --red:           #c0392b;
+      --muted:         rgba(255,255,255,0.38);
+      --muted2:        rgba(255,255,255,0.60);
+      --red:           #e74c3c;
       --header:        66px;
       --r:             3px;
     }
 
     html { scroll-behavior: smooth; }
     body {
-      background: var(--black); color: #1a1208;
+      background: var(--black); color: var(--white);
       font-family: 'DM Sans', sans-serif; font-size: 16px;
       line-height: 1.6; overflow-x: hidden; min-height: 100vh;
     }
@@ -44,7 +44,7 @@
     /* ── HEADER ── */
     header {
       position: fixed; top: 0; left: 0; right: 0; height: var(--header);
-      background: rgba(250,249,245,0.96); backdrop-filter: blur(20px);
+      background: rgba(8,8,8,0.92); backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border); z-index: 100;
       display: flex; align-items: center;
     }
@@ -59,7 +59,7 @@
       display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
     .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
-    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: #1a1208; line-height: 1; }
+    .logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: var(--white); line-height: 1; }
     .logo-sub { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.24em; color: var(--green); display: block; margin-top: 2px; }
     .nav-back {
       font-family: 'DM Mono', monospace; font-size: 0.62rem;
@@ -68,7 +68,7 @@
       display: flex; align-items: center; gap: 0.5rem;
       transition: color 0.2s;
     }
-    .nav-back:hover { color: #1a1208; }
+    .nav-back:hover { color: var(--white); }
     .nav-back svg { width: 14px; height: 14px; }
     @media (max-width: 640px) { .nav-back span { display: none; } }
     @media (max-width: 640px) { .hdr-inner { padding: 0 1.25rem; } }
@@ -77,8 +77,8 @@
     .page-bg {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image:
-        linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
       background-size: 52px 52px;
     }
     .page-glow {
@@ -117,7 +117,7 @@
       font-size: clamp(2.8rem, 5vw, 5rem);
       line-height: 0.95; letter-spacing: 0.02em;
     }
-    .page-title .t-white { color: #1a1208; display: block; }
+    .page-title .t-white { color: var(--white); display: block; }
     .page-title .t-gold { color: var(--gold); display: block; }
     .page-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin: 1.4rem 0; }
 
@@ -138,7 +138,7 @@
       flex-shrink: 0;
     }
     .step.active .step-num { background: var(--gold); color: #000; }
-    .step.active .step-label { color: #1a1208; }
+    .step.active .step-label { color: var(--white); }
     .step.inactive .step-num { background: var(--card); border: 1px solid var(--border-strong); color: var(--muted); }
     .step.inactive .step-label { color: var(--muted); }
     .step-connector { width: 40px; height: 1px; background: var(--border-strong); margin: 0 0.75rem; flex-shrink: 0; }
@@ -201,25 +201,25 @@
     select,
     textarea {
       width: 100%;
-      background: rgba(0,0,0,0.03);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border-strong);
       border-radius: var(--r); padding: 0.85rem 1rem;
-      color: #1a1208; font-family: 'DM Sans', sans-serif;
+      color: var(--white); font-family: 'DM Sans', sans-serif;
       font-size: 0.92rem; transition: border-color 0.2s, background 0.2s;
       appearance: none; -webkit-appearance: none;
     }
-    input::placeholder { color: rgba(0,0,0,0.25); }
+    input::placeholder { color: rgba(255,255,255,0.25); }
     input:focus, select:focus, textarea:focus {
       outline: none; border-color: var(--gold); background: rgba(240,192,0,0.04);
     }
     select {
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(0,0,0,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 1rem center;
       padding-right: 2.5rem;
       cursor: pointer;
     }
-    select option { background: #fff; color: #1a1208; }
+    select option { background: #1c1c1c; color: var(--white); }
 
     /* Validation states */
     input.valid, select.valid { border-color: rgba(26,107,58,0.4); }
@@ -235,14 +235,14 @@
     .ticket-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.55rem; }
     .ticket-counter { display: flex; align-items: center; gap: 1px; background: var(--border-strong); border-radius: var(--r); overflow: hidden; width: fit-content; }
     .tc-btn {
-      background: var(--card2); border: none; color: #1a1208;
+      background: var(--card2); border: none; color: var(--white);
       width: 44px; height: 44px; cursor: pointer;
       font-size: 1.1rem; font-family: 'DM Sans', sans-serif;
       transition: background 0.18s; display: flex; align-items: center; justify-content: center;
       user-select: none;
     }
-    .tc-btn:hover { background: #e8e6df; }
-    .tc-btn:active { background: #dedad0; }
+    .tc-btn:hover { background: #2a2a2a; }
+    .tc-btn:active { background: #333333; }
     .tc-num {
       background: var(--card2); border: none;
       width: 56px; height: 44px;
@@ -277,7 +277,7 @@
     .promo-inner input { flex: 1; }
     .promo-apply-btn {
       background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r);
-      color: #1a1208; font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.6rem;
       text-transform: uppercase; letter-spacing: 0.12em; padding: 0 1.1rem;
       cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s;
     }
@@ -356,7 +356,7 @@
     .price-row-value.green { color: var(--green); }
     .price-total-row { display: flex; justify-content: space-between; align-items: baseline; padding-top: 1rem; margin-top: 0.5rem; border-top: 1px solid var(--border-strong); }
     .price-total-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
-    .price-total-value { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #1a1208; line-height: 1; letter-spacing: 0.02em; }
+    .price-total-value { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--white); line-height: 1; letter-spacing: 0.02em; }
     .price-per { font-family: 'DM Mono', monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
     .early-badge {
       display: inline-flex; align-items: center; gap: 0.4rem;
@@ -383,14 +383,14 @@
     .tp-stars { display: flex; gap: 3px; }
     .tp-star { width: 14px; height: 14px; background: #00b67a; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
     .tp-meta { font-family: 'DM Mono', monospace; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-top: 0.25rem; }
-    .tp-score-big { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: #1a1208; line-height: 1; }
+    .tp-score-big { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); line-height: 1; }
 
     /* ── FOOTER ── */
     footer {
       padding: 2rem 0; border-top: 1px solid var(--border);
       text-align: center; position: relative; z-index: 1;
     }
-    footer p { font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(0,0,0,0.25); }
+    footer p { font-family: 'DM Mono', monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(255,255,255,0.25); }
 
     /* ── PRICE SUMMARY STRIP ── */
     .price-summary-strip {
@@ -417,7 +417,7 @@
     }
     .pss-total {
       font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
-      color: #1a1208; line-height: 1; letter-spacing: 0.04em;
+      color: var(--white); line-height: 1; letter-spacing: 0.04em;
     }
     @media (max-width: 500px) {
       .price-summary-strip { padding: 1rem 1.25rem; align-items: center; }
@@ -446,13 +446,13 @@
     /* Language dropdown */
     .lang-wrap { position: relative; }
     .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r); padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s; }
-    .lang-btn:hover { color: #1a1208; border-color: var(--border-strong); }
+    .lang-btn:hover { color: var(--white); border-color: var(--border-strong); }
     .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
     .lang-btn svg { width: 12px; height: 12px; }
     .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; background: var(--card2); border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; z-index: 200; }
     .lang-wrap.open .lang-menu { display: block; }
     .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
-    .lang-menu a:hover { background: rgba(0,0,0,0.04); color: #1a1208; }
+    .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
     .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
   </style>
 
@@ -469,7 +469,7 @@
     fbq('init', '1507001663644263');
     fbq('track', 'PageView');
     fbq('track', 'Purchase', {
-      value: 595,
+      value: 395,
       currency: 'SEK'
     });
   </script>
@@ -593,7 +593,7 @@
                 </div>
               </div>
               <div class="pss-right">
-                <span class="pss-total" id="totalDisplay">595 SEK</span>
+                <span class="pss-total" id="totalDisplay">395 SEK</span>
               </div>
             </div>
             <input type="hidden" id="ticketCount" name="tickets" value="1" />
@@ -652,8 +652,8 @@
 
 <script>
   // ── CONFIG ──
-  const PRICE_REGULAR   = 895;
-  const PRICE_EARLY     = 595;
+  const PRICE_REGULAR   = 795;
+  const PRICE_EARLY     = 395;
   const PRICE_PROMO     = 495;
   const PROMO_CODES     = { "HYPERISLAND": PRICE_PROMO, "STING": PRICE_PROMO };
 
@@ -663,9 +663,9 @@
 
   // ── STRIPE LINKS ──
   const normalLinks = {
-    1: "https://buy.stripe.com/dRm9AT0BR5HT4t6ajD8AE0b",
-    2: "https://buy.stripe.com/fZudR998nc6h9NqajD8AE0c",
-    3: "https://buy.stripe.com/5kQ28rckz6LX0cQfDX8AE0d",
+    1: "https://buy.stripe.com/8x2eVddoD8U52kY0J38AE14",
+    2: "https://buy.stripe.com/9B6dR9bgv5HTf7K8bv8AE15",
+    3: "https://buy.stripe.com/4gMfZh3O34DP8JmajD8AE16",
     4: "https://buy.stripe.com/4gM28r1FVb2dcZC9fz8AE0e",
     5: "https://buy.stripe.com/5kQeVd0BR0nz6BecrL8AE0f",
     6: "https://buy.stripe.com/7sYeVd84jb2dgbO77r8AE0g"

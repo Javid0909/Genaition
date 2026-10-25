@@ -1,939 +1,1599 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Build your first AI Email Reply Agent, Online · 12 December</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Agent Workshop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Tailwind (v2) -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ─── DESIGN SYSTEM ─────────────────────────────────────────── */
+  /* Layout: single-column hero split, card grid sections, dark bg */
+  :root {
+    --bg:        #050505;
+    --surface:   #0d0d0d;
+    --card:      #111111;
+    --card2:     #161616;
+    --border:    rgba(255,255,255,0.07);
+    --border-hi: rgba(255,255,255,0.13);
+    --green:     #76b82a;
+    --green-dim: rgba(118,184,42,0.10);
+    --green-glow:rgba(118,184,42,0.28);
+    --gold:      #FFC107;
+    --alert:     #ff6432;
+    --white:     #ffffff;
+    --muted:     rgba(255,255,255,0.42);
+    --muted2:    rgba(255,255,255,0.65);
+    --r:         2px;
+    --header:    64px;
+    color-scheme: dark;
+  }
 
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-  <style>
-    :root{
-      --ink:#07110e;
-      --forest:#0b1f19;
-      --forest2:#0f2a22;
-      --accent:#2a7a5a;
-      --accent2:#9ed1b7;
-      --gold:#FFC107;
-      --paper:#f6f7f7;
-      --card:#ffffff;
-      --ring: rgba(42,122,90,.35);
-      --shadow: 0 20px 40px rgba(0,0,0,.10);
-      --shadow2: 0 10px 24px rgba(0,0,0,.10);
-      --radius: 20px;
-    }
+  html { scroll-behavior:smooth; }
 
-    html { scroll-behavior:smooth; }
-    body { background: var(--paper); font-family: 'DM Sans', sans-serif; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding-left:  max(0px, env(safe-area-inset-left, 0px));
+    padding-right: max(0px, env(safe-area-inset-right, 0px));
+  }
 
-    :focus { outline: none; }
-    .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
+  /* ─── NAV ───────────────────────────────────────────────────── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header);
+    background: rgba(5,5,5,0.96);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+  }
+  .hdr-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 max(1.25rem, env(safe-area-inset-left, 0px)) 0 max(1.25rem, env(safe-area-inset-left, 0px));
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    border-radius: var(--r);
+    border: 1px solid var(--border-hi);
+    background: #0a0a0a;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark img { width:100%; height:100%; object-fit:cover; }
+  .logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .logo-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--green);
+    display: block;
+    margin-top: 3px;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.63rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.5rem 1.3rem;
+    border-radius: var(--r);
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: #8fd433; transform: translateY(-1px); }
+  .mobile-cta {
+    display: none;
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--r);
+    text-decoration: none;
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .mobile-cta { display: block; }
+  }
 
-    .bg-acoustic{
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.28), transparent 60%),
-        radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.18), transparent 60%),
-        linear-gradient(180deg, #ffffff, #f3f5f5);
-    }
+  /* ─── HERO ──────────────────────────────────────────────────── */
+  .hero {
+    padding-top: var(--header);
+    min-height: 90vh;
+    display: flex;
+    align-items: stretch;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/workshopdec.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    filter: brightness(0.28) saturate(0.6);
+    z-index: 0;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(118,184,42,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(118,184,42,0.025) 1px, transparent 1px);
+    background-size: 52px 52px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.25) 0%, rgba(5,5,5,0.7) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3.5rem max(1.5rem, env(safe-area-inset-left, 0px));
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
 
-    .glass{
-      background: rgba(7,17,14,.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.10);
-    }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .tag-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.65rem;
+    border-radius: var(--r);
+    background: rgba(118,184,42,0.12);
+    color: var(--green);
+    border: 1px solid rgba(118,184,42,0.32);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+    flex-shrink: 0;
+  }
+  .tag-plain {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border-hi);
+    padding: 0.22rem 0.65rem;
+    border-radius: var(--r);
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.5; transform:scale(1.4); }
+  }
 
-    .hero{
-      position: relative;
-      min-height: 92vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
-        radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
-        linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-        url('/aiagentworkshop1.png') center/cover no-repeat;
-    }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.2rem, 6vw, 6.2rem);
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+  }
+  .hero-title .t-white { color: var(--white); display: block; }
+  .hero-title .t-green { color: var(--green); display: block; }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: radial-gradient(900px 500px at 50% 10%, rgba(42,122,90,.22), transparent 60%);
-      pointer-events:none;
-    }
+  .hero-divider {
+    width: 44px; height: 1px;
+    background: linear-gradient(90deg, var(--green), transparent);
+    margin: 1.5rem 0;
+  }
 
-    .blob{
-      position:absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 9999px;
-      background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.40), rgba(42,122,90,.08) 55%, transparent 70%);
-      opacity: .85;
-      transform: translate3d(0,0,0);
-      animation: drift 10s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes drift{
-      0%,100%{ transform: translate(-18%, -10%) scale(1); }
-      50%{ transform: translate(-10%, -4%) scale(1.05); }
-    }
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    max-width: 500px;
+    font-weight: 300;
+  }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.6rem;
-      padding:.9rem 1.15rem;
-      border-radius: 14px;
-      font-weight: 800;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
-      will-change: transform;
-      user-select:none;
-    }
-    .btn:active{ transform: translateY(1px) scale(.99); }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 1.6rem;
+    max-width: 560px;
+  }
+  @media (max-width: 640px) {
+    .hero-meta { grid-template-columns: 1fr 1fr; }
+    .meta-block { border-bottom: 1px solid var(--border) !important; }
+    .meta-block:nth-child(2n) { border-right: none !important; }
+    .meta-block:nth-last-child(-n+2) { border-bottom: none !important; }
+  }
+  .meta-block {
+    padding: 0.85rem 1rem;
+    border-right: 1px solid var(--border);
+  }
+  .meta-block:last-child { border-right: none; }
+  .meta-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .meta-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .meta-val.green { color: var(--green); }
+  .meta-val.gold  { color: var(--gold); }
+  .meta-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
 
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), #2f8b66);
-      color:#fff;
-      box-shadow: 0 12px 26px rgba(42,122,90,.30);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .btn-primary:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 34px rgba(42,122,90,.34);
-    }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.95rem 2.2rem;
+    border-radius: var(--r);
+    text-decoration: none;
+    transition: all 0.22s;
+    flex-shrink: 0;
+  }
+  .btn-primary:hover { background: #8fd433; transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); }
+  .btn-ghost::after { content: ' \2192'; }
 
-    .btn-outline{
-      background: rgba(255,255,255,.10);
-      color:#fff;
-      border: 1px solid rgba(255,255,255,.18);
-    }
-    .btn-outline:hover{
-      background: rgba(255,255,255,.14);
-      transform: translateY(-1px);
-    }
+  /* ─── TICKET CARD (hero sidebar) ────────────────────────────── */
+  .ticket-card {
+    background: var(--card);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r);
+    padding: 1.8rem;
+    position: sticky;
+    top: calc(var(--header) + 1.5rem);
+    align-self: start;
+  }
+  @media (max-width: 960px) {
+    .ticket-card { display: none; }
+  }
+  .ticket-offer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 0.28rem 0.85rem;
+    border-radius: 999px;
+  }
+  .offer-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+    flex-shrink: 0;
+  }
+  .price-old {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-decoration: line-through;
+    letter-spacing: 0.06em;
+  }
+  .price-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: var(--white);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+  .price-save {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--alert);
+    margin-top: 0.3rem;
+  }
+  .perk-dash {
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .ticket-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+  .ticket-perks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .ticket-perks li {
+    display: flex;
+    gap: 0.65rem;
+    font-size: 0.82rem;
+    color: var(--muted2);
+    align-items: flex-start;
+  }
+  .perk-check {
+    color: var(--green);
+    font-weight: 700;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .ticket-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    border-radius: var(--r);
+    text-decoration: none;
+    transition: all 0.22s;
+  }
+  .ticket-cta:hover { background: #8fd433; }
+  .ticket-footnote {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  .ticket-footnote a { color: var(--green); text-decoration: none; }
 
-    .badge{
-      display:inline-flex;
-      gap:.5rem;
-      align-items:center;
-      padding:.35rem .65rem;
-      border-radius: 9999px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: .72rem;
-      color: #0a1a15;
-      background: rgba(255,193,7,.92);
-      border: 1px solid rgba(255,255,255,.35);
-    }
+  /* ─── SECTION WRAPPER ───────────────────────────────────────── */
+  .section {
+    padding: 5rem max(1.5rem, env(safe-area-inset-left, 0px));
+  }
+  .section-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .s-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.75rem;
+  }
+  .s-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 22px; height: 1px;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+  .s-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+    letter-spacing: 0.03em;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  .s-desc {
+    font-size: 0.95rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    max-width: 560px;
+    font-weight: 300;
+  }
 
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      border: 1px solid rgba(7,17,14,.06);
-    }
-    .card-dark{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 30px rgba(0,0,0,.22);
-      border-radius: var(--radius);
-    }
+  /* ─── WHY SECTION ───────────────────────────────────────────── */
+  .why-section { background: var(--surface); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  @media (max-width: 900px) {
+    .why-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 500px) {
+    .why-grid { grid-template-columns: 1fr; }
+  }
+  .why-cell {
+    background: var(--card);
+    padding: 1.8rem 1.5rem;
+  }
+  .why-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.9rem;
+  }
+  .why-cell h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .why-cell p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
 
-    .soft-divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
-    }
-    .soft-divider-light{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
-    }
+  /* ─── BUILD SECTION ─────────────────────────────────────────── */
+  .build-section { background: var(--bg); }
+  .build-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  .build-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    background: var(--card);
+    transition: background 0.2s;
+  }
+  .build-row:hover { background: var(--card2); }
+  .build-step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    color: rgba(118,184,42,0.3);
+    padding: 1.5rem 0 1.5rem 1.4rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    padding-top: 1.6rem;
+    line-height: 1;
+  }
+  .build-content {
+    padding: 1.4rem 1.5rem;
+  }
+  .build-content h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .build-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .build-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.65rem;
+  }
+  .build-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid rgba(118,184,42,0.25);
+    background: rgba(118,184,42,0.07);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--r);
+  }
 
-    .title-underline{
-      position: relative;
-      display:inline-block;
-      padding-bottom:.35rem;
-    }
-    .title-underline::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width: 72%;
-      height: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, rgba(42,122,90,.95), rgba(158,209,183,.90));
-    }
+  /* ─── AGENDA ────────────────────────────────────────────────── */
+  .agenda-section { background: var(--surface); }
+  .agenda-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .agenda-layout { grid-template-columns: 1fr; }
+  }
+  .agenda-list {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }
+  .agenda-item:last-child { border-bottom: none; }
+  .agenda-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    padding: 1.1rem 0 1.1rem 1.1rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .agenda-body {
+    padding: 1rem 1.2rem;
+  }
+  .agenda-body strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .agenda-body span {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .stack-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.5rem;
+  }
+  .stack-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.1rem;
+  }
+  .stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .stack-item {
+    border-left: 2px solid var(--green);
+    padding-left: 0.85rem;
+  }
+  .stack-item strong {
+    font-size: 0.88rem;
+    color: var(--white);
+    font-weight: 600;
+    display: block;
+  }
+  .stack-item span {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .stack-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.2rem 0;
+  }
 
-    .faq-chevron{ transition: transform .2s ease; }
-    .faq-open .faq-chevron{ transform: rotate(180deg); }
+  /* ─── INSTRUCTOR ────────────────────────────────────────────── */
+  .instructor-section { background: var(--bg); }
+  .instructor-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .instructor-layout { grid-template-columns: 1fr; gap: 2rem; }
+  }
+  .instructor-img-wrap {
+    aspect-ratio: 4/5;
+    border-radius: var(--r);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    max-height: 420px;
+    background: var(--card);
+    position: relative;
+  }
+  .instructor-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(5,5,5,0.8) 100%);
+  }
+  .instructor-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  }
+  .instructor-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    line-height: 1.0;
+    margin-bottom: 0.25rem;
+  }
+  .instructor-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.2rem;
+  }
+  .instructor-bio {
+    font-size: 0.9rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  blockquote.instructor-quote {
+    border-left: 2px solid var(--green);
+    padding-left: 1rem;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--muted2);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  .instructor-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .stat-cell {
+    background: var(--card);
+    padding: 1rem 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .stat-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
 
-    .pill-earlybird{
-      display:inline-flex;
-      align-items:center;
-      gap:.4rem;
-      padding:.25rem .55rem;
-      border-radius: 9999px;
-      font-size: .72rem;
-      font-weight: 900;
-      background: rgba(255,193,7,.18);
-      border: 1px solid rgba(255,193,7,.35);
-      color: #fff;
-    }
+  /* ─── TESTIMONIALS ──────────────────────────────────────────── */
+  .testimonials-section { background: var(--surface); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  @media (max-width: 768px) {
+    .testimonials-grid { grid-template-columns: 1fr; }
+  }
+  .testimonial-cell {
+    background: var(--card);
+    padding: 1.8rem 1.5rem;
+  }
+  .t-stars {
+    color: var(--green);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.9rem;
+  }
+  .t-quote {
+    font-size: 0.88rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 1.1rem;
+  }
+  .t-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--white);
+  }
+  .t-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+  .trustpilot-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .tp-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+  .tp-stars {
+    color: var(--green);
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+  }
+  .tp-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
 
-    /* Countdown */
-    .countdown-grid { display: grid; grid-template-columns: repeat(4, auto); gap: 0.5rem; justify-content: center; }
-    .countdown-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 0.75rem 1rem; text-align: center; min-width: 64px; }
-    .countdown-num { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1; }
-    .countdown-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-top: 0.2rem; }
-    .countdown-sep { font-size: 2rem; font-weight: 900; color: rgba(255,255,255,.3); align-self: center; }
+  /* ─── FAQ ───────────────────────────────────────────────────── */
+  .faq-section { background: var(--bg); }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+    max-width: 820px;
+  }
+  .faq-item { background: var(--card); }
+  .faq-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 1rem;
+    transition: background 0.18s;
+  }
+  .faq-q:hover { background: var(--card2); }
+  .faq-q-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .faq-chevron {
+    width: 18px; height: 18px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.22s ease, color 0.2s;
+  }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--green); }
+  .faq-a {
+    display: none;
+    padding: 0 1.4rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+    border-top: 1px solid var(--border);
+  }
+  .faq-a a { color: var(--green); text-decoration: none; }
+  .faq-item.open .faq-a { display: block; }
 
-    /* Sticky bar */
-    .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 190; background: rgba(7,17,14,.97); backdrop-filter: blur(12px); border-top: 2px solid var(--accent); padding: 0.85rem 1.5rem calc(0.85rem + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-between; gap: 1rem; transform: translateY(100%); transition: transform 0.4s cubic-bezier(.22,.68,0,1.2); }
-    .sticky-bar.visible { transform: translateY(0); }
+  /* ─── FOOTER ────────────────────────────────────────────────── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 3rem max(1.5rem, env(safe-area-inset-left, 0px)) max(2rem, env(safe-area-inset-bottom, 0px));
+  }
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 560px) {
+    .footer-inner { grid-template-columns: 1fr; }
+  }
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .footer-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--muted2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-addr {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .footer-addr a { color: var(--muted2); text-decoration: none; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 2rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .footer-social a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-social a:hover { color: var(--green); }
 
-    @media (max-width: 768px){
-      .hero{
-        min-height: 88vh;
-        background:
-          radial-gradient(1200px 700px at 15% -10%, rgba(158,209,183,.22), transparent 62%),
-          radial-gradient(900px 520px at 90% 8%, rgba(255,193,7,.14), transparent 60%),
-          linear-gradient(180deg, rgba(7,17,14,.78), rgba(7,17,14,.96)),
-          url('/aiagentworkshop.png') center/cover no-repeat;
-      }
-      .hero::before{
-        content:"";
-        position:absolute;
-        inset:0;
-        background: linear-gradient(90deg, rgba(7,17,14,.88) 0%, rgba(7,17,14,.62) 55%, rgba(7,17,14,.42) 100%);
-        pointer-events:none;
-      }
-      .blob{ width: 420px; height: 420px; }
-    }
-  </style>
+  /* ─── STICKY BAR ────────────────────────────────────────────── */
+  .sticky-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 190;
+    background: rgba(5,5,5,0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--green);
+    padding: 0.85rem max(1.5rem, env(safe-area-inset-left, 0px)) max(0.85rem, env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+  }
+  .sticky-bar.visible { transform: translateY(0); }
+  .sb-info p:first-child {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .sb-info p:last-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 0.2rem;
+  }
+  .sticky-btn {
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.75rem 1.6rem;
+    border-radius: var(--r);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .sticky-btn:hover { background: #8fd433; }
 
-  <!-- Meta Pixel -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1507001663644263');
-    fbq('track', 'PageView');
-    fbq('track', 'ViewContent', {
-      content_name: 'AI Agent Workshop - 12 December',
-      content_category: 'Workshop',
-      value: 595,
-      currency: 'SEK'
-    });
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
-  </noscript>
-</head>
+  /* ─── MOBILE TICKET SECTION ──────────────────────────────────── */
+  .mobile-ticket-section {
+    display: none;
+    padding: 3rem 1.5rem 4rem;
+    background: var(--surface);
+    scroll-margin-top: calc(var(--header) + 8px);
+  }
+  .mobile-ticket-inner {
+    max-width: 440px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r);
+    padding: 1.8rem;
+  }
+  @media (max-width: 960px) {
+    .mobile-ticket-section { display: block; }
+    body { padding-bottom: 72px; }
+  }
 
-<body class="text-gray-900">
+  /* LANGUAGE TOGGLE */
+  .lang-wrap { position: relative; }
+  .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r); padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s; }
+  .lang-btn:hover { color: var(--white); border-color: var(--border-hi); }
+  .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
+  .lang-btn svg { width: 12px; height: 12px; }
+  .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; background: var(--card2); border: 1px solid var(--border-hi); border-radius: var(--r); overflow: hidden; z-index: 200; }
+  .lang-wrap.open .lang-menu { display: block; }
+  .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
+  .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+  .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
 
-  <!-- NAV -->
-  <header class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-      <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
-        <a href="/index.html" class="flex items-center gap-3">
-          <img src="/android-chrome-512x512.png" alt="Genaition" class="h-10 w-10 rounded-full" onerror="this.style.display='none'" />
-          <div class="hidden sm:block leading-tight">
-            <p class="text-white font-extrabold tracking-tight">Genaition</p>
-            <p class="text-xs text-green-100 opacity-90">Workshops · AI Agents</p>
-          </div>
-        </a>
+</style>
 
-        <nav class="hidden md:flex items-center gap-7 text-sm">
-          <a href="#about" class="text-green-100 hover:text-white">Overview</a>
-          <a href="#build" class="text-green-100 hover:text-white">What you'll build</a>
-          <a href="#agenda" class="text-green-100 hover:text-white">Agenda</a>
-          <a href="#instructor" class="text-green-100 hover:text-white">Instructor</a>
-          <a href="#faq" class="text-green-100 hover:text-white">FAQ</a>
-          <a href="/before-checkout" class="btn btn-primary px-4 py-2 text-sm">Get your ticket</a>
-
-          <div class="relative">
-            <button id="langBtn" class="focus-ring btn btn-outline px-3 py-2" aria-haspopup="true" aria-expanded="false">
-              <img src="/english.png" alt="English" class="h-5 w-5">
-              <span class="text-sm font-extrabold">EN</span>
-              <svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </button>
-            <div id="langMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-              <a href="/event-1" class="flex items-center px-3 py-2 hover:bg-gray-50 text-gray-800">
-                <img src="/english.png" class="h-4 w-4 mr-2" alt="English"> English
-              </a>
-              <a href="/event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-50 text-gray-800">
-                <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Svenska"> Svenska
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        <div class="md:hidden flex items-center gap-2">
-          <a href="/before-checkout" class="btn btn-primary px-3 py-2 text-xs">Ticket →</a>
-          <button id="mobileMenuBtn" class="focus-ring btn btn-outline px-3 py-2" aria-label="Open menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+<!-- ── HEADER ───────────────────────────────────────────────────── -->
+<header>
+  <div class="hdr-inner">
+    <a href="/index.html" class="logo">
+      <div class="logo-mark">
+        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <span class="logo-name">Genaition</span>
+        <span class="logo-sub">AI Workshop</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#about">Overview</a>
+      <a href="#build">What you'll build</a>
+      <a href="#agenda">Agenda</a>
+      <a href="#instructor">Instructor</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
+          <img src="/english.png" alt="English" />
+          <span>EN</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <a href="/event-1"><img src="/english.png" alt="English flag" /> English</a>
+          <a href="/event-1-sv"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
         </div>
       </div>
+      <a href="/before-checkout" class="nav-cta">Get ticket</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="hidden fixed inset-0 z-50">
-    <div class="absolute inset-0 bg-black opacity-60"></div>
-    <div class="absolute top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl p-6">
-      <div class="flex items-center justify-between mb-5">
-        <p class="font-extrabold text-gray-900">Menu</p>
-        <button id="mobileMenuClose" class="focus-ring btn btn-outline text-gray-900 border-gray-200 bg-white px-3 py-2">&#10005;</button>
+<!-- ── HERO ─────────────────────────────────────────────────────── -->
+<section class="hero" id="about">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="tag-live">
+          <span class="live-dot"></span>
+          In-Person &#183; 12 December
+        </span>
+        <span class="tag-plain">No coding</span>
+        <span class="tag-plain">Beginner-friendly</span>
       </div>
-      <div class="flex flex-col space-y-4 text-gray-900">
-        <a href="#about" class="hover:text-green-700">Overview</a>
-        <a href="#build" class="hover:text-green-700">What you'll build</a>
-        <a href="#agenda" class="hover:text-green-700">Agenda</a>
-        <a href="#instructor" class="hover:text-green-700">Instructor</a>
-        <a href="#faq" class="hover:text-green-700">FAQ</a>
-        <a href="/before-checkout" class="btn btn-primary text-center py-3">Get your ticket →</a>
-        <div class="soft-divider my-2"></div>
-        <div class="mt-2 space-y-2">
-          <a href="/event-1" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
-            <img src="/english.png" class="h-5 w-5" alt="English"> English
-          </a>
-          <a href="/event-1-sv" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
-            <img src="/swedish.png" class="h-5 w-5" alt="Svenska"> Svenska
-          </a>
+
+      <h1 class="hero-title">
+        <span class="t-white">Build your own</span>
+        <span class="t-green">AI Agent</span>
+      </h1>
+
+      <div class="hero-divider"></div>
+
+      <p class="hero-desc">
+        Leave in 3 hours with a live AI agent you built yourself. No coding required. Join us in-person on 12 December.
+      </p>
+
+      <div class="hero-meta">
+        <div class="meta-block">
+          <div class="meta-lbl">Date</div>
+          <div class="meta-val">12 Dec</div>
+          <div class="meta-sub">2026</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Time</div>
+          <div class="meta-val">13:30</div>
+          <div class="meta-sub">&#8211;16:30 CET</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Format</div>
+          <div class="meta-val green">In-Person</div>
+          <div class="meta-sub">Live session</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Seats</div>
+          <div class="meta-val gold">Max 25</div>
+          <div class="meta-sub">Small cohort</div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="/before-checkout" class="btn-primary">Get your ticket &#8594;</a>
+        <a href="#build" class="btn-ghost">See what you'll build</a>
+      </div>
+
+    </div>
+
+    <!-- Ticket card -->
+    <aside class="ticket-card">
+      <div style="text-align:center;margin-bottom:1.2rem;">
+        <span class="ticket-offer-badge"><span class="offer-dot"></span>Early Bird</span>
+      </div>
+
+      <div style="text-align:center;margin-bottom:0.15rem;">
+        <div class="price-old">795 SEK</div>
+        <div class="price-big">395 SEK</div>
+        <div class="price-save">Save 400 SEK</div>
+      </div>
+
+      <div class="ticket-divider" style="margin:1.25rem 0;"></div>
+
+      <ul class="ticket-perks">
+        <li><span class="perk-dash">&#8212;</span><span>Full 3-hour live in-person workshop</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Hands-on help until your agent works</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Post-workshop 1:1 support via email</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Templates, prompts and workflow files</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Certificate of completion</span></li>
+      </ul>
+
+      <a href="/before-checkout" class="ticket-cta" style="margin-top:1.25rem;letter-spacing:0.18em;">Reserve your seat</a>
+      <p class="ticket-footnote" style="margin-top:0.6rem;letter-spacing:0.14em;">Secure your spot today.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ── MOBILE TICKET SECTION ─────────────────────────────────────── -->
+<section class="mobile-ticket-section" id="ticket">
+  <div class="mobile-ticket-inner">
+    <div style="text-align:center;margin-bottom:1.2rem;">
+      <span class="ticket-offer-badge"><span class="offer-dot"></span>Early Bird</span>
+    </div>
+    <div style="text-align:center;margin-bottom:0.15rem;">
+      <div class="price-old">795 SEK</div>
+      <div class="price-big">395 SEK</div>
+      <div class="price-save">Save 400 SEK</div>
+    </div>
+    <div class="ticket-divider" style="margin:1.25rem 0;"></div>
+    <ul class="ticket-perks">
+      <li><span class="perk-dash">&#8212;</span><span>Full 3-hour live in-person workshop</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Hands-on help until your agent works</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Post-workshop 1:1 support via email</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Templates, prompts and workflow files</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Certificate of completion</span></li>
+    </ul>
+    <a href="/before-checkout" class="ticket-cta" style="margin-top:1.25rem;letter-spacing:0.18em;">Reserve your seat</a>
+    <p class="ticket-footnote" style="margin-top:0.6rem;letter-spacing:0.14em;">Secure your spot today.</p>
+  </div>
+</section>
+
+<!-- ── WHY ──────────────────────────────────────────────────────── -->
+<section class="section why-section">
+  <div class="section-inner">
+    <div class="s-eyebrow">Workshop summary</div>
+    <h2 class="s-title">Agentic AI,<br>made practical</h2>
+    <p class="s-desc">Build an AI email agent that finds leads, writes personalised emails, and sends automatically. Designed for real outreach: sales, recruiting, and founder flows.</p>
+
+    <div class="why-grid">
+      <div class="why-cell">
+        <div class="why-num">01</div>
+        <h3>Done in 3 hours</h3>
+        <p>Build a real email agent. Walk away with a working tool. No slides, no theory.</p>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">02</div>
+        <h3>You set the rules</h3>
+        <p>Instruct your agent. The AI follows them. Know exactly what it sends, why, and when.</p>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">03</div>
+        <h3>Real agent, built by you</h3>
+        <p>See how ReAct, LLM API, and system prompts work by building one yourself, live.</p>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">04</div>
+        <h3>Hands-on help</h3>
+        <p>Max 25 seats. Small cohort, structured pace, support until your agent actually works.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT YOU'LL BUILD ─────────────────────────────────────────── -->
+<section class="section build-section" id="build">
+  <div class="section-inner">
+    <div class="s-eyebrow">What you'll build</div>
+    <h2 class="s-title">AI outreach pipeline.<br>Ready to use right away.</h2>
+    <p class="s-desc">Detect the lead, profile and analyse, generate email text, send and update the document.</p>
+
+    <div class="build-grid">
+      <div class="build-row">
+        <span class="build-step-num">01</span>
+        <div class="build-content">
+          <h3>Hands-on AI agent</h3>
+          <p>No slides. No lecture. You'll build "Ove", a live email agent that pulls contacts, writes personalised emails, sends via Gmail, and logs results autonomously.</p>
+          <div class="build-tags">
+            <span class="build-tag">Auto prompting</span>
+            <span class="build-tag">Tone matching</span>
+            <span class="build-tag">One-click reuse</span>
+          </div>
+        </div>
+      </div>
+      <div class="build-row">
+        <span class="build-step-num">02</span>
+        <div class="build-content">
+          <h3>Real-world scenarios</h3>
+          <p>See how founders and teams use agents to warm prospects, follow up, and save hours weekly. Leave with a plan you can apply immediately.</p>
+          <div class="build-tags">
+            <span class="build-tag">Outreach that gets replies</span>
+            <span class="build-tag">Quality checks</span>
+            <span class="build-tag">Plug-and-play templates</span>
+          </div>
+        </div>
+      </div>
+      <div class="build-row">
+        <span class="build-step-num">03</span>
+        <div class="build-content">
+          <h3>Small in-person cohort</h3>
+          <p>Join entrepreneurs, freelancers, and builders who are done waiting for AI to make sense. All you need is a laptop and a browser.</p>
+          <div class="build-tags">
+            <span class="build-tag">Build together</span>
+            <span class="build-tag">Certificate of completion</span>
+            <span class="build-tag">Q&amp;A throughout</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- HERO -->
-  <section class="hero text-white pt-28">
-    <div class="blob"></div>
-    <div class="relative z-10 w-full">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        <div class="flex justify-center">
-          <div class="w-full max-w-3xl text-center">
+<!-- ── AGENDA ────────────────────────────────────────────────────── -->
+<section class="section agenda-section" id="agenda">
+  <div class="section-inner">
+    <div class="s-eyebrow">Agenda</div>
+    <h2 class="s-title">12 December &#183; 13:30&#8211;16:30</h2>
+    <p class="s-desc">We move fast but keep it beginner-friendly. You follow proven templates, understand the logic, and adapt everything to your own inbox.</p>
 
-            <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
-              <span class="badge">Live Online · 12 December</span>
-              <span class="text-sm text-green-100 opacity-90">Hands-on · Beginner-friendly · No coding</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Build your own <span style="color:var(--accent2);">AI agent from scratch</span>
-            </h1>
-
-            <p class="mt-5 text-lg text-green-100 opacity-90 max-w-xl mx-auto">
-              Leave in 3 hours with a live AI email agent you built yourself — no coding required. Join online from anywhere on 12 December.
-            </p>
-
-            <div class="mt-7 flex flex-wrap justify-center gap-4">
-              <a href="/before-checkout" class="btn btn-primary focus-ring px-8 py-4 text-base">
-                Get your ticket →
-              </a>
-              <a href="#about" class="btn btn-outline focus-ring px-8 py-4 text-base">
-                Learn more
-              </a>
-            </div>
-
-            <!-- Countdown -->
-            <div class="mt-10" id="heroCountdown">
-              <p class="text-xs font-extrabold uppercase tracking-widest text-green-100 opacity-60 mb-3">Starts in</p>
-              <div class="countdown-grid">
-                <div class="countdown-box"><div class="countdown-num" id="cdDays">--</div><div class="countdown-label">Days</div></div>
-                <div class="countdown-sep">:</div>
-                <div class="countdown-box"><div class="countdown-num" id="cdHours">--</div><div class="countdown-label">Hrs</div></div>
-                <div class="countdown-sep">:</div>
-                <div class="countdown-box"><div class="countdown-num" id="cdMins">--</div><div class="countdown-label">Min</div></div>
-                <div class="countdown-sep">:</div>
-                <div class="countdown-box"><div class="countdown-num" id="cdSecs">--</div><div class="countdown-label">Sec</div></div>
-              </div>
-            </div>
-
-            <!-- Event strip -->
-            <div class="mt-8 card-dark p-5 sm:p-6 text-left">
-              <div class="grid sm:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Date</p>
-                  <p class="font-extrabold text-white mt-1">12 December 2026</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Time</p>
-                  <p class="font-extrabold text-white mt-1">13:30–16:30</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Format</p>
-                  <p class="font-extrabold mt-1" style="color:var(--accent2);">Live Online</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Seats</p>
-                  <p class="font-extrabold mt-1" style="color:var(--gold);">Max 25</p>
-                </div>
-              </div>
-            </div>
-
+    <div class="agenda-layout">
+      <div class="agenda-list">
+        <div class="agenda-item">
+          <div class="agenda-time">13:30</div>
+          <div class="agenda-body">
+            <strong>Intro &amp; Setup</strong>
+            <span>Connect your tools, meet your cohort.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">13:50</div>
+          <div class="agenda-body">
+            <strong>Connect &amp; Test</strong>
+            <span>Link Gmail and n8n, run your first live trigger.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">14:30</div>
+          <div class="agenda-body">
+            <strong>Build your agent</strong>
+            <span>Set rules, write system prompt, run a live send.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">15:00</div>
+          <div class="agenda-body">
+            <strong>Break — 10 min</strong>
+            <span>Step away, grab a coffee.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">15:10</div>
+          <div class="agenda-body">
+            <strong>Build from scratch</strong>
+            <span>You set the rules, tone, and logic.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">16:15</div>
+          <div class="agenda-body">
+            <strong>Q&amp;A + Certificate</strong>
+            <span>Live questions and your certificate of completion.</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="bg-acoustic py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Workshop – summary</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          <span class="title-underline">Agentic AI</span>, made practical
-        </h2>
-        <p class="mt-5 text-gray-700 text-lg">
-          Build an <span class="font-extrabold">AI email agent</span> that finds leads, writes personalised emails, and sends automatically. Designed for real outreach: sales, recruiting, and founder flows.
+      <div class="stack-card">
+        <div class="stack-lbl">Your tech stack</div>
+        <div class="stack-list">
+          <div class="stack-item">
+            <strong>n8n Cloud</strong>
+            <span>The automation engine that connects your tools and runs the entire pipeline.</span>
+          </div>
+          <div class="stack-item">
+            <strong>Claude Sonnet 4.5</strong>
+            <span>Reads emails, writes replies in your tone, and runs quality checks.</span>
+          </div>
+          <div class="stack-item">
+            <strong>n8n MCP</strong>
+            <span>Gives the agent context and memory so it knows who it's talking to.</span>
+          </div>
+          <div class="stack-item">
+            <strong>ReAct Workflow</strong>
+            <span>The reasoning loop that lets the agent think, decide, and act.</span>
+          </div>
+        </div>
+        <div class="stack-divider"></div>
+        <a href="/before-checkout" class="ticket-cta">Get your ticket &#8594;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSTRUCTOR ────────────────────────────────────────────────── -->
+<section class="section instructor-section" id="instructor">
+  <div class="section-inner">
+    <div class="s-eyebrow">Your instructor</div>
+    <div class="instructor-layout">
+      <div class="instructor-img-wrap">
+        <img src="/IMG_0143.jpg" alt="Javid Valiyev" onerror="this.parentElement.style.background='var(--card2)'">
+      </div>
+      <div>
+        <h2 class="instructor-name">Javid Valiyev</h2>
+        <div class="instructor-role">Founder &#183; Genaition</div>
+        <p class="instructor-bio">
+          Javid builds applied AI and teaches people and businesses how to implement it without needing a developer. His workshops are known for being hands-on, structured, and beginner-safe.
         </p>
-      </div>
-
-      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">01</span>
+        <blockquote class="instructor-quote">
+          "You don't leave without a working system. That's the rule."
+        </blockquote>
+        <div class="instructor-stats">
+          <div class="stat-cell">
+            <span class="stat-key">Format</span>
+            <span class="stat-val">In-Person</span>
           </div>
-          <h3 class="font-extrabold text-lg">Done in 3 hours</h3>
-          <p class="mt-2 text-sm text-gray-700">Build a real email agent in 3 hours. Walk away with a working tool — no slides, no theory.</p>
-        </div>
-
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">02</span>
+          <div class="stat-cell">
+            <span class="stat-key">Level</span>
+            <span class="stat-val">Beginner</span>
           </div>
-          <h3 class="font-extrabold text-lg">You set the rules</h3>
-          <p class="mt-2 text-sm text-gray-700">Instruct your agent. The AI follows them. Know exactly what it sends, why, and when.</p>
-        </div>
-
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">03</span>
+          <div class="stat-cell">
+            <span class="stat-key">Experience</span>
+            <span class="stat-val">5+ yrs AI</span>
           </div>
-          <h3 class="font-extrabold text-lg">Real agent, built by you</h3>
-          <p class="mt-2 text-sm text-gray-700">See how ReAct, LLM API, and system prompts actually work by building one yourself, live online.</p>
-        </div>
-
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">04</span>
-          </div>
-          <h3 class="font-extrabold text-lg">Hands-on help</h3>
-          <p class="mt-2 text-sm text-gray-700">Max 25 seats — small cohort, structured pace, and support until your agent actually works.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHAT YOU'LL BUILD -->
-  <section id="build" class="py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">What you'll build</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          AI outreach pipeline — <span style="color:var(--accent);">ready to use right away</span>
-        </h2>
-        <p class="mt-4 text-gray-600">Detect the lead → profile and analyse → generate email text → send and update the document.</p>
-      </div>
-
-      <div class="mt-12 space-y-10">
-
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6">
-            <div class="card overflow-hidden">
-              <img src="/email-workshopm.jpg" class="w-full h-80 object-cover" alt="Workshop hands-on">
-            </div>
-          </div>
-          <div class="lg:col-span-6">
-            <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">1) Hands-on AI agent</h3>
-              <p class="mt-3 text-gray-700">
-                No slides. No lecture. You'll build "Ove", a live email agent that pulls contacts, writes personalised emails, sends via Gmail, and logs results — autonomously.
-              </p>
-              <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Prompts that adapt to each contact automatically</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Let AI copy your tone — formal, casual, or brand voice</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> One-click reuse — take it straight into your next project</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6 lg:order-2">
-            <div class="card overflow-hidden">
-              <img src="/workshop999.jpg" class="w-full h-80 object-cover" style="object-position: center top;" alt="Workshop group photo">
-            </div>
-          </div>
-          <div class="lg:col-span-6 lg:order-1">
-            <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">2) Real-world scenarios</h3>
-              <p class="mt-3 text-gray-700">
-                See how founders and teams use agents to warm prospects, follow up, and save hours weekly. Leave with a plan you can apply immediately.
-              </p>
-              <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Outreach that gets replies</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Quality checks so AI never sends something wrong</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Plug-and-play templates for sales, recruiting, and ops</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6">
-            <div class="card overflow-hidden">
-              <img src="/email-workshop.jpg" class="w-full h-80 object-cover" alt="Online workshop session">
-            </div>
-          </div>
-          <div class="lg:col-span-6">
-            <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">3) Small online cohort</h3>
-              <p class="mt-3 text-gray-700">
-                Join a small online cohort of entrepreneurs, freelancers, and builders who are done waiting for AI to make sense. All you need is a laptop and a browser.
-              </p>
-              <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Bring your laptop — build together</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Certificate of completion</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> Q&amp;A throughout the session</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="text-center mt-10">
-        <a href="/before-checkout" class="btn btn-primary focus-ring px-8 py-4 text-base">
-          Secure your seat →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- AGENDA -->
-  <section id="agenda" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest2), var(--forest)); color:#eef7f3;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Agenda</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Agenda (in brief)</h2>
-        <p class="mt-3 text-green-100">12 December · 13:30–16:30</p>
-      </div>
-
-      <div class="mt-10 grid lg:grid-cols-12 gap-6 items-start">
-        <div class="lg:col-span-6">
-          <div class="card-dark p-6">
-            <p class="text-sm text-green-100 opacity-90">
-              We move fast but keep it beginner-friendly. You follow proven templates, understand the logic, and adapt everything to your own inbox.
-            </p>
-            <div class="soft-divider-light my-5"></div>
-            <div class="space-y-3 text-sm text-green-100">
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">13:30</p>
-                <p class="text-right">Intro &amp; Setup — Connect your tools, meet your cohort.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">13:50</p>
-                <p class="text-right">Connect &amp; Test — Link Gmail and n8n, run your first live trigger.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">14:30</p>
-                <p class="text-right">Build your agent — Set rules, write system prompt, run a live send.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">15:00</p>
-                <p class="text-right">10 min break — Step away, grab a coffee.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">15:10</p>
-                <p class="text-right">Build from scratch — You set the rules, tone, and logic.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">16:15</p>
-                <p class="text-right">Q&amp;A + Certificate — Live questions and your certificate of completion.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-6">
-          <div class="card-dark p-6 space-y-4">
-            <p class="text-sm text-green-100 opacity-90 font-bold">Your tech stack</p>
-            <div class="space-y-3 text-sm text-green-100">
-              <div><span class="font-extrabold text-white">n8n Cloud</span> — the automation engine that connects your tools and runs the entire pipeline.</div>
-              <div><span class="font-extrabold text-white">Claude Sonnet 4.5</span> — reads emails, writes replies in your tone, and runs quality checks.</div>
-              <div><span class="font-extrabold text-white">n8n MCP</span> — gives the agent context and memory so it knows who it's talking to.</div>
-              <div><span class="font-extrabold text-white">ReAct Workflow</span> — the reasoning loop that lets the agent think, decide, and act.</div>
-            </div>
-            <div class="soft-divider-light"></div>
-            <a href="/before-checkout" class="btn btn-primary focus-ring w-full py-3 text-sm">
-              Get your ticket →
-            </a>
+          <div class="stat-cell">
+            <span class="stat-key">Trained</span>
+            <span class="stat-val">150+ pros</span>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- TICKETS -->
-  <section id="tickets" class="bg-acoustic py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+<!-- ── TESTIMONIALS ───────────────────────────────────────────────── -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <div class="s-eyebrow">What people say</div>
+    <h2 class="s-title">Trusted by builders<br>and founders</h2>
 
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Reserve your seat</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">12 December · Online</h2>
-        <p class="mt-4">
-          <span class="pill-earlybird" style="color:#5a4300;">Early bird · Ends soon</span>
-        </p>
+    <div class="testimonials-grid">
+      <div class="testimonial-cell">
+        <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="t-quote">"Came in sceptical, left with a working agent. By hour two I had built the loop myself. Not followed along. Actually done it."</p>
+        <div class="t-name">Valentina Fermanelli</div>
+        <div class="t-meta">Workshop &#183; Gothenburg &#183; 2025</div>
       </div>
-
-      <div class="mt-10 grid lg:grid-cols-12 gap-6 items-stretch">
-
-        <!-- Ticket card -->
-        <div class="lg:col-span-7">
-          <div class="card p-8 sm:p-10 h-full flex flex-col justify-between">
-            <div>
-              <p class="font-extrabold text-gray-800 text-lg mb-1">Build a real, working AI email agent in 3 hours — no coding required.</p>
-
-              <div class="mt-5 flex items-baseline gap-3 flex-wrap">
-                <span class="text-2xl font-extrabold text-gray-400 line-through">795 SEK</span>
-                <span class="text-5xl sm:text-6xl font-extrabold" style="color:var(--forest2);">595 SEK</span>
-                <span class="pill-earlybird" style="color:#5a4300;">Save 200 SEK</span>
-              </div>
-
-              <!-- Seat bar -->
-              <div class="mt-5">
-                <div class="flex justify-between text-xs font-bold mb-1">
-                  <span class="text-gray-500 uppercase tracking-widest">Seats filling up</span>
-                  <span style="color:#e8624a;">7 left</span>
-                </div>
-                <div class="h-2 rounded-full" style="background:rgba(42,122,90,.12);">
-                  <div class="h-2 rounded-full" style="width:72%; background: linear-gradient(90deg, var(--accent), #2d8a52);"></div>
-                </div>
-              </div>
-
-              <div class="soft-divider my-6"></div>
-
-              <ul class="space-y-3 text-gray-800">
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> <span>Full 3-hour live online workshop session</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> <span>Hands-on help until your agent works</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> <span>Post-workshop 1:1 support via email</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> <span>Templates, prompts &amp; workflow files to keep</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">&#10003;</span> <span>Certificate of completion</span></li>
-              </ul>
-            </div>
-
-            <div class="mt-8">
-              <a href="/before-checkout"
-                 class="w-full inline-flex items-center justify-center py-4 sm:py-5 rounded-2xl font-extrabold text-white text-lg focus-ring"
-                 style="background: linear-gradient(135deg, var(--accent), #2f8b66);">
-                Get your ticket →
-              </a>
-              <p class="mt-3 text-center text-xs text-gray-500">Questions? Email <a href="mailto:info@genaition.org" style="color:var(--accent);">info@genaition.org</a></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Instructor sidebar -->
-        <div class="lg:col-span-5" id="instructor">
-          <div class="card p-7 sm:p-8 h-full">
-            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Your instructor</p>
-
-            <div class="mt-4 flex items-center gap-4">
-              <img src="/workshop999.jpg" alt="Javid Valiyev"
-                   class="h-16 w-16 rounded-2xl object-cover shadow" style="object-position: center top;">
-              <div>
-                <p class="font-extrabold text-lg">Javid Valiyev</p>
-                <p class="text-sm text-gray-600">Founder · Genaition</p>
-              </div>
-            </div>
-
-            <p class="mt-5 text-gray-700 text-sm">
-              Javid builds applied AI and teaches people and businesses how to implement it without needing a developer. His workshops are known for being hands-on, structured, and beginner-safe.
-            </p>
-
-            <blockquote class="mt-4 border-l-4 pl-4 text-sm italic text-gray-600" style="border-color:var(--accent);">
-              "You don't leave without a working system. That's the rule."
-            </blockquote>
-
-            <div class="soft-divider my-5"></div>
-
-            <div class="space-y-3 text-sm text-gray-700">
-              <div class="flex justify-between"><span class="font-extrabold">Format</span><span>Live Online</span></div>
-              <div class="flex justify-between"><span class="font-extrabold">Level</span><span>Beginner-friendly</span></div>
-              <div class="flex justify-between"><span class="font-extrabold">Experience</span><span>5+ years AI</span></div>
-              <div class="flex justify-between"><span class="font-extrabold">Trained</span><span>150+ professionals</span></div>
-            </div>
-          </div>
-        </div>
-
+      <div class="testimonial-cell">
+        <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="t-quote">"When the agent read the email and sent back a draft, I finally got it. Had been trying to understand ReAct for months."</p>
+        <div class="t-name">Sara Svensson</div>
+        <div class="t-meta">Workshop &#183; Stockholm &#183; 2026</div>
       </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="py-16 sm:py-20" style="background:#000; color:#eef7f3;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-10">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">What people say</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">4.5 / 5 · Trustpilot</h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-dark p-6">
-          <div class="flex gap-1 mb-4">
-            <span style="color:var(--accent2);">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          <p class="text-green-100 text-sm leading-relaxed">"Came in sceptical, left with a working agent. By hour two I had built the loop myself. Not followed along. Actually done it."</p>
-          <div class="mt-4"><p class="font-extrabold text-white text-sm">Valentina Fermanelli</p><p class="text-xs text-green-100 opacity-60">Workshop · Gothenburg · 2025</p></div>
-        </div>
-        <div class="card-dark p-6">
-          <div class="flex gap-1 mb-4">
-            <span style="color:var(--accent2);">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          <p class="text-green-100 text-sm leading-relaxed">"When the agent read the email and sent back a draft, I finally got it. Had been trying to understand ReAct for months."</p>
-          <div class="mt-4"><p class="font-extrabold text-white text-sm">Sara Svensson</p><p class="text-xs text-green-100 opacity-60">Workshop · Stockholm · 2026</p></div>
-        </div>
-        <div class="card-dark p-6">
-          <div class="flex gap-1 mb-4">
-            <span style="color:var(--accent2);">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          <p class="text-green-100 text-sm leading-relaxed">"Expected slides. Left with an agent that fetches leads and writes outreach. Didn't think I'd ship anything in three hours."</p>
-          <div class="mt-4"><p class="font-extrabold text-white text-sm">Joey Sorel</p><p class="text-xs text-green-100 opacity-60">Workshop · Stockholm · 2025</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest), var(--forest2)); color:#eef7f3;">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <div class="text-center">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Common questions</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">FAQ</h2>
-        <p class="mt-3 text-green-100">Still wondering something? Email <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a>.</p>
-      </div>
-
-      <div class="mt-10 space-y-4">
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            I have no AI or coding experience. Is this for me?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Yes — this is built for beginners. You follow step by step, we help anyone who gets stuck, and you leave with a working agent. No coding required.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            What exactly will I build?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            An AI reply agent: it reads incoming emails, understands what the sender wants, writes a reply in your tone, runs a quality check, and flags it for your approval — or sends directly for categories you define as safe.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Will this send emails automatically without me seeing them?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Only if you explicitly configure it to. The default is human-in-the-loop — you review and approve before anything is sent.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            What do I need to bring?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Your laptop and a Google account (Gmail). We install all other tools together in the first 20 minutes. No accounts to create beforehand.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Can I use this in my own work after the workshop?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Yes. You take the templates and workflow files with you. We cover support, sales, recruiting, and ops inboxes — pick the one closest to your work and adapt it live.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            What is the refund and cancellation policy?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Full refund if you cancel at least 7 days before the event. After that, you can transfer your ticket to a colleague. Email <a href="mailto:info@genaition.org" class="underline">info@genaition.org</a>.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Can my company pay? Do you issue invoices?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Yes. If you need an invoice, want to book multiple seats, or need a corporate discount, email <a href="mailto:info@genaition.org" class="underline">info@genaition.org</a> — typically within 1 business day.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            What will n8n Cloud and the Claude API cost per month?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Very little. n8n Cloud starts at around &euro;20/month (~220 SEK), and Claude API for a typical email inbox costs &euro;5&ndash;15/month. Total: roughly 150&ndash;350 SEK/month.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="pt-12 pb-8" style="background:#050c0a; color:#e9f2ee;">
-    <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-10 text-sm">
-      <div class="space-y-2">
-        <p class="font-extrabold text-white text-base mb-3">Links</p>
-        <a href="/index.html" class="block hover:text-green-200">Home</a>
-        <a href="/about.html" class="block hover:text-green-200">About</a>
-        <a href="/events.html" class="block hover:text-green-200">Events</a>
-        <a href="/contact.html" class="block hover:text-green-200">Contact</a>
-      </div>
-      <div class="sm:text-right space-y-1">
-        <p class="font-extrabold text-white text-base mb-3">GenAition</p>
-        <p>Konstgjutarv&auml;gen 4<br>121 44 Stockholm<br>Sweden</p>
-        <p class="mt-3"><a href="mailto:info@genaition.org" class="hover:text-green-200">info@genaition.org</a></p>
-        <p><a href="tel:+46762608848" class="hover:text-green-200">+46 762 608 848</a></p>
+      <div class="testimonial-cell">
+        <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="t-quote">"Expected slides. Left with an agent that fetches leads and writes outreach. Didn't think I'd ship anything in three hours."</p>
+        <div class="t-name">Joey Sorel</div>
+        <div class="t-meta">Workshop &#183; Stockholm &#183; 2025</div>
       </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 mt-10 flex flex-col items-center gap-4">
-      <img src="/android-chrome-512x512.png" alt="Genaition" class="h-14 w-14 rounded-2xl" onerror="this.style.display='none'" />
-      <div class="flex items-center gap-4">
-        <a href="https://linkedin.com/company/genaition" target="_blank" class="hover:opacity-80">
-          <img src="/linkedin.png" class="h-6 w-6" alt="LinkedIn" onerror="this.style.display='none'" />
-        </a>
-        <a href="https://facebook.com/genaition" target="_blank" class="hover:opacity-80">
-          <img src="/facebook.png" class="h-6 w-6" alt="Facebook" onerror="this.style.display='none'" />
-        </a>
-        <a href="https://instagram.com/genaition.io" target="_blank" class="hover:opacity-80">
-          <img src="/instagram.png" class="h-6 w-6" alt="Instagram" onerror="this.style.display='none'" />
-        </a>
+    <div class="trustpilot-banner">
+      <div>
+        <div class="tp-score">4.5 / 5</div>
+        <div class="tp-label">Trustpilot</div>
       </div>
-      <p class="text-xs text-gray-400 mt-2">&copy; 2026 GenAition. All rights reserved.</p>
+      <div class="tp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- STICKY BAR -->
-  <div class="sticky-bar" id="stickyBar">
+<!-- ── FAQ ───────────────────────────────────────────────────────── -->
+<section class="section faq-section" id="faq">
+  <div class="section-inner">
+    <div class="s-eyebrow">Common questions</div>
+    <h2 class="s-title">FAQ</h2>
+    <p class="s-desc">Still wondering something? Email <a href="mailto:info@genaition.org" style="color:var(--green);text-decoration:none;">info@genaition.org</a></p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">I have no AI or coding experience. Is this for me?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Yes — this is built for beginners. You follow step by step, we help anyone who gets stuck, and you leave with a working agent. No coding required.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">What exactly will I build?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">An AI reply agent: it reads incoming emails, understands what the sender wants, writes a reply in your tone, runs a quality check, and flags it for your approval — or sends directly for categories you define as safe.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Will this send emails automatically without me seeing them?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Only if you explicitly configure it to. The default is human-in-the-loop — you review and approve before anything is sent.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">What do I need to bring?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Your laptop and a Google account (Gmail). We install all other tools together in the first 20 minutes. No accounts to create beforehand.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Can I use this in my own work after the workshop?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Yes. You take the templates and workflow files with you. We cover support, sales, recruiting, and ops inboxes — pick the one closest to your work and adapt it live.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">What is the refund and cancellation policy?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Full refund if you cancel at least 7 days before the event. After that, you can transfer your ticket to a colleague. Email <a href="mailto:info@genaition.org">info@genaition.org</a>.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">What will n8n Cloud and the Claude API cost per month?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Very little. n8n Cloud starts at around €20/month (~220 SEK), and Claude API for a typical email inbox costs €5–15/month. Total: roughly 150–350 SEK/month.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
     <div>
-      <p class="font-extrabold text-white">AI Agent Workshop</p>
-      <p class="text-xs font-bold uppercase tracking-widest" style="color:var(--accent2);">Online &middot; 12 December 2026</p>
+      <div class="footer-lbl">Links</div>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/events.html">Events</a>
+        <a href="/contact.html">Contact</a>
+      </div>
     </div>
-    <a href="/before-checkout" class="btn btn-primary px-6 py-3 text-sm">Get your ticket &rarr;</a>
+    <div>
+      <div class="footer-lbl">GenAition</div>
+      <div class="footer-addr">
+        Konstgjutarvägen 4<br>
+        121 44 Stockholm<br>
+        Sweden<br><br>
+        <a href="mailto:info@genaition.org">info@genaition.org</a><br>
+        <a href="tel:+46762608848">+46 762 608 848</a>
+      </div>
+    </div>
   </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2026 GenAition. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="https://linkedin.com/company/genaition" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://facebook.com/genaition" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://instagram.com/genaition.io" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</footer>
 
-  <script>
-    // Language dropdown
-    const langBtn = document.getElementById('langBtn');
-    const langMenu = document.getElementById('langMenu');
-    function toggleLangMenu(force) {
-      if (!langMenu) return;
-      const isHidden = langMenu.classList.contains('hidden');
-      const nextHidden = typeof force === 'boolean' ? !force : !isHidden;
-      langMenu.classList.toggle('hidden', nextHidden);
-      if (langBtn) langBtn.setAttribute('aria-expanded', (!nextHidden).toString());
-    }
-    if (langBtn && langMenu) {
-      langBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleLangMenu(); });
-      document.addEventListener('click', function() { toggleLangMenu(false); });
-    }
+<!-- ── STICKY BAR ────────────────────────────────────────────────── -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sb-info">
+    <p>In-Person · Stockholm</p>
+  </div>
+  <a href="#ticket" class="sticky-btn">Get ticket</a>
+</div>
 
-    // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileMenuClose = document.getElementById('mobileMenuClose');
-    function openMobileMenu() { mobileMenu && mobileMenu.classList.remove('hidden'); }
-    function closeMobileMenu() { mobileMenu && mobileMenu.classList.add('hidden'); }
-    mobileMenuBtn && mobileMenuBtn.addEventListener('click', openMobileMenu);
-    mobileMenuClose && mobileMenuClose.addEventListener('click', closeMobileMenu);
-    mobileMenu && mobileMenu.addEventListener('click', function(e) { if (e.target === mobileMenu) closeMobileMenu(); });
-    mobileMenu && mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMobileMenu); });
-
-    // FAQ accordion
-    document.querySelectorAll('.faq-toggle').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        const content = btn.parentElement.querySelector('.faq-content');
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', (!expanded).toString());
-        btn.parentElement.classList.toggle('faq-open', !expanded);
-        content.classList.toggle('hidden');
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
       });
-    });
-
-    // Sticky bar
-    const stickyBar = document.getElementById('stickyBar');
-    const ticketsSection = document.getElementById('tickets');
-    window.addEventListener('scroll', function() {
-      if (!ticketsSection) return;
-      const rect = ticketsSection.getBoundingClientRect();
-      const ticketVisible = rect.top < window.innerHeight && rect.bottom > 0;
-      stickyBar.classList.toggle('visible', window.scrollY > 500 && !ticketVisible);
-    }, { passive: true });
-
-    // Countdown
-    (function() {
-      const target = new Date('2026-12-12T13:30:00+01:00');
-      const el = document.getElementById('heroCountdown');
-      if (!el) return;
-      function tick() {
-        const diff = target - new Date();
-        if (diff <= 0) { el.style.display = 'none'; return; }
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('cdDays').textContent  = String(d).padStart(2,'0');
-        document.getElementById('cdHours').textContent = String(h).padStart(2,'0');
-        document.getElementById('cdMins').textContent  = String(m).padStart(2,'0');
-        document.getElementById('cdSecs').textContent  = String(s).padStart(2,'0');
+      if (!wasOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
       }
-      tick();
-      setInterval(tick, 1000);
-    })();
-  </script>
+    });
+  });
 
-</body>
-</html>
+  // Sticky bar
+  const stickyBar = document.getElementById('stickyBar');
+  window.addEventListener('scroll', () => {
+    stickyBar.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+
+  // Language dropdown
+  const langWrap = document.getElementById('langWrap');
+  const langBtn  = document.getElementById('langBtn');
+  langBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = langWrap.classList.toggle('open');
+    langBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    langWrap.classList.remove('open');
+    langBtn.setAttribute('aria-expanded', 'false');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      langWrap.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+</script>

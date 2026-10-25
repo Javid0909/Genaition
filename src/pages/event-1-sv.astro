@@ -1,939 +1,1604 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8" />
-  <title>Bygg din Egna AI Agent – Online Workshop · 12 december 2026</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>AI Agent Workshop – Svenska</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Tailwind (v2) -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
 
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="045fc1e4-9f56-44f2-992e-98f5fb7717a5"></script>
+<style>
+  /* ─── DESIGN SYSTEM ─────────────────────────────────────────── */
+  :root {
+    --bg:        #050505;
+    --surface:   #0d0d0d;
+    --card:      #111111;
+    --card2:     #161616;
+    --border:    rgba(255,255,255,0.07);
+    --border-hi: rgba(255,255,255,0.13);
+    --green:     #76b82a;
+    --green-dim: rgba(118,184,42,0.10);
+    --green-glow:rgba(118,184,42,0.28);
+    --gold:      #FFC107;
+    --alert:     #ff6432;
+    --white:     #ffffff;
+    --muted:     rgba(255,255,255,0.42);
+    --muted2:    rgba(255,255,255,0.65);
+    --r:         2px;
+    --header:    64px;
+    color-scheme: dark;
+  }
 
-  <style>
-    :root{
-      --ink:#07110e;
-      --forest:#0b1f19;
-      --forest2:#0f2a22;
-      --accent:#2a7a5a;
-      --accent2:#9ed1b7;
-      --gold:#FFC107;
-      --paper:#f6f7f7;
-      --card:#ffffff;
-      --ring: rgba(42,122,90,.35);
-      --shadow: 0 20px 40px rgba(0,0,0,.10);
-      --shadow2: 0 10px 24px rgba(0,0,0,.10);
-      --radius: 20px;
-    }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    html { scroll-behavior:smooth; }
-    body { background: var(--paper); font-family: 'DM Sans', sans-serif; }
+  html { scroll-behavior:smooth; }
 
-    :focus { outline: none; }
-    .focus-ring:focus { box-shadow: 0 0 0 4px var(--ring); }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding-left:  max(0px, env(safe-area-inset-left, 0px));
+    padding-right: max(0px, env(safe-area-inset-right, 0px));
+  }
 
-    .bg-acoustic{
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(158,209,183,.28), transparent 60%),
-        radial-gradient(900px 500px at 90% 10%, rgba(255,193,7,.18), transparent 60%),
-        linear-gradient(180deg, #ffffff, #f3f5f5);
-    }
+  /* ─── NAV ───────────────────────────────────────────────────── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header);
+    background: rgba(5,5,5,0.96);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+  }
+  .hdr-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 max(1.25rem, env(safe-area-inset-left, 0px)) 0 max(1.25rem, env(safe-area-inset-left, 0px));
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    border-radius: var(--r);
+    border: 1px solid var(--border-hi);
+    background: #0a0a0a;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark img { width:100%; height:100%; object-fit:cover; }
+  .logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .logo-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--green);
+    display: block;
+    margin-top: 3px;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.63rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.5rem 1.3rem;
+    border-radius: var(--r);
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: #8fd433; transform: translateY(-1px); }
+  .mobile-cta {
+    display: none;
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--r);
+    text-decoration: none;
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .mobile-cta { display: block; }
+  }
 
-    .glass{
-      background: rgba(7,17,14,.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.10);
-    }
+  /* ─── HERO ──────────────────────────────────────────────────── */
+  .hero {
+    padding-top: var(--header);
+    min-height: 90vh;
+    display: flex;
+    align-items: stretch;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/workshopdec.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    filter: brightness(0.28) saturate(0.6);
+    z-index: 0;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(118,184,42,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(118,184,42,0.025) 1px, transparent 1px);
+    background-size: 52px 52px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.25) 0%, rgba(5,5,5,0.7) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3.5rem max(1.5rem, env(safe-area-inset-left, 0px));
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
 
-    .hero{
-      position: relative;
-      min-height: 92vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(900px 500px at 30% 10%, rgba(158,209,183,.25), transparent 60%),
-        radial-gradient(700px 450px at 75% 0%, rgba(255,193,7,.18), transparent 55%),
-        linear-gradient(180deg, rgba(7,17,14,.82), rgba(7,17,14,.96)),
-        url('/aiagentworkshop1.png') center/cover no-repeat;
-    }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .tag-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.65rem;
+    border-radius: var(--r);
+    background: rgba(118,184,42,0.12);
+    color: var(--green);
+    border: 1px solid rgba(118,184,42,0.32);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+    flex-shrink: 0;
+  }
+  .tag-plain {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border-hi);
+    padding: 0.22rem 0.65rem;
+    border-radius: var(--r);
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.5; transform:scale(1.4); }
+  }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: radial-gradient(900px 500px at 50% 10%, rgba(42,122,90,.22), transparent 60%);
-      pointer-events:none;
-    }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.2rem, 6vw, 6.2rem);
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+  }
+  .hero-title .t-white { color: var(--white); display: block; }
+  .hero-title .t-green { color: var(--green); display: block; }
 
-    .blob{
-      position:absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 9999px;
-      background: radial-gradient(circle at 30% 30%, rgba(158,209,183,.40), rgba(42,122,90,.08) 55%, transparent 70%);
-      opacity: .85;
-      transform: translate3d(0,0,0);
-      animation: drift 10s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes drift{
-      0%,100%{ transform: translate(-18%, -10%) scale(1); }
-      50%{ transform: translate(-10%, -4%) scale(1.05); }
-    }
+  .hero-divider {
+    width: 44px; height: 1px;
+    background: linear-gradient(90deg, var(--green), transparent);
+    margin: 1.5rem 0;
+  }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.6rem;
-      padding:.9rem 1.15rem;
-      border-radius: 14px;
-      font-weight: 800;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
-      will-change: transform;
-      user-select:none;
-    }
-    .btn:active{ transform: translateY(1px) scale(.99); }
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    max-width: 500px;
+    font-weight: 300;
+  }
 
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), #2f8b66);
-      color:#fff;
-      box-shadow: 0 12px 26px rgba(42,122,90,.30);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .btn-primary:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 34px rgba(42,122,90,.34);
-    }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 1.6rem;
+    max-width: 560px;
+  }
+  @media (max-width: 640px) {
+    .hero-meta { grid-template-columns: 1fr 1fr; }
+    .meta-block { border-bottom: 1px solid var(--border) !important; }
+    .meta-block:nth-child(2n) { border-right: none !important; }
+    .meta-block:nth-last-child(-n+2) { border-bottom: none !important; }
+  }
+  .meta-block {
+    padding: 0.85rem 1rem;
+    border-right: 1px solid var(--border);
+  }
+  .meta-block:last-child { border-right: none; }
+  .meta-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .meta-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .meta-val.green { color: var(--green); }
+  .meta-val.gold  { color: var(--gold); }
+  .meta-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
 
-    .btn-outline{
-      background: rgba(255,255,255,.10);
-      color:#fff;
-      border: 1px solid rgba(255,255,255,.18);
-    }
-    .btn-outline:hover{
-      background: rgba(255,255,255,.14);
-      transform: translateY(-1px);
-    }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.95rem 2.2rem;
+    border-radius: var(--r);
+    text-decoration: none;
+    transition: all 0.22s;
+    flex-shrink: 0;
+  }
+  .btn-primary:hover { background: #8fd433; transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); }
+  .btn-ghost::after { content: ' \2192'; }
 
-    .badge{
-      display:inline-flex;
-      gap:.5rem;
-      align-items:center;
-      padding:.35rem .65rem;
-      border-radius: 9999px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: .72rem;
-      color: #0a1a15;
-      background: rgba(255,193,7,.92);
-      border: 1px solid rgba(255,255,255,.35);
-    }
+  /* ─── TICKET CARD (hero sidebar) ────────────────────────────── */
+  .ticket-card {
+    background: var(--card);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r);
+    padding: 1.8rem;
+    position: sticky;
+    top: calc(var(--header) + 1.5rem);
+    align-self: start;
+  }
+  @media (max-width: 960px) {
+    .ticket-card { display: none; }
+  }
+  .ticket-offer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 0.28rem 0.85rem;
+    border-radius: 999px;
+  }
+  .offer-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+    flex-shrink: 0;
+  }
+  .price-old {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-decoration: line-through;
+    letter-spacing: 0.06em;
+  }
+  .price-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: var(--white);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+  .price-save {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--alert);
+    margin-top: 0.3rem;
+  }
+  .perk-dash {
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .ticket-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+  .ticket-perks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .ticket-perks li {
+    display: flex;
+    gap: 0.65rem;
+    font-size: 0.82rem;
+    color: var(--muted2);
+    align-items: flex-start;
+  }
+  .perk-check {
+    color: var(--green);
+    font-weight: 700;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .ticket-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    border-radius: var(--r);
+    text-decoration: none;
+    transition: all 0.22s;
+  }
+  .ticket-cta:hover { background: #8fd433; }
+  .ticket-footnote {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  .ticket-footnote a { color: var(--green); text-decoration: none; }
 
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      border: 1px solid rgba(7,17,14,.06);
-    }
-    .card-dark{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 30px rgba(0,0,0,.22);
-      border-radius: var(--radius);
-    }
+  /* ─── SECTION WRAPPER ───────────────────────────────────────── */
+  .section {
+    padding: 5rem max(1.5rem, env(safe-area-inset-left, 0px));
+  }
+  .section-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .s-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.75rem;
+  }
+  .s-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 22px; height: 1px;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+  .s-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+    letter-spacing: 0.03em;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  .s-desc {
+    font-size: 0.95rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    max-width: 560px;
+    font-weight: 300;
+  }
 
-    .soft-divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(7,17,14,.12), transparent);
-    }
-    .soft-divider-light{
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
-    }
+  /* ─── WHY SECTION ───────────────────────────────────────────── */
+  .why-section { background: var(--surface); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  @media (max-width: 900px) {
+    .why-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 500px) {
+    .why-grid { grid-template-columns: 1fr; }
+  }
+  .why-cell {
+    background: var(--card);
+    padding: 1.8rem 1.5rem;
+  }
+  .why-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.9rem;
+  }
+  .why-cell h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .why-cell p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
 
-    .title-underline{
-      position: relative;
-      display:inline-block;
-      padding-bottom:.35rem;
-    }
-    .title-underline::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width: 72%;
-      height: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, rgba(42,122,90,.95), rgba(158,209,183,.90));
-    }
+  /* ─── BUILD SECTION ─────────────────────────────────────────── */
+  .build-section { background: var(--bg); }
+  .build-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  .build-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    background: var(--card);
+    transition: background 0.2s;
+  }
+  .build-row:hover { background: var(--card2); }
+  .build-step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    color: rgba(118,184,42,0.3);
+    padding: 1.5rem 0 1.5rem 1.4rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    padding-top: 1.6rem;
+    line-height: 1;
+  }
+  .build-content {
+    padding: 1.4rem 1.5rem;
+  }
+  .build-content h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .build-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .build-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.65rem;
+  }
+  .build-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid rgba(118,184,42,0.25);
+    background: rgba(118,184,42,0.07);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--r);
+  }
 
-    .faq-chevron{ transition: transform .2s ease; }
-    .faq-open .faq-chevron{ transform: rotate(180deg); }
+  /* ─── AGENDA ────────────────────────────────────────────────── */
+  .agenda-section { background: var(--surface); }
+  .agenda-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .agenda-layout { grid-template-columns: 1fr; }
+  }
+  .agenda-list {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }
+  .agenda-item:last-child { border-bottom: none; }
+  .agenda-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    padding: 1.1rem 0 1.1rem 1.1rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .agenda-body {
+    padding: 1rem 1.2rem;
+  }
+  .agenda-body strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .agenda-body span {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .stack-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.5rem;
+  }
+  .stack-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.1rem;
+  }
+  .stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .stack-item {
+    border-left: 2px solid var(--green);
+    padding-left: 0.85rem;
+  }
+  .stack-item strong {
+    font-size: 0.88rem;
+    color: var(--white);
+    font-weight: 600;
+    display: block;
+  }
+  .stack-item span {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .stack-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.2rem 0;
+  }
 
-    .pill-earlybird{
-      display:inline-flex;
-      align-items:center;
-      gap:.4rem;
-      padding:.25rem .55rem;
-      border-radius: 9999px;
-      font-size: .72rem;
-      font-weight: 900;
-      background: rgba(255,193,7,.18);
-      border: 1px solid rgba(255,193,7,.35);
-      color: #fff;
-    }
+  /* ─── INSTRUCTOR ────────────────────────────────────────────── */
+  .instructor-section { background: var(--bg); }
+  .instructor-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .instructor-layout { grid-template-columns: 1fr; gap: 2rem; }
+  }
+  .instructor-img-wrap {
+    aspect-ratio: 4/5;
+    border-radius: var(--r);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    max-height: 420px;
+    background: var(--card);
+    position: relative;
+  }
+  .instructor-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(5,5,5,0.8) 100%);
+  }
+  .instructor-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  }
+  .instructor-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    line-height: 1.0;
+    margin-bottom: 0.25rem;
+  }
+  .instructor-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.2rem;
+  }
+  .instructor-bio {
+    font-size: 0.9rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  blockquote.instructor-quote {
+    border-left: 2px solid var(--green);
+    padding-left: 1rem;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--muted2);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  .instructor-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .stat-cell {
+    background: var(--card);
+    padding: 1rem 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .stat-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
 
-    /* Countdown */
-    .countdown-grid { display: grid; grid-template-columns: repeat(4, auto); gap: 0.5rem; justify-content: center; }
-    .countdown-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 0.75rem 1rem; text-align: center; min-width: 64px; }
-    .countdown-num { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1; }
-    .countdown-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-top: 0.2rem; }
-    .countdown-sep { font-size: 2rem; font-weight: 900; color: rgba(255,255,255,.3); align-self: center; }
+  /* ─── TESTIMONIALS ──────────────────────────────────────────── */
+  .testimonials-section { background: var(--surface); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  @media (max-width: 768px) {
+    .testimonials-grid { grid-template-columns: 1fr; }
+  }
+  .testimonial-cell {
+    background: var(--card);
+    padding: 1.8rem 1.5rem;
+  }
+  .t-stars {
+    color: var(--green);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.9rem;
+  }
+  .t-quote {
+    font-size: 0.88rem;
+    color: var(--muted2);
+    line-height: 1.8;
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 1.1rem;
+  }
+  .t-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--white);
+  }
+  .t-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+  .trustpilot-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .tp-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+  .tp-stars {
+    color: var(--green);
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+  }
+  .tp-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
 
-    /* Sticky bar */
-    .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 190; background: rgba(7,17,14,.97); backdrop-filter: blur(12px); border-top: 2px solid var(--accent); padding: 0.85rem 1.5rem calc(0.85rem + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-between; gap: 1rem; transform: translateY(100%); transition: transform 0.4s cubic-bezier(.22,.68,0,1.2); }
-    .sticky-bar.visible { transform: translateY(0); }
+  /* ─── FAQ ───────────────────────────────────────────────────── */
+  .faq-section { background: var(--bg); }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-top: 2.5rem;
+    max-width: 820px;
+  }
+  .faq-item { background: var(--card); }
+  .faq-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 1rem;
+    transition: background 0.18s;
+  }
+  .faq-q:hover { background: var(--card2); }
+  .faq-q-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .faq-chevron {
+    width: 18px; height: 18px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.22s ease, color 0.2s;
+  }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--green); }
+  .faq-a {
+    display: none;
+    padding: 0 1.4rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+    border-top: 1px solid var(--border);
+  }
+  .faq-a a { color: var(--green); text-decoration: none; }
+  .faq-item.open .faq-a { display: block; }
 
-    @media (max-width: 768px){
-      .hero{
-        min-height: 88vh;
-        background:
-          radial-gradient(1200px 700px at 15% -10%, rgba(158,209,183,.22), transparent 62%),
-          radial-gradient(900px 520px at 90% 8%, rgba(255,193,7,.14), transparent 60%),
-          linear-gradient(180deg, rgba(7,17,14,.78), rgba(7,17,14,.96)),
-          url('/aiagentworkshop.png') center/cover no-repeat;
-      }
-      .hero::before{
-        content:"";
-        position:absolute;
-        inset:0;
-        background: linear-gradient(90deg, rgba(7,17,14,.88) 0%, rgba(7,17,14,.62) 55%, rgba(7,17,14,.42) 100%);
-        pointer-events:none;
-      }
-      .blob{ width: 420px; height: 420px; }
-    }
-  </style>
+  /* ─── FOOTER ────────────────────────────────────────────────── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 3rem max(1.5rem, env(safe-area-inset-left, 0px)) max(2rem, env(safe-area-inset-bottom, 0px));
+  }
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 560px) {
+    .footer-inner { grid-template-columns: 1fr; }
+  }
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .footer-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--muted2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-addr {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .footer-addr a { color: var(--muted2); text-decoration: none; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 2rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .footer-social a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-social a:hover { color: var(--green); }
 
-  <!-- Meta Pixel -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1507001663644263');
-    fbq('track', 'PageView');
-    fbq('track', 'ViewContent', {
-      content_name: 'AI Agent Workshop - 12 December',
-      content_category: 'Workshop',
-      value: 595,
-      currency: 'SEK'
-    });
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1507001663644263&ev=PageView&noscript=1"/>
-  </noscript>
-</head>
+  /* ─── STICKY BAR ────────────────────────────────────────────── */
+  .sticky-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 190;
+    background: rgba(5,5,5,0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--green);
+    padding: 0.85rem max(1.5rem, env(safe-area-inset-left, 0px)) max(0.85rem, env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+  }
+  .sticky-bar.visible { transform: translateY(0); }
+  .sb-info p:first-child {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .sb-info p:last-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 0.2rem;
+  }
+  .sticky-btn {
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.75rem 1.6rem;
+    border-radius: var(--r);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .sticky-btn:hover { background: #8fd433; }
 
-<body class="text-gray-900">
+  /* ─── MOBILE TICKET SECTION ──────────────────────────────────── */
+  .mobile-ticket-section {
+    display: none;
+    padding: 3rem 1.5rem 4rem;
+    background: var(--surface);
+    scroll-margin-top: calc(var(--header) + 8px);
+  }
+  .mobile-ticket-inner {
+    max-width: 440px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r);
+    padding: 1.8rem;
+  }
+  @media (max-width: 960px) {
+    .mobile-ticket-section { display: block; }
+    body { padding-bottom: 72px; }
+  }
 
-  <!-- ── NAV ── -->
-  <header class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-      <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between">
-        <a href="/index-sv" class="flex items-center gap-3">
-          <img src="/android-chrome-512x512.png" alt="Genaition" class="h-10 w-10 rounded-full" onerror="this.style.display='none'" />
-          <div class="hidden sm:block leading-tight">
-            <p class="text-white font-extrabold tracking-tight">Genaition</p>
-            <p class="text-xs text-green-100 opacity-90">Workshops · AI Agents</p>
-          </div>
-        </a>
+  /* LANGUAGE TOGGLE */
+  .lang-wrap { position: relative; }
+  .lang-btn { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r); padding: 0.35rem 0.7rem; transition: color 0.2s, border-color 0.2s; }
+  .lang-btn:hover { color: var(--white); border-color: var(--border-hi); }
+  .lang-btn img { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
+  .lang-btn svg { width: 12px; height: 12px; }
+  .lang-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; background: var(--card2); border: 1px solid var(--border-hi); border-radius: var(--r); overflow: hidden; z-index: 200; }
+  .lang-wrap.open .lang-menu { display: block; }
+  .lang-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted2); text-decoration: none; transition: background 0.2s, color 0.2s; }
+  .lang-menu a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+  .lang-menu a img { width: 16px; height: 16px; border-radius: 2px; object-fit: cover; }
 
-        <nav class="hidden md:flex items-center gap-7 text-sm">
-          <a href="#about" class="text-green-100 hover:text-white">Översikt</a>
-          <a href="#build" class="text-green-100 hover:text-white">Vad du bygger</a>
-          <a href="#agenda" class="text-green-100 hover:text-white">Agenda</a>
-          <a href="#instructor" class="text-green-100 hover:text-white">Instruktör</a>
-          <a href="#faq" class="text-green-100 hover:text-white">FAQ</a>
-          <a href="/before-checkout-sv" class="btn btn-primary px-4 py-2 text-sm">Boka din plats</a>
+</style>
 
-          <div class="relative">
-            <button id="langBtn" class="focus-ring btn btn-outline px-3 py-2" aria-haspopup="true" aria-expanded="false">
-              <img src="/swedish.png" alt="Svenska" class="h-5 w-5">
-              <span class="text-sm font-extrabold">SV</span>
-              <svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </button>
-            <div id="langMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-              <a href="/event-1" class="flex items-center px-3 py-2 hover:bg-gray-50">
-                <img src="/english.png" class="h-4 w-4 mr-2" alt="English"> English
-              </a>
-              <a href="/event-1-sv" class="flex items-center px-3 py-2 hover:bg-gray-50">
-                <img src="/swedish.png" class="h-4 w-4 mr-2" alt="Svenska"> Svenska
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        <div class="md:hidden flex items-center gap-2">
-          <a href="/before-checkout-sv" class="btn btn-primary px-3 py-2 text-xs">Boka →</a>
-          <button id="mobileMenuBtn" class="focus-ring btn btn-outline px-3 py-2" aria-label="Öppna meny">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+<!-- ── HEADER ───────────────────────────────────────────────────── -->
+<header>
+  <div class="hdr-inner">
+    <a href="/index.html" class="logo">
+      <div class="logo-mark">
+        <img src="/android-chrome-512x512.png" alt="Genaition" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <span class="logo-name">Genaition</span>
+        <span class="logo-sub">AI Workshop</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#about">Översikt</a>
+      <a href="#build">Vad du bygger</a>
+      <a href="#agenda">Agenda</a>
+      <a href="#instructor">Instruktör</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
+          <img src="/swedish.png" alt="Svenska" />
+          <span>SV</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <a href="/event-1"><img src="/english.png" alt="English flag" /> English</a>
+          <a href="/event-1-sv"><img src="/swedish.png" alt="Swedish flag" /> Svenska</a>
         </div>
       </div>
+      <a href="/before-checkout-sv" class="nav-cta">Boka din plats</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="hidden fixed inset-0 z-50">
-    <div class="absolute inset-0 bg-black opacity-60"></div>
-    <div class="absolute top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl p-6">
-      <div class="flex items-center justify-between mb-5">
-        <p class="font-extrabold text-gray-900">Meny</p>
-        <button id="mobileMenuClose" class="focus-ring btn btn-outline text-gray-900 border-gray-200 bg-white px-3 py-2">✕</button>
+<!-- ── HERO ─────────────────────────────────────────────────────── -->
+<section class="hero" id="about">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="tag-live">
+          <span class="live-dot"></span>
+          In-Person &#183; 12 December
+        </span>
+        <span class="tag-plain">Ingen kodning</span>
+        <span class="tag-plain">Nybörjarvänlig</span>
       </div>
-      <div class="flex flex-col space-y-4 text-gray-900">
-        <a href="#about" class="hover:text-green-700">Översikt</a>
-        <a href="#build" class="hover:text-green-700">Vad du bygger</a>
-        <a href="#agenda" class="hover:text-green-700">Agenda</a>
-        <a href="#instructor" class="hover:text-green-700">Instruktör</a>
-        <a href="#faq" class="hover:text-green-700">FAQ</a>
-        <a href="/before-checkout-sv" class="btn btn-primary text-center py-3">Boka din plats →</a>
-        <div class="soft-divider my-2"></div>
-        <div class="mt-2 space-y-2">
-          <a href="/event-1" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
-            <img src="/english.png" class="h-5 w-5" alt="English"> English
-          </a>
-          <a href="/event-1-sv" class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50">
-            <img src="/swedish.png" class="h-5 w-5" alt="Svenska"> Svenska
-          </a>
+
+      <h1 class="hero-title">
+        <span class="t-white">Bygg din egna</span>
+        <span class="t-green">AI Agent</span>
+      </h1>
+
+      <div class="hero-divider"></div>
+
+      <p class="hero-desc">
+        Lämna på 3 timmar med en levande AI-agent du byggt själv. Ingen kodning krävs. Möt oss personligen den 12 december.
+      </p>
+
+      <div class="hero-meta">
+        <div class="meta-block">
+          <div class="meta-lbl">Datum</div>
+          <div class="meta-val">12 Dec</div>
+          <div class="meta-sub">2026</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Tid</div>
+          <div class="meta-val">13:30</div>
+          <div class="meta-sub">&#8211;16:30 CET</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Format</div>
+          <div class="meta-val green">In-Person</div>
+          <div class="meta-sub">Live-session</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Platser</div>
+          <div class="meta-val gold">Max 25</div>
+          <div class="meta-sub">Liten grupp</div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="/before-checkout-sv" class="btn-primary">Boka din plats &#8594;</a>
+        <a href="#build" class="btn-ghost">Se vad du bygger</a>
+      </div>
+
+    </div>
+
+    <!-- Ticket card -->
+    <aside class="ticket-card">
+      <div style="text-align:center;margin-bottom:1.2rem;">
+        <span class="ticket-offer-badge"><span class="offer-dot"></span>Early Bird</span>
+      </div>
+
+      <div style="text-align:center;margin-bottom:0.15rem;">
+        <div class="price-old">795 SEK</div>
+        <div class="price-big">395 SEK</div>
+        <div class="price-save">Spara 400 SEK</div>
+      </div>
+
+      <div class="ticket-divider" style="margin:1.25rem 0;"></div>
+
+      <ul class="ticket-perks">
+        <li><span class="perk-dash">&#8212;</span><span>3 timmar live in-person workshop</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Praktisk hjälp tills din agent fungerar</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>1:1 support via e-post efter workshopen</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Mallar, prompter och arbetsflödesfiler</span></li>
+        <li><span class="perk-dash">&#8212;</span><span>Intyg om deltagande</span></li>
+      </ul>
+
+      <a href="/before-checkout-sv" class="ticket-cta" style="margin-top:1.25rem;letter-spacing:0.18em;">Reservera din plats</a>
+      <p class="ticket-footnote" style="margin-top:0.6rem;letter-spacing:0.14em;">Säkra din plats idag.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ── MOBILE TICKET SECTION ─────────────────────────────────────── -->
+<section class="mobile-ticket-section" id="ticket">
+  <div class="mobile-ticket-inner">
+    <div style="text-align:center;margin-bottom:1.2rem;">
+      <span class="ticket-offer-badge"><span class="offer-dot"></span>Early Bird</span>
+    </div>
+    <div style="text-align:center;margin-bottom:0.15rem;">
+      <div class="price-old">795 SEK</div>
+      <div class="price-big">395 SEK</div>
+      <div class="price-save">Spara 400 SEK</div>
+    </div>
+    <div class="ticket-divider" style="margin:1.25rem 0;"></div>
+    <ul class="ticket-perks">
+      <li><span class="perk-dash">&#8212;</span><span>3 timmar live in-person workshop</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Praktisk hjälp tills din agent fungerar</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>1:1 support via e-post efter workshopen</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Mallar, prompter och arbetsflödesfiler</span></li>
+      <li><span class="perk-dash">&#8212;</span><span>Intyg om deltagande</span></li>
+    </ul>
+    <a href="/before-checkout-sv" class="ticket-cta" style="margin-top:1.25rem;letter-spacing:0.18em;">Reservera din plats</a>
+    <p class="ticket-footnote" style="margin-top:0.6rem;letter-spacing:0.14em;">Säkra din plats idag.</p>
+  </div>
+</section>
+
+<!-- ── WHY ──────────────────────────────────────────────────────── -->
+<section class="section why-section">
+  <div class="section-inner">
+    <div class="s-eyebrow">Workshop-sammanfattning</div>
+    <h2 class="s-title">Agentisk AI,<br>gjord praktisk</h2>
+    <p class="s-desc">Bygg en AI-e-postagent som hittar leads, skriver personliga e-postmeddelanden och skickar automatiskt. Designad för verklig uppsökande verksamhet: försäljning, rekrytering och grundarflöden.</p>
+
+    <div class="why-grid">
+      <div class="why-cell">
+        <div class="why-num">01</div>
+        <h3>Klart på 3 timmar</h3>
+        <p>Bygg en riktig e-postagent. Gå härifrån med ett fungerande verktyg. Inga bilder, ingen teori.</p>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">02</div>
+        <h3>Du sätter reglerna</h3>
+        <p>Instruera din agent. AI:n följer dem. Vet exakt vad den skickar, varför och när.</p>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">03</div>
+        <h3>Riktig agent, byggd av dig</h3>
+        <p>Se hur ReAct, LLM API och systemprompter fungerar genom att bygga en själv, live.</p>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">04</div>
+        <h3>Praktisk hjälp</h3>
+        <p>Max 25 platser. Liten grupp, strukturerat tempo, support tills din agent faktiskt fungerar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT YOU'LL BUILD ─────────────────────────────────────────── -->
+<section class="section build-section" id="build">
+  <div class="section-inner">
+    <div class="s-eyebrow">Vad du bygger</div>
+    <h2 class="s-title">AI-prospekteringspipeline.<br>Redo att använda direkt.</h2>
+    <p class="s-desc">Identifiera leadet, profilera och analysera, generera e-posttext, skicka och uppdatera dokumentet.</p>
+
+    <div class="build-grid">
+      <div class="build-row">
+        <span class="build-step-num">01</span>
+        <div class="build-content">
+          <h3>Praktisk AI-agent</h3>
+          <p>Inga bilder. Ingen föreläsning. Du bygger "Ove", en levande e-postagent som hämtar kontakter, skriver personliga e-postmeddelanden, skickar via Gmail och loggar resultat autonomt.</p>
+          <div class="build-tags">
+            <span class="build-tag">Auto-promptning</span>
+            <span class="build-tag">Tonmatchning</span>
+            <span class="build-tag">Enklicks återanvändning</span>
+          </div>
+        </div>
+      </div>
+      <div class="build-row">
+        <span class="build-step-num">02</span>
+        <div class="build-content">
+          <h3>Verkliga scenarier</h3>
+          <p>Se hur grundare och team använder agenter för att värma prospects, följa upp och spara timmar varje vecka. Gå härifrån med en plan du kan tillämpa omedelbart.</p>
+          <div class="build-tags">
+            <span class="build-tag">Uppsökande som ger svar</span>
+            <span class="build-tag">Kvalitetskontroller</span>
+            <span class="build-tag">Plug-and-play-mallar</span>
+          </div>
+        </div>
+      </div>
+      <div class="build-row">
+        <span class="build-step-num">03</span>
+        <div class="build-content">
+          <h3>Liten grupp in-person</h3>
+          <p>Gå med entreprenörer, frilansar och byggare som är trötta på att vänta på att AI ska ge mening. Allt du behöver är en laptop och en webbläsare.</p>
+          <div class="build-tags">
+            <span class="build-tag">Bygg tillsammans</span>
+            <span class="build-tag">Intyg om deltagande</span>
+            <span class="build-tag">Q&amp;A under hela workshopen</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ── HERO ── -->
-  <section class="hero text-white pt-28">
-    <div class="blob"></div>
-    <div class="relative z-10 w-full">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        <div class="flex justify-center">
-          <div class="w-full max-w-3xl text-center">
+<!-- ── AGENDA ────────────────────────────────────────────────────── -->
+<section class="section agenda-section" id="agenda">
+  <div class="section-inner">
+    <div class="s-eyebrow">Agenda</div>
+    <h2 class="s-title">12 December &#183; 13:30&#8211;16:30</h2>
+    <p class="s-desc">Vi rör oss snabbt men håller det nybörjarvänligt. Du följer beprövade mallar, förstår logiken och anpassar allt till din egen inkorg.</p>
 
-            <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
-              <span class="badge">Live Online · 12 december</span>
-              <span class="text-sm text-green-100 opacity-90">Hands-on · Nybörjarvänligt · Ingen kodning</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Bygg din egna <span style="color:var(--accent2);">AI-agent från grunden</span>
-            </h1>
-
-            <p class="mt-5 text-lg text-green-100 opacity-90 max-w-xl mx-auto">
-              Lämna på 3 timmar med en live AI-e-postagent du byggt själv – ingen kodning krävs. Delta online varifrån som helst.
-            </p>
-
-            <div class="mt-7 flex flex-wrap justify-center gap-4">
-              <a href="/before-checkout-sv" class="btn btn-primary focus-ring px-8 py-4 text-base">
-                Boka din plats →
-              </a>
-              <a href="#about" class="btn btn-outline focus-ring px-8 py-4 text-base">
-                Läs mer
-              </a>
-            </div>
-
-            <!-- Countdown -->
-            <div class="mt-10" id="heroCountdown">
-              <p class="text-xs font-extrabold uppercase tracking-widest text-green-100 opacity-60 mb-3">Börjar om</p>
-              <div class="countdown-grid">
-                <div class="countdown-box"><div class="countdown-num" id="cdDays">--</div><div class="countdown-label">Dagar</div></div>
-                <div class="countdown-sep">:</div>
-                <div class="countdown-box"><div class="countdown-num" id="cdHours">--</div><div class="countdown-label">Tim</div></div>
-                <div class="countdown-sep">:</div>
-                <div class="countdown-box"><div class="countdown-num" id="cdMins">--</div><div class="countdown-label">Min</div></div>
-                <div class="countdown-sep">:</div>
-                <div class="countdown-box"><div class="countdown-num" id="cdSecs">--</div><div class="countdown-label">Sek</div></div>
-              </div>
-            </div>
-
-            <!-- Event details card -->
-            <div class="mt-8 card-dark p-5 sm:p-6 text-left">
-              <div class="grid sm:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Datum</p>
-                  <p class="font-extrabold text-white mt-1">12 december 2026</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Tid</p>
-                  <p class="font-extrabold text-white mt-1">13:30–16:30</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Format</p>
-                  <p class="font-extrabold mt-1" style="color:var(--accent2);">Live Online</p>
-                </div>
-                <div>
-                  <p class="text-green-100 opacity-70 text-xs uppercase tracking-widest font-bold">Platser</p>
-                  <p class="font-extrabold mt-1" style="color:var(--gold);">Max 25</p>
-                </div>
-              </div>
-            </div>
-
+    <div class="agenda-layout">
+      <div class="agenda-list">
+        <div class="agenda-item">
+          <div class="agenda-time">13:30</div>
+          <div class="agenda-body">
+            <strong>Intro &amp; Setup</strong>
+            <span>Anslut dina verktyg, möt din grupp.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">13:50</div>
+          <div class="agenda-body">
+            <strong>Anslut &amp; Testa</strong>
+            <span>Länka Gmail och n8n, kör din första live-utlösare.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">14:30</div>
+          <div class="agenda-body">
+            <strong>Bygg din agent</strong>
+            <span>Sätt regler, skriv systemprompt, kör ett live-utskick.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">15:00</div>
+          <div class="agenda-body">
+            <strong>Paus — 10 min</strong>
+            <span>Ta en paus, hämta ett kaffe.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">15:10</div>
+          <div class="agenda-body">
+            <strong>Bygg från grunden</strong>
+            <span>Du sätter reglerna, tonen och logiken.</span>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">16:15</div>
+          <div class="agenda-body">
+            <strong>Q&amp;A + Intyg</strong>
+            <span>Live-frågor och ditt intyg om deltagande.</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ── ABOUT ── -->
-  <section id="about" class="bg-acoustic py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Workshop – sammanfattning</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          <span class="title-underline">Agentisk AI</span>, gjort praktiskt
-        </h2>
-        <p class="mt-5 text-gray-700 text-lg">
-          Bygg en <span class="font-extrabold">AI-e-postagent</span> som hittar leads, skriver personliga mejl och skickar automatiskt. Utformad för verklig outreach: sälj, rekrytering och founder-flöden.
+      <div class="stack-card">
+        <div class="stack-lbl">Din tech stack</div>
+        <div class="stack-list">
+          <div class="stack-item">
+            <strong>n8n Cloud</strong>
+            <span>Automatiseringsmotorn som kopplar ihop dina verktyg och kör hela pipelinen.</span>
+          </div>
+          <div class="stack-item">
+            <strong>Claude Sonnet 4.5</strong>
+            <span>Läser e-post, skriver svar i din ton och kör kvalitetskontroller.</span>
+          </div>
+          <div class="stack-item">
+            <strong>n8n MCP</strong>
+            <span>Ger agenten kontext och minne så den vet vem den pratar med.</span>
+          </div>
+          <div class="stack-item">
+            <strong>ReAct Workflow</strong>
+            <span>Resonemangsloopen som låter agenten tänka, besluta och agera.</span>
+          </div>
+        </div>
+        <div class="stack-divider"></div>
+        <a href="/before-checkout-sv" class="ticket-cta">Boka din plats &#8594;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSTRUCTOR ────────────────────────────────────────────────── -->
+<section class="section instructor-section" id="instructor">
+  <div class="section-inner">
+    <div class="s-eyebrow">Din instruktör</div>
+    <div class="instructor-layout">
+      <div class="instructor-img-wrap">
+        <img src="/IMG_0143.jpg" alt="Javid Valiyev" onerror="this.parentElement.style.background='var(--card2)'">
+      </div>
+      <div>
+        <h2 class="instructor-name">Javid Valiyev</h2>
+        <div class="instructor-role">Grundare &#183; Genaition</div>
+        <p class="instructor-bio">
+          Javid bygger tillämpad AI och lär människor och företag hur man implementerar det utan att behöva en utvecklare. Hans workshops är kända för att vara praktiska, strukturerade och nybörjarsäkra.
         </p>
-      </div>
-
-      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">01</span>
+        <blockquote class="instructor-quote">
+          "Du lämnar inte utan ett fungerande system. Det är regeln."
+        </blockquote>
+        <div class="instructor-stats">
+          <div class="stat-cell">
+            <span class="stat-key">Format</span>
+            <span class="stat-val">In-Person</span>
           </div>
-          <h3 class="font-extrabold text-lg">Klar på 3 timmar</h3>
-          <p class="mt-2 text-sm text-gray-700">Bygg en riktig e-postagent på 3 timmar. Gå hem med ett fungerande verktyg – inga slides, ingen teori.</p>
-        </div>
-
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">02</span>
+          <div class="stat-cell">
+            <span class="stat-key">Nivå</span>
+            <span class="stat-val">Nybörjare</span>
           </div>
-          <h3 class="font-extrabold text-lg">Du bestämmer reglerna</h3>
-          <p class="mt-2 text-sm text-gray-700">Instruera din agent. AI:n följer dem. Du vet exakt vad den skickar, varför och när.</p>
-        </div>
-
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">03</span>
+          <div class="stat-cell">
+            <span class="stat-key">Erfarenhet</span>
+            <span class="stat-val">5+ år AI</span>
           </div>
-          <h3 class="font-extrabold text-lg">Riktig agent, byggd av dig</h3>
-          <p class="mt-2 text-sm text-gray-700">Se hur ReAct, LLM API och systemprompts faktiskt fungerar – genom att bygga en själv, live online.</p>
-        </div>
-
-        <div class="card p-6">
-          <div class="h-11 w-11 rounded-2xl flex items-center justify-center mb-4" style="background: rgba(42,122,90,.10);">
-            <span class="font-extrabold" style="color:var(--accent);">04</span>
-          </div>
-          <h3 class="font-extrabold text-lg">Hands-on hjälp</h3>
-          <p class="mt-2 text-sm text-gray-700">Max 25 platser – liten kohort, strukturerat tempo och stöd tills din agent faktiskt fungerar.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── WHAT YOU'LL BUILD ── -->
-  <section id="build" class="py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Vad du bygger</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">
-          AI-pipeline för outreach — <span style="color:var(--accent);">redo att använda direkt</span>
-        </h2>
-        <p class="mt-4 text-gray-600">Identifiera lead → profilera och analysera → generera e-posttext → skicka och uppdatera dokumentet.</p>
-      </div>
-
-      <div class="mt-12 space-y-10">
-
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6">
-            <div class="card overflow-hidden">
-              <img src="/email-workshopm.jpg" class="w-full h-80 object-cover" alt="Workshop hands-on">
-            </div>
-          </div>
-          <div class="lg:col-span-6">
-            <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">1) Hands-on AI-agent</h3>
-              <p class="mt-3 text-gray-700">
-                Inga slides. Ingen föreläsning. Du bygger "Ove", en live e-postagent som hämtar kontakter, skriver personliga mejl, skickar via Gmail och loggar resultaten – autonomt.
-              </p>
-              <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Prompts som anpassar sig till varje kontakt automatiskt</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Låt AI:n kopiera din ton – formell, avslappnad eller varumärkesröst</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Ett klick för återanvändning – ta det rakt in i nästa projekt</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6 lg:order-2">
-            <div class="card overflow-hidden">
-              <img src="/workshop999.jpg" class="w-full h-80 object-cover" style="object-position: center top;" alt="Workshop gruppfoto">
-            </div>
-          </div>
-          <div class="lg:col-span-6 lg:order-1">
-            <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">2) Verkliga scenarion</h3>
-              <p class="mt-3 text-gray-700">
-                Se hur grundare och team använder agenter för att värma prospects, följa upp och spara timmar varje vecka. Lämna med en plan du kan tillämpa direkt.
-              </p>
-              <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Outreach som genererar svar</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Kvalitetskontroller så AI:n aldrig skickar något fel</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Plug-and-play-mallar för sälj, rekrytering och ops</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid lg:grid-cols-12 gap-7 items-center">
-          <div class="lg:col-span-6">
-            <div class="card overflow-hidden">
-              <img src="/email-workshop.jpg" class="w-full h-80 object-cover" alt="Online workshop session">
-            </div>
-          </div>
-          <div class="lg:col-span-6">
-            <div class="card p-7">
-              <h3 class="text-2xl font-extrabold text-gray-900">3) Liten online-kohort</h3>
-              <p class="mt-3 text-gray-700">
-                Delta i en liten online-kohort av entreprenörer, frilansare och byggare som är trötta på att vänta på att AI ska ge mening. Allt du behöver är en laptop och en webbläsare.
-              </p>
-              <ul class="mt-4 space-y-2 text-gray-800">
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Ta med din laptop – bygg tillsammans</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Intyg om genomförd kurs</li>
-                <li class="flex gap-2"><span class="font-extrabold" style="color:var(--accent);">✓</span> Frågor och svar under hela sessionen</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="text-center mt-10">
-        <a href="/before-checkout-sv" class="btn btn-primary focus-ring px-8 py-4 text-base">
-          Säkra din plats →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── AGENDA ── -->
-  <section id="agenda" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest2), var(--forest)); color:#eef7f3;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Agenda</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Agenda (i korthet)</h2>
-        <p class="mt-3 text-green-100">12 december · 13:30–16:30</p>
-      </div>
-
-      <div class="mt-10 grid lg:grid-cols-12 gap-6 items-start">
-        <div class="lg:col-span-6">
-          <div class="card-dark p-6">
-            <p class="text-sm text-green-100 opacity-90">
-              Vi rör oss snabbt men håller det nybörjarvänligt. Du följer beprövade mallar, förstår logiken och anpassar allt till din egen inkorg.
-            </p>
-            <div class="soft-divider-light my-5"></div>
-            <div class="space-y-3 text-sm text-green-100">
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">13:30</p>
-                <p class="text-right">Intro &amp; Setup – Anslut dina verktyg, träffa din kohort.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">13:50</p>
-                <p class="text-right">Anslut och testa – Koppla Gmail och n8n, kör din första live-trigger.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">14:30</p>
-                <p class="text-right">Bygg din agent – Sätt regler, skriv systemprompt, kör ett livesend.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">15:00</p>
-                <p class="text-right">10 min paus – Ta en paus, hämta kaffe.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">15:10</p>
-                <p class="text-right">Bygg från grunden – Du sätter reglerna, tonen och logiken.</p>
-              </div>
-              <div class="flex items-start justify-between gap-4">
-                <p class="font-extrabold text-white whitespace-nowrap">16:15</p>
-                <p class="text-right">Q&amp;A + Intyg – Live-frågor och ditt intyg om genomförd kurs.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-6">
-          <div class="card-dark p-6 space-y-4">
-            <p class="text-sm text-green-100 opacity-90 font-bold">Din teknikstack</p>
-            <div class="space-y-3 text-sm text-green-100">
-              <div><span class="font-extrabold text-white">n8n Cloud</span> – automationsmotorn som kopplar ihop dina verktyg och kör hela pipelinen.</div>
-              <div><span class="font-extrabold text-white">Claude Sonnet 4.5</span> – läser mejl, skriver svar i din ton och kontrollerar kvaliteten.</div>
-              <div><span class="font-extrabold text-white">n8n MCP</span> – ger agenten kontext och minne så den vet vem den pratar med.</div>
-              <div><span class="font-extrabold text-white">ReAct Workflow</span> – resonemangsloopen som låter agenten tänka, besluta och agera.</div>
-            </div>
-            <div class="soft-divider-light"></div>
-            <a href="/before-checkout-sv" class="btn btn-primary focus-ring w-full py-3 text-sm">
-              Boka din plats →
-            </a>
+          <div class="stat-cell">
+            <span class="stat-key">Tränat</span>
+            <span class="stat-val">150+ proffs</span>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ── TICKETS ── -->
-  <section id="tickets" class="bg-acoustic py-16 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+<!-- ── TESTIMONIALS ───────────────────────────────────────────────── -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <div class="s-eyebrow">Vad folk säger</div>
+    <h2 class="s-title">Betrodd av byggare<br>och grundare</h2>
 
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--accent);">Reservera din plats</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-gray-900">12 december · Online</h2>
-        <p class="mt-4">
-          <span class="pill-earlybird" style="color:#5a4300;">Early bird · Slutar snart</span>
-        </p>
+    <div class="testimonials-grid">
+      <div class="testimonial-cell">
+        <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="t-quote">"Kom in skeptisk, lämnade med en fungerande agent. I timme två hade jag byggt loopen själv. Inte följt med. Faktiskt gjort det."</p>
+        <div class="t-name">Valentina Fermanelli</div>
+        <div class="t-meta">Workshop &#183; Göteborg &#183; 2025</div>
       </div>
-
-      <div class="mt-10 grid lg:grid-cols-12 gap-6 items-stretch">
-
-        <!-- Ticket card -->
-        <div class="lg:col-span-7">
-          <div class="card p-8 sm:p-10 h-full flex flex-col justify-between">
-            <div>
-              <p class="font-extrabold text-gray-800 text-lg mb-1">Bygg en riktig, fungerande AI-e-postagent på 3 timmar – ingen kodning krävs.</p>
-
-              <div class="mt-5 flex items-baseline gap-3 flex-wrap">
-                <span class="text-2xl font-extrabold text-gray-400 line-through">795 SEK</span>
-                <span class="text-5xl sm:text-6xl font-extrabold" style="color:var(--forest2);">595 SEK</span>
-                <span class="pill-earlybird" style="color:#5a4300;">Spara 200 SEK</span>
-              </div>
-
-              <!-- Seat bar -->
-              <div class="mt-5">
-                <div class="flex justify-between text-xs font-bold mb-1">
-                  <span class="text-gray-500 uppercase tracking-widest">Platser fylls på</span>
-                  <span style="color:#e8624a;">7 kvar</span>
-                </div>
-                <div class="h-2 rounded-full" style="background:rgba(42,122,90,.12);">
-                  <div class="h-2 rounded-full" style="width:72%; background: linear-gradient(90deg, var(--accent), #2d8a52);"></div>
-                </div>
-              </div>
-
-              <div class="soft-divider my-6"></div>
-
-              <ul class="space-y-3 text-gray-800">
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">✓</span> <span>3-timmars hands-on workshopsession live online</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">✓</span> <span>Hands-on hjälp tills din agent fungerar</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">✓</span> <span>1:1-support efter workshopen via mejl</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">✓</span> <span>Mallar, prompts &amp; workflow-filer att behålla</span></li>
-                <li class="flex items-start gap-3"><span class="font-extrabold" style="color:var(--accent);">✓</span> <span>Intyg om genomförd kurs</span></li>
-              </ul>
-            </div>
-
-            <div class="mt-8">
-              <a href="/before-checkout-sv"
-                 class="w-full inline-flex items-center justify-center py-4 sm:py-5 rounded-2xl font-extrabold text-white text-lg focus-ring"
-                 style="background: linear-gradient(135deg, var(--accent), #2f8b66);">
-                Boka din plats →
-              </a>
-              <p class="mt-3 text-center text-xs text-gray-500">Frågor? Mejla <a href="mailto:info@genaition.org" style="color:var(--accent);">info@genaition.org</a></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Instructor sidebar -->
-        <div class="lg:col-span-5" id="instructor">
-          <div class="card p-7 sm:p-8 h-full">
-            <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Din instruktör</p>
-
-            <div class="mt-4 flex items-center gap-4">
-              <img src="/workshop999.jpg" alt="Javid Valiyev"
-                   class="h-16 w-16 rounded-2xl object-cover shadow" style="object-position: center top;">
-              <div>
-                <p class="font-extrabold text-lg">Javid Valiyev</p>
-                <p class="text-sm text-gray-600">Grundare · Genaition</p>
-              </div>
-            </div>
-
-            <p class="mt-5 text-gray-700 text-sm">
-              Javid bygger tillämpad AI och lär människor och företag hur de implementerar det utan att behöva en utvecklare. Hans workshops är kända för att vara hands-on, strukturerade och nybörjarsäkra.
-            </p>
-
-            <blockquote class="mt-4 border-l-4 pl-4 text-sm italic text-gray-600" style="border-color:var(--accent);">
-              "Du lämnar inte utan ett fungerande system. Det är regeln."
-            </blockquote>
-
-            <div class="soft-divider my-5"></div>
-
-            <div class="space-y-3 text-sm text-gray-700">
-              <div class="flex justify-between"><span class="font-extrabold">Format</span><span>Live Online</span></div>
-              <div class="flex justify-between"><span class="font-extrabold">Nivå</span><span>Nybörjarvänligt</span></div>
-              <div class="flex justify-between"><span class="font-extrabold">Erfarenhet</span><span>5+ år AI</span></div>
-              <div class="flex justify-between"><span class="font-extrabold">Utbildade</span><span>150+ proffs</span></div>
-            </div>
-          </div>
-        </div>
-
+      <div class="testimonial-cell">
+        <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="t-quote">"När agenten läste e-postmeddelandet och skickade tillbaka ett utkast förstod jag äntligen. Hade försökt förstå ReAct i månader."</p>
+        <div class="t-name">Sara Svensson</div>
+        <div class="t-meta">Workshop &#183; Stockholm &#183; 2026</div>
       </div>
-    </div>
-  </section>
-
-  <!-- ── TESTIMONIALS ── -->
-  <section class="py-16 sm:py-20" style="background:#000; color:#eef7f3;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-10">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Vad folk säger</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">4,5 / 5 · Trustpilot</h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-dark p-6">
-          <div class="flex gap-1 mb-4">
-            <span style="color:var(--accent);">★★★★★</span>
-          </div>
-          <p class="text-green-100 text-sm leading-relaxed">"Kom in skeptisk, lämnade med en fungerande agent. I timme två hade jag byggt loopen själv. Inte följt med. Faktiskt gjort det."</p>
-          <div class="mt-4"><p class="font-extrabold text-white text-sm">Valentina Fermanelli</p><p class="text-xs text-green-100 opacity-60">Workshop · Göteborg · 2025</p></div>
-        </div>
-        <div class="card-dark p-6">
-          <div class="flex gap-1 mb-4">
-            <span style="color:var(--accent);">★★★★★</span>
-          </div>
-          <p class="text-green-100 text-sm leading-relaxed">"När agenten läste mejlet och skickade ett utkast tillbaka fattade jag äntligen det. Hade försökt förstå ReAct i månader."</p>
-          <div class="mt-4"><p class="font-extrabold text-white text-sm">Sara Svensson</p><p class="text-xs text-green-100 opacity-60">Workshop · Stockholm · 2026</p></div>
-        </div>
-        <div class="card-dark p-6">
-          <div class="flex gap-1 mb-4">
-            <span style="color:var(--accent);">★★★★★</span>
-          </div>
-          <p class="text-green-100 text-sm leading-relaxed">"Förväntade mig slides. Lämnade med en agent som hämtar leads och skriver outreach. Trodde inte jag skulle leverera något på tre timmar."</p>
-          <div class="mt-4"><p class="font-extrabold text-white text-sm">Joey Sorel</p><p class="text-xs text-green-100 opacity-60">Workshop · Stockholm · 2025</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FAQ ── -->
-  <section id="faq" class="py-16 sm:py-20" style="background: linear-gradient(180deg, var(--forest), var(--forest2)); color:#eef7f3;">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <div class="text-center">
-        <p class="text-xs font-extrabold uppercase tracking-widest" style="color:var(--gold);">Vanliga frågor</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Frågor</h2>
-        <p class="mt-3 text-green-100">Om du fortfarande undrar något, mejla <a class="underline hover:text-white" href="mailto:info@genaition.org">info@genaition.org</a>.</p>
-      </div>
-
-      <div class="mt-10 space-y-4">
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Jag har ingen erfarenhet av AI eller kodning. Är detta för mig?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Ja – detta är byggt för nybörjare. Du följer steg för steg, vi hjälper alla som fastnar, och du lämnar med en fungerande agent. Ingen kodning krävs.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Vad exakt kommer jag att bygga?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            En AI-svarsagent: den läser inkommande mejl, förstår vad avsändaren vill, skriver ett svar i din ton, kör en kvalitetskontroll och flaggar det för ditt godkännande – eller skickar direkt för kategorier du definierar som säkra.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Kommer detta att skicka mejl automatiskt utan att jag ser dem?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Bara om du uttryckligen ställer in det. Standardinställningen är human-in-the-loop – du granskar och godkänner innan något skickas.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Vad behöver jag ta med?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Din laptop och ett Google-konto (Gmail). Vi installerar alla andra verktyg tillsammans under de första 20 minuterna. Inga konton att skapa i förväg.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Kan jag använda detta i mitt eget arbete efter workshopen?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Ja. Du tar mallarna och workflow-filerna med dig. Vi täcker support, sälj, rekrytering och ops-inkorgar – välj den som är närmast ditt arbete och anpassa den live.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Vad är återbetalnings- och avbokningspolicyn?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Full återbetalning om du avbokar minst 7 dagar före evenemanget. Därefter kan du överföra din biljett till en kollega. Mejla <a href="mailto:info@genaition.org" class="underline">info@genaition.org</a>.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Kan mitt företag betala? Utfärdar ni fakturor?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Ja. Om du behöver faktura, vill boka flera platser eller behöver företagsrabatt, mejla <a href="mailto:info@genaition.org" class="underline">info@genaition.org</a> – vanligtvis inom 1 arbetsdag.
-          </div>
-        </div>
-
-        <div class="card-dark">
-          <button class="faq-toggle w-full flex items-center justify-between px-5 py-4 text-left font-extrabold focus-ring" aria-expanded="false">
-            Vad kommer n8n Cloud och Claude API att kosta per månad?
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="faq-content hidden px-5 pb-5 text-sm text-green-100">
-            Väldigt lite. n8n Cloud börjar på ca €20/månad (~220 SEK), och Claude API för en typisk e-postinkorg kostar €5–15/månad. Totalt: ungefär 150–350 SEK/månad.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FOOTER ── -->
-  <footer class="pt-12 pb-8" style="background:#050c0a; color:#e9f2ee;">
-    <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-10 text-sm">
-      <div class="space-y-2">
-        <p class="font-extrabold text-white text-base mb-3">Länkar</p>
-        <a href="/index.html" class="block hover:text-green-200">Hem</a>
-        <a href="/about.html" class="block hover:text-green-200">Om oss</a>
-        <a href="/events.html" class="block hover:text-green-200">Events</a>
-        <a href="/contact.html" class="block hover:text-green-200">Kontakt</a>
-      </div>
-      <div class="sm:text-right space-y-1">
-        <p class="font-extrabold text-white text-base mb-3">GenAition</p>
-        <p>Konstgjutarvägen 4<br>121 44 Stockholm<br>Sverige</p>
-        <p class="mt-3"><a href="mailto:info@genaition.org" class="hover:text-green-200">info@genaition.org</a></p>
-        <p><a href="tel:+46762608848" class="hover:text-green-200">+46 762 608 848</a></p>
+      <div class="testimonial-cell">
+        <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="t-quote">"Förväntade mig bilder. Lämnade med en agent som hämtar leads och skriver uppsökande. Trodde inte att jag skulle leverera något på tre timmar."</p>
+        <div class="t-name">Joey Sorel</div>
+        <div class="t-meta">Workshop &#183; Stockholm &#183; 2025</div>
       </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 mt-10 flex flex-col items-center gap-4">
-      <img src="/android-chrome-512x512.png" alt="Genaition" class="h-14 w-14 rounded-2xl" onerror="this.style.display='none'" />
-      <div class="flex items-center gap-4">
-        <a href="https://linkedin.com/company/genaition" target="_blank" class="hover:opacity-80">
-          <img src="/linkedin.png" class="h-6 w-6" alt="LinkedIn" onerror="this.style.display='none'" />
-        </a>
-        <a href="https://facebook.com/genaition" target="_blank" class="hover:opacity-80">
-          <img src="/facebook.png" class="h-6 w-6" alt="Facebook" onerror="this.style.display='none'" />
-        </a>
-        <a href="https://instagram.com/genaition.io" target="_blank" class="hover:opacity-80">
-          <img src="/instagram.png" class="h-6 w-6" alt="Instagram" onerror="this.style.display='none'" />
-        </a>
+    <div class="trustpilot-banner">
+      <div>
+        <div class="tp-score">4.5 / 5</div>
+        <div class="tp-label">Trustpilot</div>
       </div>
-      <p class="text-xs text-gray-400 mt-2">&copy; 2026 GenAition. Alla rättigheter förbehållna.</p>
+      <div class="tp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- ── STICKY BAR ── -->
-  <div class="sticky-bar" id="stickyBar">
+<!-- ── FAQ ───────────────────────────────────────────────────────── -->
+<section class="section faq-section" id="faq">
+  <div class="section-inner">
+    <div class="s-eyebrow">Vanliga frågor</div>
+    <h2 class="s-title">FAQ</h2>
+    <p class="s-desc">Undrar du fortfarande något? Skicka e-post till <a href="mailto:info@genaition.org" style="color:var(--green);text-decoration:none;">info@genaition.org</a></p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Jag har ingen AI- eller kodningserfarenhet. Är detta för mig?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Ja — detta är byggt för nybörjare. Du följer steg för steg, vi hjälper alla som fastnar, och du lämnar med en fungerande agent. Ingen kodning krävs.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Vad exakt kommer jag att bygga?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">En AI-svarsagent: den läser inkommande e-post, förstår vad avsändaren vill, skriver ett svar i din ton, kör en kvalitetskontroll och flaggar det för ditt godkännande — eller skickar direkt för kategorier du definierar som säkra.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Kommer detta att skicka e-post automatiskt utan att jag ser dem?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Bara om du uttryckligen konfigurerar det så. Standard är human-in-the-loop — du granskar och godkänner innan något skickas.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Vad behöver jag ta med?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Din laptop och ett Google-konto (Gmail). Vi installerar alla andra verktyg tillsammans under de första 20 minuterna. Inga konton att skapa i förväg.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Kan jag använda detta i mitt eget arbete efter workshopen?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Ja. Du tar mallarna och arbetsflödesfilerna med dig. Vi täcker support, försäljning, rekrytering och ops-inkorgar — välj den som är närmast ditt arbete och anpassa den live.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Vad är återbetalnings- och avbokningspolicyn?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Full återbetalning om du avbokar minst 7 dagar före evenemanget. Efter det kan du överföra din biljett till en kollega. Skicka e-post till <a href="mailto:info@genaition.org">info@genaition.org</a>.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Vad kostar n8n Cloud och Claude API per månad?</span>
+          <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="faq-a">Mycket lite. n8n Cloud börjar på ungefär €20/månad (~220 SEK), och Claude API för en typisk e-postinkorg kostar €5–15/månad. Totalt: ungefär 150–350 SEK/månad.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
     <div>
-      <p class="font-extrabold text-white">AI Agent Workshop</p>
-      <p class="text-xs font-bold uppercase tracking-widest" style="color:var(--accent2);">Online · 12 december 2026</p>
+      <div class="footer-lbl">Länkar</div>
+      <div class="footer-links">
+        <a href="/index.html">Hem</a>
+        <a href="/about.html">Om oss</a>
+        <a href="/events.html">Event</a>
+        <a href="/contact.html">Kontakt</a>
+      </div>
     </div>
-    <a href="/before-checkout-sv" class="btn btn-primary px-6 py-3 text-sm">Boka din plats →</a>
+    <div>
+      <div class="footer-lbl">GenAition</div>
+      <div class="footer-addr">
+        Konstgjutarvägen 4<br>
+        121 44 Stockholm<br>
+        Sverige<br><br>
+        <a href="mailto:info@genaition.org">info@genaition.org</a><br>
+        <a href="tel:+46762608848">+46 762 608 848</a>
+      </div>
+    </div>
   </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2026 GenAition. Alla rättigheter förbehållna.</span>
+    <div class="footer-social">
+      <a href="https://linkedin.com/company/genaition" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://facebook.com/genaition" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://instagram.com/genaition.io" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</footer>
 
-  <script>
-    // Language dropdown
-    const langBtn = document.getElementById('langBtn');
-    const langMenu = document.getElementById('langMenu');
-    function toggleLangMenu(force) {
-      if (!langMenu) return;
-      const isHidden = langMenu.classList.contains('hidden');
-      const nextHidden = typeof force === 'boolean' ? !force : !isHidden;
-      langMenu.classList.toggle('hidden', nextHidden);
-      if (langBtn) langBtn.setAttribute('aria-expanded', (!nextHidden).toString());
-    }
-    if (langBtn && langMenu) {
-      langBtn.addEventListener('click', e => { e.stopPropagation(); toggleLangMenu(); });
-      document.addEventListener('click', () => toggleLangMenu(false));
-    }
+<!-- ── STICKY BAR ────────────────────────────────────────────────── -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sb-info">
+    <p>In-Person · Stockholm</p>
+  </div>
+  <a href="#ticket" class="sticky-btn">Boka din plats</a>
+</div>
 
-    // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileMenuClose = document.getElementById('mobileMenuClose');
-    function openMenu() { mobileMenu && mobileMenu.classList.remove('hidden'); }
-    function closeMenu() { mobileMenu && mobileMenu.classList.add('hidden'); }
-    mobileMenuBtn && mobileMenuBtn.addEventListener('click', openMenu);
-    mobileMenuClose && mobileMenuClose.addEventListener('click', closeMenu);
-    mobileMenu && mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMenu(); });
-    mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-
-    // FAQ accordion
-    document.querySelectorAll('.faq-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const content = btn.parentElement.querySelector('.faq-content');
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', (!expanded).toString());
-        btn.parentElement.classList.toggle('faq-open', !expanded);
-        content.classList.toggle('hidden');
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
       });
-    });
-
-    // Sticky bar
-    const stickyBar = document.getElementById('stickyBar');
-    const ticketsSection = document.getElementById('tickets');
-    window.addEventListener('scroll', () => {
-      if (!ticketsSection) return;
-      const rect = ticketsSection.getBoundingClientRect();
-      const ticketVisible = rect.top < window.innerHeight && rect.bottom > 0;
-      stickyBar.classList.toggle('visible', window.scrollY > 500 && !ticketVisible);
-    }, { passive: true });
-
-    // Countdown
-    (function() {
-      const target = new Date('2026-12-12T13:30:00+01:00');
-      const el = document.getElementById('heroCountdown');
-      if (!el) return;
-      function tick() {
-        const diff = target - new Date();
-        if (diff <= 0) { el.style.display = 'none'; return; }
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('cdDays').textContent  = String(d).padStart(2,'0');
-        document.getElementById('cdHours').textContent = String(h).padStart(2,'0');
-        document.getElementById('cdMins').textContent  = String(m).padStart(2,'0');
-        document.getElementById('cdSecs').textContent  = String(s).padStart(2,'0');
+      if (!wasOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
       }
-      tick();
-      setInterval(tick, 1000);
-    })();
-  </script>
+    });
+  });
 
-</body>
-</html>
+  // Sticky bar
+  const stickyBar = document.getElementById('stickyBar');
+  window.addEventListener('scroll', () => {
+    stickyBar.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+
+  // Language dropdown
+  const langWrap = document.getElementById('langWrap');
+  const langBtn  = document.getElementById('langBtn');
+  langBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = langWrap.classList.toggle('open');
+    langBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    langWrap.classList.remove('open');
+    langBtn.setAttribute('aria-expanded', 'false');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      langWrap.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+</script>
